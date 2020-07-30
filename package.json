@@ -1,0 +1,30 @@
+{
+  "name": "persistencejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/persistenceOne/persistenceJS.git"
+  },
+  "author": "admin@persistence.one",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/persistenceOne/persistenceJS/issues"
+  },
+  "homepage": "https://github.com/persistenceOne/persistenceJS#readme",
+  "dependencies": {
+    "@tendermint/amino-js": "^0.6.2",
+    "@tendermint/belt": "^0.3.0",
+    "@tendermint/sig": "^0.6.0",
+    "bip32": "^2.0.5",
+    "bip39": "^3.0.2",
+    "buffer": "^5.6.0",
+    "crypto": "^1.0.1",
+    "fs": "0.0.1-security",
+    "node-fetch": "^2.6.0"
+  }
+}

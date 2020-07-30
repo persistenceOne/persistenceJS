@@ -1,0 +1,5 @@
+{
+  "lcdURL": "http://localhost:31118",
+  "chainID": "test",
+  "prefix": "cosmos"
+}
