@@ -1,33 +1,8 @@
-const keys = require("./keys");
 const fetch = require('node-fetch').default;
 const tmSig = require("@tendermint/sig");
 const tmBelt = require('@tendermint/belt');
 const tmAmino = require("@tendermint/amino-js");
 const config = require("../config.json");
-
-function sendCoin(mnemonic, toAddress, sendAmount, sendToken, feesAmount, feesToken, gas, mode, memo = "") {
-    const wallet = keys.getWallet(mnemonic);
-    let tx = {
-        msg: [
-            {
-                type: "cosmos-sdk/MsgSend",
-                value: {
-                    from_address: wallet.address,
-                    to_address: toAddress,
-                    amount: [
-                        {
-                            amount: String(sendAmount),
-                            denom: sendToken
-                        }
-                    ]
-                }
-            }
-        ],
-        fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
-        memo: memo
-    };
-    return broadcastTx(wallet, tx, mode);
-}
 
 function broadcastTx(wallet, tx, mode) {
     return new Promise((resolve, reject) => {
@@ -98,5 +73,5 @@ function getTxResponse(response) {
 
 
 module.exports = {
-    sendCoin
+    broadcastTx
 };

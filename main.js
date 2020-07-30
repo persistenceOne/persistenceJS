@@ -1,11 +1,11 @@
 const keys = require("./utilities/keys");
-const transactions = require("./utilities/transactions");
+const bank = require("./transaction/bank/index");
 
 let mnemonic = "fluid cereal trash miracle casino menu true method exhaust pen fiber rural grape purchase rather table omit youth gain cage erase puppy sibling expand";
 let toAddress = "cosmos10hhgcs8hmzj9mwge6ctzdrvdvnur68uzdpwu3g";
 
 console.log("Sending coin...");
-transactions.sendCoin(mnemonic, toAddress, 2000000, "stake", 25, "stake", 200000, "block")
+bank.sendCoin(mnemonic, toAddress, 2000000, "stake", 25, "stake", 200000, "block")
     .then(txHash => {
         console.log("Tx successful. TxHash: ");
         console.log(txHash);
