@@ -1,4 +1,4 @@
-function NewMutables(properties) {
+function NewImmutables(properties) {
     return {
         type: "xprt/immutables",
         value: {
@@ -8,5 +8,5 @@ function NewMutables(properties) {
 }
 
 module.exports = {
-    NewMutables
+    NewImmutables
 };

@@ -1,6 +1,5 @@
 const keys = require("../../utilities/keys");
-const NewID = require("../../helpers/id").NewID;
-const NewProperties = require("../../helpers/properties").NewProperties;
+const helpers = require("../../helpers/index")
 const broadcast = require("../../utilities/broadcastTx");
 
 function issue(mnemonic, toAddress, fromID, maintainersID, classificationID, properties, feesAmount, feesToken, gas, mode, memo = "") {
@@ -11,10 +10,10 @@ function issue(mnemonic, toAddress, fromID, maintainersID, classificationID, pro
                 type: "/xprt/identities/issue/message",
                 value: {
                     from: wallet.address,
-                    fromID: NewID(fromID),
-                    maintainersID: NewID(maintainersID),
-                    classificationID: NewID(classificationID),
-                    properties: NewProperties(properties.split(',')),
+                    fromID: helpers.NewID(fromID),
+                    maintainersID: helpers.NewID(maintainersID),
+                    classificationID: helpers.NewID(classificationID),
+                    properties: helpers.NewProperties(properties.split(',')),
                     to: toAddress
                 }
             }
