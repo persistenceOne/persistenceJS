@@ -1,8 +1,9 @@
 const keys = require("./utilities/keys");
 const bank = require("./transaction/bank/index");
+const identity = require("./transaction/identity/index");
 
-let mnemonic = "fluid cereal trash miracle casino menu true method exhaust pen fiber rural grape purchase rather table omit youth gain cage erase puppy sibling expand";
-let toAddress = "cosmos10hhgcs8hmzj9mwge6ctzdrvdvnur68uzdpwu3g";
+let mnemonic = "wage thunder live sense resemble foil apple course spin horse glass mansion midnight laundry acoustic rhythm loan scale talent push green direct brick please";
+let toAddress = "cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c";
 
 console.log("Sending coin...");
 bank.sendCoin(mnemonic, toAddress, 2000000, "stake", 25, "stake", 200000, "block")
@@ -39,3 +40,14 @@ if (createdStore.error) {
 console.log("Reading ketstore...");
 let mnemonicRestored = keys.decryptStore("cosmos160phc9aajqmllhn442tyehkrwpd8sytr6q9uwc.json", "123123123")
 console.log(mnemonicRestored);
+
+identity.issue(mnemonic, toAddress, "", "", "", "test1:test1,test2:test2", 25, "stake", 200000, "sync")
+    .then(txHash => {
+        console.log("Tx successful. TxHash: ");
+        console.log(txHash);
+    })
+    .catch(err => {
+        console.log("Transaction failed");
+        console.log(err);
+    })
+
