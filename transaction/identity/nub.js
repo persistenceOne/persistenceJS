@@ -3,7 +3,7 @@ const helpers = require("../../helpers/index")
 const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 
-function issue(mnemonic, toAddress, fromID, maintainersID, classificationID, properties, feesAmount, feesToken, gas, mode, memo = "") {
+function nub(mnemonic, toAddress, fromID, maintainersID, classificationID, properties, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
     let tx = {
         type: "cosmos-sdk/StdTx",
@@ -14,13 +14,10 @@ function issue(mnemonic, toAddress, fromID, maintainersID, classificationID, pro
         value:{
             msg: [
                 {
-                    type: config.issueType,
+                    type: config.nubType,
                     value: {
                         from: wallet.address,
-                        to: toAddress,
-                        fromID: helpers.NewID(fromID),
-                        classificationID: helpers.NewID(classificationID),
-                        properties: helpers.NewProperties(properties.split(','))
+                        nubID: helpers.NewID(config.nubID)
                     }
                 }
             ],
@@ -28,9 +25,9 @@ function issue(mnemonic, toAddress, fromID, maintainersID, classificationID, pro
             memo: memo
         }
     };
-    return broadcast.broadcastTx(wallet, tx, mode);
+        return broadcast.broadcastTx(wallet, tx, mode);
 }
 
 module.exports = {
-    issue
+    nub
 };

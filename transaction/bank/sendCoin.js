@@ -22,7 +22,7 @@ function sendCoin(mnemonic, toAddress, sendAmount, sendToken, feesAmount, feesTo
         fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
         memo: memo
     };
-    return broadcast.broadcastTx(wallet, tx, mode);
+    return broadcast.broadcastCoinTx(wallet, tx, mode);
 }
 
 module.exports = {

@@ -1,5 +1,10 @@
 {
   "lcdURL": "http://localhost:1317",
   "chainID": "test",
-  "prefix": "cosmos"
+  "prefix": "cosmos",
+  "nubType": "/xprt/identities/nub/message",
+  "issueType": "/xprt/identities/issue/message",
+  "testAccountAddress":"cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+  "chain_id":"test",
+  "nubID":"nubID"
 }

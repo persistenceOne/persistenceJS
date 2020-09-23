@@ -4,7 +4,67 @@ const tmBelt = require('@tendermint/belt');
 const tmAmino = require("@tendermint/amino-js");
 const config = require("../config.json");
 
+
 function broadcastTx(wallet, tx, mode) {
+    return new Promise((resolve, reject) => {
+        getAccount(wallet.address).then(account => {
+            if (Object.keys(account.result.value).length === 0) {
+                reject("Account for "+ wallet.address + " not found.");
+                return;
+            }
+            let accountNum = account.result.value.account_number;
+            if (accountNum === undefined) {
+                accountNum = String(0);
+            }
+            let seq = account.result.value.sequence;
+            console.log("\n\n seq \n\n" + JSON.stringify(seq))
+            if (seq === undefined) {
+                seq = String(0);
+            }
+            const signMeta = {
+                account_number: accountNum,
+                chain_id: config.chainID,
+                sequence: seq
+            };
+            console.log("\n\n before tx \n\n" + JSON.stringify(tx))
+
+            let stdTx = tmSig.signTx(tx, signMeta, wallet);
+
+            console.log("\n\n after sign \n\n" + JSON.stringify(stdTx))
+
+            let broadcastReq = {
+                tx: {
+                    msg: stdTx.value.msg,
+                    fee: stdTx.value.fee,
+                    memo:"",
+                    signatures:[
+                        {
+                            "pub_key": stdTx.signatures[0].pub_key,
+                            "signature": stdTx.signatures[0].signature
+                        }
+                    ]
+                },
+                mode: mode
+            }
+            console.log("\n\n broadcastReq \n\n" + JSON.stringify(broadcastReq))
+            fetch(config.lcdURL + "/txs", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(broadcastReq)
+            }).then(response => response.json())
+                .then(response => getTxResponse(response)
+                    .then(txHash => resolve(txHash))
+                    .catch(err => reject(err)));
+            }).catch(error => {
+                console.log(error);
+                reject("Unable to query account for the address: " + wallet.address);
+            });
+    });
+}
+
+function broadcastCoinTx(wallet, tx, mode) {
     return new Promise((resolve, reject) => {
         getAccount(wallet.address).then(account => {
             if (Object.keys(account.result.value).length === 0) {
@@ -41,10 +101,10 @@ function broadcastTx(wallet, tx, mode) {
                 .then(response => getTxResponse(response)
                     .then(txHash => resolve(txHash))
                     .catch(err => reject(err)));
-            }).catch(error => {
-                console.log(error);
-                reject("Unable to query account for the address: " + wallet.address);
-            });
+        }).catch(error => {
+            console.log(error);
+            reject("Unable to query account for the address: " + wallet.address);
+        });
     });
 }
 
@@ -73,5 +133,6 @@ function getTxResponse(response) {
 
 
 module.exports = {
-    broadcastTx
+    broadcastTx,
+    broadcastCoinTx
 };
