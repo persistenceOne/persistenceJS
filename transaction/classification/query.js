@@ -2,16 +2,16 @@ const config = require("../../config.json")
 var request = require('request');
 var Promise = require('promise');
 
-async function queryIdentity(id) {
+async function queryClassification(id) {
 
     var data = {
-        'clasificationID': '',
+        'chainID': '',
         'hashID': ''
     }
 
     var options = {
         'method': 'GET',
-        'url': config.lcdURL + config.queryIdentity,
+        'url': config.lcdURL + config.queryCls,
         'headers': {
         }
     };
@@ -19,10 +19,10 @@ async function queryIdentity(id) {
         request(options, function (error, res) {
             if (error) throw new Error(error);
             var result = JSON.parse(res.body)
-            var list = result.result.value.identities.value.list
+            var list = result.result.value.classifications.value.list
             list.forEach(function (value) {
-                if (value.value.immutables.value.properties.value.propertyList[0].value.id.value.idString == id) {
-                    data.clasificationID = value.value.id.value.classificationID.value.idString
+                if (value.value.immutableTraits.value.properties.value.propertyList[0].value.id.value.idString == id) {
+                    data.chainID = value.value.id.value.chainID.value.idString
                     data.hashID = value.value.id.value.hashID.value.idString
                     resolve(data);
                 }
@@ -32,5 +32,5 @@ async function queryIdentity(id) {
 }
 
 module.exports = {
-    queryIdentity
+    queryClassification
 };

@@ -1,30 +1,35 @@
 const keys = require("../../utilities/keys");
 const helpers = require("../../helpers/index")
 const broadcast = require("../../utilities/broadcastTx");
+const config = require("../../config.json")
+var request = require('request');
 
-function mint(mnemonic, toAddress, fromID, maintainersID, classificationID, properties, feesAmount, feesToken, gas, mode, memo = "") {
-
-    console.log("1")
+function mint(mnemonic, to, fromID, classificationID, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
-    let tx = {
-        msg: [
-            {
-                type: "/xprt/assets/mint/message",
-                value: {
-                    from: wallet.address,
-                    fromID: helpers.NewID(fromID),
-                    maintainersID: helpers.NewID(maintainersID),
-                    classificationID: helpers.NewID(classificationID),
-                    properties: helpers.NewProperties(properties.split(',')),
-                    toID: toAddress
-                }
-            }
-        ],
-        fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
-        memo: memo
+
+    var options = {
+        'method': 'POST',
+        'url': config.lcdURL + config.mintTyp,
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"type":"/xprt/assets/mint/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"to":to,"fromID":fromID,"classificationID":classificationID,"mutableProperties":"ASSET1:S|num1,burn:H|1","immutableProperties":"ASSET2:S|num2","mutableMetaProperties":"ASSET3:S|num3","immutableMetaProperties":"ASSET4:S|num4"}})
     };
-    console.log("\n\nmint:\n\n " + JSON.stringify(tx))
-    return broadcast.broadcastTx(wallet, tx, mode);
+    return new Promise(function(resolve, reject) {
+        request(options, function (error, response) {
+            if (error) throw new Error(error);
+
+            var result = JSON.parse(response.body)
+
+            let tx = {
+                msg: result.value.msg,
+                fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
+                signatures:null,
+                memo:""
+            }
+            resolve(broadcast.broadcastTx(wallet, tx, mode));
+        });
+    });
 }
 
 module.exports = {

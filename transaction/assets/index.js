@@ -1,5 +1,11 @@
-const issue = require("./issue").issue;
+const define = require("./define").define;
+const query = require("./query").queryAsset;
+const mint = require("./mint").mint;
+const mutate = require("./mutate").mutate;
 
 module.exports = {
-    issue
+    define,
+    query,
+    mint,
+    mutate
 };
