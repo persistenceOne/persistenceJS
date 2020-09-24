@@ -2,9 +2,15 @@
   "lcdURL": "http://localhost:1317",
   "chainID": "test",
   "prefix": "cosmos",
+  "S": "StringType",
+  "D": "DecType",
+  "I": "IDType",
+  "H": "HeightType",
   "nubType": "/xprt/identities/nub/message",
   "issueType": "/xprt/identities/issue/message",
+  "defineIdentityType": "/xprt/identities/define/message",
   "testAccountAddress":"cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
   "chain_id":"test",
-  "nubID":"nubID"
+  "nubID":"nubID",
+  "queryIdentity": "/xprt/identities/identities/-test=test"
 }

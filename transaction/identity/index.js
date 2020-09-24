@@ -1,7 +1,11 @@
-const issue = require("./issue").issue;
 const nub = require("./nub").nub;
+const queryIdentity = require("./query").queryIdentity;
+const define = require("./define").define;
+const issue = require("./issue").issue;
 
 module.exports = {
-    issue,
-    nub
+    nub,
+    queryIdentity,
+    define,
+    issue
 };
