@@ -32,21 +32,21 @@ function broadcastTx(wallet, tx, mode) {
 
             console.log("\n\n after sign \n\n" + JSON.stringify(stdTx))
 
+            // let broadcastReq = {
+            //     tx: stdTx,
+            //     mode: mode
+            // }
+
             let broadcastReq = {
                 tx: {
-                    msg: stdTx.value.msg,
-                    fee: stdTx.value.fee,
-                    memo:"",
-                    signatures:[
-                        {
-                            "pub_key": stdTx.signatures[0].pub_key,
-                            "signature": stdTx.signatures[0].signature
-                        }
-                    ]
+                    msg: stdTx.msg,
+                    fee: stdTx.fee,
+                    signatures:stdTx.signatures,
+                    memo:""
                 },
                 mode: mode
             }
-            console.log("\n\n broadcastReq \n\n" + JSON.stringify(broadcastReq))
+            console.log("\n\n broadcastReq ->\n\n" + JSON.stringify(broadcastReq))
             fetch(config.lcdURL + "/txs", {
                 method: 'POST',
                 headers: {
@@ -85,8 +85,8 @@ function broadcastCoinTx(wallet, tx, mode) {
                 sequence: seq
             };
             let stdTx = tmSig.signTx(tx, signMeta, wallet);
-            let publicKey = tmAmino.marshalPubKey(stdTx.signatures[0].pub_key, false);
-            stdTx.signatures[0].pub_key = tmBelt.bytesToBase64(publicKey);
+            // let publicKey = tmAmino.marshalPubKey(stdTx.signatures[0].pub_key, false);
+            // stdTx.signatures[0].pub_key = tmBelt.bytesToBase64(publicKey);
             let broadcastReq = {
                 tx: stdTx,
                 mode: mode

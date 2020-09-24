@@ -6,12 +6,6 @@ const config = require("../../config.json")
 function nub(mnemonic, toAddress, fromID, maintainersID, classificationID, properties, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
     let tx = {
-        type: "cosmos-sdk/StdTx",
-        baseReq: {
-            from: config.testAccountAddress,
-            chain_id: "test"
-        },
-        value:{
             msg: [
                 {
                     type: config.nubType,
@@ -23,7 +17,6 @@ function nub(mnemonic, toAddress, fromID, maintainersID, classificationID, prope
             ],
             fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
             memo: memo
-        }
     };
         return broadcast.broadcastTx(wallet, tx, mode);
 }

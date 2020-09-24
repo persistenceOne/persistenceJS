@@ -6,15 +6,15 @@ let mnemonic = "wage thunder live sense resemble foil apple course spin horse gl
 let toAddress = "cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c";
 
 console.log("Sending coin...");
-bank.sendCoin(mnemonic, toAddress, 2000000, "stake", 25, "stake", 200000, "block")
-    .then(txHash => {
-        console.log("Tx successful. TxHash: ");
-        console.log(txHash);
-    })
-    .catch(err => {
-        console.log("Transaction failed");
-        console.log(err);
-    })
+// bank.sendCoin(mnemonic, toAddress, 2000000, "stake", 25, "stake", 200000, "block")
+//     .then(txHash => {
+//         console.log("Tx successful. TxHash: ");
+//         console.log(txHash);
+//     })
+//     .catch(err => {
+//         console.log("Transaction failed");
+//         console.log(err);
+//     })
 
 console.log("Creating random wallet...");
 let randomWallet = keys.createRandomWallet();
