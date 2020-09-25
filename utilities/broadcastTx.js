@@ -15,7 +15,6 @@ function broadcastTx(wallet, tx, mode) {
                 accountNum = String(0);
             }
             let seq = account.result.value.sequence;
-         //   console.log("\n\n seq \n\n" + JSON.stringify(seq))
             if (seq === undefined) {
                 seq = String(0);
             }
@@ -24,9 +23,8 @@ function broadcastTx(wallet, tx, mode) {
                 chain_id: config.chainID,
                 sequence: seq
             };
-            console.log("\n\n before tx \n\n" + JSON.stringify(tx))
+
             let stdTx = tmSig.signTx(tx, signMeta, wallet);
-               console.log("\n\n after sign \n\n" + JSON.stringify(stdTx))
 
             let broadcastReq = {
                 tx: {
@@ -37,7 +35,7 @@ function broadcastTx(wallet, tx, mode) {
                 },
                 mode: mode
             }
-            console.log("\n\n broadcastReq ->\n\n" + JSON.stringify(broadcastReq))
+
             fetch(config.lcdURL + "/txs", {
                 method: 'POST',
                 headers: {

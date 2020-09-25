@@ -15,14 +15,11 @@ function make(mnemonic, fromID, classificationID, makerOwnableID, takerOwnableID
         body: JSON.stringify({"type":"/xprt/orders/make/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"fromID":fromID,"classificationID":classificationID,"makerOwnableID":makerOwnableID,"takerOwnableID":takerOwnableID,"expiresIn":expiresIn,"makerOwnableSplit":makerOwnableSplit,"mutableProperties":mutableProperties,"immutableProperties":immutableProperties,"mutableMetaProperties":mutableMetaProperties,"immutableMetaProperties":immutableMetaProperties}})
     };
 
-    console.log(options)
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
             if (error) throw new Error(error);
 
             var result = JSON.parse(response.body)
-
-            console.log(result)
 
             let tx = {
                 msg: result.value.msg,

@@ -3,17 +3,18 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function define(mnemonic, classificationID, mutableTraits, immutableTraits, mutableMetaTraits, immutableMetaTraits, feesAmount, feesToken, gas, mode, memo = "") {
+function burn(mnemonic, fromID, assetID, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
         'method': 'POST',
-        'url': config.lcdURL + config.defineOrderType,
+        'url': config.lcdURL + config.burnAssetType,
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/orders/define/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"fromID":classificationID,"mutableTraits":mutableTraits, "immutableTraits":immutableTraits, "mutableMetaTraits":mutableMetaTraits, "immutableMetaTraits":immutableMetaTraits}})
+        body: JSON.stringify({"type":"/xprt/assets/burn/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"fromID":fromID,"assetID":assetID}})
     };
+
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
             if (error) throw new Error(error);
@@ -32,5 +33,5 @@ function define(mnemonic, classificationID, mutableTraits, immutableTraits, muta
 }
 
 module.exports = {
-    define
+    burn
 };

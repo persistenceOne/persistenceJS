@@ -1,10 +1,9 @@
 const keys = require("../../utilities/keys");
-const helpers = require("../../helpers/index")
 const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function mint(mnemonic, to, fromID, classificationID, feesAmount, feesToken, gas, mode, memo = "") {
+function mint(mnemonic, toID, fromID, classificationID, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
@@ -13,7 +12,7 @@ function mint(mnemonic, to, fromID, classificationID, feesAmount, feesToken, gas
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/assets/mint/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"to":to,"fromID":fromID,"classificationID":classificationID,"mutableProperties":"ASSET1:S|num1,burn:H|1","immutableProperties":"ASSET2:S|num2","mutableMetaProperties":"ASSET3:S|num3","immutableMetaProperties":"ASSET4:S|num4"}})
+        body: JSON.stringify({"type":"/xprt/assets/mint/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"toID":toID,"fromID":fromID,"classificationID":classificationID,"mutableProperties":"ASSET1:S|num1,burn:H|1","immutableProperties":"ASSET2:S|num2","mutableMetaProperties":"ASSET3:S|num3","immutableMetaProperties":"ASSET4:S|num4"}})
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {

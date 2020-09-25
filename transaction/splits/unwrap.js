@@ -6,8 +6,6 @@ const Promise = require('promise');
 
 function unwrap(mnemonic, fromID, ownableID, split, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
-    console.log(JSON.stringify(options))
-    console.log(fromID)
     var options = {
         'method': 'POST',
         'url': config.lcdURL + config.unwrapType,

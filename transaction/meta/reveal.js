@@ -1,5 +1,4 @@
 const keys = require("../../utilities/keys");
-const helpers = require("../../helpers/index")
 const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');

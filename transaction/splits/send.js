@@ -1,5 +1,4 @@
 const keys = require("../../utilities/keys");
-const helpers = require("../../helpers/index")
 const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
@@ -16,14 +15,11 @@ function send(mnemonic, fromID, toID, ownableID, split, feesAmount, feesToken, g
         body: JSON.stringify({"type":"/xprt/splits/send/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},fromID:fromID,toID:toID,ownableID:ownableID,split:split}})
     };
 
-    console.log(JSON.stringify(options))
-
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
             if (error) throw new Error(error);
 
             var result = JSON.parse(response.body)
-            console.log(response.body)
 
             let tx = {
                 msg: result.value.msg,
