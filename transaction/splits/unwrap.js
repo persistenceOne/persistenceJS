@@ -1,8 +1,8 @@
 const keys = require("../../utilities/keys");
-const helpers = require("../../helpers/index")
 const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
-var request = require('request');
+const request = require('request');
+const Promise = require('promise');
 
 function unwrap(mnemonic, fromID, ownableID, split, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
@@ -17,7 +17,6 @@ function unwrap(mnemonic, fromID, ownableID, split, feesAmount, feesToken, gas, 
         body: JSON.stringify({"type":"/xprt/splits/unwrap/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},fromID:fromID,ownableID:ownableID,split:split}})
     };
 
-    console.log(JSON.stringify(options))
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
             if (error) throw new Error(error);

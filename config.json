@@ -19,12 +19,21 @@
   "sendSplitType": "/xprt/splits/send",
   "unwrapType": "/xprt/splits/unwrap",
   "wrapType": "/xprt/splits/wrap",
+  "defineOrderType": "/xprt/orders/define",
+  "makeOrderType": "/xprt/orders/make",
+  "takeOrderType": "/xprt/orders/take",
   "testAccountAddress":"cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
   "chain_id":"test",
   "nubID":"nubID",
   "queryIdentity": "/xprt/identities/identities/-test=test",
   "queryAsset": "/xprt/assets/assets/-test=test",
+  "queryOrder": "/xprt/orders/orders/-test=test",
   "queryCls": "/xprt/classifications/classifications/-test=test",
   "splitval": "0.000000000000000001",
-  "coins": "100stake"
+  "coins": "100stake",
+  "exchangeRate": 10,
+  "makerownablesplit": "0.000000000000000001",
+  "expiry":"1000000",
+  "takerownableid":"stake",
+  "makerownableid":"stake"
 }

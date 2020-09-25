@@ -1,7 +1,5 @@
 const fetch = require('node-fetch').default;
 const tmSig = require("@tendermint/sig");
-const tmBelt = require('@tendermint/belt');
-const tmAmino = require("@tendermint/amino-js");
 const config = require("../config.json");
 
 
@@ -26,18 +24,9 @@ function broadcastTx(wallet, tx, mode) {
                 chain_id: config.chainID,
                 sequence: seq
             };
-            //console.log("\n\n before tx \n\n" + JSON.stringify(tx))
-            //console.log("\n\n before signMeta \n\n" + JSON.stringify(signMeta))
-           // console.log("\n\n before wallet \n\n" + JSON.stringify(wallet))
-
+            console.log("\n\n before tx \n\n" + JSON.stringify(tx))
             let stdTx = tmSig.signTx(tx, signMeta, wallet);
-
-         //   console.log("\n\n after sign \n\n" + JSON.stringify(stdTx))
-
-            // let broadcastReq = {
-            //     tx: stdTx,
-            //     mode: mode
-            // }
+               console.log("\n\n after sign \n\n" + JSON.stringify(stdTx))
 
             let broadcastReq = {
                 tx: {
@@ -48,7 +37,7 @@ function broadcastTx(wallet, tx, mode) {
                 },
                 mode: mode
             }
-           // console.log("\n\n broadcastReq ->\n\n" + JSON.stringify(broadcastReq))
+            console.log("\n\n broadcastReq ->\n\n" + JSON.stringify(broadcastReq))
             fetch(config.lcdURL + "/txs", {
                 method: 'POST',
                 headers: {

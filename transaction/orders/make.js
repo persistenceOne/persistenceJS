@@ -1,29 +1,28 @@
 const keys = require("../../utilities/keys");
-const helpers = require("../../helpers/index")
 const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function send(mnemonic, fromID, toID, ownableID, split, feesAmount, feesToken, gas, mode, memo = "") {
+function make(mnemonic, fromID, classificationID, makerOwnableID, takerOwnableID, expiresIn, makerOwnableSplit, mutableProperties, immutableProperties, mutableMetaProperties, immutableMetaProperties, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
         'method': 'POST',
-        'url': config.lcdURL + config.sendSplitType,
+        'url': config.lcdURL + config.makeOrderType,
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/splits/send/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},fromID:fromID,toID:toID,ownableID:ownableID,split:split}})
+        body: JSON.stringify({"type":"/xprt/orders/make/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"fromID":fromID,"classificationID":classificationID,"makerOwnableID":makerOwnableID,"takerOwnableID":takerOwnableID,"expiresIn":expiresIn,"makerOwnableSplit":makerOwnableSplit,"mutableProperties":mutableProperties,"immutableProperties":immutableProperties,"mutableMetaProperties":mutableMetaProperties,"immutableMetaProperties":immutableMetaProperties}})
     };
 
-    console.log(JSON.stringify(options))
-
+    console.log(options)
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
             if (error) throw new Error(error);
 
             var result = JSON.parse(response.body)
-            console.log(response.body)
+
+            console.log(result)
 
             let tx = {
                 msg: result.value.msg,
@@ -37,5 +36,5 @@ function send(mnemonic, fromID, toID, ownableID, split, feesAmount, feesToken, g
 }
 
 module.exports = {
-    send
+    make
 };

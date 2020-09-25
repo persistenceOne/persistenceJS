@@ -4,26 +4,22 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function send(mnemonic, fromID, toID, ownableID, split, feesAmount, feesToken, gas, mode, memo = "") {
+function take(mnemonic, fromID, takerOwnableSplit, orderID, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
         'method': 'POST',
-        'url': config.lcdURL + config.sendSplitType,
+        'url': config.lcdURL + config.takeOrderType,
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/splits/send/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},fromID:fromID,toID:toID,ownableID:ownableID,split:split}})
+        body: JSON.stringify({"type":"/xprt/orders/take/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"fromID":fromID,"takerOwnableSplit":takerOwnableSplit,"orderID":orderID}})
     };
-
-    console.log(JSON.stringify(options))
-
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
             if (error) throw new Error(error);
 
             var result = JSON.parse(response.body)
-            console.log(response.body)
 
             let tx = {
                 msg: result.value.msg,
@@ -37,5 +33,5 @@ function send(mnemonic, fromID, toID, ownableID, split, feesAmount, feesToken, g
 }
 
 module.exports = {
-    send
+    take
 };
