@@ -1,28 +1,36 @@
 const keys = require("../../utilities/keys");
 const broadcast = require("../../utilities/broadcastTx");
+const config = require("../../config.json")
+var request = require('request');
 
-function sendCoin(mnemonic, toAddress, sendAmount, sendToken, feesAmount, feesToken, gas, mode, memo = "") {
+function sendCoin(mnemonic, address, feesAmount, feesToken, gas, mode, memo = "") {
+
     const wallet = keys.getWallet(mnemonic);
-    let tx = {
-        msg: [
-            {
-                type: "cosmos-sdk/MsgSend",
-                value: {
-                    from_address: wallet.address,
-                    to_address: toAddress,
-                    amount: [
-                        {
-                            amount: String(sendAmount),
-                            denom: sendToken
-                        }
-                    ]
-                }
-            }
-        ],
-        fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
-        memo: memo
+
+    var options = {
+        'method': 'POST',
+        'url': config.lcdURL + '/bank/accounts/' + address + '/transfers',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"base_req":{"from":config.testAccountAddress,"chain_id":config.chain_id},"amount":[{"denom":"stake","amount":"1000000"}]})
+
     };
-    return broadcast.broadcastCoinTx(wallet, tx, mode);
+    return new Promise(function(resolve, reject) {
+        request(options, function (error, response) {
+            if (error) throw new Error(error);
+
+            var result = JSON.parse(response.body)
+
+            let tx = {
+                msg: result.value.msg,
+                fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
+                signatures:null,
+                memo:""
+            }
+            resolve(broadcast.broadcastTx(wallet, tx, mode));
+        });
+    });
 }
 
 module.exports = {

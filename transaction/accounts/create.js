@@ -20,7 +20,6 @@ function create(mnemonic, name) {
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
             if (error) throw new Error(error);
-            console.log(response.body);
 
             var result = JSON.parse(response.body)
             x.address = result.result.keyOutput.address
@@ -53,7 +52,6 @@ function create(mnemonic, name) {
                 };
                 request(options2, function (error, resp) {
                     if (error) throw new Error(error);
-                    console.log(response.body);
                     var result = JSON.parse(resp.body)
                     x.hash = result.txhash
                     resolve(x)

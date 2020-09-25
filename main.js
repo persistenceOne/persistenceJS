@@ -43,10 +43,14 @@ async function test(){
     console.log("**TX HASH for nub**:" + result);
 
     if (result) {
+
+        var res = await bank.sendCoin(mnemonic, wallet.address, 25, "stake", 200000, "block")
+        console.log("\n\n**TX HASH for Send Coin **: " + res);
+
         var results = await identity.queryIdentity(config.nubID)
         var clsID = results.clasificationID + '|' + results.hashID
 
-        var res = await identity.define(mnemonic, clsID, "mutableTraits111:S|identity11543", "immutableTraits:S|identity22662", "mutableMetaTraits:S|identity34167", "immutableMetaTraits:S|identity45648", 25, "stake", 200000, "block")
+        res = await identity.define(mnemonic, clsID, "mutableTraits111:S|identity11543", "immutableTraits:S|identity22662", "mutableMetaTraits:S|identity34167", "immutableMetaTraits:S|identity45648", 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for define identity 1 **: " + res);
 
         results = await cls.queryCls("immutableMetaTraits")
@@ -69,6 +73,14 @@ async function test(){
 
         results = await identity.queryIdentity("immutableMetaTraits2")
         var identityID2 = results.clasificationID + '|' + results.hashID
+
+        res = await identity.provision(mnemonic, identityID1, wallet.address, 25, "stake", 200000, "block")
+        console.log("\n\n**TX HASH for Provision **: " + res);
+
+        res = await identity.unprovision(mnemonic, identityID1, wallet.address, 25, "stake", 200000, "block")
+        console.log("\n\n**TX HASH for Unprovision **: " + res);
+        // var address = await accounts.recover(config.nubID)
+        // var clsID = results.clasificationID + '|' + results.hashID
 
         res = await assets.define(mnemonic, identityID1, 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for define assets**:"  + res);
