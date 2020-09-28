@@ -3,18 +3,16 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function sendCoin(mnemonic, address, feesAmount, feesToken, gas, mode, memo = "") {
-
+function mint(mnemonic, toID, fromID, classificationID, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
         'method': 'POST',
-        'url': config.lcdURL + '/bank/accounts/' + address + '/transfers',
+        'url': config.lcdURL + config.mintTyp,
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"base_req":{"from":config.testAccountAddress,"chain_id":config.chain_id},"amount":[{"denom":"stake","amount":"1000000"}]})
-
+        body: JSON.stringify({"type":"/xprt/assets/mint/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"toID":toID,"fromID":fromID,"classificationID":classificationID,"mutableProperties":"ASSET1:S|num1,burn:H|1","immutableProperties":"ASSET2:S|num2","mutableMetaProperties":"ASSET3:S|num3","immutableMetaProperties":"ASSET4:S|num4"}})
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
@@ -34,5 +32,5 @@ function sendCoin(mnemonic, address, feesAmount, feesToken, gas, mode, memo = ""
 }
 
 module.exports = {
-    sendCoin
+    mint
 };

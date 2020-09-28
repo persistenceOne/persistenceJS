@@ -3,18 +3,16 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function sendCoin(mnemonic, address, feesAmount, feesToken, gas, mode, memo = "") {
-
+function define(mnemonic, classificationID, mutableTraits, immutableTraits, mutableMetaTraits, immutableMetaTraits, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
         'method': 'POST',
-        'url': config.lcdURL + '/bank/accounts/' + address + '/transfers',
+        'url': config.lcdURL + config.defineOrderType,
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"base_req":{"from":config.testAccountAddress,"chain_id":config.chain_id},"amount":[{"denom":"stake","amount":"1000000"}]})
-
+        body: JSON.stringify({"type":"/xprt/orders/define/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"fromID":classificationID,"mutableTraits":mutableTraits, "immutableTraits":immutableTraits, "mutableMetaTraits":mutableMetaTraits, "immutableMetaTraits":immutableMetaTraits}})
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
@@ -34,5 +32,5 @@ function sendCoin(mnemonic, address, feesAmount, feesToken, gas, mode, memo = ""
 }
 
 module.exports = {
-    sendCoin
+    define
 };

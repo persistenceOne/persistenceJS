@@ -1,8 +1,7 @@
 const fetch = require('node-fetch').default;
 const tmSig = require("@tendermint/sig");
-const tmBelt = require('@tendermint/belt');
-const tmAmino = require("@tendermint/amino-js");
 const config = require("../config.json");
+
 
 function broadcastTx(wallet, tx, mode) {
     return new Promise((resolve, reject) => {
@@ -24,13 +23,19 @@ function broadcastTx(wallet, tx, mode) {
                 chain_id: config.chainID,
                 sequence: seq
             };
+
             let stdTx = tmSig.signTx(tx, signMeta, wallet);
-            let publicKey = tmAmino.marshalPubKey(stdTx.signatures[0].pub_key, false);
-            stdTx.signatures[0].pub_key = tmBelt.bytesToBase64(publicKey);
+
             let broadcastReq = {
-                tx: stdTx,
+                tx: {
+                    msg: stdTx.msg,
+                    fee: stdTx.fee,
+                    signatures:stdTx.signatures,
+                    memo:""
+                },
                 mode: mode
             }
+
             fetch(config.lcdURL + "/txs", {
                 method: 'POST',
                 headers: {

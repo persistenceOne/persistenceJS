@@ -3,17 +3,16 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function sendCoin(mnemonic, address, feesAmount, feesToken, gas, mode, memo = "") {
-
+function provision(mnemonic, identityID, to, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
         'method': 'POST',
-        'url': config.lcdURL + '/bank/accounts/' + address + '/transfers',
+        'url': config.lcdURL + config.provision,
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"base_req":{"from":config.testAccountAddress,"chain_id":config.chain_id},"amount":[{"denom":"stake","amount":"1000000"}]})
+        body: JSON.stringify({"type":"/xprt/identities/provision/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"identityID":identityID,"to":to}})
 
     };
     return new Promise(function(resolve, reject) {
@@ -34,5 +33,5 @@ function sendCoin(mnemonic, address, feesAmount, feesToken, gas, mode, memo = ""
 }
 
 module.exports = {
-    sendCoin
+    provision
 };
