@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function send(mnemonic, fromID, toID, ownableID, split, feesAmount, feesToken, gas, mode, memo = "") {
+function send(address, chain_id, mnemonic, fromID, toID, ownableID, split, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
@@ -12,7 +12,7 @@ function send(mnemonic, fromID, toID, ownableID, split, feesAmount, feesToken, g
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/splits/send/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},fromID:fromID,toID:toID,ownableID:ownableID,split:split}})
+        body: JSON.stringify({"type":"/xprt/splits/send/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},fromID:fromID,toID:toID,ownableID:ownableID,split:split}})
     };
 
     return new Promise(function(resolve, reject) {

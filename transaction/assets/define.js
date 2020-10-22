@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function define(mnemonic, classificationID, feesAmount, feesToken, gas, mode, memo = "") {
+function define(address, chain_id, mnemonic, classificationID, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
@@ -12,7 +12,7 @@ function define(mnemonic, classificationID, feesAmount, feesToken, gas, mode, me
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/assets/define/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"fromID":classificationID,"mutableTraits":"ASSET1:S|num1,burn:H|1","immutableTraits":"ASSET2:S|","mutableMetaTraits":"ASSET3:S|num3","immutableMetaTraits":"ASSET4:S|num4"}})
+        body: JSON.stringify({"type":"/xprt/assets/define/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":classificationID,"mutableTraits":"ASSET1:S|num1,burn:H|1","immutableTraits":"ASSET2:S|","mutableMetaTraits":"ASSET3:S|num3","immutableMetaTraits":"ASSET4:S|num4"}})
 
     };
     return new Promise(function(resolve, reject) {

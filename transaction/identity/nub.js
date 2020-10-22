@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-async function nub(mnemonic, toAddress, feesAmount, feesToken, gas, mode, memo = "") {
+async function nub(address, chain_id, mnemonic, toAddress, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
@@ -12,10 +12,9 @@ async function nub(mnemonic, toAddress, feesAmount, feesToken, gas, mode, memo =
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/identities/nub/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"nubID":config.nubID}})
-
+        body: JSON.stringify({"type":"/xprt/identities/nub/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"nubID":"PERSISTENCE_NUB_ID"}})
     };
-
+    console.log((options))
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
             if (error) throw new Error(error);

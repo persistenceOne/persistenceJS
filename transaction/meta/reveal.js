@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function reveal(mnemonic, metaFact, feesAmount, feesToken, gas, mode, memo = "") {
+function reveal(address, chain_id, mnemonic, metaFact, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
@@ -12,7 +12,7 @@ function reveal(mnemonic, metaFact, feesAmount, feesToken, gas, mode, memo = "")
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/metas/reveal/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},metaFact:metaFact}})
+        body: JSON.stringify({"type":"/xprt/metas/reveal/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},metaFact:metaFact}})
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {

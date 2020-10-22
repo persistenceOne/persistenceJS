@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function provision(mnemonic, identityID, to, feesAmount, feesToken, gas, mode, memo = "") {
+function provision(address, chain_id, mnemonic, identityID, to, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
@@ -12,7 +12,7 @@ function provision(mnemonic, identityID, to, feesAmount, feesToken, gas, mode, m
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/identities/provision/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"identityID":identityID,"to":to}})
+        body: JSON.stringify({"type":"/xprt/identities/provision/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"identityID":identityID,"to":to}})
 
     };
     return new Promise(function(resolve, reject) {

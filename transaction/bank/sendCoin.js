@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function sendCoin(mnemonic, address, feesAmount, feesToken, gas, mode, memo = "") {
+function sendCoin(chain_id, mnemonic, address, feesAmount, feesToken, gas, mode, memo = "") {
 
     const wallet = keys.getWallet(mnemonic);
 
@@ -13,7 +13,7 @@ function sendCoin(mnemonic, address, feesAmount, feesToken, gas, mode, memo = ""
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"base_req":{"from":config.testAccountAddress,"chain_id":config.chain_id},"amount":[{"denom":"stake","amount":"1000000"}]})
+        body: JSON.stringify({"base_req":{"from":address,"chain_id":chain_id,"memo":memo},"amount":[{"denom":"stake","amount":"1000000"}]})
 
     };
     return new Promise(function(resolve, reject) {

@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function burn(mnemonic, fromID, assetID, feesAmount, feesToken, gas, mode, memo = "") {
+function burn(address, chain_id, mnemonic, fromID, assetID, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
@@ -12,7 +12,7 @@ function burn(mnemonic, fromID, assetID, feesAmount, feesToken, gas, mode, memo 
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/assets/burn/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"fromID":fromID,"assetID":assetID}})
+        body: JSON.stringify({"type":"/xprt/assets/burn/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":fromID,"assetID":assetID}})
     };
 
     return new Promise(function(resolve, reject) {

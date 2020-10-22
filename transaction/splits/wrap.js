@@ -4,7 +4,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function wrap(mnemonic, fromID, coins, feesAmount, feesToken, gas, mode, memo = "") {
+function wrap(address, chain_id, mnemonic, fromID, coins, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
@@ -13,7 +13,7 @@ function wrap(mnemonic, fromID, coins, feesAmount, feesToken, gas, mode, memo = 
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/splits/wrap/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},fromID:fromID,coins:coins}})
+        body: JSON.stringify({"type":"/xprt/splits/wrap/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},fromID:fromID,coins:coins}})
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {

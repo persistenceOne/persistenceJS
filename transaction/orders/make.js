@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function make(mnemonic, fromID, classificationID, makerOwnableID, takerOwnableID, expiresIn, makerOwnableSplit, mutableProperties, immutableProperties, mutableMetaProperties, immutableMetaProperties, feesAmount, feesToken, gas, mode, memo = "") {
+function make(address, chain_id, mnemonic, fromID, classificationID, makerOwnableID, takerOwnableID, expiresIn, makerOwnableSplit, mutableProperties, immutableProperties, mutableMetaProperties, immutableMetaProperties, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
@@ -12,7 +12,7 @@ function make(mnemonic, fromID, classificationID, makerOwnableID, takerOwnableID
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/orders/make/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"fromID":fromID,"classificationID":classificationID,"makerOwnableID":makerOwnableID,"takerOwnableID":takerOwnableID,"expiresIn":expiresIn,"makerOwnableSplit":makerOwnableSplit,"mutableProperties":mutableProperties,"immutableProperties":immutableProperties,"mutableMetaProperties":mutableMetaProperties,"immutableMetaProperties":immutableMetaProperties}})
+        body: JSON.stringify({"type":"/xprt/orders/make/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":fromID,"classificationID":classificationID,"makerOwnableID":makerOwnableID,"takerOwnableID":takerOwnableID,"expiresIn":expiresIn,"makerOwnableSplit":makerOwnableSplit,"mutableProperties":mutableProperties,"immutableProperties":immutableProperties,"mutableMetaProperties":mutableMetaProperties,"immutableMetaProperties":immutableMetaProperties}})
     };
 
     return new Promise(function(resolve, reject) {

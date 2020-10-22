@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function unprovision(mnemonic, identityID, to, feesAmount, feesToken, gas, mode, memo = "") {
+function unprovision(address, chain_id, mnemonic, identityID, to, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
@@ -12,7 +12,7 @@ function unprovision(mnemonic, identityID, to, feesAmount, feesToken, gas, mode,
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/identities/unprovision/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"identityID":identityID,"to":to}})
+        body: JSON.stringify({"type":"/xprt/identities/unprovision/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"identityID":identityID,"to":to}})
 
     };
     return new Promise(function(resolve, reject) {

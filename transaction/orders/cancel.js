@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 var request = require('request');
 
-function cancel(mnemonic, fromID,  orderID, feesAmount, feesToken, gas, mode, memo = "") {
+function cancel(address, chain_id, mnemonic, fromID,  orderID, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     var options = {
@@ -12,7 +12,7 @@ function cancel(mnemonic, fromID,  orderID, feesAmount, feesToken, gas, mode, me
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/orders/cancel/request","value":{"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"fromID":fromID,"orderID":orderID}})
+        body: JSON.stringify({"type":"/xprt/orders/cancel/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":fromID,"orderID":orderID}})
     };
 
     return new Promise(function(resolve, reject) {
