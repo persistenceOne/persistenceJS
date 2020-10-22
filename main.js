@@ -109,15 +109,15 @@ async function test(){
         res = await splits.send(mnemonic, identityID1, identityID2, "stake", "499", 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for Splits Send**:" + res);
 
-        var mutableMetaTraits = "exchangeRate:D|0.000000000000000001,makerOwnableSplit:D|0.000000000000000001,expiry:H|1000000,takerID:I|ID,makerSplit:D|0.000000000000000001"
+        var mutableMetaTraits = "exchangeRate:D|1,makerOwnableSplit:D|0.000000000000000001,expiry:H|1000000,takerID:I|ID"
         res = await orders.define(mnemonic, identityID2, "description:S|", "Which Gift:S|Christmas Gift,What Gift:S|", mutableMetaTraits, "Gift:S|Exchange,AmazonOrderID:S|", 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for define Order **: " + res);
 
         results = await cls.queryCls("Gift")
         var orderCls = results.chainID + '.' + results.hashID
 
-        var mutableMetaProperties = "exchangeRate:D|0.000000000000000001,makerSplit:D|0.000000000000000001"
-        res = await orders.make(mnemonic, identityID2, orderCls, "stake", config.makerownableid, "100000", "0.000000000000000001", "description:S|awesomeChocolates", "Which Gift:S|Christmas Gift,What Gift:S|Chocolates", mutableMetaProperties, "Gift:S|Exchange,AmazonOrderID:S|1234", 25, "stake", 200000, "block")
+        var mutableMetaProperties = "exchangeRate:D|1"
+        res = await orders.make(mnemonic, identityID2, orderCls, "stake", "stake", "100000", "0.000000000000000001", "description:S|awesomeChocolates", "Which Gift:S|Christmas Gift,What Gift:S|Chocolates", mutableMetaProperties, "Gift:S|Exchange,AmazonOrderID:S|1234", 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for Make Order **: " + res);
 
         results = await orders.query("Gift")
@@ -126,7 +126,7 @@ async function test(){
         res = await orders.cancel(mnemonic, identityID2, orderID, 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for Cancel Order **: " + res);
 
-        mutableMetaProperties = "exchangeRate:D|0.000000000000000001,makerSplit:D|0.000000000000000001"
+        mutableMetaProperties = "exchangeRate:D|1"
         res = await orders.make(mnemonic, identityID2, orderCls, "stake", "stake", "100000", "0.000000000000000001", "description:S|awesomeChocolates", "Which Gift:S|Christmas Gift,What Gift:S|Chocolates", mutableMetaProperties, "Gift:S|Exchange,AmazonOrderID:S|1234", 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for Make Order **: " + res);
 

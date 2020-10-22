@@ -25,7 +25,7 @@ function provision(mnemonic, identityID, to, feesAmount, feesToken, gas, mode, m
                 msg: result.value.msg,
                 fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
                 signatures:null,
-                memo:""
+                memo:result.value.memo
             }
             resolve(broadcast.broadcastTx(wallet, tx, mode));
         });

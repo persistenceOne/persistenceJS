@@ -8,7 +8,7 @@
   "H": "HeightType",
   "nubType": "/xprt/identities/nub/message",
   "keysAdd": "/keys/add",
-  "keysRecover": "/keys/recover",
+  "keysRecover": "/keys/add",
   "signTx": "/signTx",
   "broadcastTx": "/txs",
   "nubTyp": "/xprt/identities/nub",
