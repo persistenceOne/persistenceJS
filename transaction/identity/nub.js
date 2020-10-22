@@ -14,7 +14,6 @@ async function nub(address, chain_id, mnemonic, toAddress, feesAmount, feesToken
         },
         body: JSON.stringify({"type":"/xprt/identities/nub/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"nubID":"PERSISTENCE_NUB_ID"}})
     };
-    console.log((options))
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
             if (error) throw new Error(error);

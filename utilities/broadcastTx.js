@@ -31,12 +31,12 @@ function broadcastTx(wallet, tx, mode) {
                     msg: stdTx.msg,
                     fee: stdTx.fee,
                     signatures:stdTx.signatures,
-                    memo:""
+                    memo:stdTx.memo
                 },
                 mode: mode
             }
 
-            fetch(config.lcdURL + "/txs", {
+            fetch(config.lcdURL + config.broadcastTx, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

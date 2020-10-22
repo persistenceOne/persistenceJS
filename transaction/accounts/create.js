@@ -1,7 +1,7 @@
 const config = require("../../config.json")
 var request = require('request');
 
-function create(mnemonic, name) {
+function create(address, chain_id, mnemonic, name) {
 
     let x = {
         'address': '',
@@ -30,7 +30,7 @@ function create(mnemonic, name) {
                 'headers': {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"type":"cosmos-sdk/StdTx","value":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"from_address":config.testAccountAddress,"to_address":x.address,"amount":[{"denom":"stake","amount":"1000"}]}}],"fee":{"amount":[],"gas":"200000"},"signatures":null,"memo":""}})
+                body: JSON.stringify({"baseReq":{"from":address,"chain_id":chain_id},"type":"cosmos-sdk/StdTx","value":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"from_address":config.testAccountAddress,"to_address":x.address,"amount":[{"denom":"stake","amount":"1000"}]}}],"fee":{"amount":[],"gas":"200000"},"signatures":null,"memo":""}})
 
             };
             request(options1, function (error, response) {
