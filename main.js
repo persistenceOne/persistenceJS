@@ -1,7 +1,6 @@
 const keys = require("./utilities/keys");
 const bank = require("./transaction/bank/index");
 const identity = require("./transaction/identity/index");
-const accounts = require("./transaction/accounts/index");
 const cls = require("./transaction/classification/index");
 const assets = require("./transaction/assets/index");
 const meta = require("./transaction/meta/index");
@@ -36,10 +35,10 @@ async function test(){
     }
 
     console.log("Reading keystore...");
-    let mnemonicRestored = keys.decryptStore("cosmos160phc9aajqmllhn442tyehkrwpd8sytr6q9uwc.json", "123123123")
+    let mnemonicRestored = keys.decryptStore("cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c.json", "123123123")
     console.log(mnemonicRestored);
 
-    let result = await nub(wallet.address, config.chain_id, mnemonic, toAddress,  25, "stake", 200000, "block")
+    let result = await nub(wallet.address, config.chain_id, mnemonic, toAddress, config.nubID, 25, "stake", 200000, "block")
     console.log("**TX HASH for nub**:" + result);
 
     if (result) {
@@ -142,9 +141,9 @@ async function test(){
 
 test()
 
-async function nub(address, chain_id, mnemonic, toAddress, fee, token, gas, mode){
+async function nub(address, chain_id, mnemonic, toAddress, nubID, fee, token, gas, mode){
     return new Promise(async function(resolve, reject) {
-        let result = await identity.nub(address, chain_id, mnemonic, toAddress, fee, token, gas, mode)
+        let result = await identity.nub(address, chain_id, mnemonic, toAddress, nubID, fee, token, gas, mode)
         resolve(result)
     });
 }
