@@ -6,7 +6,7 @@ const Promise = require('promise');
 
 function unwrap(address, chain_id, mnemonic, fromID, ownableID, split, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
-    var options = {
+    let options = {
         'method': 'POST',
         'url': config.lcdURL + config.unwrapType,
         'headers': {
@@ -19,7 +19,7 @@ function unwrap(address, chain_id, mnemonic, fromID, ownableID, split, feesAmoun
         request(options, function (error, response) {
             if (error) throw new Error(error);
 
-            var result = JSON.parse(response.body)
+            let result = JSON.parse(response.body)
 
             let tx = {
                 msg: result.value.msg,

@@ -1,10 +1,10 @@
 const config = require("../../config.json")
-var request = require('request');
-var Promise = require('promise');
+const request = require('request');
+const Promise = require('promise');
 
 async function queryOrder(id) {
 
-    var data = {
+    let data = {
         'clasificationID': '',
         'makerownableid':'',
         'takerownableid':'',
@@ -12,7 +12,7 @@ async function queryOrder(id) {
         'hashID': ''
     }
 
-    var options = {
+    let options = {
         'method': 'GET',
         'url': config.lcdURL + config.queryOrder,
         'headers': {
@@ -21,10 +21,10 @@ async function queryOrder(id) {
     return new Promise(function(resolve, reject) {
         request(options, function (error, res) {
             if (error) throw new Error(error);
-            var result = JSON.parse(res.body)
-            var list = result.result.value.orders.value.list
+            let result = JSON.parse(res.body)
+            let list = result.result.value.orders.value.list
             list.forEach(function (value) {
-                if (value.value.immutables.value.properties.value.propertyList[0].value.id.value.idString == id) {
+                if (value.value.immutables.value.properties.value.propertyList[0].value.id.value.idString === id) {
                     data.clasificationID = value.value.id.value.classificationID.value.idString
                     data.makerownableid = value.value.id.value.makerOwnableID.value.idString
                     data.takerownableid = value.value.id.value.takerOwnableID.value.idString

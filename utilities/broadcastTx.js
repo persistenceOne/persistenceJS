@@ -20,7 +20,7 @@ function broadcastTx(wallet, tx, mode) {
             }
             const signMeta = {
                 account_number: accountNum,
-                chain_id: config.chainID,
+                chain_id: config.chain_id,
                 sequence: seq
             };
 

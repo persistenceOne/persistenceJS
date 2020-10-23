@@ -1,14 +1,14 @@
 const keys = require("../../utilities/keys");
 const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
-var request = require('request');
+const request = require('request');
 
 function define(address, chain_id, mnemonic, classificationID, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
-    var options = {
+    let options = {
         'method': 'POST',
-        'url': config.lcdURL + config.defineAssetTyp,
+        'url': config.lcdURL + config.defineAssetType,
         'headers': {
             'Content-Type': 'application/json'
         },
@@ -19,7 +19,7 @@ function define(address, chain_id, mnemonic, classificationID, feesAmount, feesT
         request(options, function (error, response) {
             if (error) throw new Error(error);
 
-            var result = JSON.parse(response.body)
+            let result = JSON.parse(response.body)
 
             let tx = {
                 msg: result.value.msg,

@@ -1,12 +1,12 @@
 const keys = require("../../utilities/keys");
 const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
-var request = require('request');
+const request = require('request');
 
 function send(address, chain_id, mnemonic, fromID, toID, ownableID, split, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
-    var options = {
+    let options = {
         'method': 'POST',
         'url': config.lcdURL + config.sendSplitType,
         'headers': {
@@ -19,7 +19,7 @@ function send(address, chain_id, mnemonic, fromID, toID, ownableID, split, feesA
         request(options, function (error, response) {
             if (error) throw new Error(error);
 
-            var result = JSON.parse(response.body)
+            let result = JSON.parse(response.body)
 
             let tx = {
                 msg: result.value.msg,

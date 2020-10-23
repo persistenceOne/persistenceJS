@@ -1,12 +1,12 @@
 const keys = require("../../utilities/keys");
 const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
-var request = require('request');
+const request = require('request');
 
 function make(address, chain_id, mnemonic, fromID, classificationID, makerOwnableID, takerOwnableID, expiresIn, makerOwnableSplit, mutableProperties, immutableProperties, mutableMetaProperties, immutableMetaProperties, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
-    var options = {
+    let options = {
         'method': 'POST',
         'url': config.lcdURL + config.makeOrderType,
         'headers': {
@@ -19,7 +19,7 @@ function make(address, chain_id, mnemonic, fromID, classificationID, makerOwnabl
         request(options, function (error, response) {
             if (error) throw new Error(error);
 
-            var result = JSON.parse(response.body)
+            let result = JSON.parse(response.body)
 
             let tx = {
                 msg: result.value.msg,
