@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 const request = require('request');
 
-function define(address, chain_id, mnemonic, classificationID, feesAmount, feesToken, gas, mode, memo = "") {
+function define(address, chain_id, mnemonic, classificationID, mutableTraits, immutableTraits, mutableMetaTraits, immutableMetaTraits, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     let options = {
@@ -12,7 +12,7 @@ function define(address, chain_id, mnemonic, classificationID, feesAmount, feesT
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/assets/define/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":classificationID,"mutableTraits":"ASSET1:S|num1,burn:H|1","immutableTraits":"ASSET2:S|","mutableMetaTraits":"ASSET3:S|num3","immutableMetaTraits":"ASSET4:S|num4"}})
+        body: JSON.stringify({"type":"/xprt/assets/define/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":classificationID,"mutableTraits":mutableTraits,"immutableTraits":immutableTraits,"mutableMetaTraits":mutableMetaTraits,"immutableMetaTraits":immutableMetaTraits}})
 
     };
     return new Promise(function(resolve, reject) {

@@ -79,19 +79,19 @@ async function test(){
         res = await identity.unprovision(wallet.address, config.chain_id, mnemonic, identityID1, randomWallet.address, 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for Unprovision **: " + res);
 
-        res = await assets.define(wallet.address, config.chain_id, mnemonic, identityID1, 25, "stake", 200000, "block")
+        res = await assets.define(wallet.address, config.chain_id, mnemonic, identityID1, "ASSET1:S|num1,burn:H|1", "ASSET2:S|", "ASSET3:S|num3", "ASSET4:S|num4", 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for define assets**:"  + res);
 
         results = await cls.queryCls("ASSET4")
         let assetClsID = results.chainID + '.' + results.hashID
 
-        res = await assets.mint(wallet.address, config.chain_id, mnemonic, identityID1, identityID1, assetClsID, 25, "stake", 200000, "block")
+        res = await assets.mint(wallet.address, config.chain_id, mnemonic, identityID1, identityID1, assetClsID, "ASSET1:S|num1,burn:H|1", "ASSET2:S|num2", "ASSET3:S|num3", "ASSET4:S|num4",25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for mint asset**: " + res);
 
         results = await assets.query("ASSET4")
         let assetID = results.clasificationID + '|' + results.hashID
 
-        res = await assets.mutate(wallet.address, config.chain_id, mnemonic, identityID1, assetID, 25, "stake", 200000, "block")
+        res = await assets.mutate(wallet.address, config.chain_id, mnemonic, identityID1, assetID, "ASSET1:S|", "ASSET3:S|num3",25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for mutate asset**: " + res);
 
         res = await meta.reveal(wallet.address, config.chain_id, mnemonic, "H|1", 25, "stake", 200000, "block")
@@ -113,8 +113,7 @@ async function test(){
         results = await cls.queryCls("Gift")
         let orderCls = results.chainID + '.' + results.hashID
 
-        let mutableMetaProperties = "exchangeRate:D|1"
-        res = await orders.make(wallet.address, config.chain_id, mnemonic, identityID2, orderCls, "stake", "stake", "100000", "0.000000000000000001", "description:S|awesomeChocolates", "Which Gift:S|Christmas Gift,What Gift:S|Chocolates", mutableMetaProperties, "Gift:S|Exchange,AmazonOrderID:S|1234", 25, "stake", 200000, "block")
+        res = await orders.make(wallet.address, config.chain_id, mnemonic, identityID2, orderCls, "stake", "stake", "100000", "0.000000000000000001", "description:S|awesomeChocolates", "Which Gift:S|Christmas Gift,What Gift:S|Chocolates", "exchangeRate:D|1", "Gift:S|Exchange,AmazonOrderID:S|1234", 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for Make Order **: " + res);
 
         results = await orders.query("Gift")
@@ -123,8 +122,7 @@ async function test(){
         res = await orders.cancel(wallet.address, config.chain_id, mnemonic, identityID2, orderID, 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for Cancel Order **: " + res);
 
-        mutableMetaProperties = "exchangeRate:D|1"
-        res = await orders.make(wallet.address, config.chain_id, mnemonic, identityID2, orderCls, "stake", "stake", "100000", "0.000000000000000001", "description:S|awesomeChocolates", "Which Gift:S|Christmas Gift,What Gift:S|Chocolates", mutableMetaProperties, "Gift:S|Exchange,AmazonOrderID:S|1234", 25, "stake", 200000, "block")
+        res = await orders.make(wallet.address, config.chain_id, mnemonic, identityID2, orderCls, "stake", "stake", "100000", "0.000000000000000001", "description:S|awesomeChocolates", "Which Gift:S|Christmas Gift,What Gift:S|Chocolates", "exchangeRate:D|1", "Gift:S|Exchange,AmazonOrderID:S|1234", 25, "stake", 200000, "block")
         console.log("\n\n**TX HASH for Make Order **: " + res);
 
         res = await orders.take(wallet.address, config.chain_id, mnemonic, identityID2, "0.000000000000000001", orderID, 25, "stake", 200000, "block")
