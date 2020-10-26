@@ -12,7 +12,14 @@ function unprovision(address, chain_id, mnemonic, identityID, to, feesAmount, fe
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/identities/unprovision/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"identityID":identityID,"to":to}})
+        body: JSON.stringify({
+            "type":config.unprovisionType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                "identityID":identityID,
+                "to":to
+            }
+        })
 
     };
     return new Promise(function(resolve, reject) {

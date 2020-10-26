@@ -12,7 +12,17 @@ function define(address, chain_id, mnemonic, classificationID, mutableTraits, im
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/orders/define/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":classificationID,"mutableTraits":mutableTraits, "immutableTraits":immutableTraits, "mutableMetaTraits":mutableMetaTraits, "immutableMetaTraits":immutableMetaTraits}})
+        body: JSON.stringify({
+            "type":config.defineOrderType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                "fromID":classificationID,
+                "mutableTraits":mutableTraits,
+                "immutableTraits":immutableTraits,
+                "mutableMetaTraits":mutableMetaTraits,
+                "immutableMetaTraits":immutableMetaTraits
+            }
+        })
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {

@@ -12,7 +12,14 @@ function wrap(address, chain_id, mnemonic, fromID, coins, feesAmount, feesToken,
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/splits/wrap/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},fromID:fromID,coins:coins}})
+        body: JSON.stringify({
+            "type":config.wrapType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                fromID:fromID,
+                coins:coins
+            }
+        })
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {

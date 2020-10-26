@@ -13,7 +13,15 @@ function sendCoin(chain_id, mnemonic, address, feesAmount, feesToken, gas, mode,
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"base_req":{"from":address,"chain_id":chain_id,"memo":memo},"amount":[{"denom":"stake","amount":"1000000"}]})
+        body: JSON.stringify({
+            "base_req":{
+                "from":address,"chain_id":chain_id,"memo":memo
+            },
+            "amount":[{
+                "denom":"stake",
+                "amount":"1000000"
+            }]
+        })
 
     };
     return new Promise(function(resolve, reject) {

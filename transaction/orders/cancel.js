@@ -12,7 +12,14 @@ function cancel(address, chain_id, mnemonic, fromID,  orderID, feesAmount, feesT
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/orders/cancel/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":fromID,"orderID":orderID}})
+        body: JSON.stringify({
+            "type":config.cancelOrderType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                "fromID":fromID,
+                "orderID":orderID
+            }
+        })
     };
 
     return new Promise(function(resolve, reject) {

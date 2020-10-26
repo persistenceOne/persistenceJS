@@ -12,7 +12,14 @@ function burn(address, chain_id, mnemonic, fromID, assetID, feesAmount, feesToke
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/assets/burn/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":fromID,"assetID":assetID}})
+        body: JSON.stringify({
+            "type":config.burnAssetType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                "fromID":fromID,
+                "assetID":assetID
+            }
+        })
     };
 
     return new Promise(function(resolve, reject) {

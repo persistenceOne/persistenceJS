@@ -12,7 +12,16 @@ function mutate(address, chain_id, mnemonic, fromID, assetID, mutableProperties,
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/assets/mutate/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":fromID,"assetID":assetID,"mutableProperties":mutableProperties,"mutableMetaProperties":mutableMetaProperties}})
+        body: JSON.stringify({
+            "type":config.mutateType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                "fromID":fromID,
+                "assetID":assetID,
+                "mutableProperties":mutableProperties,
+                "mutableMetaProperties":mutableMetaProperties
+            }
+        })
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {

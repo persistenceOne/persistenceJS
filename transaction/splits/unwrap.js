@@ -12,7 +12,15 @@ function unwrap(address, chain_id, mnemonic, fromID, ownableID, split, feesAmoun
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/splits/unwrap/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},fromID:fromID,ownableID:ownableID,split:split}})
+        body: JSON.stringify({
+            "type":config.unwrapType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                fromID:fromID,
+                ownableID:ownableID,
+                split:split
+            }
+        })
     };
 
     return new Promise(function(resolve, reject) {

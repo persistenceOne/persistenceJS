@@ -12,7 +12,13 @@ async function nub(address, chain_id, mnemonic, toAddress, nubID, feesAmount, fe
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/identities/nub/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"nubID":nubID}})
+        body: JSON.stringify({
+            "type":config.nubType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                "nubID":nubID
+            }
+        })
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {

@@ -12,7 +12,19 @@ function mint(address, chain_id, mnemonic, toID, fromID, classificationID, mutab
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/assets/mint/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"toID":toID,"fromID":fromID,"classificationID":classificationID,"mutableProperties":mutableProperties,"immutableProperties":immutableProperties,"mutableMetaProperties":mutableMetaProperties,"immutableMetaProperties":immutableMetaProperties}})
+        body: JSON.stringify({
+            "type":config.mintType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                "toID":toID,
+                "fromID":fromID,
+                "classificationID":classificationID,
+                "mutableProperties":mutableProperties,
+                "immutableProperties":immutableProperties,
+                "mutableMetaProperties":mutableMetaProperties,
+                "immutableMetaProperties":immutableMetaProperties
+            }
+        })
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {

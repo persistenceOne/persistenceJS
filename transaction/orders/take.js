@@ -12,7 +12,15 @@ function take(address, chain_id, mnemonic, fromID, takerOwnableSplit, orderID, f
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/orders/take/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":fromID,"takerOwnableSplit":takerOwnableSplit,"orderID":orderID}})
+        body: JSON.stringify({
+            "type":config.takeOrderType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                "fromID":fromID,
+                "takerOwnableSplit":takerOwnableSplit,
+                "orderID":orderID
+            }
+        })
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {

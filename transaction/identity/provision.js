@@ -12,7 +12,14 @@ function provision(address, chain_id, mnemonic, identityID, to, feesAmount, fees
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/identities/provision/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"identityID":identityID,"to":to}})
+        body: JSON.stringify({
+            "type":config.provisionType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                "identityID":identityID,
+                "to":to
+            }
+        })
 
     };
     return new Promise(function(resolve, reject) {

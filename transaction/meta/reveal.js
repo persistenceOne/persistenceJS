@@ -12,7 +12,13 @@ function reveal(address, chain_id, mnemonic, metaFact, feesAmount, feesToken, ga
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/metas/reveal/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},metaFact:metaFact}})
+        body: JSON.stringify({
+            "type":config.metaRevealType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                metaFact:metaFact
+            }
+        })
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {

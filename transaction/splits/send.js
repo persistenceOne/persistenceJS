@@ -12,7 +12,16 @@ function send(address, chain_id, mnemonic, fromID, toID, ownableID, split, feesA
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/splits/send/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},fromID:fromID,toID:toID,ownableID:ownableID,split:split}})
+        body: JSON.stringify({
+            "type":config.sendSplitType + "/request",
+            "value":{
+                "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                fromID:fromID,
+                toID:toID,
+                ownableID:ownableID,
+                split:split
+            }
+        })
     };
 
     return new Promise(function(resolve, reject) {
