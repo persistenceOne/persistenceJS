@@ -26,7 +26,7 @@ function mint(address, chain_id, mnemonic, toID, fromID, classificationID, feesA
                 signatures:null,
                 memo:result.value.memo
             }
-            resolve(broadcast.broadcastTx(wallet, tx, mode));
+            resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
         });
     });
 }

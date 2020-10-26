@@ -26,7 +26,7 @@ function define(address, chain_id, mnemonic, classificationID, mutableTraits, im
                 signatures:null,
                 memo:result.value.memo
             }
-            resolve(broadcast.broadcastTx(wallet, tx, mode));
+            resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
         });
     });
 }

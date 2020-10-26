@@ -27,7 +27,7 @@ function burn(address, chain_id, mnemonic, fromID, assetID, feesAmount, feesToke
                 signatures:null,
                 memo:result.value.memo
             }
-            resolve(broadcast.broadcastTx(wallet, tx, mode));
+            resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
         });
     });
 }

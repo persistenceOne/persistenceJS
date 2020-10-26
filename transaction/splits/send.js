@@ -27,7 +27,7 @@ function send(address, chain_id, mnemonic, fromID, toID, ownableID, split, feesA
                 signatures:null,
                 memo:result.value.memo
             }
-            resolve(broadcast.broadcastTx(wallet, tx, mode));
+            resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
         });
     });
 }
