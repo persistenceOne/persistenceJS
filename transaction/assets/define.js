@@ -12,10 +12,20 @@ function define(address, chain_id, mnemonic, classificationID, mutableTraits, im
         'headers': {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"type":"/xprt/assets/define/request","value":{"baseReq":{"from":address,"chain_id":chain_id,"memo":memo},"fromID":classificationID,"mutableTraits":mutableTraits,"immutableTraits":immutableTraits,"mutableMetaTraits":mutableMetaTraits,"immutableMetaTraits":immutableMetaTraits}})
+        body: JSON.stringify({
+            "type": config.defineAssetType + "/request",
+            "value": {
+                "baseReq": {"from": address, "chain_id": chain_id, "memo": memo},
+                "fromID": classificationID,
+                "mutableTraits": mutableTraits,
+                "immutableTraits": immutableTraits,
+                "mutableMetaTraits": mutableMetaTraits,
+                "immutableMetaTraits": immutableMetaTraits
+            }
+        })
 
     };
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         request(options, function (error, response) {
             if (error) throw new Error(error);
 
@@ -24,10 +34,10 @@ function define(address, chain_id, mnemonic, classificationID, mutableTraits, im
             let tx = {
                 msg: result.value.msg,
                 fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
-                signatures:null,
-                memo:result.value.memo
+                signatures: null,
+                memo: result.value.memo
             }
-            resolve(broadcast.broadcastTx(wallet, tx, mode));
+            resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
         });
     });
 }

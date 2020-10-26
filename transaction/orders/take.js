@@ -26,7 +26,7 @@ function take(address, chain_id, mnemonic, fromID, takerOwnableSplit, orderID, f
                 signatures:null,
                 memo:result.value.memo
             }
-            resolve(broadcast.broadcastTx(wallet, tx, mode));
+            resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
         });
     });
 }
