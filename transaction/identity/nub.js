@@ -23,7 +23,6 @@ async function nub(address, chain_id, mnemonic, toAddress, nubID, feesAmount, fe
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {
             if (error) throw new Error(error);
-
             let result = JSON.parse(response.body)
 
             let tx = {

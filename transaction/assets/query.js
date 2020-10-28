@@ -22,6 +22,23 @@ async function queryAsset(id) {
     });
 }
 
+async function queryAssetWithID(id) {
+
+    let options = {
+        'method': 'GET',
+        'url': config.lcdURL + config.queryAssetWithID + id,
+        'headers': {
+        }
+    };
+    return new Promise(function(resolve, reject) {
+        request(options, async function (error, res) {
+            if (error) throw new Error(error);
+            resolve(res.body)
+        });
+    });
+}
+
 module.exports = {
-    queryAsset
+    queryAsset,
+    queryAssetWithID
 };

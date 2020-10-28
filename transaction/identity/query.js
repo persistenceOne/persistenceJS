@@ -22,6 +22,23 @@ async function queryIdentity(id) {
     });
 }
 
+async function queryIdentityWithID(id) {
+
+    let options = {
+        'method': 'GET',
+        'url': config.lcdURL + config.queryIdentityWithID + id,
+        'headers': {
+        }
+    };
+    return new Promise(function(resolve, reject) {
+        request(options, async function (error, res) {
+            if (error) throw new Error(error);
+            resolve(res.body)
+        });
+    });
+}
+
 module.exports = {
-    queryIdentity
+    queryIdentity,
+    queryIdentityWithID
 };

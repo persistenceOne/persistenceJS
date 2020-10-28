@@ -22,6 +22,23 @@ async function queryOrder(id) {
     });
 }
 
+async function queryOrderWithID(id) {
+
+    let options = {
+        'method': 'GET',
+        'url': config.lcdURL + config.queryOrderWithID + id,
+        'headers': {
+        }
+    };
+    return new Promise(function(resolve, reject) {
+        request(options, async function (error, res) {
+            if (error) throw new Error(error);
+            resolve(res.body)
+        });
+    });
+}
+
 module.exports = {
-    queryOrder
+    queryOrder,
+    queryOrderWithID
 };

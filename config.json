@@ -25,9 +25,13 @@
   "takeOrderType": "/xprt/orders/take",
   "testAccountAddress":"cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
   "nubID":"nubID",
-  "queryIdentity": "/xprt/identities/identities/-test=test",
-  "queryAsset": "/xprt/assets/assets/-test=test",
-  "queryOrder": "/xprt/orders/orders/-test=test",
-  "queryCls": "/xprt/classifications/classifications/-test=test",
+  "queryIdentity": "/xprt/identities/identities/_",
+  "queryAsset": "/xprt/assets/assets/_",
+  "queryOrder": "/xprt/orders/orders/_",
+  "queryCls": "/xprt/classifications/classifications/_",
+  "queryIdentityWithID": "/xprt/identities/identities/",
+  "queryAssetWithID": "/xprt/assets/assets/",
+  "queryOrderWithID": "/xprt/orders/orders/",
+  "queryClsWithID": "/xprt/classifications/classifications/",
   "queryTx": "/txs/"
 }

@@ -22,6 +22,23 @@ async function queryClassification(id) {
     });
 }
 
+async function queryClassificationWithID(id) {
+
+    let options = {
+        'method': 'GET',
+        'url': config.lcdURL + config.queryClsWithID + id,
+        'headers': {
+        }
+    };
+    return new Promise(function(resolve, reject) {
+        request(options, async function (error, res) {
+            if (error) throw new Error(error);
+            resolve(res.body)
+        });
+    });
+}
+
 module.exports = {
-    queryClassification
+    queryClassification,
+    queryClassificationWithID
 };
