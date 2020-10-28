@@ -1,9 +1,13 @@
 const fetch = require('node-fetch').default;
 const tmSig = require("@tendermint/sig");
 const config = require("../config.json");
-
+const request = require('request');
 
 function broadcastTx(wallet, tx, chainID, mode) {
+    let returnParams = {
+        'rawLog' : '',
+        'txhash': ''
+    }
     return new Promise((resolve, reject) => {
         getAccount(wallet.address).then(account => {
             if (Object.keys(account.result.value).length === 0) {
@@ -36,16 +40,20 @@ function broadcastTx(wallet, tx, chainID, mode) {
                 mode: mode
             }
 
-            fetch(config.lcdURL + config.broadcastTx, {
-                method: 'POST',
-                headers: {
+            let options = {
+                'method': 'POST',
+                'url': config.lcdURL + config.broadcastTx,
+                'headers': {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(broadcastReq)
-            }).then(response => response.json())
-                .then(response => getTxResponse(response)
-                    .then(txHash => resolve(txHash))
-                    .catch(err => reject(err)));
+            };
+            request(options, function (error, response) {
+                let data = JSON.parse(response.body)
+                returnParams.rawLog = data.raw_log
+                returnParams.txhash = data.txhash
+                resolve(returnParams)
+            });
         }).catch(error => {
             console.log(error);
             reject("Unable to query account for the address: " + wallet.address);

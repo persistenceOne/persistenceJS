@@ -58,6 +58,21 @@ function FindInResponse(type, list, id) {
     })
 }
 
+function checkRawLog(log) {
+    return new Promise(function(resolve, reject) {
+        let rawData = JSON.stringify(log)
+        console.log("rawData^^^^^^^^^^^^^^^^^6: " +rawData)
+        if (rawData.indexOf('failed') > -1) {
+            resolve(false)
+        } else if (rawData.indexOf('error') > -1) {
+            resolve(false)
+        }else{
+            resolve(true)
+        }
+    })
+}
+
 module.exports = {
-    FindInResponse
+    FindInResponse,
+    checkRawLog
 };

@@ -23,7 +23,6 @@ function define(address, chain_id, mnemonic, classificationID, mutableTraits, im
                 "immutableMetaTraits":immutableMetaTraits
             }
         })
-
     };
     return new Promise(function(resolve, reject) {
         request(options, function (error, response) {

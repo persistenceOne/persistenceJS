@@ -28,5 +28,6 @@
   "queryIdentity": "/xprt/identities/identities/-test=test",
   "queryAsset": "/xprt/assets/assets/-test=test",
   "queryOrder": "/xprt/orders/orders/-test=test",
-  "queryCls": "/xprt/classifications/classifications/-test=test"
+  "queryCls": "/xprt/classifications/classifications/-test=test",
+  "queryTx": "/txs/"
 }
