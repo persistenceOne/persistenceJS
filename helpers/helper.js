@@ -91,6 +91,25 @@ function GetOrderID(order) {
         order.value.id.value.hashID.value.idString
 }
 
+function GetIdentityIDs(identities) {
+    return identities.forEach(function (identity) {
+        GetIdentityID(identity)
+    })
+
+}
+
+function FilterIdentitiesByProvisionedAddress(identities, address) {
+    return identities.filter(function filterFunc(identity) {
+        return identity.value.provisionedAddressList.includes(address)
+    })
+}
+
+function FilterSplitsByIdentities(splits, identityIDs) {
+    splits.filter(function (split) {
+        return identityIDs.includes(split.value.id.value.ownerID.value.idString)
+    })
+}
+
 module.exports = {
     FindInResponse,
     checkRawLog,
