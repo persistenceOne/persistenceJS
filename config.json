@@ -2,6 +2,9 @@
   "lcdURL": "http://localhost:1317",
   "chain_id": "test",
   "prefix": "cosmos",
+  "IDSeparator" : ".",
+  "FirstOrderCompositeIDSeparator" : "|",
+  "SecondOrderCompositeIDSeparator" : "*",
   "keysAdd": "/keys/add",
   "keysRecover": "/keys/add",
   "signTx": "/signTx",
@@ -33,5 +36,6 @@
   "queryAssetWithID": "/xprt/assets/assets/",
   "queryOrderWithID": "/xprt/orders/orders/",
   "queryClsWithID": "/xprt/classifications/classifications/",
+  "querySplitWithID": "/xprt/splits/splits/",
   "queryTx": "/txs/"
 }
