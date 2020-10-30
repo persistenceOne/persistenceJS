@@ -26,6 +26,7 @@
   "makeOrderType": "/xprt/orders/make",
   "cancelOrderType": "/xprt/orders/cancel",
   "takeOrderType": "/xprt/orders/take",
+  "deputizeMaintainerType": "/xprt/maintainers/deputize",
   "testAccountAddress":"cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
   "nubID":"nubID",
   "queryIdentity": "/xprt/identities/identities/_",
@@ -37,5 +38,7 @@
   "queryOrderWithID": "/xprt/orders/orders/",
   "queryClsWithID": "/xprt/classifications/classifications/",
   "querySplitWithID": "/xprt/splits/splits/",
+  "queryMetaWithID": "/xprt/metas/metas/",
+  "queryMaintainerWithID": "/xprt/maintainers/maintainers/",
   "queryTx": "/txs/"
 }

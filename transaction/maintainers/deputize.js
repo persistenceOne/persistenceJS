@@ -3,20 +3,23 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 const request = require('request');
 
-function reveal(address, chain_id, mnemonic, metaFact, feesAmount, feesToken, gas, mode, memo = "") {
+function deputize(address, chain_id, mnemonic, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     let options = {
         'method': 'POST',
-        'url': config.lcdURL + config.metaRevealType,
+        'url': config.lcdURL + config.deputizeMaintainerType,
         'headers': {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            "type":config.metaRevealType + "/request",
+            "type":config.deputizeMaintainerType + "/request",
             "value":{
                 "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
-                "metaFact":metaFact
+                "maintainedTraits":maintainedTraits,
+                "addMaintainer": addMaintainer,
+                "removeMaintainer": removeMaintainer,
+                "mutateMaintainer": mutateMaintainer
             }
         })
     };
@@ -38,5 +41,5 @@ function reveal(address, chain_id, mnemonic, metaFact, feesAmount, feesToken, ga
 }
 
 module.exports = {
-    reveal
+    deputize: deputize
 };

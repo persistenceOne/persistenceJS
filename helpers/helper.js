@@ -73,29 +73,8 @@ function checkRawLog(log) {
     })
 }
 
-function GetIdentityID(identity) {
-    return identity.value.id.value.classificationID.value.idString + config.FirstOrderCompositeIDSeparator +
-        identity.value.id.value.hashID.value.idString
-}
-
-function GetAssetID(asset) {
-    return asset.value.id.value.classificationID.value.idString + config.FirstOrderCompositeIDSeparator +
-        asset.value.id.value.hashID.value.idString
-}
-
-function GetOrderID(order) {
-    return order.value.id.value.classificationID.value.idString + config.SecondOrderCompositeIDSeparator +
-        order.value.id.value.makerOwnableID.value.idString + config.SecondOrderCompositeIDSeparator +
-        order.value.id.value.takerOwnableID.value.idString + config.SecondOrderCompositeIDSeparator +
-        order.value.id.value.makerID.value.idString + config.SecondOrderCompositeIDSeparator +
-        order.value.id.value.hashID.value.idString
-}
-
 module.exports = {
     FindInResponse,
     checkRawLog,
-    GetAssetID,
-    GetIdentityID,
-    GetOrderID
 
 };
