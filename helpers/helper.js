@@ -73,48 +73,8 @@ function checkRawLog(log) {
     })
 }
 
-function GetIdentityID(identity) {
-    return identity.value.id.value.classificationID.value.idString + config.FirstOrderCompositeIDSeparator +
-        identity.value.id.value.hashID.value.idString
-}
-
-function GetAssetID(asset) {
-    return asset.value.id.value.classificationID.value.idString + config.FirstOrderCompositeIDSeparator +
-        asset.value.id.value.hashID.value.idString
-}
-
-function GetOrderID(order) {
-    return order.value.id.value.classificationID.value.idString + config.SecondOrderCompositeIDSeparator +
-        order.value.id.value.makerOwnableID.value.idString + config.SecondOrderCompositeIDSeparator +
-        order.value.id.value.takerOwnableID.value.idString + config.SecondOrderCompositeIDSeparator +
-        order.value.id.value.makerID.value.idString + config.SecondOrderCompositeIDSeparator +
-        order.value.id.value.hashID.value.idString
-}
-
-function GetIdentityIDs(identities) {
-    return identities.forEach(function (identity) {
-        GetIdentityID(identity)
-    })
-
-}
-
-function FilterIdentitiesByProvisionedAddress(identities, address) {
-    return identities.filter(function filterFunc(identity) {
-        return identity.value.provisionedAddressList.includes(address)
-    })
-}
-
-function FilterSplitsByIdentities(splits, identityIDs) {
-    splits.filter(function (split) {
-        return identityIDs.includes(split.value.id.value.ownerID.value.idString)
-    })
-}
-
 module.exports = {
     FindInResponse,
     checkRawLog,
-    GetAssetID,
-    GetIdentityID,
-    GetOrderID
 
 };
