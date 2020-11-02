@@ -1,14 +1,14 @@
 const config = require("../../config.json")
-var request = require('request');
+const request = require('request');
 
-function create(mnemonic, name) {
+function create(address, chain_id, mnemonic, name, denom, amount, gas,  memo = "") {
 
     let x = {
         'address': '',
         'hash':''
     }
 
-    var options = {
+    let options = {
         'method': 'POST',
         'url': config.lcdURL + config.keysAdd,
         'headers': {
@@ -21,38 +21,77 @@ function create(mnemonic, name) {
         request(options, function (error, response) {
             if (error) throw new Error(error);
 
-            var result = JSON.parse(response.body)
+            let result = JSON.parse(response.body)
             x.address = result.result.keyOutput.address
 
-            var options1 = {
+            let options1 = {
                 'method': 'POST',
                 'url': config.lcdURL + config.signTx,
                 'headers': {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"baseReq":{"from":config.testAccountAddress,"chain_id":config.chain_id},"type":"cosmos-sdk/StdTx","value":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"from_address":config.testAccountAddress,"to_address":x.address,"amount":[{"denom":"stake","amount":"1000"}]}}],"fee":{"amount":[],"gas":"200000"},"signatures":null,"memo":""}})
+                body: JSON.stringify({
+                    "baseReq":{"from":address,"chain_id":chain_id},
+                    "type":"cosmos-sdk/StdTx",
+                    "value":{
+                        "msg":[{
+                            "type":config.msgSend,
+                            "value":{
+                                "from_address":address,
+                                "to_address":x.address,
+                                "amount":[{
+                                    "denom":denom,"amount":amount}]}}],
+                        "fee":{"amount":[],"gas":gas},
+                        "signatures":null,
+                        "memo":memo
+                    }
+                })
 
             };
             request(options1, function (error, response) {
                 if (error) throw new Error(error);
                 console.log(response.body);
-                var result = JSON.parse(response.body)
-                var typekey = result.result.tx.signatures[0].pub_key.type
-                var value = result.result.tx.signatures[0].pub_key.value
-                var signature = result.result.tx.signatures[0].signature
+                let result = JSON.parse(response.body)
+                let typekey = result.result.tx.signatures[0].pub_key.type
+                let value = result.result.tx.signatures[0].pub_key.value
+                let signature = result.result.tx.signatures[0].signature
 
-                var options2 = {
+                let options2 = {
                     'method': 'POST',
                     'url': config.lcdURL + config.broadcastTx,
                     'headers': {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({"tx":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"from_address":config.testAccountAddress,"to_address":x.address,"amount":[{"denom":"stake","amount":"1000"}]}}],"fee":{"amount":[],"gas":"200000"},"signatures":[{"pub_key":{"type":typekey,"value":value},"signature":signature}],"memo":""},"mode":"sync"})
+                    body: JSON.stringify({
+                        "tx":{
+                            "msg":[{
+                                "type":config.msgSend,
+                                "value":{
+                                    "from_address":address,
+                                    "to_address":x.address,
+                                    "amount":[{
+                                        "denom":denom,
+                                        "amount":amount
+                                    }]
+                                }
+                            }],
+                            "fee":{
+                                "amount":[],
+                                "gas":gas
+                            },
+                            "signatures":[{
+                                "pub_key":{"type":typekey,"value":value},
+                                "signature":signature
+                            }],
+                            "memo":""
+                        },
+                        "mode":"sync"
+                    })
 
                 };
                 request(options2, function (error, resp) {
                     if (error) throw new Error(error);
-                    var result = JSON.parse(resp.body)
+                    let result = JSON.parse(resp.body)
                     x.hash = result.txhash
                     resolve(x)
                 });

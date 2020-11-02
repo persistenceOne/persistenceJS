@@ -1,13 +1,17 @@
 const fetch = require('node-fetch').default;
 const tmSig = require("@tendermint/sig");
 const config = require("../config.json");
+const request = require('request');
 
-
-function broadcastTx(wallet, tx, mode) {
+function broadcastTx(wallet, tx, chainID, mode) {
+    let returnParams = {
+        'rawLog' : '',
+        'txhash': ''
+    }
     return new Promise((resolve, reject) => {
         getAccount(wallet.address).then(account => {
             if (Object.keys(account.result.value).length === 0) {
-                reject("Account for "+ wallet.address + " not found.");
+                reject("Account for " + wallet.address + " not found.");
                 return;
             }
             let accountNum = account.result.value.account_number;
@@ -20,7 +24,7 @@ function broadcastTx(wallet, tx, mode) {
             }
             const signMeta = {
                 account_number: accountNum,
-                chain_id: config.chainID,
+                chain_id: chainID,
                 sequence: seq
             };
 
@@ -30,26 +34,30 @@ function broadcastTx(wallet, tx, mode) {
                 tx: {
                     msg: stdTx.msg,
                     fee: stdTx.fee,
-                    signatures:stdTx.signatures,
-                    memo:""
+                    signatures: stdTx.signatures,
+                    memo: stdTx.memo
                 },
                 mode: mode
             }
 
-            fetch(config.lcdURL + "/txs", {
-                method: 'POST',
-                headers: {
+            let options = {
+                'method': 'POST',
+                'url': config.lcdURL + config.broadcastTx,
+                'headers': {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(broadcastReq)
-            }).then(response => response.json())
-                .then(response => getTxResponse(response)
-                    .then(txHash => resolve(txHash))
-                    .catch(err => reject(err)));
-            }).catch(error => {
-                console.log(error);
-                reject("Unable to query account for the address: " + wallet.address);
+            };
+            request(options, function (error, response) {
+                let data = JSON.parse(response.body)
+                returnParams.rawLog = data.raw_log
+                returnParams.txhash = data.txhash
+                resolve(returnParams)
             });
+        }).catch(error => {
+            console.log(error);
+            reject("Unable to query account for the address: " + wallet.address);
+        });
     });
 }
 
@@ -70,7 +78,7 @@ function getTxResponse(response) {
                 resolve(response.txhash);
             } else {
                 console.log(JSON.stringify(response));
-                reject("Tx failed due to unknown reasons");   
+                reject("Tx failed due to unknown reasons");
             }
         }
     });

@@ -1,9 +1,9 @@
 const config = require("../../config.json")
-var request = require('request');
+const request = require('request');
 
 function recover(mnemonic, name) {
 
-    var options = {
+    let options = {
         'method': 'POST',
         'url': config.lcdURL + config.keysRecover,
         'headers': {
@@ -16,8 +16,8 @@ function recover(mnemonic, name) {
         request(options, function (error, response) {
             if (error) throw new Error(error);
 
-            var result = JSON.parse(response.body)
-            var address = result.address
+            let result = JSON.parse(response.body)
+            let address = result.address
             resolve(address)
         });
     });

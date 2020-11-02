@@ -3,24 +3,23 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 const request = require('request');
 
-function define(address, chain_id, mnemonic, classificationID, mutableTraits, immutableTraits, mutableMetaTraits, immutableMetaTraits, feesAmount, feesToken, gas, mode, memo = "") {
+function deputize(address, chain_id, mnemonic, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     let options = {
         'method': 'POST',
-        'url': config.lcdURL + config.defineType,
+        'url': config.lcdURL + config.deputizeMaintainerType,
         'headers': {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            "type":config.defineType + "/request",
+            "type":config.deputizeMaintainerType + "/request",
             "value":{
                 "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
-                "fromID":classificationID,
-                "mutableTraits":mutableTraits,
-                "immutableTraits":immutableTraits,
-                "mutableMetaTraits":mutableMetaTraits,
-                "immutableMetaTraits":immutableMetaTraits
+                "maintainedTraits":maintainedTraits,
+                "addMaintainer": addMaintainer,
+                "removeMaintainer": removeMaintainer,
+                "mutateMaintainer": mutateMaintainer
             }
         })
     };
@@ -42,5 +41,5 @@ function define(address, chain_id, mnemonic, classificationID, mutableTraits, im
 }
 
 module.exports = {
-    define
+    deputize: deputize
 };
