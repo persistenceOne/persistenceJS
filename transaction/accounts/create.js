@@ -30,7 +30,22 @@ function create(address, chain_id, mnemonic, name, denom, amount, gas,  memo = "
                 'headers': {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"baseReq":{"from":address,"chain_id":chain_id},"type":"cosmos-sdk/StdTx","value":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"from_address":address,"to_address":x.address,"amount":[{"denom":denom,"amount":amount}]}}],"fee":{"amount":[],"gas":gas},"signatures":null,"memo":memo}})
+                body: JSON.stringify({
+                    "baseReq":{"from":address,"chain_id":chain_id},
+                    "type":"cosmos-sdk/StdTx",
+                    "value":{
+                        "msg":[{
+                            "type":config.msgSend,
+                            "value":{
+                                "from_address":address,
+                                "to_address":x.address,
+                                "amount":[{
+                                    "denom":denom,"amount":amount}]}}],
+                        "fee":{"amount":[],"gas":gas},
+                        "signatures":null,
+                        "memo":memo
+                    }
+                })
 
             };
             request(options1, function (error, response) {
@@ -47,7 +62,31 @@ function create(address, chain_id, mnemonic, name, denom, amount, gas,  memo = "
                     'headers': {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({"tx":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"from_address":address,"to_address":x.address,"amount":[{"denom":"stake","amount":"1000"}]}}],"fee":{"amount":[],"gas":"200000"},"signatures":[{"pub_key":{"type":typekey,"value":value},"signature":signature}],"memo":""},"mode":"sync"})
+                    body: JSON.stringify({
+                        "tx":{
+                            "msg":[{
+                                "type":config.msgSend,
+                                "value":{
+                                    "from_address":address,
+                                    "to_address":x.address,
+                                    "amount":[{
+                                        "denom":denom,
+                                        "amount":amount
+                                    }]
+                                }
+                            }],
+                            "fee":{
+                                "amount":[],
+                                "gas":gas
+                            },
+                            "signatures":[{
+                                "pub_key":{"type":typekey,"value":value},
+                                "signature":signature
+                            }],
+                            "memo":""
+                        },
+                        "mode":"sync"
+                    })
 
                 };
                 request(options2, function (error, resp) {
