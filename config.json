@@ -40,5 +40,6 @@
   "querySplitWithID": "/xprt/splits/splits/",
   "queryMetaWithID": "/xprt/metas/metas/",
   "queryMaintainerWithID": "/xprt/maintainers/maintainers/",
-  "queryTx": "/txs/"
+  "queryTx": "/txs/",
+  "msgSend": "cosmos-sdk/MsgSend"
 }

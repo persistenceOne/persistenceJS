@@ -47,7 +47,7 @@ async function test(){
     }
 
     if (result) {
-        let res = await bank.sendCoin(config.chain_id, mnemonic, wallet.address, 25, "stake", 200000, "block")
+        let res = await bank.sendCoin(config.chain_id, mnemonic, wallet.address, "stake", "1000000", 25, "stake", 200000, "block")
         let check = await helper.checkRawLog(res.rawLog)
         if(check){
             console.log("\n\n**TX HASH for Send Coin** :" + res.txhash);
