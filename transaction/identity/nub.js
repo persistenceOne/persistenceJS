@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 const request = require('request');
 
-async function nub(address, chain_id, mnemonic, toAddress, nubID, feesAmount, feesToken, gas, mode, memo = "") {
+async function nub(address, chain_id, mnemonic, nubID, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     let options = {

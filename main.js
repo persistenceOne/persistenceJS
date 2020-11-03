@@ -10,7 +10,6 @@ const config = require("./config.json");
 const helper = require("./helpers/index");
 
 let mnemonic = "wage thunder live sense resemble foil apple course spin horse glass mansion midnight laundry acoustic rhythm loan scale talent push green direct brick please";
-let toAddress = "cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c";
 
 async function test(){
     console.log("Creating random wallet...");
@@ -39,7 +38,7 @@ async function test(){
     let mnemonicRestored = keys.decryptStore("cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c.json", "123123123")
     console.log(mnemonicRestored);
 
-    let result = await nub(wallet.address, config.chain_id, mnemonic, toAddress, config.nubID, 25, "stake", 200000, "block")
+    let result = await nub(wallet.address, config.chain_id, mnemonic, config.nubID, 25, "stake", 200000, "block")
     let check = await helper.checkRawLog(result.rawLog)
     if(check){
         console.log("\n\n**TX HASH for nub** :" + result.txhash);
@@ -244,9 +243,9 @@ async function test(){
 
 test()
 
-async function nub(address, chain_id, mnemonic, toAddress, nubID, fee, token, gas, mode){
+async function nub(address, chain_id, mnemonic, nubID, fee, token, gas, mode){
     return new Promise(async function(resolve, reject) {
-        let result = await identity.nub(address, chain_id, mnemonic, toAddress, nubID, fee, token, gas, mode)
+        let result = await identity.nub(address, chain_id, mnemonic, nubID, fee, token, gas, mode)
         resolve(result)
     });
 }
