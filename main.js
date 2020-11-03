@@ -6,6 +6,7 @@ const assets = require("./transaction/assets/index");
 const meta = require("./transaction/meta/index");
 const splits = require("./transaction/splits/index");
 const orders = require("./transaction/orders/index");
+const maintainer = require("./transaction/maintainers/index");
 const config = require("./config.json");
 const helper = require("./helpers/index");
 
@@ -146,6 +147,52 @@ async function test(){
             console.log("\n\n**TX HASH for mutate assets** :" + res.txhash);
         }else{
             console.log("\n\n**TX failed for mutate assets** :" + res.rawLog);
+        }
+
+        res = await assets.define(wallet.address, config.chain_id, mnemonic, identityID1, "ASSET5:S|num1,burn:H|1", "ASSET6:S|", "ASSET7:S|num3", "ASSET8:S|num4", 25, "stake", 200000, "block")
+        check = await helper.checkRawLog(res.rawLog)
+        if(check){
+            console.log("\n\n**TX HASH for define assets 1** :" + res.txhash);
+        }else{
+            console.log("\n\n**TX failed for define assets 1** :" + res.rawLog);
+        }
+
+        results = await cls.queryCls("ASSET8")
+        let assetClsID1 = results.chainID + '.' + results.hashID
+
+        res = await assets.mint(wallet.address, config.chain_id, mnemonic, identityID1, identityID1, assetClsID1, "ASSET5:S|num1,burn:H|1", "ASSET6:S|num2", "ASSET7:S|num3", "ASSET8:S|num4",25, "stake", 200000, "block")
+        check = await helper.checkRawLog(res.rawLog)
+        if(check){
+            console.log("\n\n**TX HASH for mint assets 2 ** :" + res.txhash);
+        }else{
+            console.log("\n\n**TX failed for mint assets 2** :" + res.rawLog);
+        }
+
+        results = await assets.query("ASSET8")
+        let assetID1 = results.clasificationID + '|' + results.hashID
+
+        res = await splits.send(wallet.address, config.chain_id ,mnemonic, identityID1, identityID2, assetID1, "0.000000000000000001", 25, "stake", 200000, "block")
+        check = await helper.checkRawLog(res.rawLog)
+        if(check){
+            console.log("\n\n**TX HASH for Splits Send** :" + res.txhash);
+        }else{
+            console.log("\n\n**TX failed for Splits Send** :" + res.rawLog);
+        }
+
+        res = await maintainer.deputize(wallet.address, config.chain_id, mnemonic, identityID1, assetClsID1, identityID2, "ASSET5:S|num1,burn:H|1,ASSET7:S|num3", true, true, true, 25, "stake",200000, "block")
+        check = await helper.checkRawLog(res.rawLog)
+        if(check){
+            console.log("\n\n**TX HASH for maintainer deputize** :" + res.txhash);
+        }else{
+            console.log("\n\n**TX failed for maintainer deputize** :" + res.rawLog);
+        }
+
+        res = await assets.mutate(wallet.address, config.chain_id, mnemonic, identityID2, assetID1, "ASSET5:S|,burn:H|1", "ASSET7:S|num3",25, "stake", 200000, "block")
+        check = await helper.checkRawLog(res.rawLog)
+        if(check){
+            console.log("\n\n**TX HASH for mutate assets 2** :" + res.txhash);
+        }else{
+            console.log("\n\n**TX failed for mutate assets 2** :" + res.rawLog);
         }
 
         res = await meta.reveal(wallet.address, config.chain_id, mnemonic, "H|1", 25, "stake", 200000, "block")

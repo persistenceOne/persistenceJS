@@ -3,7 +3,7 @@ const broadcast = require("../../utilities/broadcastTx");
 const config = require("../../config.json")
 const request = require('request');
 
-function deputize(address, chain_id, mnemonic, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, feesAmount, feesToken, gas, mode, memo = "") {
+function deputize(address, chain_id, mnemonic, identityID, clsID, identityID1, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, feesAmount, feesToken, gas, mode, memo = "") {
     const wallet = keys.getWallet(mnemonic);
 
     let options = {
@@ -16,6 +16,9 @@ function deputize(address, chain_id, mnemonic, maintainedTraits, addMaintainer, 
             "type":config.deputizeMaintainerType + "/request",
             "value":{
                 "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                "toID": identityID1,
+                "classificationID": clsID,
+                "fromID": identityID,
                 "maintainedTraits":maintainedTraits,
                 "addMaintainer": addMaintainer,
                 "removeMaintainer": removeMaintainer,
