@@ -4,4 +4,4 @@ Client side JS libraries for persistenceSDK transaction generation, signing and 
 
 #NOTE: Run rest server with generate-only flag: assetClient rest-server --chain-id test --generate-only
 
-# Or, you may simple run ".script/resetChainAndTest.sh"
+Or, you may simple run ".script/resetChainAndTest.sh"
