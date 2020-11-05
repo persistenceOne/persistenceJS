@@ -7,10 +7,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 class deputizeMaintainer extends persistenceClass {
     async deputize(address, chain_id, mnemonic, identityID, clsID, toID, maintainedTraits, addMaintainer, removeMaintainer, mutateMaintainer, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
-    
+        let path = this.path
+
         let options = {
             'method': 'POST',
-            'url': this.path + config.deputizeMaintainerType,
+            'url': path + config.deputizeMaintainerType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -40,11 +41,9 @@ class deputizeMaintainer extends persistenceClass {
                     signatures:null,
                     memo:result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
-module.exports = {
-    deputizeMaintainer
-};
+module.exports = deputizeMaintainer

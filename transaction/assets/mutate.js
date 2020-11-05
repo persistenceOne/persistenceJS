@@ -7,10 +7,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 class mutateAsset extends persistenceClass {
     async mutate(address, chain_id, mnemonic, fromID, assetID, mutableProperties, mutableMetaProperties, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
+        let path = this.path
 
         let options = {
             'method': 'POST',
-            'url': this.path + config.mutateType,
+            'url': path + config.mutateType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -37,12 +38,10 @@ class mutateAsset extends persistenceClass {
                     signatures:null,
                     memo:result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
 
-module.exports = {
-    mutateAsset
-};
+module.exports = mutateAsset

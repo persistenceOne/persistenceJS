@@ -7,10 +7,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 class provisionIdentity extends persistenceClass {
     async provision(address, chain_id, mnemonic, identityID, to, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
-    
+        let path = this.path
+
         let options = {
             'method': 'POST',
-            'url': this.path + config.provisionType,
+            'url': path + config.provisionType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -35,12 +36,10 @@ class provisionIdentity extends persistenceClass {
                     signatures:null,
                     memo:result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
 
-module.exports = {
-    provisionIdentity
-};
+module.exports = provisionIdentity

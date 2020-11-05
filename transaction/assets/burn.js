@@ -8,10 +8,11 @@ class burnAsset extends persistenceClass {
 
     async burn(address, chain_id, mnemonic, fromID, assetID, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
+        let path = this.path
 
         let options = {
             'method': 'POST',
-            'url': this.path + config.burnAssetType,
+            'url': path + config.burnAssetType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -37,12 +38,10 @@ class burnAsset extends persistenceClass {
                     signatures: null,
                     memo: result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
 
-module.exports = {
-    burnAsset
-};
+module.exports = burnAsset

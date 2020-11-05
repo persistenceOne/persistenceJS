@@ -7,10 +7,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 class revealMeta extends persistenceClass {
     async reveal(address, chain_id, mnemonic, metaFact, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
+        let path = this.path
 
         let options = {
             'method': 'POST',
-            'url': this.path + config.metaRevealType,
+            'url': path + config.metaRevealType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -34,11 +35,9 @@ class revealMeta extends persistenceClass {
                     signatures: null,
                     memo: result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
-module.exports = {
-    revealMeta
-};
+module.exports = revealMeta

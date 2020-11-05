@@ -7,10 +7,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 class makeOrder extends persistenceClass {
     async make(address, chain_id, mnemonic, fromID, classificationID, makerOwnableID, takerOwnableID, expiresIn, makerOwnableSplit, mutableProperties, immutableProperties, mutableMetaProperties, immutableMetaProperties, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
-    
+        let path = this.path
+
         let options = {
             'method': 'POST',
-            'url': this.path + config.makeOrderType,
+            'url': path + config.makeOrderType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -44,12 +45,10 @@ class makeOrder extends persistenceClass {
                     signatures:null,
                     memo:result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
 
-module.exports = {
-    makeOrder
-};
+module.exports = makeOrder

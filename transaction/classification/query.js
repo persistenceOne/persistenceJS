@@ -6,10 +6,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 
 class cls extends persistenceClass {
     async queryClassification(id) {
-    
+        let path = this.path
+
         let options = {
             'method': 'GET',
-            'url': this.path + config.queryCls,
+            'url': path + config.queryCls,
             'headers': {
             }
         };
@@ -25,10 +26,11 @@ class cls extends persistenceClass {
     }
     
     async queryClassificationWithID(id) {
-    
+        let path = this.path
+
         let options = {
             'method': 'GET',
-            'url': this.path + config.queryClsWithID + id,
+            'url': path + config.queryClsWithID + id,
             'headers': {
             }
         };
@@ -41,6 +43,4 @@ class cls extends persistenceClass {
     }
 }
 
-module.exports = {
-    cls
-};
+module.exports = cls

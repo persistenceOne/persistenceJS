@@ -7,10 +7,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 class sendSplits extends persistenceClass {
     async send(address, chain_id, mnemonic, fromID, toID, ownableID, split, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
+        let path = this.path
 
         let options = {
             'method': 'POST',
-            'url': this.path + config.sendSplitType,
+            'url': path + config.sendSplitType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -38,12 +39,10 @@ class sendSplits extends persistenceClass {
                     signatures: null,
                     memo: result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
 
-module.exports = {
-    sendSplits
-};
+module.exports = sendSplits

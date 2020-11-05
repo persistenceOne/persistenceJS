@@ -7,10 +7,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 class nubIdentity extends persistenceClass {
     async nub(address, chain_id, mnemonic, nubID, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
+        let path = this.path
     
         let options = {
             'method': 'POST',
-            'url': this.path + config.nubType,
+            'url': path + config.nubType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -33,12 +34,10 @@ class nubIdentity extends persistenceClass {
                     signatures:null,
                     memo:result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
 
-module.exports = {
-    nubIdentity
-};
+module.exports = nubIdentity

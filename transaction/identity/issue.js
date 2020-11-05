@@ -7,10 +7,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 class issueIdentity extends persistenceClass {
     async issue(address, chain_id, mnemonic, to, fromID, classificationID, mutableProperties, immutableProperties, mutableMetaProperties, immutableMetaProperties, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
-    
+        let path = this.path
+
         let options = {
             'method': 'POST',
-            'url': this.path + config.issueType,
+            'url': path + config.issueType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -39,12 +40,10 @@ class issueIdentity extends persistenceClass {
                     signatures:null,
                     memo:result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
 
-module.exports = {
-    issueIdentity
-};
+module.exports = issueIdentity

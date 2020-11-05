@@ -5,12 +5,12 @@ const persistenceClass = require('../../utilities/persistenceJS')
 
 class bank extends persistenceClass {
     async sendCoin(chain_id, mnemonic, address, denom, amount, feesAmount, feesToken, gas, mode, memo = "") {
-    
+        let path = this.path
         const wallet = keys.getWallet(mnemonic);
     
         let options = {
             'method': 'POST',
-            'url': this.path + '/bank/accounts/' + address + '/transfers',
+            'url': path + '/bank/accounts/' + address + '/transfers',
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -25,7 +25,6 @@ class bank extends persistenceClass {
                     "amount":amount
                 }]
             })
-    
         };
         return new Promise(function(resolve, reject) {
             request(options, function (error, response) {
@@ -45,12 +44,10 @@ class bank extends persistenceClass {
                     signatures:null,
                     memo:result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
 
-module.exports = {
-    bank
-};
+module.exports = bank

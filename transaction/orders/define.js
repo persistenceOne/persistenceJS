@@ -7,10 +7,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 class defineOrder extends persistenceClass {
     async define(address, chain_id, mnemonic, classificationID, mutableTraits, immutableTraits, mutableMetaTraits, immutableMetaTraits, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
+        let path = this.path
 
         let options = {
             'method': 'POST',
-            'url': this.path + config.defineOrderType,
+            'url': path + config.defineOrderType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -38,12 +39,10 @@ class defineOrder extends persistenceClass {
                     signatures:null,
                     memo:result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
 
-module.exports = {
-    defineOrder
-};
+module.exports = defineOrder

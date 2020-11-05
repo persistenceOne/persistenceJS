@@ -4,12 +4,12 @@ const request = require('request');
 const Promise = require('promise');
 const persistenceClass = require('../../utilities/persistenceJS')
 
-class queryAsset extends persistenceClass {
+class queryAssets extends persistenceClass {
     async queryAsset(id) {
-
+        let path = this.path
         let options = {
             'method': 'GET',
-            'url': this.path + config.queryAsset,
+            'url': path + config.queryAsset,
             'headers': {}
         };
         return new Promise(function (resolve, reject) {
@@ -24,10 +24,10 @@ class queryAsset extends persistenceClass {
     }
 
     async queryAssetWithID(id) {
-
+        let path = this.path
         let options = {
             'method': 'GET',
-            'url': this.path + config.queryAssetWithID + id,
+            'url': path + config.queryAssetWithID + id,
             'headers': {}
         };
         return new Promise(function (resolve, reject) {
@@ -39,6 +39,4 @@ class queryAsset extends persistenceClass {
     }
 }
 
-module.exports = {
-    queryAsset
-};
+module.exports =  queryAssets

@@ -7,10 +7,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 class takeOrder extends persistenceClass {
     async take(address, chain_id, mnemonic, fromID, takerOwnableSplit, orderID, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
-    
+        let path = this.path
+
         let options = {
             'method': 'POST',
-            'url': this.path + config.takeOrderType,
+            'url': path + config.takeOrderType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -36,12 +37,10 @@ class takeOrder extends persistenceClass {
                     signatures:null,
                     memo:result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
 
-module.exports = {
-    takeOrder
-};
+module.exports = takeOrder

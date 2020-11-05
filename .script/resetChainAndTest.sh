@@ -19,7 +19,6 @@ assetNode add-genesis-account test 100000000000000stake
 assetNode gentx --name test --amount 1000000000stake
 assetNode collect-gentxs
 
-
 assetNode start >~/.assetNode/log &
 sleep 10
 assetClient rest-server --chain-id test --generate-only >~/.assetClient/log &
@@ -30,4 +29,4 @@ tail -f ~/.assetNode/log
 tail -f ~/.assetClient/log
 "
 
-node main.js
+node tests.js

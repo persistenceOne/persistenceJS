@@ -5,12 +5,13 @@ const request = require('request');
 const persistenceClass = require('../../utilities/persistenceJS')
 
 class defineIdentity extends persistenceClass {
-    async Define(address, chain_id, mnemonic, fromID, mutableTraits, immutableTraits, mutableMetaTraits, immutableMetaTraits, feesAmount, feesToken, gas, mode, memo = "") {
+    async define(address, chain_id, mnemonic, fromID, mutableTraits, immutableTraits, mutableMetaTraits, immutableMetaTraits, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
+        let path = this.path
 
         let options = {
             'method': 'POST',
-            'url': this.path + config.defineType,
+            'url': path + config.defineType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -38,7 +39,7 @@ class defineIdentity extends persistenceClass {
                     signatures:null,
                     memo:result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }

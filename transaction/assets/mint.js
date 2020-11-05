@@ -8,10 +8,11 @@ class mintAsset extends persistenceClass {
 
     async mint(address, chain_id, mnemonic, toID, fromID, classificationID, mutableProperties, immutableProperties, mutableMetaProperties, immutableMetaProperties, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
+        let path = this.path
 
         let options = {
             'method': 'POST',
-            'url': this.path + config.mintType,
+            'url': path + config.mintType,
             'headers': {
                 'Content-Type': 'application/json'
             },
@@ -41,12 +42,10 @@ class mintAsset extends persistenceClass {
                     signatures: null,
                     memo: result.value.memo
                 }
-                resolve(broadcast.broadcastTx(wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         });
     }
 }
 
-module.exports = {
-    mintAsset
-};
+module.exports = mintAsset

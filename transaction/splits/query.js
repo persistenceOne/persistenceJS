@@ -5,10 +5,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 
 class querySplits extends persistenceClass {
     async  querySplitsWithID(id) {
-    
+        let path = this.path
+
         let options = {
             'method': 'GET',
-            'url': this.path + config.querySplitWithID + id,
+            'url': path + config.querySplitWithID + id,
             'headers': {
             }
         };
@@ -21,6 +22,4 @@ class querySplits extends persistenceClass {
     }
 }
 
-module.exports = {
-    querySplits
-};
+module.exports = querySplits

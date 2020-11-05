@@ -6,10 +6,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 
 class queryOrders extends persistenceClass {
     async queryOrder(id) {
+        let path = this.path
 
         let options = {
             'method': 'GET',
-            'url': this.path + config.queryOrder,
+            'url': path + config.queryOrder,
             'headers': {}
         };
         return new Promise(function (resolve, reject) {
@@ -24,10 +25,11 @@ class queryOrders extends persistenceClass {
     }
 
     async queryOrderWithID(id) {
+        let path = this.path
 
         let options = {
             'method': 'GET',
-            'url': this.path + config.queryOrderWithID + id,
+            'url': path + config.queryOrderWithID + id,
             'headers': {}
         };
         return new Promise(function (resolve, reject) {
@@ -39,6 +41,4 @@ class queryOrders extends persistenceClass {
     }
 }
 
-module.exports = {
-    queryOrders
-};
+module.exports = queryOrders

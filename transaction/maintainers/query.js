@@ -6,10 +6,11 @@ const persistenceClass = require('../../utilities/persistenceJS')
 
 class queryMaintainer extends persistenceClass {
     async queryMaintainerWithID(id) {
-    
+        let path = this.path
+
         let options = {
             'method': 'GET',
-            'url': this.path + config.queryMaintainerWithID + id,
+            'url': path + config.queryMaintainerWithID + id,
             'headers': {}
         };
         return new Promise(function (resolve, reject) {
@@ -21,6 +22,4 @@ class queryMaintainer extends persistenceClass {
     }
 }
 
-module.exports = {
-    queryMaintainer
-};
+module.exports = queryMaintainer
