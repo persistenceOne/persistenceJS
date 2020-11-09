@@ -11,7 +11,7 @@ class createAccount extends persistenceClass {
             'hash': ''
         }
 
-        let options = {
+        let keyAddOptions = {
             'method': 'POST',
             'url': this.path + config.keysAdd,
             'headers': {
@@ -21,13 +21,13 @@ class createAccount extends persistenceClass {
 
         };
         return new Promise(function (resolve, reject) {
-            request(options, function (error, response) {
+            request(keyAddOptions, function (error, response) {
                 if (error) throw new Error(error);
 
                 let result = JSON.parse(response.body)
                 x.address = result.result.keyOutput.address
 
-                let options1 = {
+                let signOptions = {
                     'method': 'POST',
                     'url': this.path + config.signTx,
                     'headers': {
@@ -54,7 +54,7 @@ class createAccount extends persistenceClass {
                     })
 
                 };
-                request(options1, function (error, response) {
+                request(signOptions, function (error, response) {
                     if (error) throw new Error(error);
                     console.log(response.body);
                     let result = JSON.parse(response.body)
@@ -62,7 +62,7 @@ class createAccount extends persistenceClass {
                     let value = result.result.tx.signatures[0].pub_key.value
                     let signature = result.result.tx.signatures[0].signature
 
-                    let options2 = {
+                    let broadcastOptions = {
                         'method': 'POST',
                         'url': this.path + config.broadcastTx,
                         'headers': {
@@ -95,7 +95,7 @@ class createAccount extends persistenceClass {
                         })
 
                     };
-                    request(options2, function (error, resp) {
+                    request(broadcastOptions, function (error, resp) {
                         if (error) throw new Error(error);
                         let result = JSON.parse(resp.body)
                         x.hash = result.txhash

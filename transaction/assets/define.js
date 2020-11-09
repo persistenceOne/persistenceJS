@@ -6,7 +6,7 @@ const persistenceClass = require('../../utilities/persistenceJS')
 
 class defineAsset extends persistenceClass {
 
-    async define(address, chain_id, mnemonic, classificationID, mutableTraits, immutableTraits, mutableMetaTraits, immutableMetaTraits, feesAmount, feesToken, gas, mode, memo = "") {
+    async define(address, chain_id, mnemonic, fromID, mutableTraits, immutableTraits, mutableMetaTraits, immutableMetaTraits, feesAmount, feesToken, gas, mode, memo = "") {
         const wallet = keys.getWallet(mnemonic);
         let path = this.path
 
@@ -20,7 +20,7 @@ class defineAsset extends persistenceClass {
                 "type": config.defineAssetType + "/request",
                 "value": {
                     "baseReq": {"from": address, "chain_id": chain_id, "memo": memo},
-                    "fromID": classificationID,
+                    "fromID": fromID,
                     "mutableTraits": mutableTraits,
                     "immutableTraits": immutableTraits,
                     "mutableMetaTraits": mutableMetaTraits,
