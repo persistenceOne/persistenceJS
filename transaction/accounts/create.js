@@ -89,7 +89,7 @@ class createAccount extends persistenceClass {
                                     "pub_key": {"type": typekey, "value": value},
                                     "signature": signature
                                 }],
-                                "memo": ""
+                                "memo": memo
                             },
                             "mode": "sync"
                         })

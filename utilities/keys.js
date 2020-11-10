@@ -66,17 +66,14 @@ function createStore(mnemonic, password) {
 }
 
 function decryptStore(hashpwd, iv, salt, crypted, password) {
-
-    if (
-        JSON.parse(hashpwd) === crypto.createHash(passwordHashAlgorithm).update(password).digest("hex")
-    ) {
-        let iv = Buffer.from(JSON.parse(iv), "hex");
-        let encryptedText = Buffer.from(JSON.parse(crypted), "hex");
+    if ( hashpwd === crypto.createHash(passwordHashAlgorithm).update(password).digest("hex") ) {
+        let ivText = Buffer.from(iv, "hex");
+        let encryptedText = Buffer.from(crypted, "hex");
 
         let decipher = crypto.createDecipheriv(
             "aes-256-cbc",
-            Buffer.from(JSON.parse(salt), "hex"),
-            iv
+            Buffer.from(salt, "hex"),
+            ivText
         );
         let decrypted = decipher.update(encryptedText);
         decrypted = Buffer.concat([decrypted, decipher.final()]);
