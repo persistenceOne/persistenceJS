@@ -65,7 +65,12 @@ function createStore(mnemonic, password) {
     }
 }
 
-function decryptStore(hashpwd, iv, salt, crypted, password) {
+function decryptStore(fileData, password) {
+    let hashpwd = fileData.hashpwd
+    let iv = fileData.iv
+    let salt = fileData.salt
+    let crypted = fileData.crypted
+
     if ( hashpwd === crypto.createHash(passwordHashAlgorithm).update(password).digest("hex") ) {
         let ivText = Buffer.from(iv, "hex");
         let encryptedText = Buffer.from(crypted, "hex");
