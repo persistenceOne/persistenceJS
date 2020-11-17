@@ -1,5 +1,4 @@
 const config = require("../../config.json")
-const helper = require("../../helpers/index")
 const request = require('request');
 const Promise = require('promise');
 const persistenceClass = require('../../utilities/persistenceJS')

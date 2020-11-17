@@ -316,7 +316,7 @@ async function test(){
 test()
 
 async function nub(address, chain_id, mnemonic, nubID, fee, token, gas, mode){
-    return new Promise(async function(resolve, reject) {
+    return new Promise(async function(resolve) {
         let result = await identityNub.nub(address, chain_id, mnemonic, nubID, fee, token, gas, mode)
         resolve(result)
     });
