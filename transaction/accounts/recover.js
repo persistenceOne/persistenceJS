@@ -15,7 +15,7 @@ class recoverAccount extends persistenceClass {
             body: JSON.stringify({"name": name, "mnemonic": mnemonic})
 
         };
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             request(options, function (error, response) {
                 if (error) throw new Error(error);
 

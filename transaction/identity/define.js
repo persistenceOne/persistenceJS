@@ -27,7 +27,7 @@ class defineIdentity extends persistenceClass {
                 }
             })
         };
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve) {
             request(options, function (error, response) {
                 if (error) throw new Error(error);
 

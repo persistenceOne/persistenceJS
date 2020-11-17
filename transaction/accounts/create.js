@@ -20,7 +20,7 @@ class createAccount extends persistenceClass {
             body: JSON.stringify({"name": name})
 
         };
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             request(keyAddOptions, function (error, response) {
                 if (error) throw new Error(error);
 

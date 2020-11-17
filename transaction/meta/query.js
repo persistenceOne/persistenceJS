@@ -13,7 +13,7 @@ class queryMeta extends persistenceClass {
             'url': path + config.queryMetaWithID + id,
             'headers': {}
         };
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             request(options, async function (error, res) {
                 if (error) throw new Error(error);
                 resolve(res.body)

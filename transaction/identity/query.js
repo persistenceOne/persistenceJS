@@ -1,5 +1,4 @@
 const config = require("../../config.json")
-const helper = require("../../helpers/index")
 const request = require('request');
 const Promise = require('promise');
 const persistenceClass = require('../../utilities/persistenceJS')
@@ -13,13 +12,25 @@ class queryIdentities extends persistenceClass {
             'url': path + config.queryIdentity,
             'headers': {}
         };
-        return new Promise(function (resolve, reject) {
+
+        let data = {
+            'clasificationID': '',
+            'hashID': ''
+        }
+        return new Promise(function (resolve) {
             request(options, async function (error, res) {
                 if (error) throw new Error(error);
                 let result = JSON.parse(res.body)
                 let list = result.result.value.identities.value.list
-                let find = await helper.FindInResponse("identities", list, id)
-                resolve(find)
+                if(list != null) {
+                    list.forEach(function (value) {
+                        if (value.value.immutables.value.properties.value.propertyList[0].value.id.value.idString === id) {
+                            data.clasificationID = value.value.id.value.classificationID.value.idString
+                            data.hashID = value.value.id.value.hashID.value.idString
+                        }
+                    });
+                }
+                resolve(data)
             });
         });
     }

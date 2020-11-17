@@ -48,10 +48,12 @@ async function test(){
     console.log(wallet);
 
     let createdStore = keys.createStore(wallet.mnemonic, "123123123", wallet.address);
+    let keyRes = ""
     if (createdStore.error) {
         console.log(createdStore.error);
     } else {
         console.log("Keystore created with name " + wallet.address + ".json")
+        keyRes = createdStore.Response
     }
 
     if (createdStore.error) {
@@ -59,7 +61,7 @@ async function test(){
     }
 
     console.log("Reading keystore...");
-    let mnemonicRestored = keys.decryptStore("cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c.json", "123123123")
+    let mnemonicRestored = keys.decryptStore(keyRes, "123123123")
     console.log(mnemonicRestored);
 
     let result = await nub(wallet.address, config.chain_id, mnemonic, config.nubID, 25, "stake", 200000, "block")
