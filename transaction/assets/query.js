@@ -34,6 +34,7 @@ class queryAssets extends persistenceClass {
             });
         }).catch(function (error) {
             console.log("Promise Rejected: " + error);
+            return(error)
         });
     }
 
@@ -53,6 +54,7 @@ class queryAssets extends persistenceClass {
             });
         }).catch(function (error) {
             console.log("Promise Rejected: " + error);
+            return(error)
         });
     }
 }

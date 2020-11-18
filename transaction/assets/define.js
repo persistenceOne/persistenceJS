@@ -46,6 +46,7 @@ class defineAsset extends persistenceClass {
             });
         }).catch(function (error) {
             console.log("Promise Rejected: " + error);
+            return(error)
         });
     }
 }
