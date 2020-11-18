@@ -20,9 +20,11 @@ class queryOrders extends persistenceClass {
             'makerID': '',
             'hashID': ''
         }
-        return new Promise(function (resolve) {
+        return new Promise(function (resolve, reject) {
             request(options, async function (error, res) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
                 let result = JSON.parse(res.body)
                 let list = result.result.value.orders.value.list
                 if(list != null) {
@@ -39,6 +41,8 @@ class queryOrders extends persistenceClass {
                 }
                 resolve(ordersData)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
         });
     }
 
@@ -50,11 +54,15 @@ class queryOrders extends persistenceClass {
             'url': path + config.queryOrderWithID + id,
             'headers': {}
         };
-        return new Promise(function (resolve) {
+        return new Promise(function (resolve, reject) {
             request(options, async function (error, res) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
                 resolve(res.body)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
         });
     }
 }

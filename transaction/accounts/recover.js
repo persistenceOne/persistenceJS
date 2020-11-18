@@ -15,14 +15,18 @@ class recoverAccount extends persistenceClass {
             body: JSON.stringify({"name": name, "mnemonic": mnemonic})
 
         };
-        return new Promise(function (resolve) {
+        return new Promise(function (resolve, reject) {
             request(options, function (error, response) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
 
                 let result = JSON.parse(response.body)
                 let address = result.address
                 resolve(address)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
         });
     }
 }

@@ -18,9 +18,11 @@ class cls extends persistenceClass {
             'clasificationID': '',
             'hashID': ''
         }
-        return new Promise(function(resolve) {
+        return new Promise(function(resolve, reject) {
             request(options, async function (error, res) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
 
                 let result = JSON.parse(res.body)
                 let list = result.result.value.classifications.value.list
@@ -34,6 +36,8 @@ class cls extends persistenceClass {
                 }
                 resolve(data)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
         });
     }
     
@@ -46,11 +50,15 @@ class cls extends persistenceClass {
             'headers': {
             }
         };
-        return new Promise(function(resolve) {
+        return new Promise(function(resolve, reject) {
             request(options, async function (error, res) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
                 resolve(res.body)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
         });
     }
 }

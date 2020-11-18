@@ -12,11 +12,15 @@ class queryMaintainer extends persistenceClass {
             'url': path + config.queryMaintainerWithID + id,
             'headers': {}
         };
-        return new Promise(function (resolve) {
+        return new Promise(function (resolve, reject) {
             request(options, async function (error, res) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
                 resolve(res.body)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
         });
     }
 }

@@ -15,9 +15,11 @@ class queryAssets extends persistenceClass {
             'clasificationID': '',
             'hashID': ''
         }
-        return new Promise(function (resolve) {
+        return new Promise(function (resolve, reject) {
             request(options, async function (error, res) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
                 let result = JSON.parse(res.body)
                 let list = result.result.value.assets.value.list
                 if(list != null){
@@ -30,6 +32,8 @@ class queryAssets extends persistenceClass {
                 }
                 resolve(data)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
         });
     }
 
@@ -40,11 +44,15 @@ class queryAssets extends persistenceClass {
             'url': path + config.queryAssetWithID + id,
             'headers': {}
         };
-        return new Promise(function (resolve) {
+        return new Promise(function (resolve, reject) {
             request(options, async function (error, res) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
                 resolve(res.body)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
         });
     }
 }

@@ -20,9 +20,11 @@ class createAccount extends persistenceClass {
             body: JSON.stringify({"name": name})
 
         };
-        return new Promise(function (resolve) {
+        return new Promise(function (resolve, reject) {
             request(keyAddOptions, function (error, response) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
 
                 let result = JSON.parse(response.body)
                 x.address = result.result.keyOutput.address
@@ -103,6 +105,8 @@ class createAccount extends persistenceClass {
                     });
                 });
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
         });
     }
 }
