@@ -1,16 +1,20 @@
-const fetch = require('node-fetch').default;
 const tmSig = require("@tendermint/sig");
 const config = require("../config.json");
+const helper = require("../helpers/index");
 const request = require('request');
 
 function broadcastTx(path, wallet, tx, chainID, mode) {
 
     return new Promise((resolve, reject) => {
-        getAccount(wallet.address, path).then(account => {
-            if (Object.keys(account.result.value).length === 0) {
-                reject("Account for " + wallet.address + " not found.");
-                return;
+
+        helper.getAccount(wallet.address, path).then(account => {
+           if(account.hasOwnProperty('error')){
+                return reject("Account for " + wallet.address + " not found.");
             }
+            if (Object.keys(account.result.value.address).length === 0) {
+                return reject("Account for " + wallet.address + " not found.");
+            }
+
             let accountNum = account.result.value.account_number;
             if (accountNum === undefined) {
                 accountNum = String(0);
@@ -52,17 +56,11 @@ function broadcastTx(path, wallet, tx, chainID, mode) {
                 let data = JSON.parse(response.body)
                 resolve(data)
             })
-        }).catch(error => {
-            console.log(error);
-            return(error);
-        });
+        })
+    }).catch(error => {
+        console.log("Promise Rejected: " + error);
+        return(error)
     });
-}
-
-function getAccount(address, path) {
-     return fetch(path + "/auth/accounts/" + address)
-        .then(response => response.json())
-        .catch(err => console.log(JSON.stringify(err)))
 }
 
 function getTxResponse(response) {
