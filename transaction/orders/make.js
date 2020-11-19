@@ -35,7 +35,9 @@ class makeOrder extends persistenceClass {
     
         return new Promise(function(resolve, reject) {
             request(options, function (error, response) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
     
                 let result = JSON.parse(response.body)
     
@@ -47,6 +49,9 @@ class makeOrder extends persistenceClass {
                 }
                 resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
+            return(error)
         });
     }
 }

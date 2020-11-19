@@ -1,5 +1,4 @@
 const config = require("../../config.json")
-const helper = require("../../helpers/index")
 const request = require('request');
 const Promise = require('promise');
 const persistenceClass = require('../../utilities/persistenceJS')
@@ -12,14 +11,30 @@ class queryAssets extends persistenceClass {
             'url': path + config.queryAsset,
             'headers': {}
         };
+        let data = {
+            'clasificationID': '',
+            'hashID': ''
+        }
         return new Promise(function (resolve, reject) {
             request(options, async function (error, res) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
                 let result = JSON.parse(res.body)
                 let list = result.result.value.assets.value.list
-                let find = await helper.FindInResponse("assets", list, id)
-                resolve(find)
+                if(list != null){
+                    list.forEach(function (value) {
+                        if (value.value.immutables.value.properties.value.propertyList[0].value.id.value.idString === id) {
+                            data.clasificationID = value.value.id.value.classificationID.value.idString
+                            data.hashID = value.value.id.value.hashID.value.idString
+                        }
+                    });
+                }
+                resolve(data)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
+            return(error)
         });
     }
 
@@ -32,9 +47,14 @@ class queryAssets extends persistenceClass {
         };
         return new Promise(function (resolve, reject) {
             request(options, async function (error, res) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
                 resolve(res.body)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
+            return(error)
         });
     }
 }

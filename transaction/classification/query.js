@@ -1,5 +1,4 @@
 const config = require("../../config.json")
-const helper = require("../../helpers/index")
 const request = require('request');
 const Promise = require('promise');
 const persistenceClass = require('../../utilities/persistenceJS')
@@ -14,14 +13,31 @@ class cls extends persistenceClass {
             'headers': {
             }
         };
+
+        let data = {
+            'clasificationID': '',
+            'hashID': ''
+        }
         return new Promise(function(resolve, reject) {
             request(options, async function (error, res) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
+
                 let result = JSON.parse(res.body)
                 let list = result.result.value.classifications.value.list
-                let find = await helper.FindInResponse("classifications", list, id)
-                resolve(find)
+                if(list != null) {
+                    list.forEach(function (value) {
+                        if (value.value.immutableTraits.value.properties.value.propertyList[0].value.id.value.idString === id) {
+                            data.chainID = value.value.id.value.chainID.value.idString
+                            data.hashID = value.value.id.value.hashID.value.idString
+                        }
+                    });
+                }
+                resolve(data)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
         });
     }
     
@@ -36,9 +52,14 @@ class cls extends persistenceClass {
         };
         return new Promise(function(resolve, reject) {
             request(options, async function (error, res) {
-                if (error) throw new Error(error);
+                if (error) {
+                    reject(error);
+                }
                 resolve(res.body)
             });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
+            return(error)
         });
     }
 }

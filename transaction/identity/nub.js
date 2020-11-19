@@ -25,7 +25,9 @@ class nubIdentity extends persistenceClass {
         };
         return new Promise(function(resolve, reject) {
             request(options, function (error, response) {
-                if (error) throw new Error(error);
+                if (error) {
+                    return reject(error);
+                }
                 let result = JSON.parse(response.body)
     
                 let tx = {
@@ -35,7 +37,10 @@ class nubIdentity extends persistenceClass {
                     memo:result.value.memo
                 }
                 resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
-            });
+            })
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
+            return(error)
         });
     }
 }
