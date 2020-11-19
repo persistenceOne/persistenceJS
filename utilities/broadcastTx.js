@@ -4,10 +4,7 @@ const config = require("../config.json");
 const request = require('request');
 
 function broadcastTx(path, wallet, tx, chainID, mode) {
-    let returnParams = {
-        'rawLog' : '',
-        'txhash': ''
-    }
+
     return new Promise((resolve, reject) => {
         getAccount(wallet.address, path).then(account => {
             if (Object.keys(account.result.value).length === 0) {
@@ -50,13 +47,11 @@ function broadcastTx(path, wallet, tx, chainID, mode) {
             };
             request(options, function (error, response) {
                 let data = JSON.parse(response.body)
-                returnParams.rawLog = data.raw_log
-                returnParams.txhash = data.txhash
-                resolve(returnParams)
+                resolve(data)
             });
         }).catch(error => {
             console.log(error);
-            reject("Unable to query account for the address: " + wallet.address);
+            return("Unable to query account for the address: " + wallet.address);
         });
     });
 }
