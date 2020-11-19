@@ -46,12 +46,15 @@ function broadcastTx(path, wallet, tx, chainID, mode) {
                 body: JSON.stringify(broadcastReq)
             };
             request(options, function (error, response) {
+                if (error) {
+                    return(error);
+                }
                 let data = JSON.parse(response.body)
                 resolve(data)
-            });
+            })
         }).catch(error => {
             console.log(error);
-            return("Unable to query account for the address: " + wallet.address);
+            return(error);
         });
     });
 }
