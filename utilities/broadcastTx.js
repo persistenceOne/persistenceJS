@@ -3,13 +3,10 @@ const tmSig = require("@tendermint/sig");
 const config = require("../config.json");
 const request = require('request');
 
-function broadcastTx(wallet, tx, chainID, mode) {
-    let returnParams = {
-        'rawLog' : '',
-        'txhash': ''
-    }
+function broadcastTx(path, wallet, tx, chainID, mode) {
+
     return new Promise((resolve, reject) => {
-        getAccount(wallet.address).then(account => {
+        getAccount(wallet.address, path).then(account => {
             if (Object.keys(account.result.value).length === 0) {
                 reject("Account for " + wallet.address + " not found.");
                 return;
@@ -42,7 +39,7 @@ function broadcastTx(wallet, tx, chainID, mode) {
 
             let options = {
                 'method': 'POST',
-                'url': config.lcdURL + config.broadcastTx,
+                'url': path + config.broadcastTx,
                 'headers': {
                     'Content-Type': 'application/json'
                 },
@@ -50,19 +47,17 @@ function broadcastTx(wallet, tx, chainID, mode) {
             };
             request(options, function (error, response) {
                 let data = JSON.parse(response.body)
-                returnParams.rawLog = data.raw_log
-                returnParams.txhash = data.txhash
-                resolve(returnParams)
+                resolve(data)
             });
         }).catch(error => {
             console.log(error);
-            reject("Unable to query account for the address: " + wallet.address);
+            return("Unable to query account for the address: " + wallet.address);
         });
     });
 }
 
-function getAccount(address) {
-    return fetch(config.lcdURL + "/auth/accounts/" + address)
+function getAccount(address, path) {
+     return fetch(path + "/auth/accounts/" + address)
         .then(response => response.json())
         .catch(err => console.log(JSON.stringify(err)))
 }

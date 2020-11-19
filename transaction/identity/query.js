@@ -1,44 +1,65 @@
 const config = require("../../config.json")
-const helper = require("../../helpers/index")
 const request = require('request');
 const Promise = require('promise');
+const persistenceClass = require('../../utilities/persistenceJS')
 
-async function queryIdentity(id) {
+class queryIdentities extends persistenceClass {
+    async queryIdentity(id) {
+        let path = this.path
 
-    let options = {
-        'method': 'GET',
-        'url': config.lcdURL + config.queryIdentity,
-        'headers': {
+        let options = {
+            'method': 'GET',
+            'url': path + config.queryIdentity,
+            'headers': {}
+        };
+
+        let data = {
+            'clasificationID': '',
+            'hashID': ''
         }
-    };
-    return new Promise(function(resolve, reject) {
-        request(options, async function (error, res) {
-            if (error) throw new Error(error);
-            let result = JSON.parse(res.body)
-            let list = result.result.value.identities.value.list
-            let find = await helper.FindInResponse("identities", list, id)
-            resolve(find)
+        return new Promise(function (resolve, reject) {
+            request(options, async function (error, res) {
+                if (error) {
+                    reject(error);
+                }
+                let result = JSON.parse(res.body)
+                let list = result.result.value.identities.value.list
+                if(list != null) {
+                    list.forEach(function (value) {
+                        if (value.value.immutables.value.properties.value.propertyList[0].value.id.value.idString === id) {
+                            data.clasificationID = value.value.id.value.classificationID.value.idString
+                            data.hashID = value.value.id.value.hashID.value.idString
+                        }
+                    });
+                }
+                resolve(data)
+            });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
+            return(error)
         });
-    });
+    }
+
+    async queryIdentityWithID(id) {
+        let path = this.path
+
+        let options = {
+            'method': 'GET',
+            'url': path + config.queryIdentityWithID + id,
+            'headers': {}
+        };
+        return new Promise(function (resolve, reject) {
+            request(options, async function (error, res) {
+                if (error) {
+                    reject(error);
+                }
+                resolve(res.body)
+            });
+        }).catch(function (error) {
+            console.log("Promise Rejected: " + error);
+            return(error)
+        });
+    }
 }
 
-async function queryIdentityWithID(id) {
-
-    let options = {
-        'method': 'GET',
-        'url': config.lcdURL + config.queryIdentityWithID + id,
-        'headers': {
-        }
-    };
-    return new Promise(function(resolve, reject) {
-        request(options, async function (error, res) {
-            if (error) throw new Error(error);
-            resolve(res.body)
-        });
-    });
-}
-
-module.exports = {
-    queryIdentity,
-    queryIdentityWithID
-};
+module.exports = queryIdentities
