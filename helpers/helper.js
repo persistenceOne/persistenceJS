@@ -1,3 +1,5 @@
+const config = require("../config.json")
+const fetch = require('node-fetch').default;
 
 function checkRawLog(log) {
     return new Promise(function (resolve) {
@@ -10,6 +12,13 @@ function checkRawLog(log) {
     })
 }
 
+function getAccount(address, path) {
+    return fetch(path + config.getAccount + address)
+        .then(response => response.json())
+        .catch(err => console.log(JSON.stringify(err)))
+}
+
 module.exports = {
     checkRawLog,
+    getAccount
 };
