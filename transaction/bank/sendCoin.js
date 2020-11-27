@@ -16,7 +16,7 @@ class bank extends persistenceClass {
             },
             body: JSON.stringify({
                 "base_req":{
-                    "from":address,
+                    "from":wallet.address,
                     "chain_id":chain_id,
                     "memo":memo
                 },
