@@ -9,6 +9,7 @@
   "keysRecover": "/keys/add",
   "signTx": "/signTx",
   "broadcastTx": "/txs",
+  "getAccount": "/auth/accounts/",
   "nubType": "/xprt/identities/nub",
   "defineType": "/xprt/identities/define",
   "provisionType": "/xprt/identities/provision",
