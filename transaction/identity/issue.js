@@ -11,12 +11,12 @@ class issueIdentity extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.issueType,
+            'url': path + config.issueIdentityPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.issueType + "/request","value":{
+                "type":config.issueIdentityType,"value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     "to":to,
                     "fromID":fromID,

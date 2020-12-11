@@ -11,12 +11,12 @@ class deputizeMaintainer extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.deputizeMaintainerType,
+            'url': path + config.deputizePath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.deputizeMaintainerType + "/request",
+                "type":config.deputizeType,
                 "value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     "toID": toID,

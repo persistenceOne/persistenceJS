@@ -11,12 +11,12 @@ class wrapsplits extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.wrapType,
+            'url': path + config.wrapCoinPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.wrapType + "/request",
+                "type":config.wrapCoinType,
                 "value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     fromID:fromID,

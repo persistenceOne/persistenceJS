@@ -12,12 +12,12 @@ class burnAsset extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.burnAssetType,
+            'url': path + config.burnAssetPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type": config.burnAssetType + "/request",
+                "type": config.burnAssetType,
                 "value": {
                     "baseReq": {"from": address, "chain_id": chain_id, "memo": memo},
                     "fromID": fromID,

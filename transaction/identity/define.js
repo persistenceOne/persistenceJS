@@ -11,12 +11,12 @@ class defineIdentity extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.defineType,
+            'url': path + config.defineIdentityPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.defineType + "/request",
+                "type":config.defineIdentityType,
                 "value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     "fromID":fromID,

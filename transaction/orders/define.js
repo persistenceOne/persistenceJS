@@ -11,12 +11,12 @@ class defineOrder extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.defineOrderType,
+            'url': path + config.defineOrderPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.defineOrderType + "/request",
+                "type":config.defineOrderType,
                 "value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     "fromID":fromID,

@@ -11,12 +11,12 @@ class sendSplits extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.sendSplitType,
+            'url': path + config.sendSplitPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type": config.sendSplitType + "/request",
+                "type": config.sendSplitType,
                 "value": {
                     "baseReq": {"from": address, "chain_id": chain_id, "memo": memo},
                     fromID: fromID,

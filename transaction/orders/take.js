@@ -11,12 +11,12 @@ class takeOrder extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.takeOrderType,
+            'url': path + config.takeOrderPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.takeOrderType + "/request",
+                "type":config.takeOrderType,
                 "value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     "fromID":fromID,

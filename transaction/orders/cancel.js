@@ -11,12 +11,12 @@ class cancelOrder extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.cancelOrderType,
+            'url': path + config.cancelOrderPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.cancelOrderType + "/request",
+                "type":config.cancelOrderType,
                 "value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     "fromID":fromID,

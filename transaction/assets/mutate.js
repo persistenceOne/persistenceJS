@@ -11,12 +11,12 @@ class mutateAsset extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.mutateType,
+            'url': path + config.mutateAssetPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.mutateType + "/request",
+                "type":config.mutateAssetType,
                 "value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     "fromID":fromID,

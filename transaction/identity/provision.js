@@ -11,12 +11,12 @@ class provisionIdentity extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.provisionType,
+            'url': path + config.provisionKeyPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.provisionType + "/request",
+                "type":config.provisionKeyType,
                 "value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     "identityID":identityID,

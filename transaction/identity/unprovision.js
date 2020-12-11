@@ -11,12 +11,12 @@ class unprovisionIdentity extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.unprovisionType,
+            'url': path + config.unprovisionKeyPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.unprovisionType + "/request",
+                "type":config.unprovisionKeyType,
                 "value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     "identityID":identityID,

@@ -12,12 +12,12 @@ class defineAsset extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.defineAssetType,
+            'url': path + config.defineAssetPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type": config.defineAssetType + "/request",
+                "type": config.defineAssetType,
                 "value": {
                     "baseReq": {"from": address, "chain_id": chain_id, "memo": memo},
                     "fromID": fromID,

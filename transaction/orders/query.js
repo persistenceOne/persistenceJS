@@ -9,7 +9,7 @@ class queryOrders extends persistenceClass {
 
         let options = {
             'method': 'GET',
-            'url': path + config.queryOrder,
+            'url': path + config.qOrder,
             'headers': {}
         };
 
@@ -26,7 +26,7 @@ class queryOrders extends persistenceClass {
                     reject(error);
                 }
                 let result = JSON.parse(res.body)
-                let list = result.result.value.orders.value.list
+                let list = result.result.list
                 if(list != null) {
                     list.forEach(function (value) {
                         if (value.value.immutables.value.properties.value.propertyList[0].value.id.value.idString === id) {

@@ -12,12 +12,12 @@ class unwrapsplits extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.unwrapType,
+            'url': path + config.unwrapCoinPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.unwrapType + "/request",
+                "type":config.unwrapCoinType,
                 "value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     fromID:fromID,

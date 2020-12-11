@@ -9,7 +9,7 @@ class cls extends persistenceClass {
 
         let options = {
             'method': 'GET',
-            'url': path + config.queryCls,
+            'url': path + config.qClassification,
             'headers': {
             }
         };
@@ -25,7 +25,7 @@ class cls extends persistenceClass {
                 }
 
                 let result = JSON.parse(res.body)
-                let list = result.result.value.classifications.value.list
+                let list = result.result.list
                 if(list != null) {
                     list.forEach(function (value) {
                         if (value.value.immutableTraits.value.properties.value.propertyList[0].value.id.value.idString === id) {

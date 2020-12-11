@@ -11,12 +11,12 @@ class makeOrder extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.makeOrderType,
+            'url': path + config.makeOrderPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.makeOrderType + "/request",
+                "type":config.makeOrderType,
                 "value":{
                     "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
                     "fromID":fromID,

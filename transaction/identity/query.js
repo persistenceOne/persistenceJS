@@ -9,7 +9,7 @@ class queryIdentities extends persistenceClass {
 
         let options = {
             'method': 'GET',
-            'url': path + config.queryIdentity,
+            'url': path + config.qIdentity,
             'headers': {}
         };
 
@@ -23,7 +23,7 @@ class queryIdentities extends persistenceClass {
                     reject(error);
                 }
                 let result = JSON.parse(res.body)
-                let list = result.result.value.identities.value.list
+                let list = result.result.list
                 if(list != null) {
                     list.forEach(function (value) {
                         if (value.value.immutables.value.properties.value.propertyList[0].value.id.value.idString === id) {

@@ -11,12 +11,12 @@ class revealMeta extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.metaRevealType,
+            'url': path + config.metaRevealPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type": config.metaRevealType + "/request",
+                "type": config.metaRevealType,
                 "value": {
                     "baseReq": {"from": address, "chain_id": chain_id, "memo": memo},
                     "metaFact": metaFact

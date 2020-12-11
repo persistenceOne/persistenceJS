@@ -12,12 +12,12 @@ class mintAsset extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.mintType,
+            'url': path + config.mintAssetPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type": config.mintType + "/request",
+                "type": config.mintAssetType,
                 "value": {
                     "baseReq": {"from": address, "chain_id": chain_id, "memo": memo},
                     "toID": toID,

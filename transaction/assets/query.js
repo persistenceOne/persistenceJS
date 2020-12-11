@@ -8,7 +8,7 @@ class queryAssets extends persistenceClass {
         let path = this.path
         let options = {
             'method': 'GET',
-            'url': path + config.queryAsset,
+            'url': path + config.qAsset,
             'headers': {}
         };
         let data = {
@@ -21,7 +21,7 @@ class queryAssets extends persistenceClass {
                     reject(error);
                 }
                 let result = JSON.parse(res.body)
-                let list = result.result.value.assets.value.list
+                let list = result.result.list
                 if(list != null){
                     list.forEach(function (value) {
                         if (value.value.immutables.value.properties.value.propertyList[0].value.id.value.idString === id) {
