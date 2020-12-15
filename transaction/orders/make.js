@@ -18,8 +18,11 @@ class makeOrder extends persistenceClass {
             body: JSON.stringify({
                 "type":config.makeOrderType,
                 "value":{
-                    "baseReq":{"from":address,"chain_id":chain_id,"memo":memo,
-                        "fee": {"amount": [{"amount": String(feesAmount), "denom": feesToken}], "gas": String(gas)},},
+                    "baseReq":{"from":address,
+                        "chain_id":chain_id,
+                        "memo":memo,
+                        "fees": [{"amount": String(feesAmount), "denom": feesToken}],
+                        "gas": String(gas)},
                     "fromID":fromID,
                     "classificationID":classificationID,
                     "makerOwnableID":makerOwnableID,

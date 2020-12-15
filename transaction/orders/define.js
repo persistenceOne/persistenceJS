@@ -18,8 +18,11 @@ class defineOrder extends persistenceClass {
             body: JSON.stringify({
                 "type":config.defineOrderType,
                 "value":{
-                    "baseReq":{"from":address,"chain_id":chain_id,"memo":memo,
-                        "fee": {"amount": [{"amount": String(feesAmount), "denom": feesToken}], "gas": String(gas)},},
+                    "baseReq":{"from":address,
+                        "chain_id":chain_id,
+                        "memo":memo,
+                        "fees": [{"amount": String(feesAmount), "denom": feesToken}],
+                        "gas": String(gas)},
                     "fromID":fromID,
                     "mutableTraits":mutableTraits,
                     "immutableTraits":immutableTraits,
