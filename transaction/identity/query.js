@@ -9,7 +9,7 @@ class queryIdentities extends persistenceClass {
 
         let options = {
             'method': 'GET',
-            'url': path + config.qIdentity,
+            'url': path + config.queryIdentityPath,
             'headers': {}
         };
 

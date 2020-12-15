@@ -9,7 +9,7 @@ class cls extends persistenceClass {
 
         let options = {
             'method': 'GET',
-            'url': path + config.qClassification,
+            'url': path + config.queryClassificationPath,
             'headers': {
             }
         };

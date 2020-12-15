@@ -9,7 +9,7 @@ class queryOrders extends persistenceClass {
 
         let options = {
             'method': 'GET',
-            'url': path + config.qOrder,
+            'url': path + config.queryOrderPath,
             'headers': {}
         };
 

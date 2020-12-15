@@ -8,7 +8,7 @@ class queryAssets extends persistenceClass {
         let path = this.path
         let options = {
             'method': 'GET',
-            'url': path + config.qAsset,
+            'url': path + config.queryAssetPath,
             'headers': {}
         };
         let data = {
