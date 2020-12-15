@@ -18,7 +18,8 @@ class makeOrder extends persistenceClass {
             body: JSON.stringify({
                 "type":config.makeOrderType,
                 "value":{
-                    "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                    "baseReq":{"from":address,"chain_id":chain_id,"memo":memo,
+                        "fee": {"amount": [{"amount": String(feesAmount), "denom": feesToken}], "gas": String(gas)},},
                     "fromID":fromID,
                     "classificationID":classificationID,
                     "makerOwnableID":makerOwnableID,
@@ -41,12 +42,7 @@ class makeOrder extends persistenceClass {
     
                 let result = JSON.parse(response.body)
     
-                let tx = {
-                    msg: result.value.msg,
-                    fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
-                    signatures:null,
-                    memo:result.value.memo
-                }
+                let tx = result.value
                 resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         }).catch(function (error) {

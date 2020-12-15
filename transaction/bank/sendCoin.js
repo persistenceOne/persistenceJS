@@ -34,18 +34,7 @@ class bank extends persistenceClass {
     
                 let result = JSON.parse(response.body)
     
-                let tx = {
-                    msg: result.value.msg,
-                    fee: {
-                        amount: [{
-                            amount: String(feesAmount),
-                            denom: feesToken
-                        }],
-                        gas: String(gas)
-                    },
-                    signatures:null,
-                    memo:result.value.memo
-                }
+                let tx = result.value
                 resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         }).catch(function (error) {

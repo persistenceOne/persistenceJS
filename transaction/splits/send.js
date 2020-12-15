@@ -18,11 +18,12 @@ class sendSplits extends persistenceClass {
             body: JSON.stringify({
                 "type": config.sendSplitType,
                 "value": {
-                    "baseReq": {"from": address, "chain_id": chain_id, "memo": memo},
-                    fromID: fromID,
-                    toID: toID,
-                    ownableID: ownableID,
-                    split: split
+                    "baseReq":{"from":address,"chain_id":chain_id,"memo":memo,
+                        "fee": {"amount": [{"amount": String(feesAmount), "denom": feesToken}], "gas": String(gas)},},
+                    "fromID": fromID,
+                    "toID": toID,
+                    "ownableID": ownableID,
+                    "split": split
                 }
             })
         };
@@ -35,12 +36,7 @@ class sendSplits extends persistenceClass {
 
                 let result = JSON.parse(response.body)
 
-                let tx = {
-                    msg: result.value.msg,
-                    fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
-                    signatures: null,
-                    memo: result.value.memo
-                }
+                let tx = result.value
                 resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
             });
         }).catch(function (error) {
