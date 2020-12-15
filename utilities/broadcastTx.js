@@ -37,12 +37,7 @@ function broadcastTx(path, wallet, tx, chainID, mode) {
             let stdTx = tmSig.signTx(tx, signMeta, wallet);
 
             let broadcastReq = {
-                tx: {
-                    msg: stdTx.msg,
-                    fee: stdTx.fee,
-                    signatures: stdTx.signatures,
-                    memo: stdTx.memo
-                },
+                tx: stdTx,
                 mode: mode
             }
 
