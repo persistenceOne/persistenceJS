@@ -81,8 +81,9 @@ async function test(){
             console.log("\n\n**TX failed for Send Coin** :" + res.raw_log);
         }
 
-        let results = await identityQuery.queryIdentity(config.nubID)
-        let clsID = results.clasificationID + '|' + results.hashID
+        let results = await identityQuery.queryIdentity()
+        let listResponse = await helper.FindInResponse("identities", results, config.nubID)
+        let clsID = listResponse.classificationID + '|' + listResponse.hashID
 
         res = await identityDefine.define(wallet.address, config.chain_id, mnemonic, clsID, "mutableTraits111:S|identity11543", "immutableTraits:S|identity22662", "mutableMetaTraits:S|identity34167", "immutableMetaTraits:S|identity45648", 25, "stake", 200000, "block")
         check = await helper.checkRawLog(res.raw_log)
@@ -92,8 +93,9 @@ async function test(){
             console.log("\n\n**TX failed for define identity 1** :" + res.raw_log);
         }
 
-        results = await clsQuery.queryClassification("immutableMetaTraits")
-        let classificationID = results.chainID + '.' + results.hashID
+        results = await clsQuery.queryClassification()
+        listResponse = await helper.FindInResponse("classifications", results, "immutableMetaTraits")
+        let classificationID = listResponse.chainID + '.' + listResponse.hashID
 
         res = await identityIssue.issue(wallet.address, config.chain_id, mnemonic, config.testAccountAddress, clsID, classificationID, "mutableTraits111:S|identity11543", "immutableTraits:S|identity22662", "mutableMetaTraits:S|identity34167", "immutableMetaTraits:S|identity45648", 25, "stake", 200000, "block")
         check = await helper.checkRawLog(res.raw_log)
@@ -111,8 +113,9 @@ async function test(){
             console.log("\n\n**TX failed for define identity 2** :" + res.raw_log);
         }
 
-        results = await clsQuery.queryClassification("immutableMetaTraits2")
-        let classificationID1 = results.chainID + '.' + results.hashID
+        results = await clsQuery.queryClassification()
+        listResponse = await helper.FindInResponse("classifications", results, "immutableMetaTraits2")
+        let classificationID1 = listResponse.chainID + '.' + listResponse.hashID
 
         res = await identityIssue.issue(wallet.address, config.chain_id, mnemonic, config.testAccountAddress, clsID, classificationID1, "mutableTraits2:S|identity11543", "immutableTraits2:S|identity22662", "mutableMetaTraits2:S|identity34167", "immutableMetaTraits2:S|identity45648", 25, "stake", 200000, "block")
         check = await helper.checkRawLog(res.raw_log)
@@ -122,11 +125,13 @@ async function test(){
             console.log("\n\n**TX failed for issue identity 2** :" + res.raw_log);
         }
 
-        results = await identityQuery.queryIdentity("immutableMetaTraits")
-        let identityID1 = results.clasificationID + '|' + results.hashID
+        results = await identityQuery.queryIdentity()
+        listResponse = await helper.FindInResponse("identities", results, "immutableMetaTraits")
+        let identityID1 = listResponse.classificationID + '|' + listResponse.hashID
 
-        results = await identityQuery.queryIdentity("immutableMetaTraits2")
-        let identityID2 = results.clasificationID + '|' + results.hashID
+        results = await identityQuery.queryIdentity()
+        listResponse = await helper.FindInResponse("identities", results, "immutableMetaTraits2")
+        let identityID2 = listResponse.classificationID + '|' + listResponse.hashID
 
         res = await identityProvision.provision(wallet.address, config.chain_id, mnemonic, identityID1, randomWallet.address, 25, "stake", 200000, "block")
         check = await helper.checkRawLog(res.raw_log)
@@ -152,8 +157,9 @@ async function test(){
             console.log("\n\n**TX failed for define assets** :" + res.raw_log);
         }
 
-        results = await clsQuery.queryClassification("ASSET4")
-        let assetClsID = results.chainID + '.' + results.hashID
+        results = await clsQuery.queryClassification()
+        listResponse = await helper.FindInResponse("classifications", results, "ASSET4")
+        let assetClsID = listResponse.chainID + '.' + listResponse.hashID
 
         res = await assetMint.mint(wallet.address, config.chain_id, mnemonic, identityID1, identityID1, assetClsID, "ASSET1:S|num1,burn:H|1", "ASSET2:S|num2", "ASSET3:S|num3", "ASSET4:S|num4",25, "stake", 200000, "block")
         check = await helper.checkRawLog(res.raw_log)
@@ -163,8 +169,9 @@ async function test(){
             console.log("\n\n**TX failed for mint assets** :" + res.raw_log);
         }
 
-        results = await assetQuery.queryAsset("ASSET4")
-        let assetID = results.clasificationID + '|' + results.hashID
+        results = await assetQuery.queryAsset()
+        listResponse = await helper.FindInResponse("assets", results, "ASSET4")
+        let assetID = listResponse.classificationID + '|' + listResponse.hashID
 
         res = await assetMutate.mutate(wallet.address, config.chain_id, mnemonic, identityID1, assetID, "ASSET1:S|", "ASSET3:S|num3",25, "stake", 200000, "block")
         check = await helper.checkRawLog(res.raw_log)
@@ -182,8 +189,9 @@ async function test(){
             console.log("\n\n**TX failed for define assets 1** :" + res.raw_log);
         }
 
-        results = await clsQuery.queryClassification("ASSET8")
-        let assetClsID1 = results.chainID + '.' + results.hashID
+        results = await clsQuery.queryClassification()
+        listResponse = await helper.FindInResponse("classifications", results, "ASSET8")
+        let assetClsID1 = listResponse.chainID + '.' + listResponse.hashID
 
         res = await assetMint.mint(wallet.address, config.chain_id, mnemonic, identityID1, identityID1, assetClsID1, "ASSET5:S|num1,burn:H|1", "ASSET6:S|num2", "ASSET7:S|num3", "ASSET8:S|num4",25, "stake", 200000, "block")
         check = await helper.checkRawLog(res.raw_log)
@@ -193,8 +201,9 @@ async function test(){
             console.log("\n\n**TX failed for mint assets 2** :" + res.raw_log);
         }
 
-        results = await assetQuery.queryAsset("ASSET8")
-        let assetID1 = results.clasificationID + '|' + results.hashID
+        results = await assetQuery.queryAsset()
+        listResponse = await helper.FindInResponse("assets", results, "ASSET8")
+        let assetID1 = listResponse.classificationID + '|' + listResponse.hashID
 
         res = await splitsSend.send(wallet.address, config.chain_id ,mnemonic, identityID1, identityID2, assetID1, "0.000000000000000001", 25, "stake", 200000, "block")
         check = await helper.checkRawLog(res.raw_log)
@@ -261,8 +270,9 @@ async function test(){
             console.log("\n\n**TX failed for define Order** :" + res.raw_log);
         }
 
-        results = await clsQuery.queryClassification("Gift")
-        let orderCls = results.chainID + '.' + results.hashID
+        results = await clsQuery.queryClassification()
+        listResponse = await helper.FindInResponse("classifications", results, "Gift")
+        let orderCls = listResponse.chainID + '.' + listResponse.hashID
 
         res = await orderMake.make(wallet.address, config.chain_id, mnemonic, identityID2, orderCls, "stake", "stake", "100000", "0.000000000000000001", "description:S|awesomeChocolates", "Which Gift:S|Christmas Gift,What Gift:S|Chocolates", "exchangeRate:D|1", "Gift:S|Exchange,AmazonOrderID:S|1234", 25, "stake", 200000, "block")
         check = await helper.checkRawLog(res.raw_log)
@@ -272,8 +282,9 @@ async function test(){
             console.log("\n\n**TX failed for Make Order ** :" + res.raw_log);
         }
 
-        results = await orderQuery.queryOrder("Gift")
-        let orderID = results.clasificationID + '*' + results.makerownableid + '*' + results.takerownableid + '*' + results.makerID + '*' + results.hashID
+        results = await orderQuery.queryOrder()
+        listResponse = await helper.FindInResponse("orders", results, "Gift")
+        let orderID = listResponse.classificationID + '*' + listResponse.makerOwnableID + '*' + listResponse.takerOwnableID + '*' + listResponse.makerID + '*' + listResponse.hashID
 
         res = await orderCancel.cancel(wallet.address, config.chain_id, mnemonic, identityID2, orderID, 25, "stake", 200000, "block")
         check = await helper.checkRawLog(res.raw_log)

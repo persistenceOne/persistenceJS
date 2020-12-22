@@ -41,9 +41,7 @@ class mintAsset extends persistenceClass {
                 }
 
                 let result = JSON.parse(response.body)
-
-                let tx = result.value
-                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, result.value, chain_id, mode));
             });
         }).catch(function (error) {
             console.log("Promise Rejected: " + error);

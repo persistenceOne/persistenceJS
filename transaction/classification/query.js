@@ -4,7 +4,7 @@ const Promise = require('promise');
 const persistenceClass = require('../../utilities/persistenceJS')
 
 class cls extends persistenceClass {
-    async queryClassification(id) {
+    async queryClassification() {
         let path = this.path
 
         let options = {
@@ -14,10 +14,6 @@ class cls extends persistenceClass {
             }
         };
 
-        let data = {
-            'clasificationID': '',
-            'hashID': ''
-        }
         return new Promise(function(resolve, reject) {
             request(options, async function (error, res) {
                 if (error) {
@@ -26,15 +22,7 @@ class cls extends persistenceClass {
 
                 let result = JSON.parse(res.body)
                 let list = result.result.list
-                if(list != null) {
-                    list.forEach(function (value) {
-                        if (value.value.immutableTraits.value.properties.value.propertyList[0].value.id.value.idString === id) {
-                            data.chainID = value.value.id.value.chainID.value.idString
-                            data.hashID = value.value.id.value.hashID.value.idString
-                        }
-                    });
-                }
-                resolve(data)
+                resolve(list)
             });
         }).catch(function (error) {
             console.log("Promise Rejected: " + error);

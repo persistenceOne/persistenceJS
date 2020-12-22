@@ -4,17 +4,14 @@ const Promise = require('promise');
 const persistenceClass = require('../../utilities/persistenceJS')
 
 class queryAssets extends persistenceClass {
-    async queryAsset(id) {
+    async queryAsset() {
         let path = this.path
         let options = {
             'method': 'GET',
             'url': path + config.queryAssetPath,
             'headers': {}
         };
-        let data = {
-            'clasificationID': '',
-            'hashID': ''
-        }
+
         return new Promise(function (resolve, reject) {
             request(options, async function (error, res) {
                 if (error) {
@@ -22,15 +19,7 @@ class queryAssets extends persistenceClass {
                 }
                 let result = JSON.parse(res.body)
                 let list = result.result.list
-                if(list != null){
-                    list.forEach(function (value) {
-                        if (value.value.immutables.value.properties.value.propertyList[0].value.id.value.idString === id) {
-                            data.clasificationID = value.value.id.value.classificationID.value.idString
-                            data.hashID = value.value.id.value.hashID.value.idString
-                        }
-                    });
-                }
-                resolve(data)
+                resolve(list)
             });
         }).catch(function (error) {
             console.log("Promise Rejected: " + error);
