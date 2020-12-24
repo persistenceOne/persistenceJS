@@ -11,14 +11,18 @@ class makeOrder extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.makeOrderType,
+            'url': path + config.makeOrderPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.makeOrderType + "/request",
+                "type":config.makeOrderType,
                 "value":{
-                    "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                    "baseReq":{"from":address,
+                        "chain_id":chain_id,
+                        "memo":memo,
+                        "fees": [{"amount": String(feesAmount), "denom": feesToken}],
+                        "gas": String(gas)},
                     "fromID":fromID,
                     "classificationID":classificationID,
                     "makerOwnableID":makerOwnableID,
@@ -38,16 +42,8 @@ class makeOrder extends persistenceClass {
                 if (error) {
                     reject(error);
                 }
-    
                 let result = JSON.parse(response.body)
-    
-                let tx = {
-                    msg: result.value.msg,
-                    fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
-                    signatures:null,
-                    memo:result.value.memo
-                }
-                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, result.value, chain_id, mode));
             });
         }).catch(function (error) {
             console.log("Promise Rejected: " + error);

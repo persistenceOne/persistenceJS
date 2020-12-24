@@ -12,17 +12,21 @@ class unwrapsplits extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.unwrapType,
+            'url': path + config.unwrapCoinPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.unwrapType + "/request",
+                "type":config.unwrapCoinType,
                 "value":{
-                    "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
-                    fromID:fromID,
-                    ownableID:ownableID,
-                    split:split
+                    "baseReq":{"from":address,
+                        "chain_id":chain_id,
+                        "memo":memo,
+                        "fees": [{"amount": String(feesAmount), "denom": feesToken}],
+                        "gas": String(gas)},
+                    "fromID":fromID,
+                    "ownableID":ownableID,
+                    "split":split
                 }
             })
         };
@@ -32,16 +36,8 @@ class unwrapsplits extends persistenceClass {
                 if (error) {
                     reject(error);
                 }
-    
                 let result = JSON.parse(response.body)
-    
-                let tx = {
-                    msg: result.value.msg,
-                    fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
-                    signatures:null,
-                    memo:result.value.memo
-                }
-                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, result.value, chain_id, mode));
             });
         }).catch(function (error) {
             console.log("Promise Rejected: " + error);

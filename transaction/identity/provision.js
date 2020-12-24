@@ -11,14 +11,18 @@ class provisionIdentity extends persistenceClass {
 
         let options = {
             'method': 'POST',
-            'url': path + config.provisionType,
+            'url': path + config.provisionKeyPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.provisionType + "/request",
+                "type":config.provisionKeyType,
                 "value":{
-                    "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                    "baseReq":{"from":address,
+                        "chain_id":chain_id,
+                        "memo":memo,
+                        "fees": [{"amount": String(feesAmount), "denom": feesToken}],
+                        "gas": String(gas)},
                     "identityID":identityID,
                     "to":to
                 }
@@ -29,16 +33,8 @@ class provisionIdentity extends persistenceClass {
                 if (error) {
                     reject(error);
                 }
-    
                 let result = JSON.parse(response.body)
-    
-                let tx = {
-                    msg: result.value.msg,
-                    fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
-                    signatures:null,
-                    memo:result.value.memo
-                }
-                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, result.value, chain_id, mode));
             });
         }).catch(function (error) {
             console.log("Promise Rejected: " + error);

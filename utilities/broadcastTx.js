@@ -6,13 +6,18 @@ const request = require('request');
 function broadcastTx(path, wallet, tx, chainID, mode) {
 
     return new Promise((resolve, reject) => {
-
         helper.getAccount(wallet.address, path).then(account => {
            if(account.hasOwnProperty('error')){
-                return reject("Account for " + wallet.address + " not found.");
+               let data = {}
+               data.raw_log = "Account for " + wallet.address + " not found."
+               console.log(JSON.stringify(data))
+               return reject(data);
             }
             if (Object.keys(account.result.value.address).length === 0) {
-                return reject("Account for " + wallet.address + " not found.");
+                let data = {}
+                data.raw_log = "Account for " + wallet.address + " not found."
+                console.log(JSON.stringify(data))
+                return reject(data);
             }
 
             let accountNum = account.result.value.account_number;
@@ -32,12 +37,7 @@ function broadcastTx(path, wallet, tx, chainID, mode) {
             let stdTx = tmSig.signTx(tx, signMeta, wallet);
 
             let broadcastReq = {
-                tx: {
-                    msg: stdTx.msg,
-                    fee: stdTx.fee,
-                    signatures: stdTx.signatures,
-                    memo: stdTx.memo
-                },
+                tx: stdTx,
                 mode: mode
             }
 

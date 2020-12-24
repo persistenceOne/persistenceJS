@@ -11,14 +11,18 @@ class nubIdentity extends persistenceClass {
     
         let options = {
             'method': 'POST',
-            'url': path + config.nubType,
+            'url': path + config.nubPath,
             'headers': {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "type":config.nubType + "/request",
+                "type":config.nubType,
                 "value":{
-                    "baseReq":{"from":address,"chain_id":chain_id,"memo":memo},
+                    "baseReq":{"from":address,
+                        "chain_id":chain_id,
+                        "memo":memo,
+                        "fees": [{"amount": String(feesAmount), "denom": feesToken}],
+                        "gas": String(gas)},
                     "nubID":nubID
                 }
             })
@@ -29,14 +33,7 @@ class nubIdentity extends persistenceClass {
                     return reject(error);
                 }
                 let result = JSON.parse(response.body)
-    
-                let tx = {
-                    msg: result.value.msg,
-                    fee: {amount: [{amount: String(feesAmount), denom: feesToken}], gas: String(gas)},
-                    signatures:null,
-                    memo:result.value.memo
-                }
-                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, result.value, chain_id, mode));
             })
         }).catch(function (error) {
             console.log("Promise Rejected: " + error);

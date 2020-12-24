@@ -31,22 +31,8 @@ class bank extends persistenceClass {
                 if (error) {
                     reject(error);
                 }
-    
                 let result = JSON.parse(response.body)
-    
-                let tx = {
-                    msg: result.value.msg,
-                    fee: {
-                        amount: [{
-                            amount: String(feesAmount),
-                            denom: feesToken
-                        }],
-                        gas: String(gas)
-                    },
-                    signatures:null,
-                    memo:result.value.memo
-                }
-                resolve(broadcast.broadcastTx(path, wallet, tx, chain_id, mode));
+                resolve(broadcast.broadcastTx(path, wallet, result.value, chain_id, mode));
             });
         }).catch(function (error) {
             console.log("Promise Rejected: " + error);
