@@ -52,7 +52,7 @@
   "queryIdentityPath": "/identities/identities/_",
   "queryAssetPath": "/assets/assets/-",
   "queryOrderPath": "/orders/orders/_",
-  "queryIdentityWithID": "/xprt/identities/identities/",
+  "queryIdentityWithID": "/identities/identities/",
   "queryAssetWithID": "/assets/assets/",
   "queryOrderWithID": "/orders/orders/",
   "queryClsWithID": "/classifications/classifications/",
