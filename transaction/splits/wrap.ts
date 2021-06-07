@@ -1,35 +1,33 @@
-const keys = require("../../utilities/keys");
-const broadcast = require("../../utilities/broadcastTx");
-const config = require("../../config.json");
-const request = require("request");
-const persistenceClass = require("../../utilities/persistenceJS");
+import * as config from "../../config.json";
+import { request } from "request";
+import { Persistence } from "../../utilities/persistenceJS";
+import { broadcastTx } from "../../utilities/broadcastTx";
+import { getWallet } from "../../utilities/keys";
 
-class sendSplits extends persistenceClass {
-  async send(
-    address,
-    chain_id,
-    mnemonic,
-    fromID,
-    toID,
-    ownableID,
-    split,
-    feesAmount,
-    feesToken,
-    gas,
-    mode,
-    memo = ""
-  ) {
-    const wallet = keys.getWallet(mnemonic);
+class wrapSplits extends Persistence {
+  wrap = async (
+      address: string,
+      chain_id: string,
+      mnemonic: string,
+      fromID: string,
+      coins: any,
+      feesAmount: any,
+      feesToken: any,
+      gas: any,
+      mode: any,
+      memo: string
+  ): Promise<any> => {
+    const wallet = getWallet(mnemonic, "");
     let path = this.path;
 
     let options = {
       method: "POST",
-      url: path + config.sendSplitPath,
+      url: path + config.wrapCoinPath,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        type: config.sendSplitType,
+        type: config.wrapCoinType,
         value: {
           baseReq: {
             from: address,
@@ -39,13 +37,10 @@ class sendSplits extends persistenceClass {
             gas: String(gas),
           },
           fromID: fromID,
-          toID: toID,
-          ownableID: ownableID,
-          split: split,
+          coins: coins,
         },
       }),
     };
-
     return new Promise(function (resolve, reject) {
       request(options, function (error, response) {
         if (error) {
@@ -53,7 +48,7 @@ class sendSplits extends persistenceClass {
         }
         let result = JSON.parse(response.body);
         resolve(
-          broadcast.broadcastTx(path, wallet, result.value, chain_id, mode)
+          broadcastTx(path, wallet, result.value, chain_id, mode)
         );
       });
     }).catch(function (error) {
@@ -63,4 +58,4 @@ class sendSplits extends persistenceClass {
   }
 }
 
-module.exports = sendSplits;
+module.exports = wrapSplits;

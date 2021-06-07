@@ -1,10 +1,9 @@
-const config = require("../../config.json");
-const request = require("request");
-const Promise = require("promise");
-const persistenceClass = require("../../utilities/persistenceJS");
+import * as config from "../../config.json";
+import { request } from "request";
+import { Persistence } from "../../utilities/persistenceJS";
 
-class querySplits extends persistenceClass {
-  async querySplitsWithID(id) {
+class querySplits extends Persistence {
+  querySplitsWithID = async (id: any): Promise<any> => {
     let path = this.path;
 
     let options = {
