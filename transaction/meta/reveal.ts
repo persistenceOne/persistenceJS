@@ -1,33 +1,32 @@
-const keys = require("../../utilities/keys");
-const broadcast = require("../../utilities/broadcastTx");
-const config = require("../../config.json");
-const request = require("request");
-const persistenceClass = require("../../utilities/persistenceJS");
+import * as config from "../../config.json";
+import { request } from "request";
+import { Persistence } from "../../utilities/persistenceJS";
+import { broadcastTx } from "../../utilities/broadcastTx";
+import { getWallet } from "../../utilities/keys";
 
-class wrapsplits extends persistenceClass {
-  async wrap(
-    address,
-    chain_id,
-    mnemonic,
-    fromID,
-    coins,
-    feesAmount,
-    feesToken,
-    gas,
-    mode,
-    memo = ""
-  ) {
-    const wallet = keys.getWallet(mnemonic);
+class revealMeta extends Persistence {
+  reveal = async (
+      address: string,
+      chain_id: string,
+      mnemonic: any,
+      metaFact: any,
+      feesAmount: any,
+      feesToken: any,
+      gas: any,
+      mode: any,
+      memo: string
+  ): Promise<any> => {
+    const wallet = getWallet(mnemonic, "");
     let path = this.path;
 
     let options = {
       method: "POST",
-      url: path + config.wrapCoinPath,
+      url: path + config.metaRevealPath,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        type: config.wrapCoinType,
+        type: config.metaRevealType,
         value: {
           baseReq: {
             from: address,
@@ -36,8 +35,7 @@ class wrapsplits extends persistenceClass {
             fees: [{ amount: String(feesAmount), denom: feesToken }],
             gas: String(gas),
           },
-          fromID: fromID,
-          coins: coins,
+          metaFact: metaFact,
         },
       }),
     };
@@ -48,7 +46,7 @@ class wrapsplits extends persistenceClass {
         }
         let result = JSON.parse(response.body);
         resolve(
-          broadcast.broadcastTx(path, wallet, result.value, chain_id, mode)
+          broadcastTx(path, wallet, result.value, chain_id, mode)
         );
       });
     }).catch(function (error) {
@@ -57,5 +55,4 @@ class wrapsplits extends persistenceClass {
     });
   }
 }
-
-module.exports = wrapsplits;
+module.exports = revealMeta;

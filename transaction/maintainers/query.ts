@@ -1,15 +1,14 @@
-const config = require("../../config.json");
-const request = require("request");
-const Promise = require("promise");
-const persistenceClass = require("../../utilities/persistenceJS");
+import * as config from "../../config.json";
+import { request } from "request";
+import { Persistence } from "../../utilities/persistenceJS";
 
-class querySplits extends persistenceClass {
-  async querySplitsWithID(id) {
+class queryMaintainer extends Persistence {
+  queryMaintainerWithID = async (id: any): Promise<any> => {
     let path = this.path;
 
     let options = {
       method: "GET",
-      url: path + config.querySplitWithID + id,
+      url: path + config.queryMaintainerWithID + id,
       headers: {},
     };
     return new Promise(function (resolve, reject) {
@@ -26,4 +25,4 @@ class querySplits extends persistenceClass {
   }
 }
 
-module.exports = querySplits;
+module.exports = queryMaintainer;

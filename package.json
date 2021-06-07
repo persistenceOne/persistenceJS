@@ -25,7 +25,15 @@
     "buffer": "^5.6.0",
     "crypto": "^1.0.1",
     "node-fetch": "^2.6.1",
+    "prettier": "^2.3.1",
     "promise": "^8.1.0",
-    "request": "^2.88.2"
-  }
+    "request": "^2.88.2",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.3"
+  },
+  "devDependencies": {
+    "@cosmjs/stargate": "^0.25.4"
+  },
+  "resolveJsonModule": true,
+  "esModuleInterop": true
 }

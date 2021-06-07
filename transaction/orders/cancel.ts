@@ -1,35 +1,34 @@
-const keys = require("../../utilities/keys");
-const broadcast = require("../../utilities/broadcastTx");
-const config = require("../../config.json");
-const request = require("request");
-const Promise = require("promise");
-const persistenceClass = require("../../utilities/persistenceJS");
+import * as config from "../../config.json";
+import { request } from "request";
+import { Persistence } from "../../utilities/persistenceJS";
+import { broadcastTx } from "../../utilities/broadcastTx";
+import { getWallet } from "../../utilities/keys";
 
-class unwrapsplits extends persistenceClass {
-  async unwrap(
-    address,
-    chain_id,
-    mnemonic,
-    fromID,
-    ownableID,
-    split,
-    feesAmount,
-    feesToken,
-    gas,
-    mode,
-    memo = ""
-  ) {
-    const wallet = keys.getWallet(mnemonic);
+
+class cancelOrder extends Persistence {
+  cancel = async (
+      address: string,
+      chain_id: string,
+      mnemonic: string,
+      fromID: string,
+      orderID: any,
+      feesAmount: any,
+      feesToken: any,
+      gas: any,
+      mode: any,
+      memo: string
+  ): Promise<any> => {
+    const wallet = getWallet(mnemonic, "");
     let path = this.path;
 
     let options = {
       method: "POST",
-      url: path + config.unwrapCoinPath,
+      url: path + config.cancelOrderPath,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        type: config.unwrapCoinType,
+        type: config.cancelOrderType,
         value: {
           baseReq: {
             from: address,
@@ -39,8 +38,7 @@ class unwrapsplits extends persistenceClass {
             gas: String(gas),
           },
           fromID: fromID,
-          ownableID: ownableID,
-          split: split,
+          orderID: orderID,
         },
       }),
     };
@@ -52,7 +50,7 @@ class unwrapsplits extends persistenceClass {
         }
         let result = JSON.parse(response.body);
         resolve(
-          broadcast.broadcastTx(path, wallet, result.value, chain_id, mode)
+          broadcastTx(path, wallet, result.value, chain_id, mode)
         );
       });
     }).catch(function (error) {
@@ -62,4 +60,4 @@ class unwrapsplits extends persistenceClass {
   }
 }
 
-module.exports = unwrapsplits;
+module.exports = cancelOrder;
