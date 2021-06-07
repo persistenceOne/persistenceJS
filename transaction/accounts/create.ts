@@ -1,9 +1,8 @@
-// @ts-ignore
 import * as config from "../../config.json";
-import { request } from "request";
+import Request from "request";
 import { Persistence } from "../../utilities/persistenceJS";
 
-class createAccount extends Persistence {
+export class createAccount extends Persistence {
   create = async (
     address: string,
     chain_id: string,
@@ -18,10 +17,10 @@ class createAccount extends Persistence {
       address: "",
       hash: "",
     };
-
+    let path = this.path
     let keyAddOptions = {
       method: "POST",
-      url: this.path + config.keysAdd,
+      url: path + config.keysAdd,
       headers: {
         "Content-Type": "application/json",
       },
@@ -29,7 +28,7 @@ class createAccount extends Persistence {
     };
     // @ts-ignore
     return new Promise(function (resolve, reject) {
-      request(keyAddOptions, function (error, response) {
+      Request(keyAddOptions, function (error: any, response: { body: string; }) {
         if (error) {
           reject(error);
         }
@@ -39,7 +38,7 @@ class createAccount extends Persistence {
 
         let signOptions = {
           method: "POST",
-          url: this.path + config.signTx,
+          url: path + config.signTx,
           headers: {
             "Content-Type": "application/json",
           },
@@ -68,7 +67,7 @@ class createAccount extends Persistence {
             },
           }),
         };
-        request(signOptions, function (error, response) {
+        Request(signOptions, function (error: string | undefined, response: { body: string; }) {
           if (error) throw new Error(error);
           console.log(response.body);
           let result = JSON.parse(response.body);
@@ -78,7 +77,7 @@ class createAccount extends Persistence {
 
           let broadcastOptions = {
             method: "POST",
-            url: this.path + config.broadcastTx,
+            url: path + config.broadcastTx,
             headers: {
               "Content-Type": "application/json",
             },
@@ -114,7 +113,7 @@ class createAccount extends Persistence {
               mode: "sync",
             }),
           };
-          request(broadcastOptions, function (error, resp) {
+          Request(broadcastOptions, function (error: string | undefined, resp: { body: string; }) {
             if (error) throw new Error(error);
             let result = JSON.parse(resp.body);
             x.hash = result.txhash;
@@ -128,7 +127,3 @@ class createAccount extends Persistence {
     });
   };
 }
-
-module.exports = {
-  createAccount,
-};

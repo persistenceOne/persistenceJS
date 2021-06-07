@@ -2,35 +2,36 @@
 import { tmSig } from "@tendermint/sig";
 import * as config from "../config.json";
 import { getAccount } from "../helpers/helper";
-import { request } from "request";
+import Request from "request";
 
-export const broadcastTx = (
+export const broadcastTx = async(
   path: any,
   wallet: any,
   tx: any,
   chainID: any,
   mode: any
 ): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    getAccount(wallet.address, path).then((account) => {
-      if (account.hasOwnProperty("error")) {
-        let data = {};
+  let getAcc = await getAccount(wallet.address, path);
+  let data = {
+    raw_log: ""
+  };
+  return new Promise((resolve, reject) =>{
+      if (getAcc.hasOwnProperty("error")) {
         data.raw_log = "Account for " + wallet.address + " not found.";
         console.log(JSON.stringify(data));
         return reject(data);
       }
-      if (Object.keys(account.result.value.address).length === 0) {
-        let data = {};
+      if (Object.keys(getAcc.result.value.address).length === 0) {
         data.raw_log = "Account for " + wallet.address + " not found.";
         console.log(JSON.stringify(data));
         return reject(data);
       }
 
-      let accountNum = account.result.value.account_number;
+      let accountNum = getAcc.result.value.account_number;
       if (accountNum === undefined) {
         accountNum = String(0);
       }
-      let seq = account.result.value.sequence;
+      let seq = getAcc.result.value.sequence;
       if (seq === undefined) {
         seq = String(0);
       }
@@ -55,14 +56,14 @@ export const broadcastTx = (
         },
         body: JSON.stringify(broadcastReq),
       };
-      request(options, function (error, response) {
+      Request(options, function (error: any, response: { body: string; }) {
         if (error) {
           return error;
         }
         let data = JSON.parse(response.body);
         resolve(data);
       });
-    });
+
   }).catch((error) => {
     console.log("Promise Rejected: " + error);
     return error;
@@ -72,7 +73,7 @@ export const broadcastTx = (
 const getTxResponse = (response: any): Promise<any> => {
   return new Promise((resolve, reject) => {
     if (response.code) {
-      reject(JSON.stringify(response.raw_log).message);
+      //reject(JSON.stringify(response.raw_log).message);
     } else if (response.error) {
       reject(response.error);
     } else {

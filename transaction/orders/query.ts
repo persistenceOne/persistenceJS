@@ -1,8 +1,8 @@
 import * as config from "../../config.json";
-import { request } from "request";
+import Request from "request";
 import { Persistence } from "../../utilities/persistenceJS";
 
-class queryOrders extends Persistence {
+export class queryOrders extends Persistence {
   queryOrder = async (): Promise<any> => {
     let path = this.path;
 
@@ -13,7 +13,7 @@ class queryOrders extends Persistence {
     };
 
     return new Promise(function (resolve, reject) {
-      request(options, async function (error, res) {
+      Request(options, async function (error: any, res: { body: string; }) {
         if (error) {
           reject(error);
         }
@@ -35,7 +35,7 @@ class queryOrders extends Persistence {
       headers: {},
     };
     return new Promise(function (resolve, reject) {
-      request(options, async function (error, res) {
+      Request(options, async function (error: any, res: { body: unknown; }) {
         if (error) {
           reject(error);
         }
@@ -47,5 +47,3 @@ class queryOrders extends Persistence {
     });
   }
 }
-
-module.exports = queryOrders;

@@ -1,10 +1,10 @@
 import * as config from "../../config.json";
-import { request } from "request";
+import Request from "request";
 import { Persistence } from "../../utilities/persistenceJS";
 import { broadcastTx } from "../../utilities/broadcastTx";
 import { getWallet } from "../../utilities/keys";
 
-class unwrapsplits extends Persistence {
+export class unwrapsplits extends Persistence {
   unwrap = async (
       address: string,
       chain_id: string,
@@ -45,7 +45,7 @@ class unwrapsplits extends Persistence {
     };
 
     return new Promise(function (resolve, reject) {
-      request(options, function (error, response) {
+      Request(options, function (error: any, response: { body: string; }) {
         if (error) {
           reject(error);
         }
@@ -61,4 +61,4 @@ class unwrapsplits extends Persistence {
   }
 }
 
-module.exports = unwrapsplits;
+

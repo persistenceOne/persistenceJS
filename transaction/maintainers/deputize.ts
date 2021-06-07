@@ -1,10 +1,10 @@
 import * as config from "../../config.json";
-import { request } from "request";
+import Request from "request";
 import { Persistence } from "../../utilities/persistenceJS";
 import { broadcastTx } from "../../utilities/broadcastTx";
 import { getWallet } from "../../utilities/keys";
 
-class deputizeMaintainer extends Persistence {
+export class deputizeMaintainer extends Persistence {
 
   deputize = async (
       address: string,
@@ -53,7 +53,7 @@ class deputizeMaintainer extends Persistence {
       }),
     };
     return new Promise(function (resolve, reject) {
-      request(options, function (error, response) {
+      Request(options, function (error: any, response: { body: string; }) {
         if (error) {
           reject(error);
         }
@@ -68,4 +68,3 @@ class deputizeMaintainer extends Persistence {
     });
   }
 }
-module.exports = deputizeMaintainer;

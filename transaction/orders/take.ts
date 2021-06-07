@@ -1,10 +1,10 @@
 import * as config from "../../config.json";
-import { request } from "request";
+import Request from "request";
 import { Persistence } from "../../utilities/persistenceJS";
 import { broadcastTx } from "../../utilities/broadcastTx";
 import { getWallet } from "../../utilities/keys";
 
-class takeOrder extends Persistence {
+export class takeOrder extends Persistence {
   take = async (
       address: string,
       chain_id: string,
@@ -44,7 +44,7 @@ class takeOrder extends Persistence {
       }),
     };
     return new Promise(function (resolve, reject) {
-      request(options, function (error, response) {
+      Request(options, function (error: any, response: { body: string; }) {
         if (error) {
           reject(error);
         }
@@ -59,5 +59,3 @@ class takeOrder extends Persistence {
     });
   }
 }
-
-module.exports = takeOrder;

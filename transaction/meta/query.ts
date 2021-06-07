@@ -1,8 +1,8 @@
 import * as config from "../../config.json";
-import { request } from "request";
+import Request from "request";
 import { Persistence } from "../../utilities/persistenceJS";
 
-class queryMeta extends Persistence {
+export class queryMeta extends Persistence {
   queryMetaWithID = async (id: any): Promise<any> => {
     let path = this.path;
 
@@ -12,7 +12,7 @@ class queryMeta extends Persistence {
       headers: {},
     };
     return new Promise(function (resolve, reject) {
-      request(options, async function (error, res) {
+      Request(options, async function (error: any, res: { body: unknown; }) {
         if (error) {
           reject(error);
         }
@@ -24,5 +24,3 @@ class queryMeta extends Persistence {
     });
   }
 }
-
-module.exports = queryMeta;

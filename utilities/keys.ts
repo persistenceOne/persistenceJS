@@ -24,11 +24,11 @@ export const getWallet = (
   });
 };
 
-export const createRandomWallet = (
+export const createRandomWallet = async(
   bip39Passphrase: string
-): { address: string; mnemonic: string } => {
+): Promise<{ address: string; mnemonic: string }> => {
   const mnemonic = bip39.generateMnemonic(256);
-  const walletInfo = getWallet(mnemonic, bip39Passphrase);
+  const walletInfo = await getWallet(mnemonic, bip39Passphrase);
 
   return {
     address: walletInfo.address,
@@ -36,13 +36,13 @@ export const createRandomWallet = (
   };
 };
 
-export const createWallet = (
+export const createWallet = async(
   mnemonic: string,
   bip39Passphrase: string
-): { address: string; mnemonic: string } => {
+): Promise<{ address: string; mnemonic: string }> => {
   let validateMnemonic = bip39.validateMnemonic(mnemonic);
   if (validateMnemonic) {
-    const walletInfo = getWallet(mnemonic, bip39Passphrase);
+    const walletInfo = await getWallet(mnemonic, bip39Passphrase);
     return {
       address: walletInfo.address,
       mnemonic: mnemonic,

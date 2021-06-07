@@ -1,9 +1,9 @@
-// @ts-ignore
 import * as config from "../../config.json";
-import { request } from "request";
+import Request from "request";
 import { Persistence } from "../../utilities/persistenceJS";
+//import {Promise} from 'es6-promise';
 
-class recoverAccount extends Persistence {
+export class recoverAccount extends Persistence {
   recover = async (mnemonic: string, name: string): Promise<any> => {
     let options = {
       method: "POST",
@@ -14,14 +14,14 @@ class recoverAccount extends Persistence {
       body: JSON.stringify({ name: name, mnemonic: mnemonic }),
     };
     return new Promise(function (resolve, reject) {
-      request(options, function (error, response) {
+      Request(options, function (error: any, response: { body: string; }) {
         if (error) {
           reject(error);
         }
 
         let result = JSON.parse(response.body);
         let address = result.address;
-        resolve(address);
+        Promise.resolve(address);
       });
     }).catch(function (error) {
       console.log("Promise Rejected: " + error);
@@ -29,7 +29,3 @@ class recoverAccount extends Persistence {
     });
   };
 }
-
-module.exports = {
-  recoverAccount,
-};

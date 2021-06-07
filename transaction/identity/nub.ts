@@ -1,10 +1,10 @@
 import * as config from "../../config.json";
-import { request } from "request";
+import Request from "request";
 import { Persistence } from "../../utilities/persistenceJS";
 import { broadcastTx } from "../../utilities/broadcastTx";
 import { getWallet } from "../../utilities/keys";
 
-class nubIdentity extends Persistence {
+export class nubIdentity extends Persistence {
   nub = async (
       address: string,
       chain_id: string,
@@ -40,7 +40,7 @@ class nubIdentity extends Persistence {
       }),
     };
     return new Promise(function (resolve, reject) {
-      request(options, function (error, response) {
+      Request(options, function (error: any, response: { body: string; }) {
         if (error) {
           return reject(error);
         }
@@ -55,5 +55,3 @@ class nubIdentity extends Persistence {
     });
   }
 }
-
-module.exports = nubIdentity;

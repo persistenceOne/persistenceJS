@@ -1,8 +1,8 @@
 import * as config from "../../config.json";
-import { request } from "request";
+import Request from "request";
 import { Persistence } from "../../utilities/persistenceJS";
 
-class querySplits extends Persistence {
+export class querySplits extends Persistence {
   querySplitsWithID = async (id: any): Promise<any> => {
     let path = this.path;
 
@@ -12,7 +12,7 @@ class querySplits extends Persistence {
       headers: {},
     };
     return new Promise(function (resolve, reject) {
-      request(options, async function (error, res) {
+      Request(options, async function (error: any, res: { body: unknown; }) {
         if (error) {
           reject(error);
         }
@@ -24,5 +24,3 @@ class querySplits extends Persistence {
     });
   }
 }
-
-module.exports = querySplits;

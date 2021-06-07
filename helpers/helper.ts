@@ -1,8 +1,6 @@
-// @ts-ignore
 import * as config from "../config.json";
-import { fetch } from "node-fetch";
-
-let _fetch = fetch.default;
+import fetch from 'node-fetch';
+import {Promise} from 'es6-promise';
 
 export const checkRawLog = (log: string): Promise<boolean> => {
   return new Promise(function (resolve) {
@@ -20,7 +18,7 @@ export const checkRawLog = (log: string): Promise<boolean> => {
 };
 
 export const getAccount = (address: string, path: string): Promise<any> => {
-  return _fetch(path + config.getAccount + address)
+  return fetch(path + config.getAccount + address)
     .then((response) => response.json())
     .catch((err) => console.log(JSON.stringify(err)));
 };
@@ -43,8 +41,10 @@ export const FindInResponse = (
     hashID: "",
   };
 
+  console.log("value: ",list)
+
   return new Promise(function (resolve, reject) {
-    switch (type) {
+    /*switch (type) {
       case "assets":
         list.forEach(function (value) {
           if (
@@ -101,6 +101,6 @@ export const FindInResponse = (
           }
         });
         break;
-    }
+    }*/
   });
 };

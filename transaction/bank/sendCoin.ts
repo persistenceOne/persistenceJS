@@ -1,9 +1,9 @@
-import { request } from "request";
+import Request from "request";
 import { Persistence } from "../../utilities/persistenceJS";
 import { broadcastTx } from "../../utilities/broadcastTx";
 import { getWallet } from "../../utilities/keys";
 
-class bank extends Persistence {
+export class bank extends Persistence {
   sendCoin = async (
     address: string,
     chain_id: string,
@@ -27,7 +27,7 @@ class bank extends Persistence {
       },
       body: JSON.stringify({
         base_req: {
-          from: wallet.address,
+          from: wallet,
           chain_id: chain_id,
           memo: memo,
         },
@@ -40,7 +40,7 @@ class bank extends Persistence {
       }),
     };
     return new Promise(function (resolve, reject) {
-      request(options, function (error, response) {
+      Request(options, function (error: any, response: { body: string; }) {
         if (error) {
           reject(error);
         }
@@ -53,5 +53,3 @@ class bank extends Persistence {
     });
   };
 }
-
-module.exports = bank;

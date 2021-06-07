@@ -1,10 +1,10 @@
 import * as config from "../../config.json";
-import { request } from "request";
+import Request from "request"
 import { Persistence } from "../../utilities/persistenceJS";
 import { broadcastTx } from "../../utilities/broadcastTx";
 import { getWallet } from "../../utilities/keys";
 
-class defineAsset extends Persistence {
+export class defineAsset extends Persistence {
   define = async (
     address: string,
     chain_id: string,
@@ -48,7 +48,7 @@ class defineAsset extends Persistence {
       }),
     };
     return new Promise(function (resolve, reject) {
-      request(options, function (error, response) {
+      Request(options, function (error: any, response: { body: string; }) {
         if (error) {
           reject(error);
         }
@@ -61,5 +61,3 @@ class defineAsset extends Persistence {
     });
   };
 }
-
-module.exports = defineAsset;
