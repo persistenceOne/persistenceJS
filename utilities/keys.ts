@@ -1,11 +1,7 @@
-// @ts-ignore
-import { bip39 } from "bip39";
-// @ts-ignore
-import { bip32 } from "bip32";
-// @ts-ignore
-import { tmSig } from "@tendermint/sig";
-// @ts-ignore
-import { crypto } from "crypto";
+import * as bip39 from "bip39";
+import * as bip32  from "bip32";
+import * as tmSig  from "@tendermint/sig";
+import * as crypto  from "crypto";
 import * as config from "../config.json";
 
 const passwordHashAlgorithm = "sha512";
@@ -27,7 +23,7 @@ export const getWallet = (
 export const createRandomWallet = async(
   bip39Passphrase: string
 ): Promise<{ address: string; mnemonic: string }> => {
-  const mnemonic = bip39.generateMnemonic(256);
+  const mnemonic = await bip39.generateMnemonic(256);
   const walletInfo = await getWallet(mnemonic, bip39Passphrase);
 
   return {

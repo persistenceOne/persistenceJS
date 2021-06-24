@@ -1,7 +1,7 @@
 import * as config from "../../config.json";
-import { MsgSend } from('@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx');
 import { Persistence } from "../../utilities/persistenceJS";
 import { getWallet } from "../../utilities/keys";
+import {MsgSend} from "@cosmjs/stargate/build/codec/cosmos/bank/v1beta1/tx";
 
 class keplr extends Persistence {
   createMsg = async (
@@ -17,7 +17,7 @@ class keplr extends Persistence {
       memo: string
   ): Promise<any> => {
     try {
-      const wallet = getWallet(mnemonic, "");
+      const wallet = await getWallet(mnemonic, "");
       let path = this.path;
 
       let options = {

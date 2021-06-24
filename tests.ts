@@ -97,12 +97,19 @@ async function test() {
     200000,
     "block"
   );
- /* let check = await checkRawLog(result.raw_log);
+  /*let check = await checkRawLog(result.raw_log);
   if (check) {
     console.log("\n\n**TX HASH for nub** :" + result.txhash);
   } else {
     console.log("\n\n**TX failed for nub** :" + result.raw_log);
   }*/
+
+  let check = await checkRawLog(result);
+  if (check) {
+    console.log("\n\n**TX HASH for nub** :" + JSON.stringify(result));
+  } else {
+    console.log("\n\n**TX failed for nub** :" + result);
+  }
 
   if (result) {
     let res = await sendCoin.sendCoin(

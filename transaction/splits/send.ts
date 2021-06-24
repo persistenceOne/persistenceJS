@@ -19,7 +19,7 @@ export class sendSplits extends Persistence {
       mode: any,
       memo: string
   ): Promise<any> => {
-    const wallet = getWallet(mnemonic, "");
+    const wallet = await getWallet(mnemonic, "");
     let path = this.path;
 
     let options = {

@@ -17,7 +17,7 @@ export class bank extends Persistence {
     memo: string
   ): Promise<any> => {
     let path = this.path;
-    const wallet = getWallet(mnemonic, "");
+    const wallet = await getWallet(mnemonic, "");
 
     let options = {
       method: "POST",

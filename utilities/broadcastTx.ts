@@ -1,5 +1,4 @@
-// @ts-ignore
-import { tmSig } from "@tendermint/sig";
+import  {signTx}  from '@tendermint/sig';
 import * as config from "../config.json";
 import { getAccount } from "../helpers/helper";
 import Request from "request";
@@ -12,10 +11,11 @@ export const broadcastTx = async(
   mode: any
 ): Promise<any> => {
   let getAcc = await getAccount(wallet.address, path);
+
   let data = {
     raw_log: ""
   };
-  return new Promise((resolve, reject) =>{
+  return new Promise(async(resolve, reject) =>{
       if (getAcc.hasOwnProperty("error")) {
         data.raw_log = "Account for " + wallet.address + " not found.";
         console.log(JSON.stringify(data));
@@ -41,7 +41,7 @@ export const broadcastTx = async(
         sequence: seq,
       };
 
-      let stdTx = tmSig.signTx(tx, signMeta, wallet);
+      let stdTx = await signTx(tx, signMeta, wallet);
 
       let broadcastReq = {
         tx: stdTx,

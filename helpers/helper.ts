@@ -2,7 +2,7 @@ import * as config from "../config.json";
 import fetch from 'node-fetch';
 import {Promise} from 'es6-promise';
 
-export const checkRawLog = (log: string): Promise<boolean> => {
+export const checkRawLog = (log: unknown): Promise<boolean> => {
   return new Promise(function (resolve) {
     let rawData = JSON.stringify(log);
     if (
