@@ -98,12 +98,11 @@ async function test() {
     "block"
   );
   let _res = JSON.parse(JSON.stringify(result));
-
-  let check = await checkRawLog(_res.raw_log);
+  let check = await checkRawLog(_res.rawLog);
   if (check) {
-    console.log("\n\n**TX HASH for nub** :" + _res.txhash);
+    console.log("\n\n**TX HASH for nub** :" + _res.transactionHash);
   } else {
-    console.log("\n\n**TX failed for nub** :" + _res.raw_log);
+    console.log("\n\n**TX failed for nub** :" + _res.rawLog);
   }
 
   if (result) {
@@ -119,11 +118,11 @@ async function test() {
       "block",
         ""
     );
-    let check = await checkRawLog(res.raw_log);
+    let check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Send Coin** :" + res.txhash);
+      console.log("\n\n**TX HASH for Send Coin** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Send Coin** :" + res.raw_log);
+      console.log("\n\n**TX failed for Send Coin** :" + res.rawLog);
     }
 
     let results = await identityQuery.queryIdentity();
@@ -149,11 +148,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for define identity 1** :" + res.txhash);
+      console.log("\n\n**TX HASH for define identity 1** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for define identity 1** :" + res.raw_log);
+      console.log("\n\n**TX failed for define identity 1** :" + res.rawLog);
     }
 
     results = await clsQuery.queryClassification();
@@ -181,11 +180,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for issue identity 1** :" + res.txhash);
+      console.log("\n\n**TX HASH for issue identity 1** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for issue identity 1** :" + res.raw_log);
+      console.log("\n\n**TX failed for issue identity 1** :" + res.rawLog);
     }
 
     res = await identityDefine.define(
@@ -203,11 +202,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for define identity 2** :" + res.txhash);
+      console.log("\n\n**TX HASH for define identity 2** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for define identity 2** :" + res.raw_log);
+      console.log("\n\n**TX failed for define identity 2** :" + res.rawLog);
     }
 
     results = await clsQuery.queryClassification();
@@ -235,11 +234,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for issue identity 2** :" + res.txhash);
+      console.log("\n\n**TX HASH for issue identity 2** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for issue identity 2** :" + res.raw_log);
+      console.log("\n\n**TX failed for issue identity 2** :" + res.rawLog);
     }
 
     results = await identityQuery.queryIdentity();
@@ -270,11 +269,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Provision** :" + res.txhash);
+      console.log("\n\n**TX HASH for Provision** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Provision1** :" + res.raw_log);
+      console.log("\n\n**TX failed for Provision1** :" + res.rawLog);
     }
 
     res = await identityUnprovision.unprovision(
@@ -289,11 +288,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Unprovision** :" + res.txhash);
+      console.log("\n\n**TX HASH for Unprovision** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Unprovision1** :" + res.raw_log);
+      console.log("\n\n**TX failed for Unprovision1** :" + res.rawLog);
     }
 
     res = await assetDefine.define(
@@ -311,11 +310,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for define assets** :" + res.txhash);
+      console.log("\n\n**TX HASH for define assets** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for define assets** :" + res.raw_log);
+      console.log("\n\n**TX failed for define assets** :" + res.rawLog);
     }
 
     results = await clsQuery.queryClassification();
@@ -339,11 +338,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for mint assets** :" + res.txhash);
+      console.log("\n\n**TX HASH for mint assets** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for mint assets** :" + res.raw_log);
+      console.log("\n\n**TX failed for mint assets** :" + res.rawLog);
     }
 
     results = await assetQuery.queryAsset();
@@ -364,11 +363,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for mutate assets** :" + res.txhash);
+      console.log("\n\n**TX HASH for mutate assets** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for mutate assets** :" + res.raw_log);
+      console.log("\n\n**TX failed for mutate assets** :" + res.rawLog);
     }
 
     res = await assetDefine.define(
@@ -386,11 +385,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for define assets 1** :" + res.txhash);
+      console.log("\n\n**TX HASH for define assets 1** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for define assets 1** :" + res.raw_log);
+      console.log("\n\n**TX failed for define assets 1** :" + res.rawLog);
     }
 
     results = await clsQuery.queryClassification();
@@ -414,11 +413,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for mint assets 2 ** :" + res.txhash);
+      console.log("\n\n**TX HASH for mint assets 2 ** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for mint assets 2** :" + res.raw_log);
+      console.log("\n\n**TX failed for mint assets 2** :" + res.rawLog);
     }
 
     results = await assetQuery.queryAsset();
@@ -439,11 +438,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Splits Send** :" + res.txhash);
+      console.log("\n\n**TX HASH for Splits Send** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Splits Send** :" + res.raw_log);
+      console.log("\n\n**TX failed for Splits Send** :" + res.rawLog);
     }
 
     res = await maintainerDeputize.deputize(
@@ -463,11 +462,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for maintainer deputize** :" + res.txhash);
+      console.log("\n\n**TX HASH for maintainer deputize** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for maintainer deputize** :" + res.raw_log);
+      console.log("\n\n**TX failed for maintainer deputize** :" + res.rawLog);
     }
 
     res = await assetMutate.mutate(
@@ -484,11 +483,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for mutate assets 2** :" + res.txhash);
+      console.log("\n\n**TX HASH for mutate assets 2** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for mutate assets 2** :" + res.raw_log);
+      console.log("\n\n**TX failed for mutate assets 2** :" + res.rawLog);
     }
 
     res = await metaReveal.reveal(
@@ -502,11 +501,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for meta reveal** :" + res.txhash);
+      console.log("\n\n**TX HASH for meta reveal** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for meta reveal** :" + res.raw_log);
+      console.log("\n\n**TX failed for meta reveal** :" + res.rawLog);
     }
 
     res = await splitsWrap.wrap(
@@ -521,11 +520,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Wrap** :" + res.txhash);
+      console.log("\n\n**TX HASH for Wrap** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Wrap** :" + res.raw_log);
+      console.log("\n\n**TX failed for Wrap** :" + res.rawLog);
     }
 
     res = await splitsUnwrap.unwrap(
@@ -541,11 +540,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Unwrap** :" + res.txhash);
+      console.log("\n\n**TX HASH for Unwrap** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Unwrap** :" + res.raw_log);
+      console.log("\n\n**TX failed for Unwrap** :" + res.rawLog);
     }
 
     res = await splitsSend.send(
@@ -562,11 +561,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Splits Send** :" + res.txhash);
+      console.log("\n\n**TX HASH for Splits Send** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Splits Send** :" + res.raw_log);
+      console.log("\n\n**TX failed for Splits Send** :" + res.rawLog);
     }
 
     let mutableMetaTraits =
@@ -586,11 +585,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for define Order** :" + res.txhash);
+      console.log("\n\n**TX HASH for define Order** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for define Order** :" + res.raw_log);
+      console.log("\n\n**TX failed for define Order** :" + res.rawLog);
     }
 
     results = await clsQuery.queryClassification();
@@ -617,11 +616,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Make Order ** :" + res.txhash);
+      console.log("\n\n**TX HASH for Make Order ** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Make Order ** :" + res.raw_log);
+      console.log("\n\n**TX failed for Make Order ** :" + res.rawLog);
     }
 
     results = await orderQuery.queryOrder();
@@ -649,11 +648,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Cancel Order ** :" + res.txhash);
+      console.log("\n\n**TX HASH for Cancel Order ** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Cancel Order ** :" + res.raw_log);
+      console.log("\n\n**TX failed for Cancel Order ** :" + res.rawLog);
     }
 
     res = await orderMake.make(
@@ -676,11 +675,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Make Order ** :" + res.txhash);
+      console.log("\n\n**TX HASH for Make Order ** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Make Order ** :" + res.raw_log);
+      console.log("\n\n**TX failed for Make Order ** :" + res.rawLog);
     }
 
     res = await orderTake.take(
@@ -696,11 +695,11 @@ async function test() {
       "block",
         ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Take Order ** :" + res.txhash);
+      console.log("\n\n**TX HASH for Take Order ** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Take Order ** :" + res.raw_log);
+      console.log("\n\n**TX failed for Take Order ** :" + res.rawLog);
     }
 
     res = await assetBurn.burn(
@@ -715,11 +714,11 @@ async function test() {
       "block",
       ""
     );
-    check = await checkRawLog(res.raw_log);
+    check = await checkRawLog(res.rawLog);
     if (check) {
-      console.log("\n\n**TX HASH for Asset Burn ** :" + res.txhash);
+      console.log("\n\n**TX HASH for Asset Burn ** :" + res.transactionHash);
     } else {
-      console.log("\n\n**TX failed for Asset Burn ** :" + res.raw_log);
+      console.log("\n\n**TX failed for Asset Burn ** :" + res.rawLog);
     }
   } else {
     console.log("ERROR!!");

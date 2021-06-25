@@ -1,18 +1,21 @@
-import  {signTx}  from '@tendermint/sig';
 import * as config from "../config.json";
 import { getAccount } from "../helpers/helper";
-import Request from "request";
+import {  Secp256k1HdWallet } from "@cosmjs/amino";
+import {GasPrice, SigningCosmosClient} from '@cosmjs/launchpad'
 
 export const broadcastTx = async(
   path: any,
   wallet: any,
+  mnemonic: any,
   tx: any,
   chainID: any,
+  gas: any,
+  gasPrice: any,
   mode: any
 ): Promise<any> => {
   let getAcc = await getAccount(wallet.address, path);
 
-  let data = {
+    let data = {
     raw_log: ""
   };
   return new Promise(async(resolve, reject) =>{
@@ -25,44 +28,18 @@ export const broadcastTx = async(
         return reject(data);
       }
 
-      let accountNum = getAcc.result.value.account_number;
-      if (accountNum === undefined) {
-        accountNum = String(0);
-      }
-      let seq = getAcc.result.value.sequence;
-      if (seq === undefined) {
-        seq = String(0);
-      }
-      const signMeta = {
-        account_number: accountNum,
-        chain_id: chainID,
-        sequence: seq,
-      };
+      const _wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic);
 
-      let stdTx = await signTx(tx, signMeta, wallet);
+      let concatGas = gasPrice + "stake"
 
-      let broadcastReq = {
-        tx: stdTx,
-        mode: mode,
-      };
+      let calculateGas = await GasPrice.fromString(concatGas)
 
-      let options = {
-        method: "POST",
-        url: path + config.broadcastTx,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(broadcastReq),
-      };
-      Request(options, function (error: any, response: { body: string; }) {
-        if (error) {
-          return error;
-        }
-        let data = JSON.parse(response.body);
-        resolve(data);
-      });
+      let client = new SigningCosmosClient(config.testURL, wallet.address, _wallet, calculateGas, gas, mode);
 
-  }).catch((error) => {
+      let response = await client.signAndBroadcast(tx.msg, tx.fee, "")
+      resolve(response);
+
+  }).catch((error: string) => {
     console.log("Promise Rejected: " + error);
     return error;
   });

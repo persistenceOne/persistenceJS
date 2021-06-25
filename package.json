@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/persistenceOne/persistenceJS#readme",
   "dependencies": {
+    "@cosmjs/amino": "^0.25.5",
+    "@cosmjs/launchpad": "^0.25.5",
     "@tendermint/amino-js": "^0.6.2",
     "@tendermint/belt": "^0.3.0",
     "@tendermint/sig": "^0.6.0",

@@ -1,6 +1,7 @@
 {
   "CoinDenom": "uatom",
   "FEE": 300000,
+  "GASPRICE": 0.025,
   "MSG_SENT_TYPE_URL": "/cosmos.bank.v1beta1.MsgSend",
   "REACT_APP_CHAIN_ID": "cosmos-test-1",
   "TENDERMINT_RPC_URL": "https://test.rpc.cosmos.audit.one",
