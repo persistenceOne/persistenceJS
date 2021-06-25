@@ -27,7 +27,7 @@ export class bank extends Persistence {
       },
       body: JSON.stringify({
         base_req: {
-          from: wallet,
+          from: wallet.address,
           chain_id: chain_id,
           memo: memo,
         },

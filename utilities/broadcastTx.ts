@@ -18,12 +18,10 @@ export const broadcastTx = async(
   return new Promise(async(resolve, reject) =>{
       if (getAcc.hasOwnProperty("error")) {
         data.raw_log = "Account for " + wallet.address + " not found.";
-        console.log(JSON.stringify(data));
         return reject(data);
       }
       if (Object.keys(getAcc.result.value.address).length === 0) {
         data.raw_log = "Account for " + wallet.address + " not found.";
-        console.log(JSON.stringify(data));
         return reject(data);
       }
 

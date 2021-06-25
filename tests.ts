@@ -97,25 +97,20 @@ async function test() {
     200000,
     "block"
   );
-  /*let check = await checkRawLog(result.raw_log);
-  if (check) {
-    console.log("\n\n**TX HASH for nub** :" + result.txhash);
-  } else {
-    console.log("\n\n**TX failed for nub** :" + result.raw_log);
-  }*/
+  let _res = JSON.parse(JSON.stringify(result));
 
-  let check = await checkRawLog(result);
+  let check = await checkRawLog(_res.raw_log);
   if (check) {
-    console.log("\n\n**TX HASH for nub** :" + JSON.stringify(result));
+    console.log("\n\n**TX HASH for nub** :" + _res.txhash);
   } else {
-    console.log("\n\n**TX failed for nub** :" + result);
+    console.log("\n\n**TX failed for nub** :" + _res.raw_log);
   }
 
   if (result) {
     let res = await sendCoin.sendCoin(
+        wallet.address,
       config.chain_id,
       mnemonic,
-      wallet.address,
       "stake",
       "1000000",
       25,
@@ -747,7 +742,6 @@ async function nub(address: string, chain_id: string, mnemonic: string, nubID: s
       mode,
         ""
     );
-    console.log("result: ", result)
     resolve(result);
   });
 }

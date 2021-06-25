@@ -69,7 +69,6 @@ export class createAccount extends Persistence {
         };
         Request(signOptions, function (error: string | undefined, response: { body: string; }) {
           if (error) throw new Error(error);
-          console.log(response.body);
           let result = JSON.parse(response.body);
           let typekey = result.result.tx.signatures[0].pub_key.type;
           let value = result.result.tx.signatures[0].pub_key.value;

@@ -19,7 +19,7 @@ export class cls extends Persistence {
         }
 
         let result = JSON.parse(res.body);
-        let list = result.result.list;
+        let list = result.result.value.classifications.value.list;
         resolve(list);
       });
     }).catch(function (error) {
@@ -36,7 +36,7 @@ export class cls extends Persistence {
       headers: {},
     };
     return new Promise(function (resolve, reject) {
-      Request(options, async function (error: any, res: { body: unknown; }) {
+      Request(options, async function (error: any, res: { body: any; }) {
         if (error) {
           reject(error);
         }

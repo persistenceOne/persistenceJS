@@ -20,10 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9b84193-fdc7-4567-b1d5-2824d564d7c1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.script/tscCommands.sh" beforeDir="false" afterPath="$PROJECT_DIR$/.script/tscCommands.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/helper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/helper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tests.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilities/keys.ts" beforeDir="false" afterPath="$PROJECT_DIR$/utilities/keys.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +96,7 @@
       <workItem from="1623048686176" duration="18334000" />
       <workItem from="1623068760633" duration="5822000" />
       <workItem from="1624355696563" duration="194000" />
+      <workItem from="1624537381765" duration="5080000" />
     </task>
     <servers />
   </component>
@@ -203,9 +201,9 @@
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state x="775" y="326" width="432" height="462" key="refactoring.ChangeSignatureDialog/72.27.1848.1053@72.27.1848.1053" timestamp="1623074406645" />
-    <state x="660" y="252" key="run.anything.popup" timestamp="1623070078993">
+    <state x="660" y="252" key="run.anything.popup" timestamp="1624538372304">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state x="660" y="252" key="run.anything.popup/72.27.1848.1053@72.27.1848.1053" timestamp="1623070078993" />
+    <state x="660" y="252" key="run.anything.popup/72.27.1848.1053@72.27.1848.1053" timestamp="1624538372304" />
   </component>
 </project>
