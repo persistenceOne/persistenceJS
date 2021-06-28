@@ -40,6 +40,8 @@
   "metaRevealPath": "/xprt/metas/reveal",
   "renumerateAssetType": "/xprt/assets/renumerate/request",
   "renumerateAssetPath": "/xprt/assets/renumerate",
+  "revokeAssetType": "/xprt/assets/revoke/request",
+  "revokeAssetPath": "/xprt/assets/revoke",
   "sendSplitType": "/xprt/splits/send/request",
   "sendSplitPath": "/xprt/splits/send",
   "unwrapCoinType": "/xprt/splits/unwrap/request",
