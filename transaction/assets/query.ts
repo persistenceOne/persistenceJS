@@ -17,7 +17,7 @@ export class queryAssets extends Persistence {
           reject(error);
         }
         let result = JSON.parse(res.body);
-        let list = result.result.value.assets.value.list;
+        let list = result.result.list;
         resolve(list);
       });
     }).catch(function (error) {

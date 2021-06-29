@@ -45,10 +45,15 @@ export const FindInResponse = (
   return new Promise(function (resolve, reject) {
     switch (type) {
       case "assets":
+        console.log("assets");
+
         list.forEach(function (value:any) {
+          console.log(value.value.HasImmutables.properties.value.propertyList[0].value
+              .id.value.idString)
+          console.log(id)
           if (
-            value.value.immutables.value.properties.value.propertyList[0].value
-              .id.value.idString === id
+              value.value.HasImmutables.properties.value.propertyList[0].value
+                  .id.value.idString === id
           ) {
             data.classificationID =
               value.value.id.value.classificationID.value.idString;

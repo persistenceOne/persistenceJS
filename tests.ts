@@ -131,7 +131,6 @@ async function test() {
     }
 
     let results = await identityQuery.queryIdentity();
-    console.log(results)
     let listResponse = await FindInResponse(
       "identities",
       results,
@@ -144,10 +143,10 @@ async function test() {
       config.chain_id,
       mnemonic,
       clsID,
-      "mutableTraits111:S|identity11543",
-      "immutableTraits:S|identity22662",
-      "mutableMetaTraits:S|identity34167",
-      "immutableMetaTraits:S|identity45648",
+        "immutableMetaTraits:S|identity45648",
+        "immutableTraits:S|identity22662",
+        "mutableMetaTraits:S|identity34167",
+        "mutableTraits111:S|identity11543",
       25,
       "stake",
       200000,
@@ -176,10 +175,10 @@ async function test() {
       config.testAccountAddress,
       clsID,
       classificationID,
-      "mutableTraits111:S|identity11543",
-      "immutableTraits:S|identity22662",
-      "mutableMetaTraits:S|identity34167",
-      "immutableMetaTraits:S|identity45648",
+        "immutableMetaTraits:S|identity45648",
+        "immutableTraits:S|identity22662",
+        "mutableMetaTraits:S|identity34167",
+        "mutableTraits111:S|identity11543",
       25,
       "stake",
       200000,
@@ -198,10 +197,10 @@ async function test() {
       config.chain_id,
       mnemonic,
       clsID,
-      "mutableTraits2:S|identity11543",
-      "immutableTraits2:S|identity22662",
-      "mutableMetaTraits2:S|identity34167",
-      "immutableMetaTraits2:S|identity45648",
+        "ASSET4:S|num4",
+        "ASSET2:S|num2",
+        "ASSET3:S|num3",
+        "ASSET1:S|num1,burn:H|1",
       25,
       "stake",
       200000,
@@ -219,7 +218,7 @@ async function test() {
     listResponse = await FindInResponse(
       "classifications",
       results,
-      "immutableMetaTraits2"
+      "ASSET4"
     );
     let classificationID1 = listResponse.chainID + "." + listResponse.hashID;
 
@@ -230,16 +229,20 @@ async function test() {
       config.testAccountAddress,
       clsID,
       classificationID1,
-      "mutableTraits2:S|identity11543",
-      "immutableTraits2:S|identity22662",
-      "mutableMetaTraits2:S|identity34167",
-      "immutableMetaTraits2:S|identity45648",
+        "ASSET4:S|num4",
+        "ASSET2:S|num2",
+        "ASSET3:S|num3",
+        "ASSET1:S|num1,burn:H|1",
       25,
       "stake",
       200000,
       "block",
         ""
     );
+
+
+
+
     check = await checkRawLog(res.rawLog);
     if (check) {
       console.log("\n\n**TX HASH for issue identity 2** :" + res.transactionHash);
@@ -251,7 +254,7 @@ async function test() {
     listResponse = await FindInResponse(
       "identities",
       results,
-      "immutableMetaTraits"
+      "ASSET4"
     );
     let identityID1 = listResponse.classificationID + "|" + listResponse.hashID;
 
@@ -259,7 +262,7 @@ async function test() {
     listResponse = await FindInResponse(
       "identities",
       results,
-      "immutableMetaTraits2"
+      "ASSET4"
     );
     let identityID2 = listResponse.classificationID + "|" + listResponse.hashID;
 
@@ -306,10 +309,10 @@ async function test() {
       config.chain_id,
       mnemonic,
       identityID1,
-      "ASSET1:S|num1,burn:H|1",
-      "ASSET2:S|",
-      "ASSET3:S|num3",
-      "ASSET4:S|num4",
+        "ASSET4:S|num4",
+        "ASSET2:S|num2",
+        "ASSET3:S|num3",
+        "ASSET1:S|num1,burn:H|1",
       25,
       "stake",
       200000,
@@ -334,10 +337,10 @@ async function test() {
       identityID1,
       identityID1,
       assetClsID,
-      "ASSET1:S|num1,burn:H|1",
-      "ASSET2:S|num2",
-      "ASSET3:S|num3",
-      "ASSET4:S|num4",
+    "ASSET4:S|num4",
+    "ASSET2:S|num2",
+    "ASSET3:S|num3",
+    "ASSET1:S|num1,burn:H|1",
       25,
       "stake",
       200000,
@@ -361,8 +364,8 @@ async function test() {
       mnemonic,
       identityID1,
       assetID,
-      "ASSET1:S|",
-      "ASSET3:S|num3",
+        "ASSET3:S|num3",
+        "ASSET1:S|",
       25,
       "stake",
       200000,
@@ -399,7 +402,7 @@ async function test() {
     }
 
     results = await clsQuery.queryClassification();
-    listResponse = await FindInResponse("classifications", results, "ASSET8");
+    listResponse = await FindInResponse("classifications", results, "ASSET5");
     let assetClsID1 = listResponse.chainID + "." + listResponse.hashID;
 
     res = await assetMint.mint(
@@ -427,7 +430,7 @@ async function test() {
     }
 
     results = await assetQuery.queryAsset();
-    listResponse = await FindInResponse("assets", results, "ASSET8");
+    listResponse = await FindInResponse("assets", results, "ASSET5");
     let assetID1 = listResponse.classificationID + "|" + listResponse.hashID;
 
     res = await splitsSend.send(
@@ -456,8 +459,8 @@ async function test() {
       config.chain_id,
       mnemonic,
       identityID1,
-      assetClsID1,
       identityID2,
+      assetClsID1,
       "ASSET5:S|num1,burn:H|1,ASSET7:S|num3",
       true,
       true,
@@ -581,10 +584,10 @@ async function test() {
       config.chain_id,
       mnemonic,
       identityID2,
-      "description:S|",
-      "Which Gift:S|Christmas Gift,What Gift:S|",
-      mutableMetaTraits,
-      "Gift:S|Exchange,AmazonOrderID:S|",
+      "Gift:S|Exchange,AmazonOrderID:S|1234",
+      "Which Gift:S|Christmas Gift,What Gift:S|Chocolates",
+        "exchangeRate:D|1",
+      "description:S|awesomeChocolates",
       25,
       "stake",
       200000,
@@ -612,16 +615,18 @@ async function test() {
       "stake",
       "100000",
       "0.000000000000000001",
-      "description:S|awesomeChocolates",
+      "0.000000000000000001",
+      "Gift:S|Exchange,AmazonOrderID:S|1234",
       "Which Gift:S|Christmas Gift,What Gift:S|Chocolates",
       "exchangeRate:D|1",
-      "Gift:S|Exchange,AmazonOrderID:S|1234",
+      "description:S|awesomeChocolates",
       25,
       "stake",
       200000,
       "block",
         ""
     );
+
     check = await checkRawLog(res.rawLog);
     if (check) {
       console.log("\n\n**TX HASH for Make Order ** :" + res.transactionHash);
@@ -671,10 +676,11 @@ async function test() {
       "stake",
       "100000",
       "0.000000000000000001",
-      "description:S|awesomeChocolates",
+      "0.000000000000000001",
+      "Gift:S|Exchange,AmazonOrderID:S|1234",
       "Which Gift:S|Christmas Gift,What Gift:S|Chocolates",
       "exchangeRate:D|1",
-      "Gift:S|Exchange,AmazonOrderID:S|1234",
+      "description:S|awesomeChocolates",
       25,
       "stake",
       200000,

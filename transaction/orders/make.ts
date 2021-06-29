@@ -15,10 +15,11 @@ export class makeOrder extends Persistence {
       takerOwnableID: string,
       expiresIn: any,
       makerOwnableSplit: any,
-      mutableProperties: string,
+      takerOwnableSplit: any,
+      immutableMetaProperties: any,
       immutableProperties: any,
       mutableMetaProperties: any,
-      immutableMetaProperties: any,
+      mutableProperties: string,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -50,10 +51,11 @@ export class makeOrder extends Persistence {
           takerOwnableID: takerOwnableID,
           expiresIn: expiresIn,
           makerOwnableSplit: makerOwnableSplit,
-          mutableProperties: mutableProperties,
+          takerOwnableSplit: takerOwnableSplit,
+          immutableMetaProperties: immutableMetaProperties,
           immutableProperties: immutableProperties,
           mutableMetaProperties: mutableMetaProperties,
-          immutableMetaProperties: immutableMetaProperties,
+          mutableProperties: mutableProperties,
         },
       }),
     };
@@ -64,6 +66,7 @@ export class makeOrder extends Persistence {
           reject(error);
         }
         let result = JSON.parse(response.body);
+        console.log(JSON.stringify(result))
         resolve(
           broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
         );
@@ -83,10 +86,11 @@ export class makeOrder extends Persistence {
       takerOwnableID: string,
       expiresIn: any,
       makerOwnableSplit: any,
-      mutableProperties: string,
+      takerOwnableSplit: any,
+      immutableMetaProperties: any,
       immutableProperties: any,
       mutableMetaProperties: any,
-      immutableMetaProperties: any,
+      mutableProperties: string,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -116,10 +120,11 @@ export class makeOrder extends Persistence {
           takerOwnableID: takerOwnableID,
           expiresIn: expiresIn,
           makerOwnableSplit: makerOwnableSplit,
-          mutableProperties: mutableProperties,
+          takerOwnableSplit: takerOwnableSplit,
+          immutableMetaProperties: immutableMetaProperties,
           immutableProperties: immutableProperties,
           mutableMetaProperties: mutableMetaProperties,
-          immutableMetaProperties: immutableMetaProperties,
+          mutableProperties: mutableProperties,
         },
       }),
     };

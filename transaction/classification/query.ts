@@ -19,7 +19,6 @@ export class cls extends Persistence {
         }
 
         let result = JSON.parse(res.body);
-        console.log(JSON.stringify(result));
         let list = result.result.list;
         resolve(list);
       });
