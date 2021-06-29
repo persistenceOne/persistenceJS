@@ -31,6 +31,7 @@ export class bank extends Persistence {
           from: wallet.address,
           chain_id: chain_id,
           memo: memo,
+          fees: [{ amount: String(feesAmount), denom: feesToken }],
         },
         amount: [
           {
@@ -45,6 +46,7 @@ export class bank extends Persistence {
         if (error) {
           reject(error);
         }
+        console.log((response.body))
         let result = JSON.parse(response.body);
         resolve(broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode));
       });
