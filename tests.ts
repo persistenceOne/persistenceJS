@@ -11,6 +11,8 @@ import { mintAsset } from "./transaction/assets/mint";
 import { mutateAsset } from "./transaction/assets/mutate";
 import { burnAsset } from "./transaction/assets/burn";
 import { queryAssets } from "./transaction/assets/query";
+import { renumerateAsset } from "./transaction/assets/renumerate";
+import { revokeAsset } from "./transaction/assets/revoke";
 import { bank } from "./transaction/bank/sendCoin";
 import { cls } from "./transaction/classification/query";
 import { nubIdentity } from "./transaction/identity/nub";
@@ -36,6 +38,9 @@ const assetDefine = new defineAsset(url);
 const assetMint = new mintAsset(url);
 const assetMutate = new mutateAsset(url);
 const assetBurn = new burnAsset(url);
+const assetRenumerate = new renumerateAsset(url);
+const assetRevoke = new revokeAsset(url);
+
 const assetQuery = new queryAssets(url);
 const sendCoin = new bank(url);
 const clsQuery = new cls(url);
@@ -720,6 +725,52 @@ async function test() {
       console.log("\n\n**TX HASH for Asset Burn ** :" + res.transactionHash);
     } else {
       console.log("\n\n**TX failed for Asset Burn ** :" + res.rawLog);
+    }
+
+
+    res = await assetRenumerate.renumerate(
+        wallet.address,
+        config.chain_id,
+        mnemonic,
+        identityID1,
+        assetID,
+        "25",
+        "stake",
+        "200000",
+        "block",
+        ""
+    );
+    check = await checkRawLog(res.rawLog);
+    if (check) {
+      console.log("\n\n**TX HASH for Asset Renumerate ** :" + res.transactionHash);
+    } else {
+      console.log("\n\n**TX failed for Asset Renumerate ** :" + res.rawLog);
+    }
+
+
+
+    results = await clsQuery.queryClassification();
+    listResponse = await FindInResponse("classifications", results, "ASSET4");
+    let assetClasID = listResponse.chainID + "." + listResponse.hashID;
+
+    res = await assetRevoke.revoke(
+        wallet.address,
+        config.chain_id,
+        mnemonic,
+        identityID1,
+        identityID1,
+        assetClasID,
+        "25",
+        "stake",
+        "200000",
+        "block",
+        ""
+    );
+    check = await checkRawLog(res.rawLog);
+    if (check) {
+      console.log("\n\n**TX HASH for Asset Revoke ** :" + res.transactionHash);
+    } else {
+      console.log("\n\n**TX failed for Asset Revoke ** :" + res.rawLog);
     }
   } else {
     console.log("ERROR!!");
