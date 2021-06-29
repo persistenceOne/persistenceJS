@@ -126,6 +126,7 @@ async function test() {
     }
 
     let results = await identityQuery.queryIdentity();
+    console.log(results)
     let listResponse = await FindInResponse(
       "identities",
       results,

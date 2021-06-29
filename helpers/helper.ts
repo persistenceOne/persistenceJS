@@ -60,7 +60,7 @@ export const FindInResponse = (
       case "identities":
         list.forEach(function (value:any) {
           if (
-            value.value.immutables.value.properties.value.propertyList[0].value
+            value.value.HasImmutables.properties.value.propertyList[0].value
               .id.value.idString === id
           ) {
             data.classificationID =
@@ -72,13 +72,15 @@ export const FindInResponse = (
         break;
       case "classifications":
         list.forEach(function (value:any) {
-          if (
-            value.value.immutableTraits.value.properties.value.propertyList[0]
-              .value.id.value.idString === id
-          ) {
-            data.chainID = value.value.id.value.chainID.value.idString;
-            data.hashID = value.value.id.value.hashID.value.idString;
-            resolve(data);
+          if(value.value.HasImmutables.properties.value.propertyList){
+            if(
+                value.value.HasImmutables.properties.value.propertyList[0].value
+                    .id.value.idString === id
+            ) {
+              data.chainID = value.value.id.value.chainID.value.idString;
+              data.hashID = value.value.id.value.hashID.value.idString;
+              resolve(data);
+            }
           }
         });
         break;
