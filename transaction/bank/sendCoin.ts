@@ -80,6 +80,7 @@ export class bank extends Persistence {
           from: wallet.address,
           chain_id: chain_id,
           memo: memo,
+          fees: [{ amount: String(feesAmount), denom: feesToken }],
         },
         amount: [
           {
