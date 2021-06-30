@@ -110,7 +110,6 @@ async function test() {
         wallet.address,
       config.chain_id,
         wallet.address,
-      mnemonic,
       "stake",
       "1000000",
       25,

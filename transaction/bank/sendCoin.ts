@@ -9,7 +9,6 @@ export class bank extends Persistence {
     from_address: string,
     chain_id: string,
     to_address: string,
-    mnemonic: string,
     denom: string,
     amount: string,
     feesAmount: any,
@@ -19,6 +18,9 @@ export class bank extends Persistence {
     memo: string
   ): Promise<any> => {
     let path = this.path;
+    const mnemonic =
+        "wage thunder live sense resemble foil apple course spin horse glass mansion midnight laundry acoustic rhythm loan scale talent push green direct brick please";
+
     const wallet = await getWallet(mnemonic, "");
 
     let options = {
@@ -60,7 +62,6 @@ export class bank extends Persistence {
       from_address: string,
       chain_id: string,
       to_address: string,
-      mnemonic: string,
       denom: string,
       amount: string,
       feesAmount: any,
@@ -69,7 +70,6 @@ export class bank extends Persistence {
       memo: string
   ): Promise<any> => {
     let path = this.path;
-    const wallet = await getWallet(mnemonic, "");
 
     let options = {
       method: "POST",
