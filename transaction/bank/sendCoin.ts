@@ -6,8 +6,9 @@ import * as config from "../../config.json";
 
 export class bank extends Persistence {
   sendCoin = async (
-    address: string,
+    from_address: string,
     chain_id: string,
+    to_address: string,
     mnemonic: string,
     denom: string,
     amount: string,
@@ -22,13 +23,13 @@ export class bank extends Persistence {
 
     let options = {
       method: "POST",
-      url: path + "/bank/accounts/" + address + "/transfers",
+      url: path + "/bank/accounts/" + from_address + "/transfers",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         base_req: {
-          from: wallet.address,
+          from: to_address,
           chain_id: chain_id,
           memo: memo,
           fees: [{ amount: String(feesAmount), denom: feesToken }],
@@ -56,8 +57,9 @@ export class bank extends Persistence {
   };
 
   createSendCoinMsg = async (
-      address: string,
+      from_address: string,
       chain_id: string,
+      to_address: string,
       mnemonic: string,
       denom: string,
       amount: string,
@@ -71,13 +73,13 @@ export class bank extends Persistence {
 
     let options = {
       method: "POST",
-      url: path + "/bank/accounts/" + address + "/transfers",
+      url: path + "/bank/accounts/" + from_address + "/transfers",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         base_req: {
-          from: wallet.address,
+          from: to_address,
           chain_id: chain_id,
           memo: memo,
           fees: [{ amount: String(feesAmount), denom: feesToken }],
