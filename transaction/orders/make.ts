@@ -60,6 +60,7 @@ export class makeOrder extends Persistence {
       }),
     };
 
+    console.log(options)
     return new Promise(function (resolve, reject) {
       Request(options, function (error: any, response: { body: string; }) {
         if (error) {
