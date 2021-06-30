@@ -309,10 +309,10 @@ async function test() {
       config.chain_id,
       mnemonic,
       identityID1,
-        "ASSET4:S|num4",
-        "ASSET2:S|num2",
-        "ASSET3:S|num3",
-        "ASSET1:S|num1,burn:H|1",
+        "ASSET13:S|num13",
+        "ASSET12:S|num12",
+        "ASSET11:S|num11",
+        "ASSET10:S|num10,burn:H|10",
       25,
       "stake",
       200000,
@@ -327,7 +327,7 @@ async function test() {
     }
 
     results = await clsQuery.queryClassification();
-    listResponse = await FindInResponse("classifications", results, "ASSET4");
+    listResponse = await FindInResponse("classifications", results, "ASSET13");
     let assetClsID = listResponse.chainID + "." + listResponse.hashID;
 
     res = await assetMint.mint(
@@ -337,10 +337,10 @@ async function test() {
       identityID1,
       identityID1,
       assetClsID,
-    "ASSET4:S|num4",
-    "ASSET2:S|num2",
-    "ASSET3:S|num3",
-    "ASSET1:S|num1,burn:H|1",
+      "ASSET13:S|num13",
+      "ASSET12:S|num12",
+      "ASSET11:S|num11",
+      "ASSET10:S|num10,burn:H|10",
       25,
       "stake",
       200000,
@@ -355,7 +355,7 @@ async function test() {
     }
 
     results = await assetQuery.queryAsset();
-    listResponse = await FindInResponse("assets", results, "ASSET4");
+    listResponse = await FindInResponse("assets", results, "ASSET13");
     let assetID = listResponse.classificationID + "|" + listResponse.hashID;
 
     res = await assetMutate.mutate(
@@ -364,8 +364,8 @@ async function test() {
       mnemonic,
       identityID1,
       assetID,
-        "ASSET3:S|num3",
-        "ASSET1:S|",
+        "ASSET11:S|num11",
+        "ASSET10:S|num10,burn:H|10",
       25,
       "stake",
       200000,
@@ -611,8 +611,8 @@ async function test() {
       mnemonic,
       identityID2,
       orderCls,
-      "stake",
-      "stake",
+        "stake",
+        "stake",
       "100000",
       "0.000000000000000001",
       "0.000000000000000001",
@@ -666,33 +666,6 @@ async function test() {
       console.log("\n\n**TX failed for Cancel Order ** :" + res.rawLog);
     }
 
-    res = await orderMake.make(
-      wallet.address,
-      config.chain_id,
-      mnemonic,
-      identityID2,
-      orderCls,
-      "stake",
-      "stake",
-      "100000",
-      "0.000000000000000001",
-      "0.000000000000000001",
-      "Gift:S|Exchange,AmazonOrderID:S|1234",
-      "Which Gift:S|Christmas Gift,What Gift:S|Chocolates",
-      "exchangeRate:D|1",
-      "description:S|awesomeChocolates",
-      25,
-      "stake",
-      200000,
-      "block",
-        ""
-    );
-    check = await checkRawLog(res.rawLog);
-    if (check) {
-      console.log("\n\n**TX HASH for Make Order ** :" + res.transactionHash);
-    } else {
-      console.log("\n\n**TX failed for Make Order ** :" + res.rawLog);
-    }
 
     res = await orderTake.take(
       wallet.address,

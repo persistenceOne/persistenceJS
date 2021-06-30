@@ -92,7 +92,7 @@ export const FindInResponse = (
       case "orders":
         list.forEach(function (value:any) {
           if (
-            value.value.immutables.value.properties.value.propertyList[0].value
+            value.value.HasImmutables.properties.value.propertyList[0].value
               .id.value.idString === id
           ) {
             ordersData.classificationID =
