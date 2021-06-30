@@ -60,7 +60,6 @@ export class bank extends Persistence {
       from_address: string,
       chain_id: string,
       to_address: string,
-      mnemonic: string,
       denom: string,
       amount: string,
       feesAmount: any,
@@ -69,7 +68,6 @@ export class bank extends Persistence {
       memo: string
   ): Promise<any> => {
     let path = this.path;
-    const wallet = await getWallet(mnemonic, "");
 
     let options = {
       method: "POST",
