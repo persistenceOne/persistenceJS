@@ -9,37 +9,37 @@ import * as config from "../config.json";
 import { nubIdentity } from "../transaction/identity/nub";
 import {bank} from "../transaction/bank/sendCoin";
 import {defineAsset} from "../transaction/assets/define";
-import {mintAsset} from "../transaction/assets/mint";
-import {queryAssets} from "../transaction/assets/query";
 import {cls} from "../transaction/classification/query";
-import {sendSplits} from "../transaction/splits/send";
-import {wrapSplits} from "../transaction/splits/wrap";
-import {unwrapsplits} from "../transaction/splits/unwrap";
-import {deputizeMaintainer} from "../transaction/maintainers/deputize";
 import {defineIdentity} from "../transaction/identity/define";
 import {issueIdentity} from "../transaction/identity/issue";
 import {queryIdentities} from "../transaction/identity/query";
-import {revealMeta} from "../transaction/meta/reveal";
+import {defineOrder} from "../transaction/orders/define";
+import {makeOrder} from "../transaction/orders/make";
+import {takeOrder} from "../transaction/orders/take";
+import {cancelOrder} from "../transaction/orders/cancel";
+import {queryOrders} from "../transaction/orders/query";
+import {mintAsset} from "../transaction/assets/mint";
+import {queryAssets} from "../transaction/assets/query";
 
 let url = "http://localhost:1317";
+
+
+const sendCoin = new bank(url);
+const clsQuery = new cls(url);
 const identityNub = new nubIdentity(url);
 const identityDefine = new defineIdentity(url);
 const identityIssue = new issueIdentity(url);
 const identityQuery = new queryIdentities(url);
 const assetDefine = new defineAsset(url);
 const assetMint = new mintAsset(url);
-const splitsSend = new sendSplits(url);
-const splitsWrap = new wrapSplits(url);
-const splitsUnwrap = new unwrapsplits(url);
-const maintainerDeputize = new deputizeMaintainer(url);
-const metaReveal = new revealMeta(url);
-
-
-
+const orderDefine = new defineOrder(url);
+const orderMake = new makeOrder(url);
+const orderTake = new takeOrder(url);
+const orderCancel = new cancelOrder(url);
 
 const assetQuery = new queryAssets(url);
-const sendCoin = new bank(url);
-const clsQuery = new cls(url);
+const orderQuery = new queryOrders(url);
+
 
 
 const mnemonic =
@@ -248,16 +248,15 @@ async function nub_test() {
         );
         let identityID2 = listResponse.classificationID + "|" + listResponse.hashID;
 
-
-        res = await assetDefine.define(
+        res = await orderDefine.define(
             wallet.address,
             config.chain_id,
             mnemonic,
-            identityID1,
-            "ASSET5:S|num1,burn:H|1",
-            "ASSET6:S|",
-            "ASSET7:S|num3",
-            "ASSET8:S|num4",
+            clsID,
+            "Gift:S|Exchange,AmazonOrderID:S|",
+            "Which Gift:S|Christmas Gift,What Gift:S|Chocolates",
+            "expiry:H|,makerOwnableSplit:D|",
+            "description:S|awesomeChocolates",
             25,
             "stake",
             200000,
@@ -266,14 +265,40 @@ async function nub_test() {
         );
         check = await checkRawLog(res.rawLog);
         if (check) {
-            console.log("\n\n**TX HASH for define assets 1** :" + res.transactionHash);
+            console.log("\n\n**TX HASH for define Order** :" + res.transactionHash);
         } else {
-            console.log("\n\n**TX failed for define assets 1** :" + res.rawLog);
+            console.log("\n\n**TX failed for define Order** :" + res.rawLog);
         }
 
         results = await clsQuery.queryClassification();
-        listResponse = await FindInResponse("classifications", results, "ASSET5");
-        let assetClsID1 = listResponse.chainID + "." + listResponse.hashID;
+        listResponse = await FindInResponse("classifications", results, "Gift");
+        let orderCls = listResponse.chainID + "." + listResponse.hashID;
+
+        res = await assetDefine.define(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            "ASSET33:S|num13",
+            "ASSET32:S|num12",
+            "ASSET31:S|num11",
+            "ASSET30:S|num10,burn:H|10",
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for define assets 33** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for define assets 33** :" + res.rawLog);
+        }
+
+        results = await clsQuery.queryClassification();
+        listResponse = await FindInResponse("classifications", results, "ASSET33");
+        let assetClsID3 = listResponse.chainID + "." + listResponse.hashID;
 
         res = await assetMint.mint(
             wallet.address,
@@ -281,11 +306,11 @@ async function nub_test() {
             mnemonic,
             identityID1,
             identityID1,
-            assetClsID1,
-            "ASSET5:S|num1,burn:H|1",
-            "ASSET6:S|num2",
-            "ASSET7:S|num3",
-            "ASSET8:S|num4",
+            assetClsID3,
+            "ASSET33:S|num13",
+            "ASSET32:S|num12",
+            "ASSET31:S|num11",
+            "ASSET30:S|num10,burn:H|10",
             25,
             "stake",
             200000,
@@ -294,47 +319,63 @@ async function nub_test() {
         );
         check = await checkRawLog(res.rawLog);
         if (check) {
-            console.log("\n\n**TX HASH for mint assets 2 ** :" + res.transactionHash);
+            console.log("\n\n**TX HASH for mint assets 33** :" + res.transactionHash);
         } else {
-            console.log("\n\n**TX failed for mint assets 2** :" + res.rawLog);
+            console.log("\n\n**TX failed for mint assets 33** :" + res.rawLog);
         }
 
         results = await assetQuery.queryAsset();
-        listResponse = await FindInResponse("assets", results, "ASSET5");
-        let assetID1 = listResponse.classificationID + "|" + listResponse.hashID;
+        listResponse = await FindInResponse("assets", results, "ASSET33");
+        let assetID3 = listResponse.classificationID + "|" + listResponse.hashID;
 
-        res = await splitsSend.send(
+        res = await orderMake.make(
             wallet.address,
             config.chain_id,
             mnemonic,
-            identityID1,
-            identityID2,
-            assetID1,
+            clsID,
+            orderCls,
+            "stake",
+            assetID3,
+            "100000",
             "0.000000000000000001",
+            "1",
+            "Gift:S|Exchange,AmazonOrderID:S|1234",
+            "Which Gift:S|Christmas Gift,What Gift:S|Chocolates",
+            "",
+            "description:S|awesomeChocolates",
             25,
             "stake",
             200000,
             "block",
             ""
         );
+
         check = await checkRawLog(res.rawLog);
         if (check) {
-            console.log("\n\n**TX HASH for Splits Send** :" + res.transactionHash);
+            console.log("\n\n**TX HASH for Make Order ** :" + res.transactionHash);
         } else {
-            console.log("\n\n**TX failed for Splits Send** :" + res.rawLog);
+            console.log("\n\n**TX failed for Make Order ** :" + res.rawLog);
         }
 
-        res = await maintainerDeputize.deputize(
+        results = await orderQuery.queryOrder();
+        listResponse = await FindInResponse("orders", results, "Gift");
+        let orderID =
+            listResponse.classificationID +
+            "*" +
+            listResponse.makerOwnableID +
+            "*" +
+            listResponse.takerOwnableID +
+            "*" +
+            listResponse.makerID +
+            "*" +
+            listResponse.hashID;
+
+        res = await orderCancel.cancel(
             wallet.address,
             config.chain_id,
             mnemonic,
-            identityID1,
             identityID2,
-            assetClsID1,
-            "ASSET5:S|num1,ASSET7:S|num3",
-            true,
-            true,
-            true,
+            orderID,
             25,
             "stake",
             200000,
@@ -343,16 +384,19 @@ async function nub_test() {
         );
         check = await checkRawLog(res.rawLog);
         if (check) {
-            console.log("\n\n**TX HASH for maintainer deputize** :" + res.transactionHash);
+            console.log("\n\n**TX HASH for Cancel Order ** :" + res.transactionHash);
         } else {
-            console.log("\n\n**TX failed for maintainer deputize** :" + res.rawLog);
+            console.log("\n\n**TX failed for Cancel Order ** :" + res.rawLog);
         }
 
-        res = await metaReveal.reveal(
+
+        res = await orderTake.take(
             wallet.address,
             config.chain_id,
             mnemonic,
-            "H|14",
+            identityID2,
+            "0.000000000000000001",
+            orderID,
             25,
             "stake",
             200000,
@@ -361,50 +405,10 @@ async function nub_test() {
         );
         check = await checkRawLog(res.rawLog);
         if (check) {
-            console.log("\n\n**TX HASH for meta reveal** :" + res.transactionHash);
+            console.log("\n\n**TX HASH for Take Order ** :" + res.transactionHash);
         } else {
-            console.log("\n\n**TX failed for meta reveal** :" + res.rawLog);
+            console.log("\n\n**TX failed for Take Order ** :" + res.rawLog);
         }
-
-        res = await splitsWrap.wrap(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            identityID1,
-            "100000stake",
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for Wrap** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for Wrap** :" + res.rawLog);
-        }
-
-        res = await splitsUnwrap.unwrap(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            identityID1,
-            "stake",
-            "100",
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for Unwrap** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for Unwrap** :" + res.rawLog);
-        }
-
     }
 }
 
