@@ -12,10 +12,10 @@ export class issueIdentity extends Persistence {
       to: any,
       fromID: string,
       classificationID: any,
-      mutableProperties: string,
+      immutableMetaProperties: any,
       immutableProperties: any,
       mutableMetaProperties: any,
-      immutableMetaProperties: any,
+      mutableProperties: string,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -44,10 +44,10 @@ export class issueIdentity extends Persistence {
           to: to,
           fromID: fromID,
           classificationID: classificationID,
-          mutableProperties: mutableProperties,
+          immutableMetaProperties: immutableMetaProperties,
           immutableProperties: immutableProperties,
           mutableMetaProperties: mutableMetaProperties,
-          immutableMetaProperties: immutableMetaProperties,
+          mutableProperties: mutableProperties,
         },
       }),
     };
@@ -59,7 +59,7 @@ export class issueIdentity extends Persistence {
 
         let result = JSON.parse(response.body);
         resolve(
-          broadcastTx(path, wallet, mnemonic ,result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
+            broadcastTx(path, wallet, mnemonic ,result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
         );
       });
     }).catch(function (error) {
@@ -74,10 +74,10 @@ export class issueIdentity extends Persistence {
       to: any,
       fromID: string,
       classificationID: any,
-      mutableProperties: string,
+      immutableMetaProperties: any,
       immutableProperties: any,
       mutableMetaProperties: any,
-      immutableMetaProperties: any,
+      mutableProperties: string,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -104,10 +104,10 @@ export class issueIdentity extends Persistence {
           to: to,
           fromID: fromID,
           classificationID: classificationID,
-          mutableProperties: mutableProperties,
+          immutableMetaProperties: immutableMetaProperties,
           immutableProperties: immutableProperties,
           mutableMetaProperties: mutableMetaProperties,
-          immutableMetaProperties: immutableMetaProperties,
+          mutableProperties: mutableProperties,
         },
       }),
     };
@@ -126,4 +126,3 @@ export class issueIdentity extends Persistence {
     });
   }
 }
-
