@@ -64,7 +64,6 @@ export const FindInResponse = (
         break;
       case "identities":
         console.log("identities");
-        console.log(JSON.stringify(list));
         list.forEach(function (value:any) {
           console.log("ID: "+id)
           console.log("IDString: "+value.value.HasImmutables.properties.value.propertyList[0].value
@@ -81,7 +80,6 @@ export const FindInResponse = (
         });
         break;
       case "classifications":
-        console.log(list)
         list.forEach(function (value:any) {
           if(value.value.HasImmutables.properties.value.propertyList){
             if(

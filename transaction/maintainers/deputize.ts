@@ -57,8 +57,6 @@ export class deputizeMaintainer extends Persistence {
         if (error) {
           reject(error);
         }
-        console.log(JSON.stringify(response.body))
-
         let result = JSON.parse(response.body);
         resolve(
           broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)

@@ -23,7 +23,7 @@ export class revokeAsset extends Persistence {
 
         let options = {
             method: "POST",
-            url: path + config.burnAssetPath,
+            url: path + config.revokeAssetPath,
             headers: {
                 "Content-Type": "application/json",
             },

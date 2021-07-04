@@ -3,6 +3,7 @@ import Request from "request";
 import { Persistence } from "../../utilities/persistenceJS";
 import { broadcastTx } from "../../utilities/broadcastTx";
 import { getWallet } from "../../utilities/keys";
+import {join} from "path";
 
 export class renumerateAsset extends Persistence {
     renumerate = async (
@@ -27,7 +28,7 @@ export class renumerateAsset extends Persistence {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: config.renumerateAssetPath,
+                type: config.renumerateAssetType,
                 value: {
                     baseReq: {
                         from: address,
@@ -48,6 +49,7 @@ export class renumerateAsset extends Persistence {
                     reject(error);
                 }
                 let result = JSON.parse(response.body);
+                console.log(JSON.stringify(result))
                 resolve(broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode));
             });
         }).catch(function (error) {
