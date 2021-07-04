@@ -109,6 +109,7 @@ async function test() {
     let res = await sendCoin.sendCoin(
         wallet.address,
       config.chain_id,
+        wallet.address,
       mnemonic,
       "stake",
       "1000000",
@@ -294,7 +295,6 @@ async function test() {
     } else {
       console.log("\n\n**TX failed for Unprovision1** :" + res.rawLog);
     }
-
     res = await assetDefine.define(
       wallet.address,
       config.chain_id,

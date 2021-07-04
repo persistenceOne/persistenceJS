@@ -6,31 +6,33 @@ import * as config from "../../config.json";
 
 export class bank extends Persistence {
   sendCoin = async (
-    address: string,
-    chain_id: string,
-    mnemonic: string,
-    denom: string,
-    amount: string,
-    feesAmount: any,
-    feesToken: any,
-    gas: any,
-    mode: any,
-    memo: string
+      from_address: string,
+      chain_id: string,
+      to_address: string,
+      mnemonic: string,
+      denom: string,
+      amount: string,
+      feesAmount: any,
+      feesToken: any,
+      gas: any,
+      mode: any,
+      memo: string
   ): Promise<any> => {
     let path = this.path;
     const wallet = await getWallet(mnemonic, "");
 
     let options = {
       method: "POST",
-      url: path + "/bank/accounts/" + address + "/transfers",
+      url: path + "/bank/accounts/" + to_address + "/transfers",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         base_req: {
-          from: wallet.address,
+          from: from_address,
           chain_id: chain_id,
           memo: memo,
+          fees: [{ amount: String(feesAmount), denom: feesToken }],
         },
         amount: [
           {
@@ -55,9 +57,9 @@ export class bank extends Persistence {
   };
 
   createSendCoinMsg = async (
-      address: string,
+      from_address: string,
       chain_id: string,
-      mnemonic: string,
+      to_address: string,
       denom: string,
       amount: string,
       feesAmount: any,
@@ -66,19 +68,19 @@ export class bank extends Persistence {
       memo: string
   ): Promise<any> => {
     let path = this.path;
-    const wallet = await getWallet(mnemonic, "");
 
     let options = {
       method: "POST",
-      url: path + "/bank/accounts/" + address + "/transfers",
+      url: path + "/bank/accounts/" + to_address + "/transfers",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         base_req: {
-          from: wallet.address,
+          from: from_address,
           chain_id: chain_id,
           memo: memo,
+          fees: [{ amount: String(feesAmount), denom: feesToken }],
         },
         amount: [
           {
