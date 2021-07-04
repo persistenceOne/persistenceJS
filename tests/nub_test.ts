@@ -7,9 +7,11 @@ import {
 import { checkRawLog, FindInResponse } from "../helpers/helper";
 import * as config from "../config.json";
 import { nubIdentity } from "../transaction/identity/nub";
+import {bank} from "../transaction/bank/sendCoin";
 
 let url = "http://localhost:1317";
 const identityNub = new nubIdentity(url);
+const sendCoin = new bank(url);
 
 
 
@@ -61,6 +63,27 @@ async function nub_test() {
         console.log("\n\n**TX HASH for nub** :" + _res.transactionHash);
     } else {
         console.log("\n\n**TX failed for nub** :" + _res.rawLog);
+    }
+
+    if (result) {
+        let res = await sendCoin.sendCoin(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            "stake",
+            "1000000",
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        let check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for Send Coin** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for Send Coin** :" + res.rawLog);
+        }
     }
 }
 
