@@ -15,7 +15,7 @@
   "nubID": "nubID",
   "keysAdd": "/keys/add",
   "keysRecover": "/keys/add",
-  "signTx": "/signTx",
+  "sign": "/sign",
   "broadcastTx": "/txs",
   "getAccount": "/auth/accounts/",
   "nubType": "/xprt/identities/github.com/persistenceOne/persistenceSDK/modules/identities/internal/transactions/nub/transactionRequest",
