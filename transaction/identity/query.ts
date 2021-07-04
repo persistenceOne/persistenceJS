@@ -18,7 +18,7 @@ export class queryIdentities extends Persistence {
           reject(error);
         }
         let result = JSON.parse(res.body);
-        let list = result.result.value.identities.value.list;
+        let list = result.result.list;
         resolve(list);
       });
     }).catch(function (error) {

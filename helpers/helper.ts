@@ -60,8 +60,8 @@ export const FindInResponse = (
       case "identities":
         list.forEach(function (value:any) {
           if (
-            value.value.immutables.value.properties.value.propertyList[0].value
-              .id.value.idString === id
+            value.value.HasImmutables.properties.value.propertyList[0].value
+                .id.value.idString === id
           ) {
             data.classificationID =
               value.value.id.value.classificationID.value.idString;
@@ -73,8 +73,8 @@ export const FindInResponse = (
       case "classifications":
         list.forEach(function (value:any) {
           if (
-            value.value.immutableTraits.value.properties.value.propertyList[0]
-              .value.id.value.idString === id
+              value.value.HasImmutables.properties.value.propertyList[0].value
+                  .id.value.idString === id
           ) {
             data.chainID = value.value.id.value.chainID.value.idString;
             data.hashID = value.value.id.value.hashID.value.idString;
@@ -85,8 +85,8 @@ export const FindInResponse = (
       case "orders":
         list.forEach(function (value:any) {
           if (
-            value.value.immutables.value.properties.value.propertyList[0].value
-              .id.value.idString === id
+              value.value.HasImmutables.properties.value.propertyList[0].value
+                  .id.value.idString === id
           ) {
             ordersData.classificationID =
               value.value.id.value.classificationID.value.idString;
