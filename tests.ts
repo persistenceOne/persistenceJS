@@ -19,6 +19,10 @@ import { issueIdentity } from "./transaction/identity/issue";
 import { queryIdentities } from "./transaction/identity/query";
 import { provisionIdentity } from "./transaction/identity/provision";
 import { unprovisionIdentity } from "./transaction/identity/unprovision";
+import { deputizeIdentity } from "./transaction/identity/deputize";
+import { mutateIdentity } from "./transaction/identity/mutate";
+import { quashIdentity } from "./transaction/identity/quash";
+import { revokeIdentity } from "./transaction/identity/revoke";
 import { deputizeMaintainer } from "./transaction/maintainers/deputize";
 import { revealMeta } from "./transaction/meta/reveal";
 import { defineOrder } from "./transaction/orders/define";
@@ -45,6 +49,10 @@ const identityIssue = new issueIdentity(url);
 const identityQuery = new queryIdentities(url);
 const identityProvision = new provisionIdentity(url);
 const identityUnprovision = new unprovisionIdentity(url);
+const identityDeputize = new deputizeIdentity(url);
+const identityMutate = new mutateIdentity(url);
+const identityQuash = new quashIdentity(url);
+const identityRevoke = new revokeIdentity(url);
 const maintainerDeputize = new deputizeMaintainer(url);
 const metaReveal = new revealMeta(url);
 const orderDefine = new defineOrder(url);
@@ -295,6 +303,89 @@ async function test() {
     } else {
       console.log("\n\n**TX failed for Unprovision1** :" + res.rawLog);
     }
+
+    res = await identityDeputize.deputize(
+        wallet.address,
+        config.chain_id,
+        mnemonic,
+        randomWallet.address,
+        identityID1,
+        classificationID1,
+        "mutableTraits2:S|identity11543",
+        "immutableTraits2:S|identity22662",
+        "mutableMetaTraits2:S|identity34167",
+        "immutableMetaTraits2:S|identity45648",
+        25,
+        "stake",
+        200000,
+        "block",
+        ""
+    );
+    check = await checkRawLog(res.rawLog);
+    if (check) {
+      console.log("\n\n**TX HASH for Deputize** :" + res.transactionHash);
+    } else {
+      console.log("\n\n**TX failed for Deputize** :" + res.rawLog);
+    }
+
+    res = await identityMutate.mutate(
+        wallet.address,
+        config.chain_id,
+        mnemonic,
+        identityID1,
+        randomWallet.address, //identityID: any,
+        "mutableTraits2:S|identity11543",//mutableTraits: string,
+        "mutableMetaTraits2:S|identity34167",//mutableMetaTraits: any,
+        25,
+        "stake",
+        200000,
+        "block",
+        ""
+    );
+    check = await checkRawLog(res.rawLog);
+    if (check) {
+      console.log("\n\n**TX HASH for Unprovision** :" + res.transactionHash);
+    } else {
+      console.log("\n\n**TX failed for Unprovision1** :" + res.rawLog);
+    }
+    res = await identityQuash.quash(
+        wallet.address,
+        config.chain_id,
+        mnemonic,
+        identityID1,//fromID: string,
+        randomWallet.address, //identityID: any,
+        25,
+        "stake",
+        200000,
+        "block",
+        ""
+    );
+    check = await checkRawLog(res.rawLog);
+    if (check) {
+      console.log("\n\n**TX HASH for Unprovision** :" + res.transactionHash);
+    } else {
+      console.log("\n\n**TX failed for Unprovision1** :" + res.rawLog);
+    }
+    res = await identityRevoke.revoke(
+        wallet.address,
+        config.chain_id,
+        mnemonic,
+        identityID1, //fromID: string,
+        randomWallet.address,//toId: string,
+        classificationID1,//classificationID: any,
+        25,
+        "stake",
+        200000,
+        "block",
+        ""
+    );
+    check = await checkRawLog(res.rawLog);
+    if (check) {
+      console.log("\n\n**TX HASH for Unprovision** :" + res.transactionHash);
+    } else {
+      console.log("\n\n**TX failed for Unprovision1** :" + res.rawLog);
+    }
+
     res = await assetDefine.define(
       wallet.address,
       config.chain_id,
