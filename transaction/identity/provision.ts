@@ -9,8 +9,8 @@ export class provisionIdentity extends Persistence {
       address: string,
       chain_id: string,
       mnemonic: any,
-      identityID: any,
       to: any,
+      identityID: any,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -36,8 +36,9 @@ export class provisionIdentity extends Persistence {
             fees: [{ amount: String(feesAmount), denom: feesToken }],
             gas: String(gas),
           },
-          identityID: identityID,
           to: to,
+          identityID: identityID,
+
         },
       }),
     };
@@ -85,8 +86,9 @@ export class provisionIdentity extends Persistence {
             fees: [{ amount: String(feesAmount), denom: feesToken }],
             gas: String(gas),
           },
-          identityID: identityID,
           to: to,
+          identityID: identityID,
+
         },
       }),
     };
