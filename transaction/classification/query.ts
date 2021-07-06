@@ -48,4 +48,3 @@ export class cls extends Persistence {
     });
   };
 }
-
