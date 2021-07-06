@@ -15,7 +15,6 @@ import {cls} from "../transaction/classification/query";
 import {sendSplits} from "../transaction/splits/send";
 import {wrapSplits} from "../transaction/splits/wrap";
 import {unwrapsplits} from "../transaction/splits/unwrap";
-import {deputizeMaintainer} from "../transaction/maintainers/deputize";
 import {defineIdentity} from "../transaction/identity/define";
 import {issueIdentity} from "../transaction/identity/issue";
 import {queryIdentities} from "../transaction/identity/query";
@@ -31,7 +30,6 @@ const assetMint = new mintAsset(url);
 const splitsSend = new sendSplits(url);
 const splitsWrap = new wrapSplits(url);
 const splitsUnwrap = new unwrapsplits(url);
-const maintainerDeputize = new deputizeMaintainer(url);
 const metaReveal = new revealMeta(url);
 
 
@@ -324,30 +322,6 @@ async function nub_test() {
             console.log("\n\n**TX failed for Splits Send** :" + res.rawLog);
         }
 
-        res = await maintainerDeputize.deputize(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            identityID2,
-            clsID,
-            assetClsID1,
-            "ASSET5:S|num1",
-            true,
-            true,
-            true,
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for maintainer deputize** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for maintainer deputize** :" + res.rawLog);
-        }
-
         res = await metaReveal.reveal(
             wallet.address,
             config.chain_id,
@@ -370,7 +344,7 @@ async function nub_test() {
             wallet.address,
             config.chain_id,
             mnemonic,
-            identityID1,
+            clsID,
             "100000stake",
             25,
             "stake",
@@ -389,7 +363,7 @@ async function nub_test() {
             wallet.address,
             config.chain_id,
             mnemonic,
-            identityID1,
+            clsID,
             "stake",
             "100",
             25,
