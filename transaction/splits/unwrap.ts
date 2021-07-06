@@ -11,7 +11,7 @@ export class unwrapsplits extends Persistence {
       mnemonic: string,
       fromID: string,
       ownableID: string,
-      split: any,
+      value: any,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -39,7 +39,7 @@ export class unwrapsplits extends Persistence {
           },
           fromID: fromID,
           ownableID: ownableID,
-          split: split,
+          value: value,
         },
       }),
     };
@@ -51,7 +51,7 @@ export class unwrapsplits extends Persistence {
         }
         let result = JSON.parse(response.body);
         resolve(
-          broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
+            broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
         );
       });
     }).catch(function (error) {
@@ -65,7 +65,7 @@ export class unwrapsplits extends Persistence {
       chain_id: string,
       fromID: string,
       ownableID: string,
-      split: any,
+      value: any,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -91,7 +91,7 @@ export class unwrapsplits extends Persistence {
           },
           fromID: fromID,
           ownableID: ownableID,
-          split: split,
+          value: value,
         },
       }),
     };
@@ -110,5 +110,4 @@ export class unwrapsplits extends Persistence {
     });
   }
 }
-
 

@@ -12,7 +12,7 @@ export class sendSplits extends Persistence {
       fromID: string,
       toID: string,
       ownableID: string,
-      split: any,
+      value: any,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -41,7 +41,7 @@ export class sendSplits extends Persistence {
           fromID: fromID,
           toID: toID,
           ownableID: ownableID,
-          split: split,
+          value: value,
         },
       }),
     };
@@ -53,7 +53,7 @@ export class sendSplits extends Persistence {
         }
         let result = JSON.parse(response.body);
         resolve(
-          broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
+            broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
         );
       });
     }).catch(function (error) {
@@ -68,7 +68,7 @@ export class sendSplits extends Persistence {
       fromID: string,
       toID: string,
       ownableID: string,
-      split: any,
+      value: any,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -95,7 +95,7 @@ export class sendSplits extends Persistence {
           fromID: fromID,
           toID: toID,
           ownableID: ownableID,
-          split: split,
+          value: value,
         },
       }),
     };
