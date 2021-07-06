@@ -10,10 +10,10 @@ export class defineOrder extends Persistence {
       chain_id: string,
       mnemonic: string,
       fromID: string,
-      mutableTraits: string,
-      immutableTraits: any,
-      mutableMetaTraits: any,
-      immutableMetaTraits: any,
+      immutableMetaProperties: any,
+      immutableProperties: any,
+      mutableMetaProperties: any,
+      mutableProperties: any,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -40,10 +40,10 @@ export class defineOrder extends Persistence {
             gas: String(gas),
           },
           fromID: fromID,
-          mutableTraits: mutableTraits,
-          immutableTraits: immutableTraits,
-          mutableMetaTraits: mutableMetaTraits,
-          immutableMetaTraits: immutableMetaTraits,
+          immutableMetaProperties: immutableMetaProperties,
+          immutableProperties: immutableProperties,
+          mutableMetaProperties: mutableMetaProperties,
+          mutableProperties: mutableProperties,
         },
       }),
     };
@@ -54,7 +54,7 @@ export class defineOrder extends Persistence {
         }
         let result = JSON.parse(response.body);
         resolve(
-          broadcastTx(path, wallet,mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
+            broadcastTx(path, wallet,mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
         );
       });
     }).catch(function (error) {
@@ -67,10 +67,10 @@ export class defineOrder extends Persistence {
       address: string,
       chain_id: string,
       fromID: string,
-      mutableTraits: string,
-      immutableTraits: any,
-      mutableMetaTraits: any,
-      immutableMetaTraits: any,
+      immutableMetaProperties: any,
+      immutableProperties: any,
+      mutableMetaProperties: any,
+      mutableProperties: any,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -95,10 +95,10 @@ export class defineOrder extends Persistence {
             gas: String(gas),
           },
           fromID: fromID,
-          mutableTraits: mutableTraits,
-          immutableTraits: immutableTraits,
-          mutableMetaTraits: mutableMetaTraits,
-          immutableMetaTraits: immutableMetaTraits,
+          immutableMetaProperties: immutableMetaProperties,
+          immutableProperties: immutableProperties,
+          mutableMetaProperties: mutableMetaProperties,
+          mutableProperties: mutableProperties,
         },
       }),
     };

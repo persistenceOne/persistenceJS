@@ -10,10 +10,10 @@ export class deputizeMaintainer extends Persistence {
       address: string,
       chain_id: string,
       mnemonic: string,
-      identityID: string,
-      clsID: string,
+      fromID: string,
       toID: string,
-      maintainedTraits: string,
+      clsID: string,
+      maintainedProperties: string,
       addMaintainer: any,
       removeMaintainer: any,
       mutateMaintainer: any,
@@ -42,10 +42,10 @@ export class deputizeMaintainer extends Persistence {
             fees: [{ amount: String(feesAmount), denom: feesToken }],
             gas: String(gas),
           },
+          fromID: fromID,
           toID: toID,
           classificationID: clsID,
-          fromID: identityID,
-          maintainedTraits: maintainedTraits,
+          maintainedProperties: maintainedProperties,
           addMaintainer: addMaintainer,
           removeMaintainer: removeMaintainer,
           mutateMaintainer: mutateMaintainer,
@@ -59,7 +59,7 @@ export class deputizeMaintainer extends Persistence {
         }
         let result = JSON.parse(response.body);
         resolve(
-          broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
+            broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
         );
       });
     }).catch(function (error) {
@@ -71,10 +71,10 @@ export class deputizeMaintainer extends Persistence {
   createDeputizeMsg = async (
       address: string,
       chain_id: string,
-      identityID: string,
-      clsID: string,
+      fromID: string,
       toID: string,
-      maintainedTraits: string,
+      clsID: string,
+      maintainedProperties: string,
       addMaintainer: any,
       removeMaintainer: any,
       mutateMaintainer: any,
@@ -101,10 +101,10 @@ export class deputizeMaintainer extends Persistence {
             fees: [{ amount: String(feesAmount), denom: feesToken }],
             gas: String(gas),
           },
+          fromID: fromID,
           toID: toID,
           classificationID: clsID,
-          fromID: identityID,
-          maintainedTraits: maintainedTraits,
+          maintainedProperties: maintainedProperties,
           addMaintainer: addMaintainer,
           removeMaintainer: removeMaintainer,
           mutateMaintainer: mutateMaintainer,
