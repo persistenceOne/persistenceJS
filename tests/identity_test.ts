@@ -80,6 +80,7 @@ async function nub_test() {
             results,
             config.nubID
         );
+        console.log(JSON.stringify(listResponse))
         let  clsID = listResponse.classificationID + "|" + listResponse.hashID;
 
        let res = await identityDefine.define(
@@ -97,6 +98,7 @@ async function nub_test() {
             "block",
             ""
         );
+       console.log(JSON.stringify(res))
         check = await checkRawLog(res.rawLog);
         if (check) {
             console.log("\n\n**TX HASH for define identity ** :" + res.transactionHash);
