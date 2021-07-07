@@ -271,26 +271,6 @@ async function nub_test() {
         }
 
 
-        res = await assetRevoke.revoke(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            nubId,
-            nubId,
-            assetClsID2,
-            "25",
-            "stake",
-            "200000",
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for Asset Revoke ** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for Asset Revoke ** :" + res.rawLog);
-        }
-
         res = await assetDefine.define(
             wallet.address,
             config.chain_id,
@@ -362,7 +342,6 @@ async function nub_test() {
             "block",
             ""
         );
-        console.log(JSON.stringify(res))
         check = await checkRawLog(res.rawLog);
         if (check) {
             console.log("\n\n**TX HASH for define identity ** :" + res.transactionHash);
@@ -454,6 +433,26 @@ async function nub_test() {
             console.log("\n\n**TX HASH for Asset Renumerate ** :" + res.transactionHash);
         } else {
             console.log("\n\n**TX failed for Asset Renumerate ** :" + res.rawLog);
+        }
+
+        res = await assetRevoke.revoke(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            nubId,
+            identityID1,
+            assetClsID3,
+            "25",
+            "stake",
+            "200000",
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for Asset Revoke ** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for Asset Revoke ** :" + res.rawLog);
         }
     }
 }
