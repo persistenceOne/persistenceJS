@@ -20,6 +20,7 @@ import {defineIdentity} from "../transaction/identity/define";
 import {issueIdentity} from "../transaction/identity/issue";
 import {queryIdentities} from "../transaction/identity/query";
 import {deputizeMaintainer} from "../transaction/maintainers/deputize";
+import {deputizeAsset} from "../transaction/assets/deputize";
 
 let url = "http://localhost:1317";
 const identityNub = new nubIdentity(url);
@@ -30,6 +31,7 @@ const assetBurn = new burnAsset(url);
 const assetRenumerate = new renumerateAsset(url);
 const assetRevoke = new revokeAsset(url);
 const maintainerDeputize = new deputizeMaintainer(url);
+const assetDeputize = new deputizeAsset(url);
 
 const assetQuery = new queryAssets(url);
 const clsQuery = new cls(url);
@@ -117,183 +119,183 @@ async function nub_test() {
             results,
             config.nubID
         );
-        let  clsID = listResponse.classificationID + "|" + listResponse.hashID;
+        let  nubId = listResponse.classificationID + "|" + listResponse.hashID;
+
+        // res = await assetDefine.define(
+        //     wallet.address,
+        //     config.chain_id,
+        //     mnemonic,
+        //     nubId,
+        //     "ASSET13:S|num13",
+        //     "ASSET12:S|num12",
+        //     "ASSET11:S|num11",
+        //     "ASSET10:S|num10,burn:H|10",
+        //     25,
+        //     "stake",
+        //     200000,
+        //     "block",
+        //     ""
+        // );
+        // check = await checkRawLog(res.rawLog);
+        // if (check) {
+        //     console.log("\n\n**TX HASH for define assets** :" + res.transactionHash);
+        // } else {
+        //     console.log("\n\n**TX failed for define assets** :" + res.rawLog);
+        // }
+        //
+        // results = await clsQuery.queryClassification();
+        // listResponse = await FindInResponse("classifications", results, "ASSET13");
+        // let assetClsID = listResponse.chainID + "." + listResponse.hashID;
+        //
+        // res = await assetMint.mint(
+        //     wallet.address,
+        //     config.chain_id,
+        //     mnemonic,
+        //     nubId,
+        //     nubId,
+        //     assetClsID,
+        //     "ASSET13:S|num13",
+        //     "ASSET12:S|num12",
+        //     "ASSET11:S|num11",
+        //     "ASSET10:S|num10,burn:H|10",
+        //     25,
+        //     "stake",
+        //     200000,
+        //     "block",
+        //     ""
+        // );
+        // check = await checkRawLog(res.rawLog);
+        // if (check) {
+        //     console.log("\n\n**TX HASH for mint assets** :" + res.transactionHash);
+        // } else {
+        //     console.log("\n\n**TX failed for mint assets** :" + res.rawLog);
+        // }
+        //
+        // results = await assetQuery.queryAsset();
+        // listResponse = await FindInResponse("assets", results, "ASSET13");
+        // let assetID = listResponse.classificationID + "|" + listResponse.hashID;
+        //
+        // res = await assetMutate.mutate(
+        //     wallet.address,
+        //     config.chain_id,
+        //     mnemonic,
+        //     nubId,
+        //     assetID,
+        //     "ASSET11:S|num11",
+        //     "ASSET10:S|num10,burn:H|10",
+        //     25,
+        //     "stake",
+        //     200000,
+        //     "block",
+        //     ""
+        // );
+        // check = await checkRawLog(res.rawLog);
+        // if (check) {
+        //     console.log("\n\n**TX HASH for mutate assets** :" + res.transactionHash);
+        // } else {
+        //     console.log("\n\n**TX failed for mutate assets** :" + res.rawLog);
+        // }
+        //
+        // res = await assetDefine.define(
+        //     wallet.address,
+        //     config.chain_id,
+        //     mnemonic,
+        //     nubId,
+        //     "ASSET23:S|num23,burn:H|",
+        //     "ASSET22:S|num22",
+        //     "ASSET21:S|num21",
+        //     "ASSET20:S|num20",
+        //     25,
+        //     "stake",
+        //     200000,
+        //     "block",
+        //     ""
+        // );
+        // check = await checkRawLog(res.rawLog);
+        // if (check) {
+        //     console.log("\n\n**TX HASH for define assets 2** :" + res.transactionHash);
+        // } else {
+        //     console.log("\n\n**TX failed for define assets 2** :" + res.rawLog);
+        // }
+        //
+        // results = await clsQuery.queryClassification();
+        // listResponse = await FindInResponse("classifications", results, "ASSET23");
+        // let assetClsID2 = listResponse.chainID + "." + listResponse.hashID;
+        //
+        // res = await assetMint.mint(
+        //     wallet.address,
+        //     config.chain_id,
+        //     mnemonic,
+        //     nubId,
+        //     nubId,
+        //     assetClsID2,
+        //     "ASSET23:S|num23,burn:H|3",
+        //     "ASSET22:S|num22",
+        //     "ASSET21:S|num21",
+        //     "ASSET20:S|num20",
+        //     25,
+        //     "stake",
+        //     200000,
+        //     "block",
+        //     ""
+        // );
+        // check = await checkRawLog(res.rawLog);
+        // if (check) {
+        //     console.log("\n\n**TX HASH for mint assets 2** :" + res.transactionHash);
+        // } else {
+        //     console.log("\n\n**TX failed for mint assets 2** :" + res.rawLog);
+        // }
+        //
+        // results = await assetQuery.queryAsset();
+        // listResponse = await FindInResponse("assets", results, "ASSET23");
+        // let assetID2 = listResponse.classificationID + "|" + listResponse.hashID;
+        //
+        //
+        // res = await assetBurn.burn(
+        //     wallet.address,
+        //     config.chain_id,
+        //     mnemonic,
+        //     nubId,
+        //     assetID2,
+        //     "25",
+        //     "stake",
+        //     "200000",
+        //     "block",
+        //     ""
+        // );
+        // check = await checkRawLog(res.rawLog);
+        // if (check) {
+        //     console.log("\n\n**TX HASH for Asset Burn ** :" + res.transactionHash);
+        // } else {
+        //     console.log("\n\n**TX failed for Asset Burn ** :" + res.rawLog);
+        // }
+        //
+        //
+        // res = await assetRevoke.revoke(
+        //     wallet.address,
+        //     config.chain_id,
+        //     mnemonic,
+        //     nubId,
+        //     nubId,
+        //     assetClsID2,
+        //     "25",
+        //     "stake",
+        //     "200000",
+        //     "block",
+        //     ""
+        // );
+        // check = await checkRawLog(res.rawLog);
+        // if (check) {
+        //     console.log("\n\n**TX HASH for Asset Revoke ** :" + res.transactionHash);
+        // } else {
+        //     console.log("\n\n**TX failed for Asset Revoke ** :" + res.rawLog);
+        // }
 
         res = await assetDefine.define(
             wallet.address,
             config.chain_id,
             mnemonic,
-            clsID,
-            "ASSET13:S|num13",
-            "ASSET12:S|num12",
-            "ASSET11:S|num11",
-            "ASSET10:S|num10,burn:H|10",
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for define assets** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for define assets** :" + res.rawLog);
-        }
-
-        results = await clsQuery.queryClassification();
-        listResponse = await FindInResponse("classifications", results, "ASSET13");
-        let assetClsID = listResponse.chainID + "." + listResponse.hashID;
-
-        res = await assetMint.mint(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            clsID,
-            clsID,
-            assetClsID,
-            "ASSET13:S|num13",
-            "ASSET12:S|num12",
-            "ASSET11:S|num11",
-            "ASSET10:S|num10,burn:H|10",
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for mint assets** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for mint assets** :" + res.rawLog);
-        }
-
-        results = await assetQuery.queryAsset();
-        listResponse = await FindInResponse("assets", results, "ASSET13");
-        let assetID = listResponse.classificationID + "|" + listResponse.hashID;
-
-        res = await assetMutate.mutate(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            clsID,
-            assetID,
-            "ASSET11:S|num11",
-            "ASSET10:S|num10,burn:H|10",
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for mutate assets** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for mutate assets** :" + res.rawLog);
-        }
-
-        res = await assetDefine.define(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            clsID,
-            "ASSET23:S|num23,burn:H|",
-            "ASSET22:S|num22",
-            "ASSET21:S|num21",
-            "ASSET20:S|num20",
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for define assets 2** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for define assets 2** :" + res.rawLog);
-        }
-
-        results = await clsQuery.queryClassification();
-        listResponse = await FindInResponse("classifications", results, "ASSET23");
-        let assetClsID2 = listResponse.chainID + "." + listResponse.hashID;
-
-        res = await assetMint.mint(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            clsID,
-            clsID,
-            assetClsID2,
-            "ASSET23:S|num23,burn:H|3",
-            "ASSET22:S|num22",
-            "ASSET21:S|num21",
-            "ASSET20:S|num20",
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for mint assets 2** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for mint assets 2** :" + res.rawLog);
-        }
-
-        results = await assetQuery.queryAsset();
-        listResponse = await FindInResponse("assets", results, "ASSET23");
-        let assetID2 = listResponse.classificationID + "|" + listResponse.hashID;
-
-
-        res = await assetBurn.burn(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            clsID,
-            assetID2,
-            "25",
-            "stake",
-            "200000",
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for Asset Burn ** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for Asset Burn ** :" + res.rawLog);
-        }
-
-
-        res = await assetRevoke.revoke(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            clsID,
-            clsID,
-            assetClsID2,
-            "25",
-            "stake",
-            "200000",
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for Asset Revoke ** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for Asset Revoke ** :" + res.rawLog);
-        }
-
-        res = await assetDefine.define(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            clsID,
+            nubId,
             "ASSET53:S|num23,burn:H|",
             "ASSET52:S|num22",
             "ASSET51:S|num21",
@@ -311,6 +313,8 @@ async function nub_test() {
             console.log("\n\n**TX failed for define assets 3** :" + res.rawLog);
         }
 
+
+
         results = await clsQuery.queryClassification();
         listResponse = await FindInResponse("classifications", results, "ASSET53");
         let assetClsID3 = listResponse.chainID + "." + listResponse.hashID;
@@ -319,8 +323,8 @@ async function nub_test() {
             wallet.address,
             config.chain_id,
             mnemonic,
-            clsID,
-            clsID,
+            nubId,
+            nubId,
             assetClsID3,
             "ASSET53:S|num23,burn:H|3",
             "ASSET52:S|num22",
@@ -343,21 +347,22 @@ async function nub_test() {
         listResponse = await FindInResponse("assets", results, "ASSET53");
         let assetID3 = listResponse.classificationID + "|" + listResponse.hashID;
 
-        res = await identityDefine.define(
+         res = await identityDefine.define(
             wallet.address,
             config.chain_id,
             mnemonic,
-            clsID,
-            "ASSET53:S|num23,burn:H|3",
-            "ASSET52:S|num22",
-            "ASSET51:S|num21",
-            "ASSET50:S|num20",
+            nubId,
+         "ASSET53:S|num23,burn:H|3",
+         "ASSET52:S|num22",
+         "ASSET51:S|num21",
+         "ASSET50:S|num20",
             25,
             "stake",
             200000,
             "block",
             ""
         );
+        console.log(JSON.stringify(res))
         check = await checkRawLog(res.rawLog);
         if (check) {
             console.log("\n\n**TX HASH for define identity ** :" + res.transactionHash);
@@ -378,7 +383,7 @@ async function nub_test() {
             config.chain_id,
             mnemonic,
             config.testAccountAddress,
-            clsID,
+            nubId,
             classificationID1,
             "ASSET53:S|num23,burn:H|3",
             "ASSET52:S|num22",
@@ -407,14 +412,14 @@ async function nub_test() {
         );
         let identityID1 = listResponse.classificationID + "|" + listResponse.hashID;
 
-        res = await maintainerDeputize.deputize(
+        res = await assetDeputize.deputize(
             wallet.address,
             config.chain_id,
             mnemonic,
-            clsID,
+            nubId,
             identityID1,
             assetClsID3,
-            "ASSET53:S|num231",
+            "ASSET51:S|num21,ASSET50:S|num20",
             true,
             true,
             true,
@@ -426,9 +431,9 @@ async function nub_test() {
         );
         check = await checkRawLog(res.rawLog);
         if (check) {
-            console.log("\n\n**TX HASH for maintainer deputize** :" + res.transactionHash);
+            console.log("\n\n**TX HASH for Deputize** :" + res.transactionHash);
         } else {
-            console.log("\n\n**TX failed for maintainer deputize** :" + res.rawLog);
+            console.log("\n\n**TX failed for Deputize** :" + res.rawLog);
         }
 
 
