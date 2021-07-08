@@ -51,6 +51,7 @@ export class issueIdentity extends Persistence {
         },
       }),
     };
+    console.log(JSON.stringify(options))
     return new Promise(function (resolve, reject) {
       Request(options, function (error: any, response: { body: string; }) {
         if (error) {

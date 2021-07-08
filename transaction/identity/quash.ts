@@ -4,19 +4,14 @@ import { Persistence } from "../../utilities/persistenceJS";
 import { broadcastTx } from "../../utilities/broadcastTx";
 import { getWallet } from "../../utilities/keys";
 
-export class deputizeIdentity extends Persistence {
+export class quashIdentity extends Persistence {
 
-    deputize = async (
+    quash = async (
         address: string,
         chain_id: string,
         mnemonic: string,
         fromID: string,
-        toID: string,
-        classificationID: any,
-        maintainedProperties: any,
-        addMaintainer: boolean,
-        removeMaintainer: boolean,
-        mutateMaintainer: boolean,
+        identityID: any,
         feesAmount: any,
         feesToken: any,
         gas: any,
@@ -28,12 +23,12 @@ export class deputizeIdentity extends Persistence {
 
         let options = {
             method: "POST",
-            url: path + config.deputizeIdentityPath,
+            url: path + config.quashIdentityPath,
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: config.deputizeIdentityType,
+                type: config.quashIdentityType,
                 value: {
                     baseReq: {
                         from: address,
@@ -43,23 +38,16 @@ export class deputizeIdentity extends Persistence {
                         gas: String(gas),
                     },
                     fromID: fromID,
-                    toID: toID,
-                    classificationID: classificationID,
-                    maintainedProperties: maintainedProperties,
-                    addMaintainer: addMaintainer,
-                    removeMaintainer: removeMaintainer,
-                    mutateMaintainer: mutateMaintainer,
+                    identityID: identityID,
                 },
             }),
         };
-        console.log(JSON.stringify(options));
         return new Promise(function (resolve, reject) {
             Request(options, function (error: any, response: { body: string; }) {
                 if (error) {
                     reject(error);
                 }
                 let result = JSON.parse(response.body);
-                console.log(JSON.stringify(result))
                 resolve(
                     broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
                 );
@@ -70,16 +58,11 @@ export class deputizeIdentity extends Persistence {
         });
     }
 
-    createIdentityDeputizeMsg = async (
+    createIdentityQuashMsg = async (
         address: string,
         chain_id: string,
         fromID: string,
-        toID: string,
-        classificationID: any,
-        maintainedProperties: any,
-        addMaintainer: boolean,
-        removeMaintainer: boolean,
-        mutateMaintainer: boolean,
+        identityID: any,
         feesAmount: any,
         feesToken: any,
         gas: any,
@@ -89,12 +72,12 @@ export class deputizeIdentity extends Persistence {
 
         let options = {
             method: "POST",
-            url: path + config.deputizeIdentityPath,
+            url: path + config.quashIdentityPath,
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: config.deputizeIdentityType,
+                type: config.quashIdentityType,
                 value: {
                     baseReq: {
                         from: address,
@@ -104,15 +87,11 @@ export class deputizeIdentity extends Persistence {
                         gas: String(gas),
                     },
                     fromID: fromID,
-                    toID: toID,
-                    classificationID: classificationID,
-                    maintainedProperties: maintainedProperties,
-                    addMaintainer: addMaintainer,
-                    removeMaintainer: removeMaintainer,
-                    mutateMaintainer: mutateMaintainer,
+                    identityID: identityID,
                 },
             }),
         };
+
         return new Promise(function (resolve, reject) {
             Request(options, function (error: any, response: { body: string; }) {
                 if (error) {

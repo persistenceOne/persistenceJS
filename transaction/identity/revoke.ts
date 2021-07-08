@@ -4,19 +4,15 @@ import { Persistence } from "../../utilities/persistenceJS";
 import { broadcastTx } from "../../utilities/broadcastTx";
 import { getWallet } from "../../utilities/keys";
 
-export class deputizeIdentity extends Persistence {
+export class revokeIdentity extends Persistence {
 
-    deputize = async (
+    revoke = async (
         address: string,
         chain_id: string,
         mnemonic: string,
         fromID: string,
         toID: string,
-        classificationID: any,
-        maintainedProperties: any,
-        addMaintainer: boolean,
-        removeMaintainer: boolean,
-        mutateMaintainer: boolean,
+        classificationID: string,
         feesAmount: any,
         feesToken: any,
         gas: any,
@@ -28,12 +24,12 @@ export class deputizeIdentity extends Persistence {
 
         let options = {
             method: "POST",
-            url: path + config.deputizeIdentityPath,
+            url: path + config.revokeIdentityPath,
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: config.deputizeIdentityType,
+                type: config.revokeIdentityType,
                 value: {
                     baseReq: {
                         from: address,
@@ -45,21 +41,15 @@ export class deputizeIdentity extends Persistence {
                     fromID: fromID,
                     toID: toID,
                     classificationID: classificationID,
-                    maintainedProperties: maintainedProperties,
-                    addMaintainer: addMaintainer,
-                    removeMaintainer: removeMaintainer,
-                    mutateMaintainer: mutateMaintainer,
                 },
             }),
         };
-        console.log(JSON.stringify(options));
         return new Promise(function (resolve, reject) {
             Request(options, function (error: any, response: { body: string; }) {
                 if (error) {
                     reject(error);
                 }
                 let result = JSON.parse(response.body);
-                console.log(JSON.stringify(result))
                 resolve(
                     broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
                 );
@@ -70,16 +60,12 @@ export class deputizeIdentity extends Persistence {
         });
     }
 
-    createIdentityDeputizeMsg = async (
+    createIdentityRevokeMsg = async (
         address: string,
         chain_id: string,
         fromID: string,
         toID: string,
-        classificationID: any,
-        maintainedProperties: any,
-        addMaintainer: boolean,
-        removeMaintainer: boolean,
-        mutateMaintainer: boolean,
+        classificationID: string,
         feesAmount: any,
         feesToken: any,
         gas: any,
@@ -89,12 +75,12 @@ export class deputizeIdentity extends Persistence {
 
         let options = {
             method: "POST",
-            url: path + config.deputizeIdentityPath,
+            url: path + config.revokeIdentityPath,
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: config.deputizeIdentityType,
+                type: config.revokeIdentityType,
                 value: {
                     baseReq: {
                         from: address,
@@ -106,13 +92,10 @@ export class deputizeIdentity extends Persistence {
                     fromID: fromID,
                     toID: toID,
                     classificationID: classificationID,
-                    maintainedProperties: maintainedProperties,
-                    addMaintainer: addMaintainer,
-                    removeMaintainer: removeMaintainer,
-                    mutateMaintainer: mutateMaintainer,
                 },
             }),
         };
+
         return new Promise(function (resolve, reject) {
             Request(options, function (error: any, response: { body: string; }) {
                 if (error) {
