@@ -20,6 +20,8 @@ import {sendSplits} from "../transaction/splits/send";
 import {defineAsset} from "../transaction/assets/define";
 import {mintAsset} from "../transaction/assets/mint";
 import {bank} from "../transaction/bank/sendCoin";
+import {quashIdentity} from "../transaction/identity/quash";
+import {revokeIdentity} from "../transaction/identity/revoke";
 
 let url = "http://localhost:1317";
 const identityNub = new nubIdentity(url);
@@ -31,10 +33,9 @@ const identityProvision = new provisionIdentity(url);
 const identityUnprovision = new unprovisionIdentity(url);
 const identityMutate = new mutateIdentity(url);
 const identityDeputize = new deputizeIdentity(url);
-const assetQuery = new queryAssets(url);
-const splitsSend = new sendSplits(url);
-const assetDefine = new defineAsset(url);
-const assetMint = new mintAsset(url);
+const identityQuash = new quashIdentity(url);
+const identityRevoke = new revokeIdentity(url);
+
 const sendCoin = new bank(url);
 
 
@@ -45,7 +46,7 @@ const mnemonic =
     "wage thunder live sense resemble foil apple course spin horse glass mansion midnight laundry acoustic rhythm loan scale talent push green direct brick please";
 
 
-async function nub_test() {
+async function identity_test() {
     console.log("Creating random wallet...");
     let randomWallet = await createRandomWallet("");
     console.log(randomWallet);
@@ -333,10 +334,49 @@ async function nub_test() {
         } else {
             console.log("\n\n**TX failed for Unprovision1** :" + res.rawLog);
         }
+
+        res = await identityQuash.quash(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            nubId,
+            identityID1,
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for quash** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for quash** :" + res.rawLog);
+        }
+
+        res = await identityRevoke.revoke(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            nubId,
+            identityID1,
+            classificationID1,
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for revoke** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for revoke** :" + res.rawLog);
+        }
     }
 }
 
-nub_test();
+identity_test();
 
 async function nub(address: string, chain_id: string, mnemonic: string, nubID: string, fee: number, token: string, gas: number, mode: string) {
     return new Promise(async function (resolve) {
