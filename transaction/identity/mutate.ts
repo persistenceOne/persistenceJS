@@ -51,8 +51,6 @@ export class mutateIdentity extends Persistence {
                 if (error) {
                     reject(error);
                 }
-                console.log(JSON.stringify(response.body));
-
                 let result = JSON.parse(response.body);
 
                 resolve(

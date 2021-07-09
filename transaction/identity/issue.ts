@@ -51,13 +51,11 @@ export class issueIdentity extends Persistence {
         },
       }),
     };
-    console.log(JSON.stringify(options))
     return new Promise(function (resolve, reject) {
       Request(options, function (error: any, response: { body: string; }) {
         if (error) {
           reject(error);
         }
-
         let result = JSON.parse(response.body);
         resolve(
           broadcastTx(path, wallet, mnemonic ,result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)

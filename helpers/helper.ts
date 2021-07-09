@@ -45,12 +45,7 @@ export const FindInResponse = (
   return new Promise(function (resolve, reject) {
     switch (type) {
       case "assets":
-        console.log("assets");
-
         list.forEach(function (value:any) {
-          console.log(value.value.HasImmutables.properties.value.propertyList[0].value
-              .id.value.idString)
-          console.log(id)
           if (
               value.value.HasImmutables.properties.value.propertyList[0].value
                   .id.value.idString === id
@@ -63,11 +58,7 @@ export const FindInResponse = (
         });
         break;
       case "identities":
-        console.log("identities");
         list.forEach(function (value:any) {
-          console.log("ID: "+id)
-          console.log("IDString: "+value.value.HasImmutables.properties.value.propertyList[0].value
-              .id.value.idString)
           if (
             value.value.HasImmutables.properties.value.propertyList[0].value
               .id.value.idString === id
@@ -94,8 +85,6 @@ export const FindInResponse = (
         });
         break;
       case "orders":
-        console.log("orders");
-
         list.forEach(function (value:any) {
           if (
             value.value.HasImmutables.properties.value.propertyList[0].value

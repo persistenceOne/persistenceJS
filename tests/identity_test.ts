@@ -124,7 +124,7 @@ async function identity_test() {
             config.chain_id,
             mnemonic,
             nubId,
-            "ASSET53:S|num23,authentication:S|num23",
+            "ASSET53:S|num23,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
             "ASSET52:S|num22",
             "ASSET51:S|num21",
             "ASSET50:S|num20",
@@ -156,7 +156,7 @@ async function identity_test() {
             config.testAccountAddress,
             nubId,
             classificationID1,
-            "ASSET53:S|num23,authentication:S|num23",
+            "ASSET53:S|num23,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
             "ASSET52:S|num22",
             "ASSET51:S|num21",
             "ASSET50:S|num20",
@@ -183,118 +183,70 @@ async function identity_test() {
         );
         let identityID1 = listResponse.classificationID + "|" + listResponse.hashID;
 
-        // res = await identityDefine.define(
-        //     wallet.address,
-        //     config.chain_id,
-        //     mnemonic,
-        //     nubId,
-        //     "ASSET42:S|num42,authentication:S|num42",
-        //     "ASSET22:S|num22",
-        //     "ASSET32:S|num32",
-        //     "ASSET12:S|num1,burn:H|1",
-        //     25,
-        //     "stake",
-        //     200000,
-        //     "block",
-        //     ""
-        // );
-        // check = await checkRawLog(res.rawLog);
-        // if (check) {
-        //     console.log("\n\n**TX HASH for define identity 2** :" + res.transactionHash);
-        // } else {
-        //     console.log("\n\n**TX failed for define identity 2** :" + res.rawLog);
-        // }
-        //
-        // results = await clsQuery.queryClassification();
-        // listResponse = await FindInResponse(
-        //     "classifications",
-        //     results,
-        //     "ASSET42"
-        // );
-        // let classificationID2 = listResponse.chainID + "." + listResponse.hashID;
-        //
-        // res = await identityIssue.issue(
-        //     wallet.address,
-        //     config.chain_id,
-        //     mnemonic,
-        //     config.testAccountAddress,
-        //     nubId,
-        //     classificationID2,
-        //     "ASSET42:S|num42,authentication:S|num42",
-        //     "ASSET22:S|num22",
-        //     "ASSET32:S|num32",
-        //     "ASSET12:S|num1,burn:H|1",
-        //     25,
-        //     "stake",
-        //     200000,
-        //     "block",
-        //     ""
-        // );
-        //
-        //
-        // check = await checkRawLog(res.rawLog);
-        // if (check) {
-        //     console.log("\n\n**TX HASH for issue identity 2** :" + res.transactionHash);
-        // } else {
-        //     console.log("\n\n**TX failed for issue identity 2** :" + res.rawLog);
-        // }
-        //
-        // results = await identityQuery.queryIdentity();
-        // listResponse = await FindInResponse(
-        //     "identities",
-        //     results,
-        //     "ASSET42"
-        // );
-        // let identityID2 = listResponse.classificationID + "|" + listResponse.hashID;
-
-        res = await identityDeputize.deputize(
+        res = await identityDefine.define(
             wallet.address,
             config.chain_id,
             mnemonic,
-            nubId,
             identityID1,
-            classificationID1,
-            "ASSET51:S|num21,ASSET50:S|num20",
-            true,
-            true,
-            true,
+            "ASSET42:S|num42,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET22:S|num22",
+            "ASSET32:S|num32",
+            "ASSET12:S|num1",
             25,
             "stake",
             200000,
             "block",
-            "",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for define identity 2** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for define identity 2** :" + res.rawLog);
+        }
+
+        results = await clsQuery.queryClassification();
+        listResponse = await FindInResponse(
+            "classifications",
+            results,
+            "ASSET42"
+        );
+        let classificationID2 = listResponse.chainID + "." + listResponse.hashID;
+
+        res = await identityIssue.issue(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            config.testAccountAddress,
+            identityID1,
+            classificationID2,
+            "ASSET42:S|num42,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET22:S|num22",
+            "ASSET32:S|num32",
+            "ASSET12:S|num1",
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
         );
 
 
         check = await checkRawLog(res.rawLog);
         if (check) {
-            console.log("\n\n**TX HASH for deputize identity ** :" + res.transactionHash);
+            console.log("\n\n**TX HASH for issue identity 2** :" + res.transactionHash);
         } else {
-            console.log("\n\n**TX failed for deputize identity ** :" + res.rawLog);
+            console.log("\n\n**TX failed for issue identity 2** :" + res.rawLog);
         }
 
-        res = await identityMutate.mutate(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            nubId,
-            identityID1,
-            "ASSET3:S|num3,authentication:S|num23",
-            "ASSET1:S|num1",
-            25,
-            "stake",
-            200000,
-            "block",
-            "",
+        results = await identityQuery.queryIdentity();
+        listResponse = await FindInResponse(
+            "identities",
+            results,
+            "ASSET42"
         );
+        let identityID2 = listResponse.classificationID + "|" + listResponse.hashID;
 
-
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for mutate identity ** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for mutate identity ** :" + res.rawLog);
-        }
 
 
         res = await identityProvision.provision(
@@ -335,12 +287,81 @@ async function identity_test() {
             console.log("\n\n**TX failed for Unprovision1** :" + res.rawLog);
         }
 
-        res = await identityQuash.quash(
+        res = await identityDeputize.deputize(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            identityID2,
+            classificationID2,
+            "ASSET32:S|num32,ASSET12:S|num1",
+            true,
+            true,
+            true,
+            25,
+            "stake",
+            200000,
+            "block",
+            "",
+        );
+
+
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for deputize identity ** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for deputize identity ** :" + res.rawLog);
+        }
+
+        res = await identityRevoke.revoke(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            identityID2,
+            classificationID2,
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for revoke** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for revoke** :" + res.rawLog);
+        }
+
+        res = await identityMutate.mutate(
             wallet.address,
             config.chain_id,
             mnemonic,
             nubId,
             identityID1,
+            "ASSET51:S|num21",
+            "ASSET50:S|num20",
+            25,
+            "stake",
+            200000,
+            "block",
+            "",
+        );
+
+
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for mutate identity ** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for mutate identity ** :" + res.rawLog);
+        }
+
+        res = await identityQuash.quash(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            identityID2,
             25,
             "stake",
             200000,
@@ -354,25 +375,6 @@ async function identity_test() {
             console.log("\n\n**TX failed for quash** :" + res.rawLog);
         }
 
-        res = await identityRevoke.revoke(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            nubId,
-            identityID1,
-            classificationID1,
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for revoke** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for revoke** :" + res.rawLog);
-        }
     }
 }
 

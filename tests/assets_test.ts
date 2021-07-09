@@ -46,7 +46,7 @@ const mnemonic =
     "wage thunder live sense resemble foil apple course spin horse glass mansion midnight laundry acoustic rhythm loan scale talent push green direct brick please";
 
 
-async function nub_test() {
+async function assets_test() {
     console.log("Creating random wallet...");
     let randomWallet = await createRandomWallet("");
     console.log(randomWallet);
@@ -276,7 +276,7 @@ async function nub_test() {
             config.chain_id,
             mnemonic,
             nubId,
-            "ASSET53:S|num23,burn:H|",
+            "ASSET53:S|num23,burn:H|,value:D|12",
             "ASSET52:S|num22",
             "ASSET51:S|num21",
             "ASSET50:S|num20",
@@ -306,7 +306,7 @@ async function nub_test() {
             nubId,
             nubId,
             assetClsID3,
-            "ASSET53:S|num23,burn:H|3",
+            "ASSET53:S|num23,burn:H|3,value:D|12",
             "ASSET52:S|num22",
             "ASSET51:S|num21",
             "ASSET50:S|num20",
@@ -420,7 +420,7 @@ async function nub_test() {
             wallet.address,
             config.chain_id,
             mnemonic,
-            identityID1,
+            nubId,
             assetID3,
             "25",
             "stake",
@@ -457,7 +457,7 @@ async function nub_test() {
     }
 }
 
-nub_test();
+assets_test();
 
 async function nub(address: string, chain_id: string, mnemonic: string, nubID: string, fee: number, token: string, gas: number, mode: string) {
     return new Promise(async function (resolve) {
