@@ -332,7 +332,7 @@ async function assets_test() {
             config.chain_id,
             mnemonic,
             nubId,
-         "ASSET53:S|num23,burn:H|3",
+         "ASSET53:S|num23,burn:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
          "ASSET52:S|num22",
          "ASSET51:S|num21",
          "ASSET50:S|num20",
@@ -364,7 +364,7 @@ async function assets_test() {
             config.testAccountAddress,
             nubId,
             classificationID1,
-            "ASSET53:S|num23,burn:H|3",
+            "ASSET53:S|num23,burn:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
             "ASSET52:S|num22",
             "ASSET51:S|num21",
             "ASSET50:S|num20",
@@ -391,6 +391,81 @@ async function assets_test() {
         );
         let identityID1 = listResponse.classificationID + "|" + listResponse.hashID;
 
+        res = await assetDefine.define(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            "ASSET60:S|num23,burn:H|",
+            "ASSET61:S|num62",
+            "ASSET62:S|num61,value:D|12",
+            "ASSET63:S|num60",
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for define assets 4** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for define assets 4** :" + res.rawLog);
+        }
+
+
+
+        results = await clsQuery.queryClassification();
+        listResponse = await FindInResponse("classifications", results, "ASSET60");
+        let assetClsID4 = listResponse.chainID + "." + listResponse.hashID;
+
+        res = await assetMint.mint(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            identityID1,
+            assetClsID4,
+            "ASSET60:S|num23,burn:H|",
+            "ASSET61:S|num62",
+            "ASSET62:S|num61,value:D|12",
+            "ASSET63:S|num60",
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for mint assets 4** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for mint assets 4** :" + res.rawLog);
+        }
+
+        results = await assetQuery.queryAsset();
+        listResponse = await FindInResponse("assets", results, "ASSET60");
+        let assetID4 = listResponse.classificationID + "|" + listResponse.hashID;
+
+        res = await assetRenumerate.renumerate(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            assetID4,
+            "25",
+            "stake",
+            "200000",
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for Asset Renumerate ** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for Asset Renumerate ** :" + res.rawLog);
+        }
+
         res = await assetDeputize.deputize(
             wallet.address,
             config.chain_id,
@@ -415,25 +490,6 @@ async function assets_test() {
             console.log("\n\n**TX failed for Deputize** :" + res.rawLog);
         }
 
-
-        res = await assetRenumerate.renumerate(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            nubId,
-            assetID3,
-            "25",
-            "stake",
-            "200000",
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for Asset Renumerate ** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for Asset Renumerate ** :" + res.rawLog);
-        }
 
         res = await assetRevoke.revoke(
             wallet.address,
