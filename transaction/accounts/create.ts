@@ -38,7 +38,7 @@ export class createAccount extends Persistence {
 
         let signOptions = {
           method: "POST",
-          url: path + config.signTx,
+          url: path + config.sign,
           headers: {
             "Content-Type": "application/json",
           },

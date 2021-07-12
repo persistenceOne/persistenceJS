@@ -4,6 +4,7 @@ import { Persistence } from "../../utilities/persistenceJS";
 import { broadcastTx } from "../../utilities/broadcastTx";
 import { getWallet } from "../../utilities/keys";
 
+
 export class makeOrder extends Persistence {
   make = async (
       address: string,
@@ -66,7 +67,6 @@ export class makeOrder extends Persistence {
           reject(error);
         }
         let result = JSON.parse(response.body);
-        console.log(JSON.stringify(result))
         resolve(
             broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
         );
@@ -143,3 +143,7 @@ export class makeOrder extends Persistence {
     });
   }
 }
+
+
+
+

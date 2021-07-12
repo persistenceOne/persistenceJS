@@ -47,6 +47,7 @@ export class quashIdentity extends Persistence {
         if (error) {
           reject(error);
         }
+        console.log ("quash", response)
         let result = JSON.parse(response.body);
         resolve(
           broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)

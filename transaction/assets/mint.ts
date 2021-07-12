@@ -6,21 +6,21 @@ import { getWallet } from "../../utilities/keys";
 
 export class mintAsset extends Persistence {
   mint = async (
-    address: string,
-    chain_id: string,
-    mnemonic: any,
-    toID: any,
-    fromID: string,
-    classificationID: any,
-    mutableProperties: string,
-    immutableProperties: any,
-    mutableMetaProperties: any,
-    immutableMetaProperties: any,
-    feesAmount: any,
-    feesToken: any,
-    gas: any,
-    mode: any,
-    memo: string
+      address: string,
+      chain_id: string,
+      mnemonic: any,
+      toID: any,
+      fromID: string,
+      classificationID: any,
+      immutableMetaProperties: any,
+      immutableProperties: any,
+      mutableMetaProperties: any,
+      mutableProperties: string,
+      feesAmount: any,
+      feesToken: any,
+      gas: any,
+      mode: any,
+      memo: string
   ): Promise<any> => {
     const wallet = await getWallet(mnemonic, "");
     let path = this.path;
@@ -44,10 +44,10 @@ export class mintAsset extends Persistence {
           toID: toID,
           fromID: fromID,
           classificationID: classificationID,
-          mutableProperties: mutableProperties,
+          immutableMetaProperties: immutableMetaProperties,
           immutableProperties: immutableProperties,
           mutableMetaProperties: mutableMetaProperties,
-          immutableMetaProperties: immutableMetaProperties,
+          mutableProperties: mutableProperties,
         },
       }),
     };
@@ -72,10 +72,10 @@ export class mintAsset extends Persistence {
       toID: any,
       fromID: string,
       classificationID: any,
-      mutableProperties: string,
+      immutableMetaProperties: any,
       immutableProperties: any,
       mutableMetaProperties: any,
-      immutableMetaProperties: any,
+      mutableProperties: string,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -102,10 +102,10 @@ export class mintAsset extends Persistence {
           toID: toID,
           fromID: fromID,
           classificationID: classificationID,
-          mutableProperties: mutableProperties,
+          immutableMetaProperties: immutableMetaProperties,
           immutableProperties: immutableProperties,
           mutableMetaProperties: mutableMetaProperties,
-          immutableMetaProperties: immutableMetaProperties,
+          mutableProperties: mutableProperties,
         },
       }),
     };
@@ -124,4 +124,3 @@ export class mintAsset extends Persistence {
     });
   };
 }
-

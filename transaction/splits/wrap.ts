@@ -9,7 +9,7 @@ export class wrapSplits extends Persistence {
       address: string,
       chain_id: string,
       mnemonic: string,
-      fromID: string,
+      fromID: string,//identity ID
       coins: any,
       feesAmount: any,
       feesToken: any,

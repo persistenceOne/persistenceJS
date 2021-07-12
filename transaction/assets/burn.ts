@@ -6,16 +6,16 @@ import { getWallet } from "../../utilities/keys";
 
 export class burnAsset extends Persistence {
   burn = async (
-    address: string,
-    chain_id: string,
-    mnemonic: string,
-    fromID: string,
-    assetID: string,
-    feesAmount: any,
-    feesToken: any,
-    gas: any,
-    mode: any,
-    memo: string
+      address: string,
+      chain_id: string,
+      mnemonic: string,
+      fromID: string,
+      assetID: string,
+      feesAmount: any,
+      feesToken: any,
+      gas: any,
+      mode: any,
+      memo: string
   ): Promise<any> => {
     const wallet = await getWallet(mnemonic, "");
     let path = this.path;

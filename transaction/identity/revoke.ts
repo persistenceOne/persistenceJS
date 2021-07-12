@@ -11,7 +11,7 @@ export class revokeIdentity extends Persistence {
       chain_id: string,
       mnemonic: string,
       fromID: string,
-      toId: string,
+      toID: string,
       classificationID: any,
       feesAmount: any,
       feesToken: any,
@@ -39,7 +39,7 @@ export class revokeIdentity extends Persistence {
             gas: String(gas),
           },
           fromID: fromID,
-          toId: toId,
+          toID: toID,
           classificationID: classificationID,
         },
       }),
@@ -49,6 +49,7 @@ export class revokeIdentity extends Persistence {
         if (error) {
           reject(error);
         }
+        console.log("revoke",response)
         let result = JSON.parse(response.body);
         resolve(
           broadcastTx(path, wallet, mnemonic, result.value, chain_id, result.value.fee.gas ,config.GASPRICE, mode)
@@ -64,7 +65,7 @@ export class revokeIdentity extends Persistence {
       address: string,
       chain_id: string,
       fromID: string,
-      toId: string,
+      toID: string,
       classificationID: any,
       feesAmount: any,
       feesToken: any,
@@ -90,7 +91,7 @@ export class revokeIdentity extends Persistence {
             gas: String(gas),
           },
           fromID: fromID,
-          toId: toId,
+          toId: toID,
           classificationID: classificationID,
         },
       }),

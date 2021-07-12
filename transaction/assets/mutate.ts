@@ -6,18 +6,18 @@ import { getWallet } from "../../utilities/keys";
 
 export class mutateAsset extends Persistence {
   mutate = async (
-    address: string,
-    chain_id: string,
-    mnemonic: any,
-    fromID: string,
-    assetID: any,
-    mutableProperties: string,
-    mutableMetaProperties: any,
-    feesAmount: any,
-    feesToken: any,
-    gas: any,
-    mode: any,
-    memo: string
+      address: string,
+      chain_id: string,
+      mnemonic: any,
+      fromID: string,
+      assetID: any,
+      mutableMetaProperties: any,
+      mutableProperties: string,
+      feesAmount: any,
+      feesToken: any,
+      gas: any,
+      mode: any,
+      memo: string
   ): Promise<any> => {
     const wallet = await getWallet(mnemonic, "");
     let path = this.path;
@@ -40,8 +40,8 @@ export class mutateAsset extends Persistence {
           },
           fromID: fromID,
           assetID: assetID,
-          mutableProperties: mutableProperties,
           mutableMetaProperties: mutableMetaProperties,
+          mutableProperties: mutableProperties,
         },
       }),
     };
@@ -64,8 +64,8 @@ export class mutateAsset extends Persistence {
       chain_id: string,
       fromID: string,
       assetID: any,
-      mutableProperties: string,
       mutableMetaProperties: any,
+      mutableProperties: string,
       feesAmount: any,
       feesToken: any,
       gas: any,
@@ -91,8 +91,8 @@ export class mutateAsset extends Persistence {
           },
           fromID: fromID,
           assetID: assetID,
-          mutableProperties: mutableProperties,
           mutableMetaProperties: mutableMetaProperties,
+          mutableProperties: mutableProperties,
         },
       }),
     };
