@@ -38,6 +38,8 @@ export const FindInResponse = (
     classificationID: "",
     makerOwnableID: "",
     takerOwnableID: "",
+    rateID:"",
+    creationID:"",
     makerID: "",
     hashID: "",
   };
@@ -94,6 +96,8 @@ export const FindInResponse = (
               value.value.id.value.makerOwnableID.value.idString;
             ordersData.takerOwnableID =
               value.value.id.value.takerOwnableID.value.idString;
+            ordersData.rateID= value.value.id.value.rateID.value.idString;
+            ordersData.creationID=value.value.id.value.creationID.value.idString;
             ordersData.makerID = value.value.id.value.makerID.value.idString;
             ordersData.hashID = value.value.id.value.hashID.value.idString;
             resolve(ordersData);
