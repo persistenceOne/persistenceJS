@@ -38,7 +38,6 @@ export class provisionIdentity extends Persistence {
           },
           to: to,
           identityID: identityID,
-
         },
       }),
     };
@@ -88,7 +87,6 @@ export class provisionIdentity extends Persistence {
           },
           to: to,
           identityID: identityID,
-
         },
       }),
     };
