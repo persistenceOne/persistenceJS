@@ -183,7 +183,6 @@ async function nub_test() {
             "ASSET4"
         );
         let identityID1 = listResponse.classificationID + "|" + listResponse.hashID;
-        console.log("identityID1: ",identityID1)
 
         res = await identityDefine.define(
             wallet.address,
@@ -214,7 +213,6 @@ async function nub_test() {
             "ASSET42"
         );
         let classificationID2 = listResponse.chainID + "." + listResponse.hashID;
-        console.log("classificationID2: ", classificationID2)
 
         res = await identityIssue.issue(
             wallet.address,
@@ -249,7 +247,6 @@ async function nub_test() {
             "ASSET42"
         );
         let identityID2 = listResponse.classificationID + "|" + listResponse.hashID;
-        console.log("identityID2: ",identityID2)
 
         res = await assetDefine.define(
             wallet.address,
@@ -309,7 +306,7 @@ async function nub_test() {
             wallet.address,
             config.chain_id,
             mnemonic,
-            identityID2,//:TX failed for define assets 52** :NotAuthorized: failed to execute message;
+            identityID2,
             "ASSET53:S|num13",
             "ASSET52:S|num12",
             "ASSET51:S|num11",
@@ -359,6 +356,60 @@ async function nub_test() {
         listResponse = await FindInResponse("assets", results, "ASSET53");
         let assetID4 = listResponse.classificationID + "|" + listResponse.hashID;
 
+        res = await assetDefine.define(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            "ASSET63:S|num13",
+            "ASSET62:S|num12",
+            "ASSET61:S|num11",
+            "ASSET60:S|num10,burn:H|10",
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for define assets 63** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for define assets 63** :" + res.rawLog);
+        }
+
+        results = await clsQuery.queryClassification();
+        listResponse = await FindInResponse("classifications", results, "ASSET63");
+        let assetClsID5 = listResponse.chainID + "." + listResponse.hashID;
+
+        res = await assetMint.mint(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            identityID1,
+            assetClsID5,
+            "ASSET63:S|num13",
+            "ASSET62:S|num12",
+            "ASSET61:S|num11",
+            "ASSET60:S|num10,burn:H|10",
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for mint assets 63** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for mint assets 63** :" + res.rawLog);
+        }
+
+        results = await assetQuery.queryAsset();
+        listResponse = await FindInResponse("assets", results, "ASSET63");
+        let assetID5 = listResponse.classificationID + "|" + listResponse.hashID;
+
 
         res = await orderDefine.define(
             wallet.address,
@@ -367,7 +418,7 @@ async function nub_test() {
             identityID1,
             "Gift:S|Exchange,AmazonOrderID:S|",
             "Which Gift:S|Christmas Gift,What Gift:S|Chocolates",
-            "exchangeRate:D|1,makerOwnableSplit:D|0.000000000000000001,expiry:H|1000000,takerID:I|ID",
+            `exchangeRate:D|1,makerOwnableSplit:D|0.000000000000000001,expiry:H|1000000,takerID:I|${identityID2}`,
             "description:S|awesomeChocolates",
             25,
             "stake",
@@ -386,6 +437,50 @@ async function nub_test() {
         listResponse = await FindInResponse("classifications", results, "Gift");
         let orderCls = listResponse.chainID + "." + listResponse.hashID;
 
+        res = await orderDeputize.deputize(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            identityID2,
+            orderCls,
+            `exchangeRate:D|1,makerOwnableSplit:D|0.000000000000000001,expiry:H|1000000,takerID:I|${identityID2},description:S|awesomeChocolates`,
+            true,
+            true,
+            true,
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for Deputize Order ** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for Deputize Order ** :" + res.rawLog);
+        }
+
+        res = await orderRevoke.revoke(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            identityID2,
+            orderCls,
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for Revoke Order ** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for Revoke Order ** :" + res.rawLog);
+        }
+
         res = await orderMake.make(
             wallet.address,
             config.chain_id,
@@ -399,7 +494,7 @@ async function nub_test() {
             "0.000000000000000001",
             "Gift:S|Exchange,AmazonOrderID:S|",
             "Which Gift:S|Christmas Gift,What Gift:S|Chocolates",
-            "exchangeRate:D|1,makerOwnableSplit:D|0.000000000000000001,expiry:H|1000000,takerID:I|ID",
+            `exchangeRate:D|1,makerOwnableSplit:D|0.000000000000000001,expiry:H|1000000,takerID:I|${identityID2}`,
             "description:S|awesomeChocolates",
             25,
             "stake",
@@ -408,7 +503,7 @@ async function nub_test() {
             ""
         );
 
-        check = await checkRawLog(res.rawLog); //**TX failed for Make Order ** :EntityNotFound: failed to execute message; message index: 0
+        check = await checkRawLog(res.rawLog);
         if (check) {
             console.log("\n\n**TX HASH for Make Order ** :" + res.transactionHash);
         } else {
@@ -424,17 +519,43 @@ async function nub_test() {
             "*" +
             listResponse.takerOwnableID +
             "*" +
+            listResponse.rateID +
+            "*" +
+            listResponse.creationID +
+            "*" +
             listResponse.makerID +
             "*" +
             listResponse.hashID;
 
-
+        res = await orderModify.modify(
+            wallet.address,
+            config.chain_id,
+            mnemonic,
+            identityID1,
+            orderID,
+            "0.000000000000000001",
+            "0.000000000000000001",
+            "100",
+            `exchangeRate:D|1,makerOwnableSplit:D|0.000000000000000001,expiry:H|1000000,takerID:I|${identityID2}`,
+            "description:S|awesomeChocos",
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for Modify Order ** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for Modify Order ** :" + res.rawLog);
+        }
 
         res = await orderTake.take(
             wallet.address,
             config.chain_id,
             mnemonic,
-            identityID2,
+            identityID2,// takerOnableId ownerID
             "0.000000000000000001",
             orderID,
             25,
@@ -449,18 +570,15 @@ async function nub_test() {
         } else {
             console.log("\n\n**TX failed for Take Order ** :" + res.rawLog);
         }
-/*
-        res = await orderDeputize.deputize(
+        res = await orderDefine.define(
             wallet.address,
             config.chain_id,
             mnemonic,
-            nubId,
-            nubId,
-            //classificationID: string,
-            //maintainedProperties: string,
-            //addMaintainer: boolean,
-            //removeMaintainer: boolean,
-            //mutateMaintainer: boolean,
+            identityID1,
+            "Gift2:S|Exchange,AmazonOrderID:S|",
+            "Which Gift2:S|Christmas Gift2,What Gift2:S|Chocolates",
+            `exchangeRate:D|1,makerOwnableSplit:D|0.000000000000000001,expiry:H|1000000,takerID:I|${identityID1}`,
+            "description:S|awesomeChocolates",
             25,
             "stake",
             200000,
@@ -469,26 +587,32 @@ async function nub_test() {
         );
         check = await checkRawLog(res.rawLog);
         if (check) {
-            console.log("\n\n**TX HASH for Deputize Order ** :" + res.transactionHash);
+            console.log("\n\n**TX HASH for define Order 2** :" + res.transactionHash);
         } else {
-            console.log("\n\n**TX failed for Deputize Order ** :" + res.rawLog);
+            console.log("\n\n**TX failed for define Order 2** :" + res.rawLog);
         }
+
+        results = await clsQuery.queryClassification();
+        listResponse = await FindInResponse("classifications", results, "Gift2");
+
+        let orderCls1 = listResponse.chainID + "." + listResponse.hashID;
+
 
         res = await orderImmediate.immediate(
             wallet.address,
             config.chain_id,
             mnemonic,
-            //fromID: string,
-            //classificationID: string,
-            //makerOwnableID: string,
-            //takerOnableID: string,
-            //expiresIn: any,
-            //makerOwnableSplit: string,
-            //takerOwnableSplit: string,
-            //immutableMetaTraits: any,
-            //immutableTraits: any,
-            //mutableMetaTraits: any,
-            //mutableTraits: any,
+            identityID1,
+            orderCls1,
+            assetID5,
+            "stake",
+            "100",
+            "0.000000000000000001",
+            "0.000000000000000001",
+            "Gift2:S|Exchange,AmazonOrderID:S|",
+            "Which Gift2:S|Christmas Gift2,What Gift2:S|Chocolates",
+            `exchangeRate:D|1,makerOwnableSplit:D|0.000000000000000001,expiry:H|1000000,takerID:I|`,
+            "description:S|awesomeChocolates",
             25,
             "stake",
             200000,
@@ -502,18 +626,29 @@ async function nub_test() {
             console.log("\n\n**TX failed for Immediate Order ** :" + res.rawLog);
         }
 
+        results = await orderQuery.queryOrder();
+        listResponse = await FindInResponse("orders", results, "Gift2");
+        let orderID1 =
+            listResponse.classificationID +
+            "*" +
+            listResponse.makerOwnableID +
+            "*" +
+            listResponse.takerOwnableID +
+            "*" +
+            listResponse.rateID +
+            "*" +
+            listResponse.creationID +
+            "*" +
+            listResponse.makerID +
+            "*" +
+            listResponse.hashID;
 
-        res = await orderModify.modify(
+        res = await orderCancel.cancel(
             wallet.address,
             config.chain_id,
             mnemonic,
-            //fromID: string,
-            //orderID: string,
-            //takerOwnableSplit: string,
-            //makerOwnableSplit: string,
-            //ExpiresIn: any,
-            //mutableMetaTraits: any,
-            //mutableTraits: any,
+            identityID1,
+            orderID1,
             25,
             "stake",
             200000,
@@ -522,30 +657,10 @@ async function nub_test() {
         );
         check = await checkRawLog(res.rawLog);
         if (check) {
-            console.log("\n\n**TX HASH for Modify Order ** :" + res.transactionHash);
+            console.log("\n\n**TX HASH for Cancel Order ** :" + res.transactionHash);
         } else {
-            console.log("\n\n**TX failed for Modify Order ** :" + res.rawLog);
+            console.log("\n\n**TX failed for Cancel Order ** :" + res.rawLog);
         }
-
-        res = await orderRevoke.revoke(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            //fromID: string,
-            //toID: string,
-            //classificationID: string
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for Revoke Order ** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for Revoke Order ** :" + res.rawLog);
-        }*/
 
     }
 
