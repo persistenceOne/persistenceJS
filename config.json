@@ -48,6 +48,8 @@
   "renumerateAssetPath": "/assets/renumerate",
   "revokeAssetType": "/xprt/assets/github.com/persistenceOne/persistenceSDK/modules/assets/internal/transactions/revoke/transactionRequest",
   "revokeAssetPath": "/assets/revoke",
+  "deputizeAssetType": "/xprt/assets/github.com/persistenceOne/persistenceSDK/modules/assets/internal/transactions/deputize/transactionRequest",
+  "deputizeAssetPath": "/assets/deputize",
   "metaRevealType": "/xprt/metas/github.com/persistenceOne/persistenceSDK/modules/metas/internal/transactions/reveal/transactionRequest",
   "metaRevealPath": "/metas/reveal",
   "sendSplitType": "/xprt/splits/github.com/persistenceOne/persistenceSDK/modules/splits/internal/transactions/send/transactionRequest",
