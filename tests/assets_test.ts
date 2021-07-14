@@ -97,7 +97,7 @@ async function assets_test() {
         let res = await sendCoin.sendCoin(
             wallet.address,
             config.chain_id,
-            mnemonic,
+            wallet.address,
             "stake",
             "1000000",
             25,
