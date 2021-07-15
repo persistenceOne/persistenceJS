@@ -38,6 +38,8 @@ export const FindInResponse = (
     classificationID: "",
     makerOwnableID: "",
     takerOwnableID: "",
+    rateID: "",
+    creationID: "",
     makerID: "",
     hashID: "",
   };
@@ -85,7 +87,6 @@ export const FindInResponse = (
         });
         break;
       case "orders":
-        console.log("list",list)
         list.forEach(function (value:any) {
           if(value.value.HasImmutables.value.properties.value.propertyList){
             if (
@@ -98,6 +99,8 @@ export const FindInResponse = (
                   value.value.id.value.makerOwnableID.value.idString;
               ordersData.takerOwnableID =
                   value.value.id.value.takerOwnableID.value.idString;
+              ordersData.rateID= value.value.id.value.rateID.value.idString;
+              ordersData.creationID=value.value.id.value.creationID.value.idString;
               ordersData.makerID = value.value.id.value.makerID.value.idString;
               ordersData.hashID = value.value.id.value.hashID.value.idString;
               resolve(ordersData);

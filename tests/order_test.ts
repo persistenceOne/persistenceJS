@@ -484,15 +484,6 @@ async function nub_test() {
             "*" +
             listResponse.hashID;
 
-        console.log("classification",listResponse.classificationID)
-        console.log("makerOwnableID",listResponse.makerOwnableID)
-        console.log("takerOwnableID",listResponse.takerOwnableID)
-        console.log("rateID",listResponse.rateID)
-        console.log("creationID",listResponse.creationID)
-        console.log("makerID",listResponse.makerID)
-        console.log("hashID",listResponse.hashID)
-
-
         res = await orderModify.modify(
             wallet.address,
             config.chain_id,
