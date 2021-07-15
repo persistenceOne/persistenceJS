@@ -85,21 +85,25 @@ export const FindInResponse = (
         });
         break;
       case "orders":
+        console.log("list",list)
         list.forEach(function (value:any) {
-          if (
-            value.value.HasImmutables.properties.value.propertyList[0].value
-              .id.value.idString === id
-          ) {
-            ordersData.classificationID =
-              value.value.id.value.classificationID.value.idString;
-            ordersData.makerOwnableID =
-              value.value.id.value.makerOwnableID.value.idString;
-            ordersData.takerOwnableID =
-              value.value.id.value.takerOwnableID.value.idString;
-            ordersData.makerID = value.value.id.value.makerID.value.idString;
-            ordersData.hashID = value.value.id.value.hashID.value.idString;
-            resolve(ordersData);
+          if(value.value.HasImmutables.value.properties.value.propertyList){
+            if (
+                value.value.HasImmutables.value.properties.value.propertyList[0].value
+                    .id.value.idString === id
+            ) {
+              ordersData.classificationID =
+                  value.value.id.value.classificationID.value.idString;
+              ordersData.makerOwnableID =
+                  value.value.id.value.makerOwnableID.value.idString;
+              ordersData.takerOwnableID =
+                  value.value.id.value.takerOwnableID.value.idString;
+              ordersData.makerID = value.value.id.value.makerID.value.idString;
+              ordersData.hashID = value.value.id.value.hashID.value.idString;
+              resolve(ordersData);
+            }
           }
+
         });
         break;
     }

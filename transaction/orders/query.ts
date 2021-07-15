@@ -18,7 +18,6 @@ export class queryOrders extends Persistence {
           reject(error);
         }
         let result = JSON.parse(res.body);
-        console.log(JSON.stringify(result))
         let list = result.result.list;
         resolve(list);
       });
