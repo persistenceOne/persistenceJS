@@ -21,7 +21,7 @@ assetNode collect-gentxs
 
 assetNode start >~/.assetNode/log &
 sleep 10
-assetClient rest-server --chain-id test --generate-only >~/.assetClient/log &
+assetClient rest-server --chain-id test --generate-only -b block >~/.assetClient/log &
 
 echo "
 Node and Client started up. For logs:
