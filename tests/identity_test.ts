@@ -1,6 +1,5 @@
 import {
     createStore,
-    decryptStore,
     createRandomWallet,
     createWallet,
 } from "../utilities/keys";
@@ -15,10 +14,6 @@ import {unprovisionIdentity} from "../transaction/identity/unprovision";
 import {cls} from "../transaction/classification/query";
 import {mutateIdentity} from "../transaction/identity/mutate";
 import {deputizeIdentity} from "../transaction/identity/deputize";
-import {queryAssets} from "../transaction/assets/query";
-import {sendSplits} from "../transaction/splits/send";
-import {defineAsset} from "../transaction/assets/define";
-import {mintAsset} from "../transaction/assets/mint";
 import {bank} from "../transaction/bank/sendCoin";
 import {quashIdentity} from "../transaction/identity/quash";
 import {revokeIdentity} from "../transaction/identity/revoke";
@@ -124,9 +119,9 @@ async function identity_test() {
             config.chain_id,
             mnemonic,
             nubId,
-            "ASSET53:S|num23,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET53:S|num23,expiry:H|3",
             "ASSET52:S|num22",
-            "ASSET51:S|num21",
+            "ASSET51:S|num21,authentication:LD|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
             "ASSET50:S|num20",
             25,
             "stake",
@@ -156,7 +151,7 @@ async function identity_test() {
             config.testAccountAddress,
             nubId,
             classificationID1,
-            "ASSET53:S|num23,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET53:S|num23,expiry:H|3",
             "ASSET52:S|num22",
             "ASSET51:S|num21",
             "ASSET50:S|num20",
@@ -188,9 +183,9 @@ async function identity_test() {
             config.chain_id,
             mnemonic,
             identityID1,
-            "ASSET42:S|num42,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET42:S|num42,expiry:H|3",
             "ASSET22:S|num22",
-            "ASSET32:S|num32",
+            "ASSET32:S|num32,authentication:LD|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
             "ASSET12:S|num1",
             25,
             "stake",
@@ -220,7 +215,7 @@ async function identity_test() {
             config.testAccountAddress,
             identityID1,
             classificationID2,
-            "ASSET42:S|num42,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET42:S|num42,expiry:H|3",
             "ASSET22:S|num22",
             "ASSET32:S|num32",
             "ASSET12:S|num1",

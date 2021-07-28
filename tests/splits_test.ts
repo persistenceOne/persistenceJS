@@ -118,69 +118,6 @@ async function nub_test() {
         );
         let  clsID = listResponse.classificationID + "|" + listResponse.hashID;
 
-        res = await identityDefine.define(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            clsID,
-            "ASSET4:S|num4",
-            "ASSET2:S|num2",
-            "ASSET3:S|num3",
-            "ASSET1:S|num1,burn:H|1",
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for define identity ** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for define identity ** :" + res.rawLog);
-        }
-
-        results = await clsQuery.queryClassification();
-        listResponse = await FindInResponse(
-            "classifications",
-            results,
-            "ASSET4"
-        );
-        let classificationID1 = listResponse.chainID + "." + listResponse.hashID;
-
-        res = await identityIssue.issue(
-            wallet.address,
-            config.chain_id,
-            mnemonic,
-            config.testAccountAddress,
-            clsID,
-            classificationID1,
-            "ASSET4:S|num4",
-            "ASSET2:S|num2",
-            "ASSET3:S|num3",
-            "ASSET1:S|num1,burn:H|1",
-            25,
-            "stake",
-            200000,
-            "block",
-            ""
-        );
-
-
-        check = await checkRawLog(res.rawLog);
-        if (check) {
-            console.log("\n\n**TX HASH for issue identity 2** :" + res.transactionHash);
-        } else {
-            console.log("\n\n**TX failed for issue identity 2** :" + res.rawLog);
-        }
-
-        results = await identityQuery.queryIdentity();
-        listResponse = await FindInResponse(
-            "identities",
-            results,
-            "ASSET4"
-        );
-        let identityID1 = listResponse.classificationID + "|" + listResponse.hashID;
 
         res = await identityDefine.define(
             wallet.address,
@@ -189,8 +126,8 @@ async function nub_test() {
             clsID,
             "ASSET42:S|num42",
             "ASSET22:S|num22",
-            "ASSET32:S|num32",
-            "ASSET12:S|num1,burn:H|1",
+            "ASSET32:S|num32,authentication:LD|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET12:S|num1",
             25,
             "stake",
             200000,
@@ -222,7 +159,7 @@ async function nub_test() {
             "ASSET42:S|num42",
             "ASSET22:S|num22",
             "ASSET32:S|num32",
-            "ASSET12:S|num1,burn:H|1",
+            "ASSET12:S|num1",
             25,
             "stake",
             200000,

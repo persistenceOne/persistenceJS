@@ -7,7 +7,6 @@ import {
 import { checkRawLog, FindInResponse } from "../helpers/helper";
 import * as config from "../config.json";
 import { nubIdentity } from "../transaction/identity/nub";
-import {bank} from "../transaction/bank/sendCoin";
 import {defineAsset} from "../transaction/assets/define";
 import {cls} from "../transaction/classification/query";
 import {defineIdentity} from "../transaction/identity/define";
@@ -20,20 +19,15 @@ import {cancelOrder} from "../transaction/orders/cancel";
 import {queryOrders} from "../transaction/orders/query";
 import {mintAsset} from "../transaction/assets/mint";
 import {queryAssets} from "../transaction/assets/query";
-import {sendSplits} from "../transaction/splits/send";
-import {deputizeMaintainer} from "../transaction/maintainers/deputize";
-import {deputizeIdentity} from "../transaction/identity/deputize";
 import {deputizeOrder} from "../transaction/orders/deputize";
 import {immediateOrder} from "../transaction/orders/immediate";
 import {modifyOrder} from "../transaction/orders/modify";
 import {revokeOrder} from "../transaction/orders/revoke";
-import {wrapSplits} from "../transaction/splits/wrap";
-import {unwrapsplits} from "../transaction/splits/unwrap";
+import {bank} from "../transaction/bank/sendCoin";
 
 let url = "http://localhost:1317";
 
 
-const sendCoin = new bank(url);
 const clsQuery = new cls(url);
 const identityNub = new nubIdentity(url);
 const identityDefine = new defineIdentity(url);
@@ -45,17 +39,14 @@ const orderDefine = new defineOrder(url);
 const orderMake = new makeOrder(url);
 const orderTake = new takeOrder(url);
 const orderCancel = new cancelOrder(url);
-const maintainerDeputize = new deputizeMaintainer(url);
-const identityDeputize = new deputizeIdentity(url);
 const orderDeputize = new deputizeOrder(url);
 const orderImmediate = new immediateOrder(url);
 const orderModify = new modifyOrder(url);
 const orderRevoke = new revokeOrder(url);
 const assetQuery = new queryAssets(url);
 const orderQuery = new queryOrders(url);
-const splitsSend = new sendSplits(url);
-const splitsWrap = new wrapSplits(url);
-const splitsUnwrap = new unwrapsplits(url);
+
+const sendCoin = new bank(url);
 
 
 
@@ -111,6 +102,24 @@ async function nub_test() {
 
     if (result) {
 
+        let res = await sendCoin.sendCoin(
+            wallet.address,
+            config.chain_id,
+            wallet.address,
+            "stake",
+            "1000000",
+            25,
+            "stake",
+            200000,
+            "block",
+            ""
+        );
+        let check = await checkRawLog(res.rawLog);
+        if (check) {
+            console.log("\n\n**TX HASH for Send Coin** :" + res.transactionHash);
+        } else {
+            console.log("\n\n**TX failed for Send Coin** :" + res.rawLog);
+        }
         let results = await identityQuery.queryIdentity();
         let listResponse = await FindInResponse(
             "identities",
@@ -119,15 +128,15 @@ async function nub_test() {
         );
         let  nubId = listResponse.classificationID + "|" + listResponse.hashID;
 
-        let res = await identityDefine.define(
+         res = await identityDefine.define(
             wallet.address,
             config.chain_id,
             mnemonic,
             nubId,
-            "ASSET4:S|num4,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET4:S|num4,expiry:H|3",
             "ASSET2:S|num2",
-            "ASSET3:S|num3",
-            "ASSET1:S|num1,burn:H|1",
+            "ASSET3:S|num3,authentication:LD|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET1:S|num1",
             25,
             "stake",
             200000,
@@ -156,10 +165,10 @@ async function nub_test() {
             config.testAccountAddress,
             nubId,
             classificationID1,
-            "ASSET4:S|num4,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET4:S|num4,expiry:H|3",
             "ASSET2:S|num2",
             "ASSET3:S|num3",
-            "ASSET1:S|num1,burn:H|1",
+            "ASSET1:S|num1",
             25,
             "stake",
             200000,
@@ -188,10 +197,10 @@ async function nub_test() {
             config.chain_id,
             mnemonic,
             nubId,
-            "ASSET42:S|num42,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET42:S|num42,expiry:H|3",
             "ASSET22:S|num22",
-            "ASSET32:S|num32",
-            "ASSET12:S|num1,burn:H|1",
+            "ASSET32:S|num32,authentication:LD|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET12:S|num1",
             25,
             "stake",
             200000,
@@ -220,10 +229,10 @@ async function nub_test() {
             config.testAccountAddress,
             nubId,
             classificationID2,
-            "ASSET42:S|num42,expiry:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET42:S|num42,expiry:H|3",
             "ASSET22:S|num22",
             "ASSET32:S|num32",
-            "ASSET12:S|num1,burn:H|1",
+            "ASSET12:S|num1",
             25,
             "stake",
             200000,

@@ -19,7 +19,6 @@ import {bank} from "../transaction/bank/sendCoin";
 import {defineIdentity} from "../transaction/identity/define";
 import {issueIdentity} from "../transaction/identity/issue";
 import {queryIdentities} from "../transaction/identity/query";
-import {deputizeMaintainer} from "../transaction/maintainers/deputize";
 import {deputizeAsset} from "../transaction/assets/deputize";
 
 let url = "http://localhost:1317";
@@ -30,7 +29,6 @@ const assetMutate = new mutateAsset(url);
 const assetBurn = new burnAsset(url);
 const assetRenumerate = new renumerateAsset(url);
 const assetRevoke = new revokeAsset(url);
-const maintainerDeputize = new deputizeMaintainer(url);
 const assetDeputize = new deputizeAsset(url);
 
 const assetQuery = new queryAssets(url);
@@ -332,9 +330,9 @@ async function assets_test() {
             config.chain_id,
             mnemonic,
             nubId,
-         "ASSET53:S|num23,burn:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+         "ASSET53:S|num23,burn:H|3",
          "ASSET52:S|num22",
-         "ASSET51:S|num21",
+         "ASSET51:S|num21,authentication:LD|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
          "ASSET50:S|num20",
             25,
             "stake",
@@ -364,7 +362,7 @@ async function assets_test() {
             config.testAccountAddress,
             nubId,
             classificationID1,
-            "ASSET53:S|num23,burn:H|3,authentication:AL|cosmos1pkkayn066msg6kn33wnl5srhdt3tnu2vzasz9c",
+            "ASSET53:S|num23,burn:H|3",
             "ASSET52:S|num22",
             "ASSET51:S|num21",
             "ASSET50:S|num20",
