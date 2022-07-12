@@ -1,0 +1,12 @@
+[submodule "persistenceCore"]
+	path = persistenceCore
+	url = https://github.com/persistenceOne/persistenceCore.git
+[submodule "cosmos-sdk"]
+	path = cosmos-sdk
+	url = https://github.com/cosmos/cosmos-sdk.git
+[submodule "BL-contracts"]
+	path = BL-contracts
+	url = https://github.com/persistenceOne/BL-contracts.git
+[submodule "cw-plus"]
+	path = cw-plus
+	url = https://github.com/CosmWasm/cw-plus.git
