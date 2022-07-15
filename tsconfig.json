@@ -1,5 +1,5 @@
 {
-    "include": ["src", "types"],
+    "include": ["src", "types", "clients"],
     "exclude": ["/node_modules/", "./src/**/*.spec.ts"],
     "compilerOptions": {
       "allowSyntheticDefaultImports": true,
@@ -23,9 +23,10 @@
       "strictFunctionTypes": true,
       "strictNullChecks": true,
       "strictPropertyInitialization": true,
+      "esModuleInterop": true,
       "target": "es5",
       "paths": {
-        "*": ["src/*"]
+        "*": ["src/*", "clients/*"]
       }
     }
-  }
+}

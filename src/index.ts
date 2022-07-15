@@ -1,5 +1,4 @@
 export * from './confio';
-export * from './contracts';
 export * from './cosmos';
 export * from './cosmos_proto';
 export * from './cosmwasm';

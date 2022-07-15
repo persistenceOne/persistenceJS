@@ -2,14 +2,13 @@ import { DirectSecp256k1HdWallet, Registry, DirectSecp256k1HdWalletOptions } fro
 import {
     defaultRegistryTypes as defaultStargateTypes,
     SigningStargateClient,
-    SigningStargateClientOptions,
-    StargateClient,
+    AminoTypes
 } from "@cosmjs/stargate";
-import {   CosmWasmClient, SigningCosmWasmClient, SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate"
-import  { Coin, MsgSend, MessageOptions, Balance, BroadcastAPI, AllAccountsResponse } from ".././src"; // Replace with your own Msg import
-import {stringToPath, HdPath} from "@cosmjs/crypto"
+import { SigningCosmWasmClient, SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate"
+import { Coin, MsgSend, MessageOptions, Balance, BroadcastAPI, AllAccountsResponse } from "../src"; // Replace with your own Msg import
+import { stringToPath, HdPath } from "@cosmjs/crypto"
 
-export interface Config{
+export interface Config {
     rpc: string,
     chainId: string,
     gasPrices: Coin,
@@ -49,26 +48,30 @@ const DefaultWalletOptoions = {
 }
 
 
-export class PersistenceClient{
+export class PersistenceClient {
+    public wallet: DirectSecp256k1HdWallet
     public mnemonic: string
     public config: Config;
-    public core: StargateClient;
-    public wasm: CosmWasmClient;
-    
-    constructor(config: Config, mnemonic: string) {
+    public core: SigningStargateClient
+    public wasm: SigningCosmWasmClient
+
+    private constructor(mnemonic: string, wallet: DirectSecp256k1HdWallet, wasm: SigningCosmWasmClient, core: SigningStargateClient, config?: Config) {
         this.mnemonic = mnemonic
-        this.config = DefaultConfig || config
-    }
-    
-    public async wallet(){
-        return await DirectSecp256k1HdWallet.fromMnemonic(this.mnemonic, DefaultWalletOptoions)
+        this.config = LocalConfig || config
+        this.wallet = wallet
+        this.core = core
+        this.wasm = wasm
     }
 
-    public async connect(){
-        const wallet = await this.wallet()
-        this.core = await SigningStargateClient.connectWithSigner(this.config.rpc, wallet)
-        this.wasm = await SigningCosmWasmClient.connectWithSigner(this.config.rpc, wallet)
+    static async init(mnemonic: string, chainConfig?: Config): Promise<PersistenceClient> {
+        const config = LocalConfig || chainConfig
+        const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+            prefix: "wasm",
+        })
+        const core = await SigningStargateClient.connectWithSigner(config.rpc, wallet)
+        const wasm = await SigningCosmWasmClient.connectWithSigner(config.rpc, wallet)
+        return new PersistenceClient(mnemonic, wallet, wasm, core)
     }
 }
 
-export {}
+export { }
