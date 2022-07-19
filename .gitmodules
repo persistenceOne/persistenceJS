@@ -10,3 +10,15 @@
 [submodule "cw-plus"]
 	path = cw-plus
 	url = https://github.com/CosmWasm/cw-plus.git
+[submodule "source/cosmos-sdk"]
+	path = source/cosmos-sdk
+	url = https://github.com/cosmos/cosmos-sdk.git
+[submodule "source/cw-plus"]
+	path = source/cw-plus
+	url = https://github.com/CosmWasm/cw-plus.git
+[submodule "source/wasmd"]
+	path = source/wasmd
+	url = https://github.com/CosmWasm/wasmd.git
+[submodule "source/persistenceCore"]
+	path = source/persistenceCore
+	url = https://github.com/persistenceOne/persistenceCore.git
