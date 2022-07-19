@@ -8,17 +8,17 @@ const protoDirs = [
 const outPath = join(__dirname, ".././src");
 
 
-generate(
-    "cw20-base",
-    [join(__dirname, ".././source/cw-plus/contracts/cw20-base/schema/")],
-    join(__dirname, ".././src/contracts")
-)
+// generate(
+//     "cw20-base",
+//     [join(__dirname, ".././source/cw-plus/contracts/cw20-base/schema/")],
+//     join(__dirname, ".././src/contracts")
+// )
 
 telescope({
     protoDirs,
     outPath,
     options: {
-        includeAminos: true,
+        includeAminos: false,
         includeLCDClient: true,
     }
 });
