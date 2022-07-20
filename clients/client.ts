@@ -5,7 +5,7 @@ import {
     AminoTypes
 } from "@cosmjs/stargate";
 import { SigningCosmWasmClient, SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate"
-import { getSigningCosmosClient } from ".././src/cosmos/client"; // Replace with your own Msg import
+import { getSigningCosmosClient } from "../src/cosmos/client"; // Replace with your own Msg import
 import { stringToPath, HdPath } from "@cosmjs/crypto"
 import { Coin } from "@cosmjs/amino"
 
