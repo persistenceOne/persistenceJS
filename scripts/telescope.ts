@@ -5,7 +5,7 @@ import {generate} from "cosmwasm-typescript-gen"
 const protoDirs = [
     join(__dirname, ".././proto"),
 ];
-const outPath = join(__dirname, ".././src");
+const outPath = join(__dirname, "../src");
 
 
 // generate(
