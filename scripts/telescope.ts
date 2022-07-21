@@ -11,7 +11,7 @@ const outPath = join(__dirname, ".././src");
 // generate(
 //     "cw20-base",
 //     [join(__dirname, ".././source/cw-plus/contracts/cw20-base/schema/")],
-//     join(__dirname, ".././src/contracts")
+//     join(__dirname, "../src/contracts")
 // )
 
 telescope({
