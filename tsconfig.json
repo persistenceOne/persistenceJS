@@ -1,5 +1,5 @@
 {
-    "include": ["src", "types", "clients"],
+    "include": ["src", "types", "clients", "helpers/wallet.ts"],
     "exclude": ["/node_modules/", "./src/**/*.spec.ts"],
     "compilerOptions": {
       "allowSyntheticDefaultImports": true,

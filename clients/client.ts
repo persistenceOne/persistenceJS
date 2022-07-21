@@ -5,8 +5,9 @@ import {
     AminoTypes
 } from "@cosmjs/stargate";
 import { SigningCosmWasmClient, SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate"
-import { Coin, MsgSend, MessageOptions, Balance, BroadcastAPI, AllAccountsResponse } from "../src"; // Replace with your own Msg import
+import { getSigningCosmosClient } from "../src/cosmos/client"; // Replace with your own Msg import
 import { stringToPath, HdPath } from "@cosmjs/crypto"
+import { Coin } from "@cosmjs/amino"
 
 export interface Config {
     rpc: string,
@@ -68,7 +69,7 @@ export class PersistenceClient {
         const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
             prefix: "wasm",
         })
-        const core = await SigningStargateClient.connectWithSigner(config.rpc, wallet)
+        const core = await getSigningCosmosClient({rpcEndpoint: config.rpc, signer: wallet})
         const wasm = await SigningCosmWasmClient.connectWithSigner(config.rpc, wallet)
         return new PersistenceClient(mnemonic, wallet, wasm, core)
     }
