@@ -1,5 +1,5 @@
-import { PersistenceClient } from "../src/clients/client"
-import { cosmos } from "../src/proto"
+import { PersistenceClient } from "../clients/client"
+import { cosmos } from "../proto"
 import {MsgSubmitProposalEncodeObject } from "@cosmjs/stargate"
 
 export async function test() {
