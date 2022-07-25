@@ -11,10 +11,10 @@ export const DefaultConfig = {
 
 export const LocalConfig = {
     rpc: "http://localhost:26657",
-    chainId: "core-1",
+    chainId: "testing",
     gasPrices: {
-        denom: "uxprt",
-        amount: "200",
+        denom: "stake",
+        amount: "2000",
     },
     gasAdjustment: 0,
 }
@@ -22,5 +22,5 @@ export const LocalConfig = {
 export const DefaultWalletOptoions = {
     bip39Password: "",
     hdPaths: [stringToPath("m/44'/750'/0'/0/0")],
-    prefix: "wasm",
+    prefix: "persistence",
 }

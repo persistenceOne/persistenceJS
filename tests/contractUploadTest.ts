@@ -9,11 +9,11 @@ export async function uploadContract() {
         const client = await PersistenceClient.init(
             "obtain door word season wealth inspire tobacco shallow thumb tip walk forum someone verb pistol bright mutual nest fog valley tiny section sauce typical"
         )//persistence1ht0tun4u5uj4f4z83p9tncjerwu27ycsm52txm used form persistenceCore/contrib/local/configs/keys.json
-        const wallet = client.wallet
-        const [account] = await wallet.getAccounts()
-        console.log(account.address)
-        // const res = await contractProposal("../source/cw-plus/artifacts/cw20_base.wasm", client)
-        // console.log(res)
+
+        const res = await contractProposal("source/cw-plus/artifacts/cw20_base.wasm", client)
+        console.log(res)
+
+
 
     } catch (e) {
         console.log(e)

@@ -53,6 +53,7 @@
         "es6-promise": "^4.2.8",
         "node-fetch": "^2.6.1",
         "osmojs": "^0.7.1",
+        "pako": "^2.0.4",
         "prettier": "^2.3.1",
         "promise": "^8.1.0",
         "protoc": "^1.0.4",
@@ -68,6 +69,7 @@
         "@babel/preset-env": "^7.18.2",
         "@types/node": "^10.17.60",
         "@types/node-fetch": "^2.5.10",
+        "@types/pako": "^2.0.0",
         "cosmwasm-typescript-gen": "^0.3.7",
         "create-ts-index": "^1.14.0",
         "json-schema-to-typescript": "^11.0.1"

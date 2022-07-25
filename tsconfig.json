@@ -1,25 +1,28 @@
 {
   "compilerOptions": {
+      "moduleResolution": "node",
+      "newLine": "LF",
+      "noEmitOnError": true,
+      "noFallthroughCasesInSwitch": true,
+      "noImplicitReturns": true,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
       "declaration": true,
       "declarationDir": "./types",
       "emitDeclarationOnly": true,
-      "isolatedModules": true,
       "allowJs": true,
       "lib": [
           "es2015",
           "es2016",
           "es2017"
       ],
-      "baseUrl": "./",
+      "baseUrl": ".",
       "paths":{
-        "proto":["proto"],
+        "proto":["src/proto"],
+        "source":["source"]
       }
   },
   "include": [
-      "src/**/*", "tests/**/*", "scripts/**/*",
+      "src/**/*"
   ],
-  "exclude": [
-      "/node_modules/"
-  ],
-  
 }
