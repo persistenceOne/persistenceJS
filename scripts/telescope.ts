@@ -1,6 +1,6 @@
 import { join } from "path";
 import telescope from "@osmonauts/telescope";
-import {generate} from "cosmwasm-typescript-gen"
+import { generate } from "cosmwasm-typescript-gen"
 
 const protoDirs = [
     join(__dirname, ".././proto"),
@@ -19,6 +19,10 @@ telescope({
     outPath,
     options: {
         includeAminos: false,
-        includeLCDClient: true,
+        includeLCDClients: true,
+        camelRpcMethods: true,
+        includeRpcClients: false,
+        useDate: 'date',
+        useDuration: 'duration'
     }
 });
