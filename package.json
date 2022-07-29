@@ -39,7 +39,6 @@
         "@cosmjs/tendermint-rpc": "^0.28.11",
         "@osmonauts/helpers": "^0.3.8",
         "@osmonauts/lcd": "^0.3.8",
-        "@osmonauts/telescope": "^0.4.44",
         "@pyramation/protobufjs": "^6.10.5",
         "@tendermint/amino-js": "^0.6.2",
         "@tendermint/belt": "^0.3.0",
@@ -66,6 +65,7 @@
         "@babel/preset-env": "^7.18.9",
         "@types/node": "^18.0.6",
         "@types/node-fetch": "^2.6.2",
+        "@osmonauts/telescope": "^0.8.6",
         "cosmwasm-typescript-gen": "^0.3.7",
         "create-ts-index": "^1.14.0",
         "json-schema-to-typescript": "^11.0.1"
