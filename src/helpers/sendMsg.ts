@@ -1,4 +1,4 @@
-import { PersistenceClient } from "../src/clients/client"
+import { PersistenceClient } from "../clients/client"
 import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx"
 
 export async function test() {

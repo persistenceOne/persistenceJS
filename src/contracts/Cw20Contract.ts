@@ -6,12 +6,46 @@
 
 import { CosmWasmClient, ExecuteResult, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { StdFee } from "@cosmjs/amino";
+export interface AllAccountsResponse {
+  accounts: string[];
+  [k: string]: unknown;
+}
+export type Uint128 = string;
+export type Expiration = {
+  at_height: number;
+} | {
+  at_time: Timestamp;
+} | {
+  never: {
+    [k: string]: unknown;
+  };
+};
+export type Timestamp = Uint64;
+export type Uint64 = string;
+export interface AllAllowancesResponse {
+  allowances: AllowanceInfo[];
+  [k: string]: unknown;
+}
+export interface AllowanceInfo {
+  allowance: Uint128;
+  expires: Expiration;
+  spender: string;
+  [k: string]: unknown;
+}
+export interface AllowanceResponse {
+  allowance: Uint128;
+  expires: Expiration;
+  [k: string]: unknown;
+}
+export interface BalanceResponse {
+  balance: Uint128;
+  [k: string]: unknown;
+}
 export type Amount = {
   native: Coin;
 } | {
   cw20: Cw20Coin;
 };
-export type Uint128 = string;
 export interface ChannelResponse {
   balances: Amount[];
   info: ChannelInfo;
@@ -39,6 +73,143 @@ export interface IbcEndpoint {
   port_id: string;
   [k: string]: unknown;
 }
+export type Cw20ExecuteMsg = {
+  transfer: {
+    amount: Uint128;
+    recipient: string;
+    [k: string]: unknown;
+  };
+} | {
+  burn: {
+    amount: Uint128;
+    [k: string]: unknown;
+  };
+} | {
+  send: {
+    amount: Uint128;
+    contract: string;
+    msg: Binary;
+    [k: string]: unknown;
+  };
+} | {
+  increase_allowance: {
+    amount: Uint128;
+    expires?: Expiration | null;
+    spender: string;
+    [k: string]: unknown;
+  };
+} | {
+  decrease_allowance: {
+    amount: Uint128;
+    expires?: Expiration | null;
+    spender: string;
+    [k: string]: unknown;
+  };
+} | {
+  transfer_from: {
+    amount: Uint128;
+    owner: string;
+    recipient: string;
+    [k: string]: unknown;
+  };
+} | {
+  send_from: {
+    amount: Uint128;
+    contract: string;
+    msg: Binary;
+    owner: string;
+    [k: string]: unknown;
+  };
+} | {
+  burn_from: {
+    amount: Uint128;
+    owner: string;
+    [k: string]: unknown;
+  };
+} | {
+  mint: {
+    amount: Uint128;
+    recipient: string;
+    [k: string]: unknown;
+  };
+} | {
+  update_minter: {
+    new_minter: string;
+    [k: string]: unknown;
+  };
+} | {
+  update_marketing: {
+    description?: string | null;
+    marketing?: string | null;
+    project?: string | null;
+    [k: string]: unknown;
+  };
+} | {
+  upload_logo: Logo;
+};
+export type Binary = string;
+export type Logo = {
+  url: string;
+} | {
+  embedded: EmbeddedLogo;
+};
+export type EmbeddedLogo = {
+  svg: Binary;
+} | {
+  png: Binary;
+};
+export type Cw20QueryMsg = {
+  balance: {
+    address: string;
+    [k: string]: unknown;
+  };
+} | {
+  token_info: {
+    [k: string]: unknown;
+  };
+} | {
+  allowance: {
+    owner: string;
+    spender: string;
+    [k: string]: unknown;
+  };
+} | {
+  minter: {
+    [k: string]: unknown;
+  };
+} | {
+  marketing_info: {
+    [k: string]: unknown;
+  };
+} | {
+  download_logo: {
+    [k: string]: unknown;
+  };
+} | {
+  all_allowances: {
+    limit?: number | null;
+    owner: string;
+    start_after?: string | null;
+    [k: string]: unknown;
+  };
+} | {
+  all_accounts: {
+    limit?: number | null;
+    start_after?: string | null;
+    [k: string]: unknown;
+  };
+};
+export interface Cw20ReceiveMsg {
+  amount: Uint128;
+  msg: Binary;
+  sender: string;
+  [k: string]: unknown;
+}
+export interface DownloadLogoResponse {
+  data: Binary;
+  mime_type: string;
+  [k: string]: unknown;
+}
 export type ExecuteMsg = {
   receive: Cw20ReceiveMsg;
 } | {
@@ -51,13 +222,6 @@ export type ExecuteMsg = {
     [k: string]: unknown;
   };
 };
-export type Binary = string;
-export interface Cw20ReceiveMsg {
-  amount: Uint128;
-  msg: Binary;
-  sender: string;
-  [k: string]: unknown;
-}
 export interface TransferMsg {
   channel: string;
   remote_address: string;
@@ -76,8 +240,40 @@ export interface InitMsg {
   gov_contract: string;
   [k: string]: unknown;
 }
+export interface InstantiateMsg {
+  decimals: number;
+  initial_balances: Cw20Coin[];
+  marketing?: InstantiateMarketingInfo | null;
+  mint?: MinterResponse | null;
+  name: string;
+  symbol: string;
+  [k: string]: unknown;
+}
+export interface InstantiateMarketingInfo {
+  description?: string | null;
+  logo?: Logo | null;
+  marketing?: string | null;
+  project?: string | null;
+  [k: string]: unknown;
+}
+export interface MinterResponse {
+  cap?: Uint128 | null;
+  minter: string;
+  [k: string]: unknown;
+}
 export interface ListChannelsResponse {
   channels: ChannelInfo[];
+  [k: string]: unknown;
+}
+export type LogoInfo = "embedded" | {
+  url: string;
+};
+export type Addr = string;
+export interface MarketingInfoResponse {
+  description?: string | null;
+  logo?: LogoInfo | null;
+  marketing?: Addr | null;
+  project?: string | null;
   [k: string]: unknown;
 }
 export interface PortResponse {
@@ -117,7 +313,14 @@ export type QueryMsg = {
     [k: string]: unknown;
   };
 };
-export interface Cw20Ics20ReadOnlyInterface {
+export interface TokenInfoResponse {
+  decimals: number;
+  name: string;
+  symbol: string;
+  total_supply: Uint128;
+  [k: string]: unknown;
+}
+export interface Cw20ReadOnlyInterface {
   contractAddress: string;
   port: () => Promise<PortResponse>;
   listChannels: () => Promise<ListChannelsResponse>;
@@ -141,7 +344,7 @@ export interface Cw20Ics20ReadOnlyInterface {
     startAfter?: string;
   }) => Promise<ListAllowedResponse>;
 }
-export class Cw20Ics20QueryClient implements Cw20Ics20ReadOnlyInterface {
+export class Cw20QueryClient implements Cw20ReadOnlyInterface {
   client: CosmWasmClient;
   contractAddress: string;
 
@@ -214,7 +417,7 @@ export class Cw20Ics20QueryClient implements Cw20Ics20ReadOnlyInterface {
     });
   };
 }
-export interface Cw20Ics20Interface extends Cw20Ics20ReadOnlyInterface {
+export interface Cw20Interface extends Cw20ReadOnlyInterface {
   contractAddress: string;
   sender: string;
   receive: ({
@@ -248,7 +451,7 @@ export interface Cw20Ics20Interface extends Cw20Ics20ReadOnlyInterface {
     admin: string;
   }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
 }
-export class Cw20Ics20Client extends Cw20Ics20QueryClient implements Cw20Ics20Interface {
+export class Cw20Client extends Cw20QueryClient implements Cw20Interface {
   client: SigningCosmWasmClient;
   sender: string;
   contractAddress: string;

@@ -1,12 +1,12 @@
 import { stringToPath, HdPath } from "@cosmjs/crypto"
 export const DefaultConfig = {
-    rpc: "rpc.testnet.persistence.one",
-    chainId: "wasm-1",
+    rpc: "https://rpc.testnet.persistence.one:443",
+    chainId: "test-core-1",
     gasPrices: {
         denom: "uxprt",
-        amount: "200",
+        amount: "2000000",
     },
-    gasAdjustment: 0,
+    gasAdjustment: "1.5",
 }
 
 export const LocalConfig = {
@@ -14,9 +14,9 @@ export const LocalConfig = {
     chainId: "testing",
     gasPrices: {
         denom: "stake",
-        amount: "2000",
+        amount: "2000000",
     },
-    gasAdjustment: 0,
+    gasAdjustment: "1.5",
 }
 
 export const DefaultWalletOptoions = {
