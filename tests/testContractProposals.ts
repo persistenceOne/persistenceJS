@@ -17,11 +17,6 @@ import { QueryClient } from '@cosmjs/stargate/'
 export async function ContractTest() {
     let proposalId = 0
     let codeId = 0
-    // const test = await PersistenceClient.init(
-    //     "cereal hole wink isolate slam sample business bone abandon tell tilt embark rib history door spice base fever deal wish jump ask object deal",
-    // )//persistence1wh9z8dedh0mpcgzd5e2zqzsdu2j2d0zwfk3xz9 used form persistenceCore/contrib/local/configs/keys.json
-    // const [testAccount] = await test.wallet.getAccounts()
-    // const testAddress = testAccount.address
 
     const val1 = await PersistenceClient.init(
         "flash tuna music boat sign image judge engage pistol reason love reform defy game ceiling basket roof clay keen hint flash buyer fancy buyer"

@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Client side JS libraries for persistenceSDK transaction generation, signing and broadcasting.",
     "scripts": {
-        "test": "NODE_ENV=development node ./dist/clients/test",
+        "test": "NODE_ENV=development ts-node ./test/testContractProposals.ts",
         "build": "tsc --project ./tsconfig.json",
         "build:ts-proto": "NODE_ENV=development npm run clean && ./scripts/ts-proto-gen.sh && cti create ./src -w",
         "build:telescope": "NODE_ENV=development ts-node ./scripts/telescope.ts",
