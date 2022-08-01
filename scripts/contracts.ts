@@ -9,4 +9,4 @@ generate(
 )
 
 
-// cli command: cosmwasm-typescript-gen generate --schema [./source/cw-plus/contracts/cw20-base/schema/, ./src/schema/] --out ./src/contracts --name cw20
+// cli command: cosmwasm-typescript-gen generate --schema ./src/schema/cw20-ics20/schema/ --out ./src/contracts --name cw20-ics20

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
       "moduleResolution": "node",
+      "esModuleInterop": false,
       "newLine": "LF",
       "noEmitOnError": true,
       "noFallthroughCasesInSwitch": true,
