@@ -1,3 +1,6 @@
+import { getSigningCosmwasmClient } from './../proto/cosmwasm/client';
+import { getSigningCosmosClient } from './../proto/cosmos/client';
+import { Rpc } from "@osmonauts/helpers";
 import { DirectSecp256k1HdWallet, Registry, GeneratedType } from "@cosmjs/proto-signing";
 import {
     defaultRegistryTypes,
@@ -17,6 +20,7 @@ import {
     GasPrice,
     BankExtension,
     setupBankExtension,
+    createProtobufRpcClient
 } from "@cosmjs/stargate";
 import { SigningCosmWasmClient, SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate"
 import { stringToPath, HdPath } from "@cosmjs/crypto"
@@ -24,6 +28,8 @@ import * as cosmwasmWasmV1TxRegistry from "src/proto/cosmwasm/wasm/v1/tx.registr
 import { LocalConfig, DefaultWalletOptoions } from "../config/config";
 import { MsgStoreCode, MsgInstantiateContract, MsgExecuteContract, MsgMigrateContract, MsgUpdateAdmin, MsgClearAdmin } from "cosmjs-types/cosmwasm/wasm/v1beta1/tx";
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
+import {createRPCQueryClient, } from '../proto/cosmwasm/rpc.query'
+import {QueryClientImpl} from '../proto/cosmwasm/wasm/v1/query.rpc.query';
 export interface Config {
     rpc: string,
     chainId: string,
@@ -43,10 +49,10 @@ export class PersistenceClient {
     public mnemonic: string
     public config: Config;
     public core: SigningStargateClient
-    public wasm: SigningCosmWasmClient
+    public wasm: SigningStargateClient
     public query: QueryClient
 
-    private constructor(mnemonic: string, wallet: DirectSecp256k1HdWallet, wasm: SigningCosmWasmClient, core: SigningStargateClient, queryclient: QueryClient, config?: Config) {
+    private constructor(mnemonic: string, wallet: DirectSecp256k1HdWallet, wasm: SigningStargateClient, core: SigningStargateClient, queryclient: QueryClient, config?: Config) {
         this.mnemonic = mnemonic
         this.config = config
         this.wallet = wallet
@@ -58,19 +64,11 @@ export class PersistenceClient {
     static async init(mnemonic: string, chainConfig?: Config): Promise<PersistenceClient> {
         const config = chainConfig || LocalConfig
         const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, DefaultWalletOptoions)
-        const registryArray: ReadonlyArray<[string, GeneratedType]> = [["/cosmwasm.wasm.v1.MsgStoreCode", MsgStoreCode], ["/cosmwasm.wasm.v1.MsgInstantiateContract", MsgInstantiateContract], ["/cosmwasm.wasm.v1.MsgExecuteContract", MsgExecuteContract], ["/cosmwasm.wasm.v1.MsgMigrateContract", MsgMigrateContract], ["/cosmwasm.wasm.v1.MsgUpdateAdmin", MsgUpdateAdmin], ["/cosmwasm.wasm.v1.MsgClearAdmin", MsgClearAdmin]];
-        const registry = new Registry([...defaultRegistryTypes, ...registryArray]);
-        const core = await SigningStargateClient.connectWithSigner(config.rpc, wallet, { registry })
-        const wasm = await SigningCosmWasmClient.connectWithSigner(config.rpc, wallet, { registry })
-        const tmClient = await Tendermint34Client.connect(config.rpc)
-        const queryClient = QueryClient.withExtensions(
-            tmClient,
-            setupStakingExtension,
-            setupAuthExtension,
-            setupTxExtension,
-            setupDistributionExtension,
-            setupBankExtension,
-        );
+        
+        const core = await getSigningCosmosClient({rpcEndpoint: config.rpc, signer: wallet})
+        const wasm = await getSigningCosmwasmClient({rpcEndpoint: config.rpc, signer: wallet})
+        const rpc = new Rpc.request()
+        const queryClient = createRPCQueryClient({rpc})
         return new PersistenceClient(mnemonic, wallet, wasm, core, queryClient)
     }
 }

@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Client side JS libraries for persistenceSDK transaction generation, signing and broadcasting.",
     "scripts": {
-        "test": "NODE_ENV=development ts-node ./test/testContractProposals.ts",
+        "build:gov-contract": "NODE_ENV=development ts-node ./test/testContractProposals.ts",
         "build": "tsc --project ./tsconfig.json",
         "build:ts-proto": "NODE_ENV=development npm run clean && ./scripts/ts-proto-gen.sh && cti create ./src -w",
         "build:telescope": "NODE_ENV=development ts-node ./scripts/telescope.ts",
@@ -17,20 +17,6 @@
     },
     "homepage": "https://github.com/persistenceOne/persistenceJS#readme",
     "dependencies": {
-        "@babel/cli": "7.17.10",
-        "@babel/core": "7.18.5",
-        "@babel/eslint-parser": "^7.18.2",
-        "@babel/generator": "7.18.2",
-        "@babel/node": "^7.18.5",
-        "@babel/parser": "^7.18.5",
-        "@babel/plugin-proposal-class-properties": "7.17.12",
-        "@babel/plugin-proposal-export-default-from": "7.17.12",
-        "@babel/plugin-proposal-object-rest-spread": "7.18.0",
-        "@babel/plugin-transform-runtime": "7.18.5",
-        "@babel/preset-env": "7.18.2",
-        "@babel/preset-typescript": "^7.17.12",
-        "@babel/traverse": "7.18.5",
-        "@babel/types": "7.18.4",
         "@cosmjs/amino": "^0.28.11",
         "@cosmjs/cosmwasm-stargate": "^0.28.11",
         "@cosmjs/crypto": "^0.28.11",
@@ -64,11 +50,8 @@
         "typescript": "^3.9.3"
     },
     "devDependencies": {
-        "@babel/cli": "^7.17.10",
-        "@babel/core": "^7.18.5",
-        "@babel/preset-env": "^7.18.2",
         "@types/node": "^10.17.60",
-        "@types/node-fetch": "^2.5.10",
+        "@types/node-fetch": "^2.6.2",
         "@types/pako": "^2.0.0",
         "cosmwasm-typescript-gen": "^0.3.7",
         "create-ts-index": "^1.14.0",
@@ -76,8 +59,5 @@
     },
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "keywords": [],
-    "directories": {
-        "test": "tests"
-    }
+    "keywords": []
 }
