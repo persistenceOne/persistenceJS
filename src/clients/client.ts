@@ -28,8 +28,8 @@ import * as cosmwasmWasmV1TxRegistry from "src/proto/cosmwasm/wasm/v1/tx.registr
 import { LocalConfig, DefaultWalletOptoions } from "../config/config";
 import { MsgStoreCode, MsgInstantiateContract, MsgExecuteContract, MsgMigrateContract, MsgUpdateAdmin, MsgClearAdmin } from "cosmjs-types/cosmwasm/wasm/v1beta1/tx";
 import { Tendermint34Client } from '@cosmjs/tendermint-rpc';
-import {createRPCQueryClient, } from '../proto/cosmwasm/rpc.query'
-import {QueryClientImpl} from '../proto/cosmwasm/wasm/v1/query.rpc.query';
+import { createRPCQueryClient, } from '../proto/cosmwasm/rpc.query'
+import { QueryClientImpl } from '../proto/cosmwasm/wasm/v1/query.rpc.query';
 export interface Config {
     rpc: string,
     chainId: string,
@@ -50,9 +50,9 @@ export class PersistenceClient {
     public config: Config;
     public core: SigningStargateClient
     public wasm: SigningStargateClient
-    public query: QueryClient
+    public query
 
-    private constructor(mnemonic: string, wallet: DirectSecp256k1HdWallet, wasm: SigningStargateClient, core: SigningStargateClient, queryclient: QueryClient, config?: Config) {
+    private constructor(mnemonic: string, wallet: DirectSecp256k1HdWallet, wasm: SigningStargateClient, core: SigningStargateClient, queryclient, config?: Config) {
         this.mnemonic = mnemonic
         this.config = config
         this.wallet = wallet
@@ -64,12 +64,15 @@ export class PersistenceClient {
     static async init(mnemonic: string, chainConfig?: Config): Promise<PersistenceClient> {
         const config = chainConfig || LocalConfig
         const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, DefaultWalletOptoions)
+
+        const core = await getSigningCosmosClient({ rpcEndpoint: config.rpc, signer: wallet })
+        const wasm = await getSigningCosmwasmClient({ rpcEndpoint: config.rpc, signer: wallet })
         
-        const core = await getSigningCosmosClient({rpcEndpoint: config.rpc, signer: wallet})
-        const wasm = await getSigningCosmwasmClient({rpcEndpoint: config.rpc, signer: wallet})
-        const rpc = new Rpc.request()
-        const queryClient = createRPCQueryClient({rpc})
-        return new PersistenceClient(mnemonic, wallet, wasm, core, queryClient)
+        const tendermintClient = await Tendermint34Client.connect(config.rpc);
+        const queryClient = new QueryClient(tendermintClient);
+        const rpc = await createProtobufRpcClient(queryClient)
+        const query = await createRPCQueryClient({ rpc: rpc })
+        return new PersistenceClient(mnemonic, wallet, wasm, core, query)
     }
 }
 

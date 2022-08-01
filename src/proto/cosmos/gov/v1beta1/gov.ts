@@ -918,8 +918,8 @@ export const DepositParams = {
   fromPartial(object: DeepPartial<DepositParams>): DepositParams {
     const message = createBaseDepositParams();
     message.minDeposit = object.minDeposit?.map(e => Coin.fromPartial(e)) || [];
-    message.maxDepositPeriod = object.maxDepositPeriod ?? undefined;
-    return message;
+    message.maxDepositPeriod = Duration.fromJSON(object.maxDepositPeriod) ?? undefined;
+    return message;             
   }
 
 };
@@ -975,7 +975,7 @@ export const VotingParams = {
 
   fromPartial(object: DeepPartial<VotingParams>): VotingParams {
     const message = createBaseVotingParams();
-    message.votingPeriod = object.votingPeriod ?? undefined;
+    message.votingPeriod = Duration.fromJSON(object.votingPeriod) ?? undefined;
     return message;
   }
 

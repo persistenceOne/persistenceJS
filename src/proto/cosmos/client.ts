@@ -27,21 +27,33 @@ export const getSigningCosmosClient = async ({
   rpcEndpoint: string;
   signer: OfflineSigner;
 }) => {
-  const registry = new Registry([...cosmosAuthzV1beta1TxRegistry.registry, ...cosmosBankV1beta1TxRegistry.registry, ...cosmosCrisisV1beta1TxRegistry.registry, ...cosmosDistributionV1beta1TxRegistry.registry, ...cosmosEvidenceV1beta1TxRegistry.registry, ...cosmosFeegrantV1beta1TxRegistry.registry, ...cosmosGovV1beta1TxRegistry.registry, ...cosmosSlashingV1beta1TxRegistry.registry, ...cosmosStakingV1beta1TxRegistry.registry, ...cosmosVestingV1beta1TxRegistry.registry]);
-  const aminoTypes = new AminoTypes({ ...cosmosAuthzV1beta1TxAmino.AminoConverter,
-    ...cosmosBankV1beta1TxAmino.AminoConverter,
-    ...cosmosCrisisV1beta1TxAmino.AminoConverter,
-    ...cosmosDistributionV1beta1TxAmino.AminoConverter,
-    ...cosmosEvidenceV1beta1TxAmino.AminoConverter,
-    ...cosmosFeegrantV1beta1TxAmino.AminoConverter,
-    ...cosmosGovV1beta1TxAmino.AminoConverter,
-    ...cosmosSlashingV1beta1TxAmino.AminoConverter,
-    ...cosmosStakingV1beta1TxAmino.AminoConverter,
-    ...cosmosVestingV1beta1TxAmino.AminoConverter
-  });
+  const registry = new Registry([
+    ...cosmosAuthzV1beta1TxRegistry.registry, 
+    ...cosmosBankV1beta1TxRegistry.registry,
+    ...cosmosCrisisV1beta1TxRegistry.registry,
+    ...cosmosDistributionV1beta1TxRegistry.registry,
+    ...cosmosEvidenceV1beta1TxRegistry.registry,
+    ...cosmosFeegrantV1beta1TxRegistry.registry,
+    ...cosmosGovV1beta1TxRegistry.registry, 
+    ...cosmosSlashingV1beta1TxRegistry.registry,
+    ...cosmosStakingV1beta1TxRegistry.registry, 
+    ...cosmosVestingV1beta1TxRegistry.registry
+  ]);
+  // const aminoTypes = new AminoTypes({
+  //   ...cosmosAuthzV1beta1TxAmino.AminoConverter,
+  //   ...cosmosBankV1beta1TxAmino.AminoConverter,
+  //   ...cosmosCrisisV1beta1TxAmino.AminoConverter,
+  //   ...cosmosDistributionV1beta1TxAmino.AminoConverter,
+  //   ...cosmosEvidenceV1beta1TxAmino.AminoConverter,
+  //   ...cosmosFeegrantV1beta1TxAmino.AminoConverter,
+  //   ...cosmosGovV1beta1TxAmino.AminoConverter,
+  //   ...cosmosSlashingV1beta1TxAmino.AminoConverter,
+  //   ...cosmosStakingV1beta1TxAmino.AminoConverter,
+  //   ...cosmosVestingV1beta1TxAmino.AminoConverter
+  // });
   const client = await SigningStargateClient.connectWithSigner(rpcEndpoint, signer, {
     registry,
-    aminoTypes
+    // aminoTypes
   });
   return client;
 };

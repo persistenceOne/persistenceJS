@@ -75,7 +75,7 @@ export const AminoConverter = {
     }: MsgStoreCode): AminoMsgStoreCode["value"] => {
       return {
         sender,
-        wasm_byte_code: toBase64(wasmByteCode),
+        wasm_byte_code: fromBase64(toBase64(wasmByteCode)),
         instantiate_permission: {
           permission: instantiatePermission.permission,
           address: instantiatePermission.address
@@ -89,7 +89,7 @@ export const AminoConverter = {
     }: AminoMsgStoreCode["value"]): MsgStoreCode => {
       return {
         sender,
-        wasmByteCode: fromBase64(wasm_byte_code),
+        wasmByteCode: fromBase64(toBase64(wasm_byte_code)),
         instantiatePermission: {
           permission: accessTypeFromJSON(instantiate_permission.permission),
           address: instantiate_permission.address
