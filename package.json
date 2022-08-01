@@ -40,7 +40,7 @@
         "@osmonauts/ast": "^0.6.3",
         "@osmonauts/helpers": "^0.3.12",
         "@osmonauts/lcd": "^0.3.10",
-        "@osmonauts/telescope": "^0.8.5",
+        "@osmonauts/telescope": "^0.9.3",
         "@pyramation/protobufjs": "^6.10.5",
         "@tendermint/amino-js": "^0.6.2",
         "@tendermint/belt": "^0.3.0",

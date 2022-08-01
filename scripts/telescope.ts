@@ -26,8 +26,22 @@ protoDirs.forEach(dirs => {
         ],
         outPath,
         options: {
-            includeAminos: true,
-            includeLCDClients: true,
+            includePackageVar: false,
+            aminoEncoding: {
+                enabled: true
+            },
+            lcdClients: {
+                enabled: true
+            },
+            rpcClients: {
+                enabled: true,
+                camelCase: true
+            },
+            typingsFormat: {
+                duration: 'duration',
+                timestamp: 'date',
+                useExact: false
+            }
         }
     });
 })
