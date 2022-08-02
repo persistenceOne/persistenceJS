@@ -1,6 +1,7 @@
 import { PersistenceClient } from "../clients/client";
 import { cosmos } from "../proto";
 import { MsgSubmitProposalEncodeObject } from "@cosmjs/stargate";
+import { ClientRequest } from "http";
 
 export async function test() {
   const client = await PersistenceClient.init(
@@ -13,7 +14,7 @@ export async function test() {
     toAddress: "wasm1q6gtklegcp6n29mg0lxk7k3uwkarj3jv6qu0vq",
     Ammount: [
       {
-        denom: "ucosm",
+        denom: client.config.gasPrices.denom,
         amount: "100",
       },
     ],
@@ -21,7 +22,7 @@ export async function test() {
   const res = await client.core.signAndBroadcast(
     account.address,
     [sendMsg],
-    { amount: [{ denom: "ucosm", amount: "10000" }], gas: "100" },
+    { amount: [{ denom: client.config.gasPrices.denom, amount: "10000" }], gas: "100" },
     "test send",
   );
   console.log(res);

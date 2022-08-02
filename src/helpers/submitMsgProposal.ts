@@ -12,14 +12,14 @@ export async function contractProposal(
     typeUrl: "/cosmos.gov.v1beta1.MsgSubmitProposal",
     value: {
       content: Any.fromPartial(proposal),
-      initialDeposit: coins(600_000_000, "stake"),
+      initialDeposit: coins(600_000_000, client.config.gasPrices.denom),
       proposer: account.address,
     },
   };
   const res = await client.core.signAndBroadcast(
     account.address,
     [proposalMsg],
-    { amount: coins(20_000_000, "stake"), gas: "20000000" },
+    { amount: coins(20_000_000, client.config.gasPrices.denom), gas: "20000000" },
     "Proposal Submitted!",
   );
   if (res.code === 0) {

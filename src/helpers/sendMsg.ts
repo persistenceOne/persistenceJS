@@ -13,7 +13,7 @@ export async function test() {
       toAddress: "persistence123em6jp7y96rtylp6tjk9r0dcescl0k4ccqvpu",
       amount: [
         {
-          denom: "stake",
+          denom: client.config.gasPrices.denom,
           amount: "100",
         },
       ],
@@ -22,7 +22,7 @@ export async function test() {
   const res = await client.core.signAndBroadcast(
     account.address,
     [sendMsg],
-    { amount: [{ denom: "stake", amount: "10000" }], gas: "100000" },
+    { amount: [{ denom: client.config.gasPrices.denom, amount: "10000" }], gas: "100000" },
     "test send",
   );
   console.log(res);
