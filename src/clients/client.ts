@@ -3,11 +3,10 @@ import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import {
     Coin, createProtobufRpcClient, QueryClient, SigningStargateClient
 } from "@cosmjs/stargate";
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { DefaultWalletOptoions, LocalConfig } from "../config/config";
 import { createRPCQueryClient } from "../proto/cosmwasm/rpc.query";
-import { getSigningCosmosClient } from "./../proto/cosmos/client";
-import { getSigningCosmwasmClient } from "./../proto/cosmwasm/client";
 export interface Config {
     rpc: string;
     chainId: string;
@@ -26,13 +25,13 @@ export class PersistenceClient {
     public mnemonic: string;
     public config: Config;
     public core: SigningStargateClient;
-    public wasm: SigningStargateClient;
+    public wasm: SigningCosmWasmClient;
     public query;
 
     private constructor(
         mnemonic: string,
         wallet: DirectSecp256k1HdWallet,
-        wasm: SigningStargateClient,
+        wasm: SigningCosmWasmClient,
         core: SigningStargateClient,
         queryclient,
         config?: Config,
@@ -46,12 +45,13 @@ export class PersistenceClient {
     }
 
     static async init(mnemonic: string, chainConfig?: Config): Promise<PersistenceClient> {
+        //wallet
         const config = chainConfig || LocalConfig;
         const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, DefaultWalletOptoions);
-
-        const core = await getSigningCosmosClient({ rpcEndpoint: config.rpc, signer: wallet });
-        const wasm = await getSigningCosmwasmClient({ rpcEndpoint: config.rpc, signer: wallet });
-
+        //signing clients
+        const core = await SigningStargateClient.connectWithSigner(config.rpc, wallet);
+        const wasm = await SigningCosmWasmClient.connectWithSigner(config.rpc, wallet);
+        //query client
         const tendermintClient = await Tendermint34Client.connect(config.rpc);
         const queryClient = new QueryClient(tendermintClient);
         const rpc = await createProtobufRpcClient(queryClient);

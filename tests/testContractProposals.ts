@@ -114,7 +114,7 @@ export async function ContractTest() {
                     codeId: codeId.toString(),
                     label: "native ics20",
                     msg: Buffer.from(JSON.stringify(initMsg)).toString("base64"),
-                    funds: coins(1000000000, test3.config.gasPrices.denom)
+                    funds: coins(1000000000, "stake")
                 }
             )).finish())
         }

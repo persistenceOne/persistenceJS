@@ -919,7 +919,7 @@ export const DepositParams = {
     const message = createBaseDepositParams();
     message.minDeposit = object.minDeposit?.map(e => Coin.fromPartial(e)) || [];
     message.maxDepositPeriod = Duration.fromJSON(object.maxDepositPeriod) ?? undefined;
-    return message;             
+    return message;
   }
 
 };
