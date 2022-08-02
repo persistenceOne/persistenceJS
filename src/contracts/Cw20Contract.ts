@@ -5,7 +5,7 @@
 */
 
 import { CosmWasmClient, ExecuteResult, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
-import { StdFee } from "@cosmjs/amino";
+import { Coin, StdFee } from "@cosmjs/amino";
 export interface AllAccountsResponse {
   accounts: string[];
   [k: string]: unknown;
@@ -39,38 +39,6 @@ export interface AllowanceResponse {
 }
 export interface BalanceResponse {
   balance: Uint128;
-  [k: string]: unknown;
-}
-export type Amount = {
-  native: Coin;
-} | {
-  cw20: Cw20Coin;
-};
-export interface ChannelResponse {
-  balances: Amount[];
-  info: ChannelInfo;
-  total_sent: Amount[];
-  [k: string]: unknown;
-}
-export interface Coin {
-  amount: Uint128;
-  denom: string;
-  [k: string]: unknown;
-}
-export interface Cw20Coin {
-  address: string;
-  amount: Uint128;
-  [k: string]: unknown;
-}
-export interface ChannelInfo {
-  connection_id: string;
-  counterparty_endpoint: IbcEndpoint;
-  id: string;
-  [k: string]: unknown;
-}
-export interface IbcEndpoint {
-  channel_id: string;
-  port_id: string;
   [k: string]: unknown;
 }
 export type Cw20ExecuteMsg = {
@@ -210,36 +178,6 @@ export interface DownloadLogoResponse {
   mime_type: string;
   [k: string]: unknown;
 }
-export type ExecuteMsg = {
-  receive: Cw20ReceiveMsg;
-} | {
-  transfer: TransferMsg;
-} | {
-  allow: AllowMsg;
-} | {
-  update_admin: {
-    admin: string;
-    [k: string]: unknown;
-  };
-};
-export interface TransferMsg {
-  channel: string;
-  remote_address: string;
-  timeout?: number | null;
-  [k: string]: unknown;
-}
-export interface AllowMsg {
-  contract: string;
-  gas_limit?: number | null;
-  [k: string]: unknown;
-}
-export interface InitMsg {
-  allowlist: AllowMsg[];
-  default_gas_limit?: number | null;
-  default_timeout: number;
-  gov_contract: string;
-  [k: string]: unknown;
-}
 export interface InstantiateMsg {
   decimals: number;
   initial_balances: Cw20Coin[];
@@ -247,6 +185,11 @@ export interface InstantiateMsg {
   mint?: MinterResponse | null;
   name: string;
   symbol: string;
+  [k: string]: unknown;
+}
+export interface Cw20Coin {
+  address: string;
+  amount: Uint128;
   [k: string]: unknown;
 }
 export interface InstantiateMarketingInfo {
@@ -261,10 +204,6 @@ export interface MinterResponse {
   minter: string;
   [k: string]: unknown;
 }
-export interface ListChannelsResponse {
-  channels: ChannelInfo[];
-  [k: string]: unknown;
-}
 export type LogoInfo = "embedded" | {
   url: string;
 };
@@ -276,40 +215,44 @@ export interface MarketingInfoResponse {
   project?: string | null;
   [k: string]: unknown;
 }
-export interface PortResponse {
-  port_id: string;
-  [k: string]: unknown;
-}
 export type QueryMsg = {
-  port: {
+  balance: {
+    address: string;
     [k: string]: unknown;
   };
 } | {
-  list_channels: {
+  token_info: {
     [k: string]: unknown;
   };
 } | {
-  channel: {
-    id: string;
+  minter: {
     [k: string]: unknown;
   };
 } | {
-  config: {
+  allowance: {
+    owner: string;
+    spender: string;
     [k: string]: unknown;
   };
 } | {
-  admin: {
+  all_allowances: {
+    limit?: number | null;
+    owner: string;
+    start_after?: string | null;
     [k: string]: unknown;
   };
 } | {
-  allowed: {
-    contract: string;
-    [k: string]: unknown;
-  };
-} | {
-  list_allowed: {
+  all_accounts: {
     limit?: number | null;
     start_after?: string | null;
+    [k: string]: unknown;
+  };
+} | {
+  marketing_info: {
+    [k: string]: unknown;
+  };
+} | {
+  download_logo: {
     [k: string]: unknown;
   };
 };
@@ -322,27 +265,38 @@ export interface TokenInfoResponse {
 }
 export interface Cw20ReadOnlyInterface {
   contractAddress: string;
-  port: () => Promise<PortResponse>;
-  listChannels: () => Promise<ListChannelsResponse>;
-  channel: ({
-    id
+  balance: ({
+    address
   }: {
-    id: string;
-  }) => Promise<ChannelResponse>;
-  config: () => Promise<ConfigResponse>;
-  admin: () => Promise<AdminResponse>;
-  allowed: ({
-    contract
+    address: string;
+  }) => Promise<BalanceResponse>;
+  tokenInfo: () => Promise<TokenInfoResponse>;
+  minter: () => Promise<MinterResponse>;
+  allowance: ({
+    owner,
+    spender
   }: {
-    contract: string;
-  }) => Promise<AllowedResponse>;
-  listAllowed: ({
+    owner: string;
+    spender: string;
+  }) => Promise<AllowanceResponse>;
+  allAllowances: ({
+    limit,
+    owner,
+    startAfter
+  }: {
+    limit?: number;
+    owner: string;
+    startAfter?: string;
+  }) => Promise<AllAllowancesResponse>;
+  allAccounts: ({
     limit,
     startAfter
   }: {
     limit?: number;
     startAfter?: string;
-  }) => Promise<ListAllowedResponse>;
+  }) => Promise<AllAccountsResponse>;
+  marketingInfo: () => Promise<MarketingInfoResponse>;
+  downloadLogo: () => Promise<DownloadLogoResponse>;
 }
 export class Cw20QueryClient implements Cw20ReadOnlyInterface {
   client: CosmWasmClient;
@@ -351,179 +305,90 @@ export class Cw20QueryClient implements Cw20ReadOnlyInterface {
   constructor(client: CosmWasmClient, contractAddress: string) {
     this.client = client;
     this.contractAddress = contractAddress;
-    this.port = this.port.bind(this);
-    this.listChannels = this.listChannels.bind(this);
-    this.channel = this.channel.bind(this);
-    this.config = this.config.bind(this);
-    this.admin = this.admin.bind(this);
-    this.allowed = this.allowed.bind(this);
-    this.listAllowed = this.listAllowed.bind(this);
+    this.balance = this.balance.bind(this);
+    this.tokenInfo = this.tokenInfo.bind(this);
+    this.minter = this.minter.bind(this);
+    this.allowance = this.allowance.bind(this);
+    this.allAllowances = this.allAllowances.bind(this);
+    this.allAccounts = this.allAccounts.bind(this);
+    this.marketingInfo = this.marketingInfo.bind(this);
+    this.downloadLogo = this.downloadLogo.bind(this);
   }
 
-  port = async (): Promise<PortResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      port: {}
-    });
-  };
-  listChannels = async (): Promise<ListChannelsResponse> => {
-    return this.client.queryContractSmart(this.contractAddress, {
-      list_channels: {}
-    });
-  };
-  channel = async ({
-    id
+  balance = async ({
+    address
   }: {
-    id: string;
-  }): Promise<ChannelResponse> => {
+    address: string;
+  }): Promise<BalanceResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
-      channel: {
-        id
+      balance: {
+        address
       }
     });
   };
-  config = async (): Promise<ConfigResponse> => {
+  tokenInfo = async (): Promise<TokenInfoResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
-      config: {}
+      token_info: {}
     });
   };
-  admin = async (): Promise<AdminResponse> => {
+  minter = async (): Promise<MinterResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
-      admin: {}
+      minter: {}
     });
   };
-  allowed = async ({
-    contract
+  allowance = async ({
+    owner,
+    spender
   }: {
-    contract: string;
-  }): Promise<AllowedResponse> => {
+    owner: string;
+    spender: string;
+  }): Promise<AllowanceResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
-      allowed: {
-        contract
+      allowance: {
+        owner,
+        spender
       }
     });
   };
-  listAllowed = async ({
+  allAllowances = async ({
+    limit,
+    owner,
+    startAfter
+  }: {
+    limit?: number;
+    owner: string;
+    startAfter?: string;
+  }): Promise<AllAllowancesResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      all_allowances: {
+        limit,
+        owner,
+        start_after: startAfter
+      }
+    });
+  };
+  allAccounts = async ({
     limit,
     startAfter
   }: {
     limit?: number;
     startAfter?: string;
-  }): Promise<ListAllowedResponse> => {
+  }): Promise<AllAccountsResponse> => {
     return this.client.queryContractSmart(this.contractAddress, {
-      list_allowed: {
+      all_accounts: {
         limit,
         start_after: startAfter
       }
     });
   };
-}
-export interface Cw20Interface extends Cw20ReadOnlyInterface {
-  contractAddress: string;
-  sender: string;
-  receive: ({
-    amount,
-    msg,
-    sender
-  }: {
-    amount: string;
-    msg: string;
-    sender: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
-  transfer: ({
-    channel,
-    remoteAddress,
-    timeout
-  }: {
-    channel: string;
-    remoteAddress: string;
-    timeout?: number;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
-  allow: ({
-    contract,
-    gasLimit
-  }: {
-    contract: string;
-    gasLimit?: number;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
-  updateAdmin: ({
-    admin
-  }: {
-    admin: string;
-  }, fee?: number | StdFee | "auto", memo?: string, funds?: readonly Coin[]) => Promise<ExecuteResult>;
-}
-export class Cw20Client extends Cw20QueryClient implements Cw20Interface {
-  client: SigningCosmWasmClient;
-  sender: string;
-  contractAddress: string;
-
-  constructor(client: SigningCosmWasmClient, sender: string, contractAddress: string) {
-    super(client, contractAddress);
-    this.client = client;
-    this.sender = sender;
-    this.contractAddress = contractAddress;
-    this.receive = this.receive.bind(this);
-    this.transfer = this.transfer.bind(this);
-    this.allow = this.allow.bind(this);
-    this.updateAdmin = this.updateAdmin.bind(this);
-  }
-
-  receive = async ({
-    amount,
-    msg,
-    sender
-  }: {
-    amount: string;
-    msg: string;
-    sender: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
-      receive: {
-        amount,
-        msg,
-        sender
-      }
-    }, fee, memo, funds);
+  marketingInfo = async (): Promise<MarketingInfoResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      marketing_info: {}
+    });
   };
-  transfer = async ({
-    channel,
-    remoteAddress,
-    timeout
-  }: {
-    channel: string;
-    remoteAddress: string;
-    timeout?: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
-      transfer: {
-        channel,
-        remote_address: remoteAddress,
-        timeout
-      }
-    }, fee, memo, funds);
-  };
-  allow = async ({
-    contract,
-    gasLimit
-  }: {
-    contract: string;
-    gasLimit?: number;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
-      allow: {
-        contract,
-        gas_limit: gasLimit
-      }
-    }, fee, memo, funds);
-  };
-  updateAdmin = async ({
-    admin
-  }: {
-    admin: string;
-  }, fee: number | StdFee | "auto" = "auto", memo?: string, funds?: readonly Coin[]): Promise<ExecuteResult> => {
-    return await this.client.execute(this.sender, this.contractAddress, {
-      update_admin: {
-        admin
-      }
-    }, fee, memo, funds);
+  downloadLogo = async (): Promise<DownloadLogoResponse> => {
+    return this.client.queryContractSmart(this.contractAddress, {
+      download_logo: {}
+    });
   };
 }
