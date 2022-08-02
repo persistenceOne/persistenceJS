@@ -74,6 +74,7 @@ export async function ContractTest() {
     }
 
     // sleep for 1 min
+    console.log("waiting for proposal to pass ...")
     const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
     await delay(60000) /// waiting 1 min.
 
@@ -140,6 +141,7 @@ export async function ContractTest() {
     }
 
     // wait for proposal to pass
+    console.log("waiting for proposal to pass ...")
     await delay(45000) /// waiting 1 min.
 
     // check if passed proposal
@@ -149,8 +151,6 @@ export async function ContractTest() {
     // make query client and get contractaddress from codeId
     const contract = await test3.query.cosmwasm.wasm.v1.contractsByCode({ codeId: Long.fromNumber(codeId) })
     console.log("Contracts are => ", contract.contracts)
-
-
 }
 
 ContractTest()
