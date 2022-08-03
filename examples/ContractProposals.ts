@@ -3,7 +3,7 @@ import { contractProposal } from "../src/helpers/submitMsgProposal"
 import { voteYes } from '../src/helpers/vote'
 import { StoreCodeProposal } from '../src/proto/cosmwasm/wasm/v1/proposal'
 import { InstantiateContractProposal } from '../src/proto/cosmwasm/wasm/v1/proposal'
-import { accessTypeFromJSON } from '../src//proto/cosmwasm/wasm/v1/types'
+import { accessTypeFromJSON } from '../src/proto/cosmwasm/wasm/v1/types'
 import { coins } from "@cosmjs/stargate"
 import * as Pako from 'pako'
 import * as fs from 'fs'
