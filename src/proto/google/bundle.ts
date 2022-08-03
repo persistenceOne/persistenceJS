@@ -5,12 +5,6 @@ import * as _222 from "./protobuf/any";
 import * as _223 from "./protobuf/duration";
 import * as _224 from "./protobuf/timestamp";
 export namespace google {
-  export const api = { ..._219,
-    ..._220,
-    ..._221
-  };
-  export const protobuf = { ..._222,
-    ..._223,
-    ..._224
-  };
+  export const api = { ..._219, ..._220, ..._221 };
+  export const protobuf = { ..._222, ..._223, ..._224 };
 }

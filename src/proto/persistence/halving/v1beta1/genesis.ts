@@ -10,7 +10,7 @@ export interface GenesisState {
 
 function createBaseGenesisState(): GenesisState {
   return {
-    params: undefined
+    params: undefined,
   };
 }
 
@@ -47,7 +47,7 @@ export const GenesisState = {
 
   fromJSON(object: any): GenesisState {
     return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined
+      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
     };
   },
 
@@ -59,8 +59,8 @@ export const GenesisState = {
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    message.params =
+      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     return message;
-  }
-
+  },
 };

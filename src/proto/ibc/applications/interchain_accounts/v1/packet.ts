@@ -59,7 +59,7 @@ function createBaseInterchainAccountPacketData(): InterchainAccountPacketData {
   return {
     type: 0,
     data: new Uint8Array(),
-    memo: ""
+    memo: "",
   };
 }
 
@@ -90,7 +90,7 @@ export const InterchainAccountPacketData = {
 
       switch (tag >>> 3) {
         case 1:
-          message.type = (reader.int32() as any);
+          message.type = reader.int32() as any;
           break;
 
         case 2:
@@ -114,14 +114,15 @@ export const InterchainAccountPacketData = {
     return {
       type: isSet(object.type) ? typeFromJSON(object.type) : 0,
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(),
-      memo: isSet(object.memo) ? String(object.memo) : ""
+      memo: isSet(object.memo) ? String(object.memo) : "",
     };
   },
 
   toJSON(message: InterchainAccountPacketData): unknown {
     const obj: any = {};
     message.type !== undefined && (obj.type = typeToJSON(message.type));
-    message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
+    message.data !== undefined &&
+      (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
     message.memo !== undefined && (obj.memo = message.memo);
     return obj;
   },
@@ -132,13 +133,12 @@ export const InterchainAccountPacketData = {
     message.data = object.data ?? new Uint8Array();
     message.memo = object.memo ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseCosmosTx(): CosmosTx {
   return {
-    messages: []
+    messages: [],
   };
 }
 
@@ -175,7 +175,7 @@ export const CosmosTx = {
 
   fromJSON(object: any): CosmosTx {
     return {
-      messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromJSON(e)) : []
+      messages: Array.isArray(object?.messages) ? object.messages.map((e: any) => Any.fromJSON(e)) : [],
     };
   },
 
@@ -183,7 +183,7 @@ export const CosmosTx = {
     const obj: any = {};
 
     if (message.messages) {
-      obj.messages = message.messages.map(e => e ? Any.toJSON(e) : undefined);
+      obj.messages = message.messages.map((e) => (e ? Any.toJSON(e) : undefined));
     } else {
       obj.messages = [];
     }
@@ -193,8 +193,7 @@ export const CosmosTx = {
 
   fromPartial(object: DeepPartial<CosmosTx>): CosmosTx {
     const message = createBaseCosmosTx();
-    message.messages = object.messages?.map(e => Any.fromPartial(e)) || [];
+    message.messages = object.messages?.map((e) => Any.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };

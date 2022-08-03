@@ -28,7 +28,7 @@ export interface CapabilityOwners {
 
 function createBaseCapability(): Capability {
   return {
-    index: Long.UZERO
+    index: Long.UZERO,
   };
 }
 
@@ -51,7 +51,7 @@ export const Capability = {
 
       switch (tag >>> 3) {
         case 1:
-          message.index = (reader.uint64() as Long);
+          message.index = reader.uint64() as Long;
           break;
 
         default:
@@ -65,7 +65,7 @@ export const Capability = {
 
   fromJSON(object: any): Capability {
     return {
-      index: isSet(object.index) ? Long.fromString(object.index) : Long.UZERO
+      index: isSet(object.index) ? Long.fromString(object.index) : Long.UZERO,
     };
   },
 
@@ -77,16 +77,16 @@ export const Capability = {
 
   fromPartial(object: DeepPartial<Capability>): Capability {
     const message = createBaseCapability();
-    message.index = object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.UZERO;
+    message.index =
+      object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.UZERO;
     return message;
-  }
-
+  },
 };
 
 function createBaseOwner(): Owner {
   return {
     module: "",
-    name: ""
+    name: "",
   };
 }
 
@@ -132,7 +132,7 @@ export const Owner = {
   fromJSON(object: any): Owner {
     return {
       module: isSet(object.module) ? String(object.module) : "",
-      name: isSet(object.name) ? String(object.name) : ""
+      name: isSet(object.name) ? String(object.name) : "",
     };
   },
 
@@ -148,13 +148,12 @@ export const Owner = {
     message.module = object.module ?? "";
     message.name = object.name ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseCapabilityOwners(): CapabilityOwners {
   return {
-    owners: []
+    owners: [],
   };
 }
 
@@ -191,7 +190,7 @@ export const CapabilityOwners = {
 
   fromJSON(object: any): CapabilityOwners {
     return {
-      owners: Array.isArray(object?.owners) ? object.owners.map((e: any) => Owner.fromJSON(e)) : []
+      owners: Array.isArray(object?.owners) ? object.owners.map((e: any) => Owner.fromJSON(e)) : [],
     };
   },
 
@@ -199,7 +198,7 @@ export const CapabilityOwners = {
     const obj: any = {};
 
     if (message.owners) {
-      obj.owners = message.owners.map(e => e ? Owner.toJSON(e) : undefined);
+      obj.owners = message.owners.map((e) => (e ? Owner.toJSON(e) : undefined));
     } else {
       obj.owners = [];
     }
@@ -209,8 +208,7 @@ export const CapabilityOwners = {
 
   fromPartial(object: DeepPartial<CapabilityOwners>): CapabilityOwners {
     const message = createBaseCapabilityOwners();
-    message.owners = object.owners?.map(e => Owner.fromPartial(e)) || [];
+    message.owners = object.owners?.map((e) => Owner.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };

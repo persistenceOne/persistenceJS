@@ -23,46 +23,22 @@ import * as _277 from "./types/types";
 import * as _278 from "./types/validator";
 import * as _279 from "./version/types";
 export namespace tendermint {
-  export const abci = { ..._256
-  };
-  export const blockchain = { ..._257
-  };
-  export const consensus = { ..._258,
-    ..._259
-  };
-  export const crypto = { ..._260,
-    ..._261
-  };
+  export const abci = { ..._256 };
+  export const blockchain = { ..._257 };
+  export const consensus = { ..._258, ..._259 };
+  export const crypto = { ..._260, ..._261 };
   export namespace libs {
-    export const bits = { ..._262
-    };
+    export const bits = { ..._262 };
   }
-  export const mempool = { ..._263
-  };
-  export const p2p = { ..._264,
-    ..._265,
-    ..._266
-  };
-  export const privval = { ..._267
-  };
+  export const mempool = { ..._263 };
+  export const p2p = { ..._264, ..._265, ..._266 };
+  export const privval = { ..._267 };
   export namespace rpc {
-    export const grpc = { ..._268
-    };
+    export const grpc = { ..._268 };
   }
-  export const state = { ..._269
-  };
-  export const statesync = { ..._270
-  };
-  export const store = { ..._271
-  };
-  export const types = { ..._272,
-    ..._273,
-    ..._274,
-    ..._275,
-    ..._276,
-    ..._277,
-    ..._278
-  };
-  export const version = { ..._279
-  };
+  export const state = { ..._269 };
+  export const statesync = { ..._270 };
+  export const store = { ..._271 };
+  export const types = { ..._272, ..._273, ..._274, ..._275, ..._276, ..._277, ..._278 };
+  export const version = { ..._279 };
 }

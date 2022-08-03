@@ -12,7 +12,7 @@ export interface Params {
 
 function createBaseParams(): Params {
   return {
-    controllerEnabled: false
+    controllerEnabled: false,
   };
 }
 
@@ -49,7 +49,7 @@ export const Params = {
 
   fromJSON(object: any): Params {
     return {
-      controllerEnabled: isSet(object.controllerEnabled) ? Boolean(object.controllerEnabled) : false
+      controllerEnabled: isSet(object.controllerEnabled) ? Boolean(object.controllerEnabled) : false,
     };
   },
 
@@ -63,6 +63,5 @@ export const Params = {
     const message = createBaseParams();
     message.controllerEnabled = object.controllerEnabled ?? false;
     return message;
-  }
-
+  },
 };

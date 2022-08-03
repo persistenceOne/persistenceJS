@@ -10,17 +10,7 @@ import * as _316 from "./rpc.query";
 import * as _317 from "./rpc.tx";
 export namespace cosmwasm {
   export namespace wasm {
-    export const v1 = { ..._140,
-      ..._141,
-      ..._142,
-      ..._143,
-      ..._144,
-      ..._145,
-      ..._280,
-      ..._281
-    };
+    export const v1 = { ..._140, ..._141, ..._142, ..._143, ..._144, ..._145, ..._280, ..._281 };
   }
-  export const ClientFactory = { ..._316,
-    ..._317
-  };
+  export const ClientFactory = { ..._316, ..._317 };
 }

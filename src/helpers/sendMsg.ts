@@ -1,31 +1,23 @@
 import { PersistenceClient } from "../clients/client";
+import { cosmos } from "../proto/";
+import { Coin } from "@cosmjs/stargate";
 
-export async function test() {
-  const client = await PersistenceClient.init(
-    "obtain door word season wealth inspire tobacco shallow thumb tip walk forum someone verb pistol bright mutual nest fog valley tiny section sauce typical",
-  );
+export async function Send(client: PersistenceClient, from: string, to: string, amount: Coin) {
   const wallet = client.wallet;
   const [account] = await wallet.getAccounts();
   const sendMsg = {
-    typeUrl: "/cosmos.bank.v1beta1.MsgSend",
-    value: {
-      fromAddress: "persistence1ht0tun4u5uj4f4z83p9tncjerwu27ycsm52txm",
-      toAddress: "persistence123em6jp7y96rtylp6tjk9r0dcescl0k4ccqvpu",
-      amount: [
-        {
-          denom: client.config.gasPrices.denom,
-          amount: "100",
-        },
-      ],
-    },
+    typeUrl: "/cosmos.bank.v1beta1.tx.MsgSend",
+    value: cosmos.bank.v1beta1.MsgSend.fromJSON({
+      fromAddress: from,
+      toAddress: to,
+      amount: amount,
+    }),
   };
   const res = await client.core.signAndBroadcast(
     account.address,
     [sendMsg],
-    { amount: [{ denom: client.config.gasPrices.denom, amount: "10000" }], gas: "100000" },
+    { amount: [{ denom: "uxprt", amount: "10000" }], gas: "100" },
     "test send",
   );
   console.log(res);
 }
-
-test();

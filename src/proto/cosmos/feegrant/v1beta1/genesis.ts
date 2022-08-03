@@ -9,7 +9,7 @@ export interface GenesisState {
 
 function createBaseGenesisState(): GenesisState {
   return {
-    allowances: []
+    allowances: [],
   };
 }
 
@@ -46,7 +46,9 @@ export const GenesisState = {
 
   fromJSON(object: any): GenesisState {
     return {
-      allowances: Array.isArray(object?.allowances) ? object.allowances.map((e: any) => Grant.fromJSON(e)) : []
+      allowances: Array.isArray(object?.allowances)
+        ? object.allowances.map((e: any) => Grant.fromJSON(e))
+        : [],
     };
   },
 
@@ -54,7 +56,7 @@ export const GenesisState = {
     const obj: any = {};
 
     if (message.allowances) {
-      obj.allowances = message.allowances.map(e => e ? Grant.toJSON(e) : undefined);
+      obj.allowances = message.allowances.map((e) => (e ? Grant.toJSON(e) : undefined));
     } else {
       obj.allowances = [];
     }
@@ -64,8 +66,7 @@ export const GenesisState = {
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.allowances = object.allowances?.map(e => Grant.fromPartial(e)) || [];
+    message.allowances = object.allowances?.map((e) => Grant.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };

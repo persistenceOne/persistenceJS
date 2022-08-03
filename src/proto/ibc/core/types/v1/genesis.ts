@@ -20,7 +20,7 @@ function createBaseGenesisState(): GenesisState {
   return {
     clientGenesis: undefined,
     connectionGenesis: undefined,
-    channelGenesis: undefined
+    channelGenesis: undefined,
   };
 }
 
@@ -74,25 +74,44 @@ export const GenesisState = {
   fromJSON(object: any): GenesisState {
     return {
       clientGenesis: isSet(object.clientGenesis) ? GenesisState1.fromJSON(object.clientGenesis) : undefined,
-      connectionGenesis: isSet(object.connectionGenesis) ? GenesisState2.fromJSON(object.connectionGenesis) : undefined,
-      channelGenesis: isSet(object.channelGenesis) ? GenesisState3.fromJSON(object.channelGenesis) : undefined
+      connectionGenesis: isSet(object.connectionGenesis)
+        ? GenesisState2.fromJSON(object.connectionGenesis)
+        : undefined,
+      channelGenesis: isSet(object.channelGenesis)
+        ? GenesisState3.fromJSON(object.channelGenesis)
+        : undefined,
     };
   },
 
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
-    message.clientGenesis !== undefined && (obj.clientGenesis = message.clientGenesis ? GenesisState1.toJSON(message.clientGenesis) : undefined);
-    message.connectionGenesis !== undefined && (obj.connectionGenesis = message.connectionGenesis ? GenesisState2.toJSON(message.connectionGenesis) : undefined);
-    message.channelGenesis !== undefined && (obj.channelGenesis = message.channelGenesis ? GenesisState3.toJSON(message.channelGenesis) : undefined);
+    message.clientGenesis !== undefined &&
+      (obj.clientGenesis = message.clientGenesis ? GenesisState1.toJSON(message.clientGenesis) : undefined);
+    message.connectionGenesis !== undefined &&
+      (obj.connectionGenesis = message.connectionGenesis
+        ? GenesisState2.toJSON(message.connectionGenesis)
+        : undefined);
+    message.channelGenesis !== undefined &&
+      (obj.channelGenesis = message.channelGenesis
+        ? GenesisState3.toJSON(message.channelGenesis)
+        : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.clientGenesis = object.clientGenesis !== undefined && object.clientGenesis !== null ? GenesisState.fromPartial(object.clientGenesis) : undefined;
-    message.connectionGenesis = object.connectionGenesis !== undefined && object.connectionGenesis !== null ? GenesisState.fromPartial(object.connectionGenesis) : undefined;
-    message.channelGenesis = object.channelGenesis !== undefined && object.channelGenesis !== null ? GenesisState.fromPartial(object.channelGenesis) : undefined;
+    message.clientGenesis =
+      object.clientGenesis !== undefined && object.clientGenesis !== null
+        ? GenesisState.fromPartial(object.clientGenesis)
+        : undefined;
+    message.connectionGenesis =
+      object.connectionGenesis !== undefined && object.connectionGenesis !== null
+        ? GenesisState.fromPartial(object.connectionGenesis)
+        : undefined;
+    message.channelGenesis =
+      object.channelGenesis !== undefined && object.channelGenesis !== null
+        ? GenesisState.fromPartial(object.channelGenesis)
+        : undefined;
     return message;
-  }
-
+  },
 };

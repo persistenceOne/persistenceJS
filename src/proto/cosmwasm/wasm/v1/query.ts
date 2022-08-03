@@ -189,7 +189,7 @@ export interface QueryPinnedCodesResponse {
 
 function createBaseQueryContractInfoRequest(): QueryContractInfoRequest {
   return {
-    address: ""
+    address: "",
   };
 }
 
@@ -226,7 +226,7 @@ export const QueryContractInfoRequest = {
 
   fromJSON(object: any): QueryContractInfoRequest {
     return {
-      address: isSet(object.address) ? String(object.address) : ""
+      address: isSet(object.address) ? String(object.address) : "",
     };
   },
 
@@ -240,14 +240,13 @@ export const QueryContractInfoRequest = {
     const message = createBaseQueryContractInfoRequest();
     message.address = object.address ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryContractInfoResponse(): QueryContractInfoResponse {
   return {
     address: "",
-    contractInfo: undefined
+    contractInfo: undefined,
   };
 }
 
@@ -293,30 +292,33 @@ export const QueryContractInfoResponse = {
   fromJSON(object: any): QueryContractInfoResponse {
     return {
       address: isSet(object.address) ? String(object.address) : "",
-      contractInfo: isSet(object.contractInfo) ? ContractInfo.fromJSON(object.contractInfo) : undefined
+      contractInfo: isSet(object.contractInfo) ? ContractInfo.fromJSON(object.contractInfo) : undefined,
     };
   },
 
   toJSON(message: QueryContractInfoResponse): unknown {
     const obj: any = {};
     message.address !== undefined && (obj.address = message.address);
-    message.contractInfo !== undefined && (obj.contractInfo = message.contractInfo ? ContractInfo.toJSON(message.contractInfo) : undefined);
+    message.contractInfo !== undefined &&
+      (obj.contractInfo = message.contractInfo ? ContractInfo.toJSON(message.contractInfo) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryContractInfoResponse>): QueryContractInfoResponse {
     const message = createBaseQueryContractInfoResponse();
     message.address = object.address ?? "";
-    message.contractInfo = object.contractInfo !== undefined && object.contractInfo !== null ? ContractInfo.fromPartial(object.contractInfo) : undefined;
+    message.contractInfo =
+      object.contractInfo !== undefined && object.contractInfo !== null
+        ? ContractInfo.fromPartial(object.contractInfo)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryContractHistoryRequest(): QueryContractHistoryRequest {
   return {
     address: "",
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -362,30 +364,33 @@ export const QueryContractHistoryRequest = {
   fromJSON(object: any): QueryContractHistoryRequest {
     return {
       address: isSet(object.address) ? String(object.address) : "",
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
     };
   },
 
   toJSON(message: QueryContractHistoryRequest): unknown {
     const obj: any = {};
     message.address !== undefined && (obj.address = message.address);
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryContractHistoryRequest>): QueryContractHistoryRequest {
     const message = createBaseQueryContractHistoryRequest();
     message.address = object.address ?? "";
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryContractHistoryResponse(): QueryContractHistoryResponse {
   return {
     entries: [],
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -430,8 +435,10 @@ export const QueryContractHistoryResponse = {
 
   fromJSON(object: any): QueryContractHistoryResponse {
     return {
-      entries: Array.isArray(object?.entries) ? object.entries.map((e: any) => ContractCodeHistoryEntry.fromJSON(e)) : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+      entries: Array.isArray(object?.entries)
+        ? object.entries.map((e: any) => ContractCodeHistoryEntry.fromJSON(e))
+        : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
     };
   },
 
@@ -439,28 +446,31 @@ export const QueryContractHistoryResponse = {
     const obj: any = {};
 
     if (message.entries) {
-      obj.entries = message.entries.map(e => e ? ContractCodeHistoryEntry.toJSON(e) : undefined);
+      obj.entries = message.entries.map((e) => (e ? ContractCodeHistoryEntry.toJSON(e) : undefined));
     } else {
       obj.entries = [];
     }
 
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryContractHistoryResponse>): QueryContractHistoryResponse {
     const message = createBaseQueryContractHistoryResponse();
-    message.entries = object.entries?.map(e => ContractCodeHistoryEntry.fromPartial(e)) || [];
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
+    message.entries = object.entries?.map((e) => ContractCodeHistoryEntry.fromPartial(e)) || [];
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryContractsByCodeRequest(): QueryContractsByCodeRequest {
   return {
     codeId: Long.UZERO,
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -487,7 +497,7 @@ export const QueryContractsByCodeRequest = {
 
       switch (tag >>> 3) {
         case 1:
-          message.codeId = (reader.uint64() as Long);
+          message.codeId = reader.uint64() as Long;
           break;
 
         case 2:
@@ -506,30 +516,34 @@ export const QueryContractsByCodeRequest = {
   fromJSON(object: any): QueryContractsByCodeRequest {
     return {
       codeId: isSet(object.codeId) ? Long.fromString(object.codeId) : Long.UZERO,
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
     };
   },
 
   toJSON(message: QueryContractsByCodeRequest): unknown {
     const obj: any = {};
     message.codeId !== undefined && (obj.codeId = (message.codeId || Long.UZERO).toString());
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryContractsByCodeRequest>): QueryContractsByCodeRequest {
     const message = createBaseQueryContractsByCodeRequest();
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
+    message.codeId =
+      object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryContractsByCodeResponse(): QueryContractsByCodeResponse {
   return {
     contracts: [],
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -575,7 +589,7 @@ export const QueryContractsByCodeResponse = {
   fromJSON(object: any): QueryContractsByCodeResponse {
     return {
       contracts: Array.isArray(object?.contracts) ? object.contracts.map((e: any) => String(e)) : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
     };
   },
 
@@ -583,28 +597,31 @@ export const QueryContractsByCodeResponse = {
     const obj: any = {};
 
     if (message.contracts) {
-      obj.contracts = message.contracts.map(e => e);
+      obj.contracts = message.contracts.map((e) => e);
     } else {
       obj.contracts = [];
     }
 
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryContractsByCodeResponse>): QueryContractsByCodeResponse {
     const message = createBaseQueryContractsByCodeResponse();
-    message.contracts = object.contracts?.map(e => e) || [];
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
+    message.contracts = object.contracts?.map((e) => e) || [];
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryAllContractStateRequest(): QueryAllContractStateRequest {
   return {
     address: "",
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -650,30 +667,33 @@ export const QueryAllContractStateRequest = {
   fromJSON(object: any): QueryAllContractStateRequest {
     return {
       address: isSet(object.address) ? String(object.address) : "",
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
     };
   },
 
   toJSON(message: QueryAllContractStateRequest): unknown {
     const obj: any = {};
     message.address !== undefined && (obj.address = message.address);
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryAllContractStateRequest>): QueryAllContractStateRequest {
     const message = createBaseQueryAllContractStateRequest();
     message.address = object.address ?? "";
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryAllContractStateResponse(): QueryAllContractStateResponse {
   return {
     models: [],
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -719,7 +739,7 @@ export const QueryAllContractStateResponse = {
   fromJSON(object: any): QueryAllContractStateResponse {
     return {
       models: Array.isArray(object?.models) ? object.models.map((e: any) => Model.fromJSON(e)) : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
     };
   },
 
@@ -727,28 +747,31 @@ export const QueryAllContractStateResponse = {
     const obj: any = {};
 
     if (message.models) {
-      obj.models = message.models.map(e => e ? Model.toJSON(e) : undefined);
+      obj.models = message.models.map((e) => (e ? Model.toJSON(e) : undefined));
     } else {
       obj.models = [];
     }
 
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryAllContractStateResponse>): QueryAllContractStateResponse {
     const message = createBaseQueryAllContractStateResponse();
-    message.models = object.models?.map(e => Model.fromPartial(e)) || [];
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
+    message.models = object.models?.map((e) => Model.fromPartial(e)) || [];
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryRawContractStateRequest(): QueryRawContractStateRequest {
   return {
     address: "",
-    queryData: new Uint8Array()
+    queryData: new Uint8Array(),
   };
 }
 
@@ -794,14 +817,17 @@ export const QueryRawContractStateRequest = {
   fromJSON(object: any): QueryRawContractStateRequest {
     return {
       address: isSet(object.address) ? String(object.address) : "",
-      queryData: isSet(object.queryData) ? bytesFromBase64(object.queryData) : new Uint8Array()
+      queryData: isSet(object.queryData) ? bytesFromBase64(object.queryData) : new Uint8Array(),
     };
   },
 
   toJSON(message: QueryRawContractStateRequest): unknown {
     const obj: any = {};
     message.address !== undefined && (obj.address = message.address);
-    message.queryData !== undefined && (obj.queryData = base64FromBytes(message.queryData !== undefined ? message.queryData : new Uint8Array()));
+    message.queryData !== undefined &&
+      (obj.queryData = base64FromBytes(
+        message.queryData !== undefined ? message.queryData : new Uint8Array(),
+      ));
     return obj;
   },
 
@@ -810,13 +836,12 @@ export const QueryRawContractStateRequest = {
     message.address = object.address ?? "";
     message.queryData = object.queryData ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryRawContractStateResponse(): QueryRawContractStateResponse {
   return {
-    data: new Uint8Array()
+    data: new Uint8Array(),
   };
 }
 
@@ -853,13 +878,14 @@ export const QueryRawContractStateResponse = {
 
   fromJSON(object: any): QueryRawContractStateResponse {
     return {
-      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array()
+      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(),
     };
   },
 
   toJSON(message: QueryRawContractStateResponse): unknown {
     const obj: any = {};
-    message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
+    message.data !== undefined &&
+      (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
     return obj;
   },
 
@@ -867,14 +893,13 @@ export const QueryRawContractStateResponse = {
     const message = createBaseQueryRawContractStateResponse();
     message.data = object.data ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseQuerySmartContractStateRequest(): QuerySmartContractStateRequest {
   return {
     address: "",
-    queryData: new Uint8Array()
+    queryData: new Uint8Array(),
   };
 }
 
@@ -920,14 +945,17 @@ export const QuerySmartContractStateRequest = {
   fromJSON(object: any): QuerySmartContractStateRequest {
     return {
       address: isSet(object.address) ? String(object.address) : "",
-      queryData: isSet(object.queryData) ? bytesFromBase64(object.queryData) : new Uint8Array()
+      queryData: isSet(object.queryData) ? bytesFromBase64(object.queryData) : new Uint8Array(),
     };
   },
 
   toJSON(message: QuerySmartContractStateRequest): unknown {
     const obj: any = {};
     message.address !== undefined && (obj.address = message.address);
-    message.queryData !== undefined && (obj.queryData = base64FromBytes(message.queryData !== undefined ? message.queryData : new Uint8Array()));
+    message.queryData !== undefined &&
+      (obj.queryData = base64FromBytes(
+        message.queryData !== undefined ? message.queryData : new Uint8Array(),
+      ));
     return obj;
   },
 
@@ -936,13 +964,12 @@ export const QuerySmartContractStateRequest = {
     message.address = object.address ?? "";
     message.queryData = object.queryData ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseQuerySmartContractStateResponse(): QuerySmartContractStateResponse {
   return {
-    data: new Uint8Array()
+    data: new Uint8Array(),
   };
 }
 
@@ -979,13 +1006,14 @@ export const QuerySmartContractStateResponse = {
 
   fromJSON(object: any): QuerySmartContractStateResponse {
     return {
-      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array()
+      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(),
     };
   },
 
   toJSON(message: QuerySmartContractStateResponse): unknown {
     const obj: any = {};
-    message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
+    message.data !== undefined &&
+      (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
     return obj;
   },
 
@@ -993,13 +1021,12 @@ export const QuerySmartContractStateResponse = {
     const message = createBaseQuerySmartContractStateResponse();
     message.data = object.data ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryCodeRequest(): QueryCodeRequest {
   return {
-    codeId: Long.UZERO
+    codeId: Long.UZERO,
   };
 }
 
@@ -1022,7 +1049,7 @@ export const QueryCodeRequest = {
 
       switch (tag >>> 3) {
         case 1:
-          message.codeId = (reader.uint64() as Long);
+          message.codeId = reader.uint64() as Long;
           break;
 
         default:
@@ -1036,7 +1063,7 @@ export const QueryCodeRequest = {
 
   fromJSON(object: any): QueryCodeRequest {
     return {
-      codeId: isSet(object.codeId) ? Long.fromString(object.codeId) : Long.UZERO
+      codeId: isSet(object.codeId) ? Long.fromString(object.codeId) : Long.UZERO,
     };
   },
 
@@ -1048,10 +1075,10 @@ export const QueryCodeRequest = {
 
   fromPartial(object: DeepPartial<QueryCodeRequest>): QueryCodeRequest {
     const message = createBaseQueryCodeRequest();
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
+    message.codeId =
+      object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
     return message;
-  }
-
+  },
 };
 
 function createBaseCodeInfoResponse(): CodeInfoResponse {
@@ -1059,7 +1086,7 @@ function createBaseCodeInfoResponse(): CodeInfoResponse {
     codeId: Long.UZERO,
     creator: "",
     dataHash: new Uint8Array(),
-    instantiatePermission: undefined
+    instantiatePermission: undefined,
   };
 }
 
@@ -1094,7 +1121,7 @@ export const CodeInfoResponse = {
 
       switch (tag >>> 3) {
         case 1:
-          message.codeId = (reader.uint64() as Long);
+          message.codeId = reader.uint64() as Long;
           break;
 
         case 2:
@@ -1123,7 +1150,9 @@ export const CodeInfoResponse = {
       codeId: isSet(object.codeId) ? Long.fromString(object.codeId) : Long.UZERO,
       creator: isSet(object.creator) ? String(object.creator) : "",
       dataHash: isSet(object.dataHash) ? bytesFromBase64(object.dataHash) : new Uint8Array(),
-      instantiatePermission: isSet(object.instantiatePermission) ? AccessConfig.fromJSON(object.instantiatePermission) : undefined
+      instantiatePermission: isSet(object.instantiatePermission)
+        ? AccessConfig.fromJSON(object.instantiatePermission)
+        : undefined,
     };
   },
 
@@ -1131,26 +1160,33 @@ export const CodeInfoResponse = {
     const obj: any = {};
     message.codeId !== undefined && (obj.codeId = (message.codeId || Long.UZERO).toString());
     message.creator !== undefined && (obj.creator = message.creator);
-    message.dataHash !== undefined && (obj.dataHash = base64FromBytes(message.dataHash !== undefined ? message.dataHash : new Uint8Array()));
-    message.instantiatePermission !== undefined && (obj.instantiatePermission = message.instantiatePermission ? AccessConfig.toJSON(message.instantiatePermission) : undefined);
+    message.dataHash !== undefined &&
+      (obj.dataHash = base64FromBytes(message.dataHash !== undefined ? message.dataHash : new Uint8Array()));
+    message.instantiatePermission !== undefined &&
+      (obj.instantiatePermission = message.instantiatePermission
+        ? AccessConfig.toJSON(message.instantiatePermission)
+        : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<CodeInfoResponse>): CodeInfoResponse {
     const message = createBaseCodeInfoResponse();
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
+    message.codeId =
+      object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
     message.creator = object.creator ?? "";
     message.dataHash = object.dataHash ?? new Uint8Array();
-    message.instantiatePermission = object.instantiatePermission !== undefined && object.instantiatePermission !== null ? AccessConfig.fromPartial(object.instantiatePermission) : undefined;
+    message.instantiatePermission =
+      object.instantiatePermission !== undefined && object.instantiatePermission !== null
+        ? AccessConfig.fromPartial(object.instantiatePermission)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryCodeResponse(): QueryCodeResponse {
   return {
     codeInfo: undefined,
-    data: new Uint8Array()
+    data: new Uint8Array(),
   };
 }
 
@@ -1196,29 +1232,33 @@ export const QueryCodeResponse = {
   fromJSON(object: any): QueryCodeResponse {
     return {
       codeInfo: isSet(object.codeInfo) ? CodeInfoResponse.fromJSON(object.codeInfo) : undefined,
-      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array()
+      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(),
     };
   },
 
   toJSON(message: QueryCodeResponse): unknown {
     const obj: any = {};
-    message.codeInfo !== undefined && (obj.codeInfo = message.codeInfo ? CodeInfoResponse.toJSON(message.codeInfo) : undefined);
-    message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
+    message.codeInfo !== undefined &&
+      (obj.codeInfo = message.codeInfo ? CodeInfoResponse.toJSON(message.codeInfo) : undefined);
+    message.data !== undefined &&
+      (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryCodeResponse>): QueryCodeResponse {
     const message = createBaseQueryCodeResponse();
-    message.codeInfo = object.codeInfo !== undefined && object.codeInfo !== null ? CodeInfoResponse.fromPartial(object.codeInfo) : undefined;
+    message.codeInfo =
+      object.codeInfo !== undefined && object.codeInfo !== null
+        ? CodeInfoResponse.fromPartial(object.codeInfo)
+        : undefined;
     message.data = object.data ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryCodesRequest(): QueryCodesRequest {
   return {
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -1255,28 +1295,31 @@ export const QueryCodesRequest = {
 
   fromJSON(object: any): QueryCodesRequest {
     return {
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
     };
   },
 
   toJSON(message: QueryCodesRequest): unknown {
     const obj: any = {};
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryCodesRequest>): QueryCodesRequest {
     const message = createBaseQueryCodesRequest();
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryCodesResponse(): QueryCodesResponse {
   return {
     codeInfos: [],
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -1321,8 +1364,10 @@ export const QueryCodesResponse = {
 
   fromJSON(object: any): QueryCodesResponse {
     return {
-      codeInfos: Array.isArray(object?.codeInfos) ? object.codeInfos.map((e: any) => CodeInfoResponse.fromJSON(e)) : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+      codeInfos: Array.isArray(object?.codeInfos)
+        ? object.codeInfos.map((e: any) => CodeInfoResponse.fromJSON(e))
+        : [],
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
     };
   },
 
@@ -1330,27 +1375,30 @@ export const QueryCodesResponse = {
     const obj: any = {};
 
     if (message.codeInfos) {
-      obj.codeInfos = message.codeInfos.map(e => e ? CodeInfoResponse.toJSON(e) : undefined);
+      obj.codeInfos = message.codeInfos.map((e) => (e ? CodeInfoResponse.toJSON(e) : undefined));
     } else {
       obj.codeInfos = [];
     }
 
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryCodesResponse>): QueryCodesResponse {
     const message = createBaseQueryCodesResponse();
-    message.codeInfos = object.codeInfos?.map(e => CodeInfoResponse.fromPartial(e)) || [];
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
+    message.codeInfos = object.codeInfos?.map((e) => CodeInfoResponse.fromPartial(e)) || [];
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryPinnedCodesRequest(): QueryPinnedCodesRequest {
   return {
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -1387,28 +1435,31 @@ export const QueryPinnedCodesRequest = {
 
   fromJSON(object: any): QueryPinnedCodesRequest {
     return {
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
     };
   },
 
   toJSON(message: QueryPinnedCodesRequest): unknown {
     const obj: any = {};
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryPinnedCodesRequest>): QueryPinnedCodesRequest {
     const message = createBaseQueryPinnedCodesRequest();
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryPinnedCodesResponse(): QueryPinnedCodesResponse {
   return {
     codeIds: [],
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -1443,10 +1494,10 @@ export const QueryPinnedCodesResponse = {
             const end2 = reader.uint32() + reader.pos;
 
             while (reader.pos < end2) {
-              message.codeIds.push((reader.uint64() as Long));
+              message.codeIds.push(reader.uint64() as Long);
             }
           } else {
-            message.codeIds.push((reader.uint64() as Long));
+            message.codeIds.push(reader.uint64() as Long);
           }
 
           break;
@@ -1467,7 +1518,7 @@ export const QueryPinnedCodesResponse = {
   fromJSON(object: any): QueryPinnedCodesResponse {
     return {
       codeIds: Array.isArray(object?.codeIds) ? object.codeIds.map((e: any) => Long.fromString(e)) : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
     };
   },
 
@@ -1475,20 +1526,23 @@ export const QueryPinnedCodesResponse = {
     const obj: any = {};
 
     if (message.codeIds) {
-      obj.codeIds = message.codeIds.map(e => (e || Long.UZERO).toString());
+      obj.codeIds = message.codeIds.map((e) => (e || Long.UZERO).toString());
     } else {
       obj.codeIds = [];
     }
 
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryPinnedCodesResponse>): QueryPinnedCodesResponse {
     const message = createBaseQueryPinnedCodesResponse();
-    message.codeIds = object.codeIds?.map(e => Long.fromValue(e)) || [];
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
+    message.codeIds = object.codeIds?.map((e) => Long.fromValue(e)) || [];
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };

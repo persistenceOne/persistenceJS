@@ -48,7 +48,7 @@ function createBaseMsgTransfer(): MsgTransfer {
     sender: "",
     receiver: "",
     timeoutHeight: undefined,
-    timeoutTimestamp: Long.UZERO
+    timeoutTimestamp: Long.UZERO,
   };
 }
 
@@ -119,7 +119,7 @@ export const MsgTransfer = {
           break;
 
         case 7:
-          message.timeoutTimestamp = (reader.uint64() as Long);
+          message.timeoutTimestamp = reader.uint64() as Long;
           break;
 
         default:
@@ -139,7 +139,9 @@ export const MsgTransfer = {
       sender: isSet(object.sender) ? String(object.sender) : "",
       receiver: isSet(object.receiver) ? String(object.receiver) : "",
       timeoutHeight: isSet(object.timeoutHeight) ? Height.fromJSON(object.timeoutHeight) : undefined,
-      timeoutTimestamp: isSet(object.timeoutTimestamp) ? Long.fromString(object.timeoutTimestamp) : Long.UZERO
+      timeoutTimestamp: isSet(object.timeoutTimestamp)
+        ? Long.fromString(object.timeoutTimestamp)
+        : Long.UZERO,
     };
   },
 
@@ -150,8 +152,10 @@ export const MsgTransfer = {
     message.token !== undefined && (obj.token = message.token ? Coin.toJSON(message.token) : undefined);
     message.sender !== undefined && (obj.sender = message.sender);
     message.receiver !== undefined && (obj.receiver = message.receiver);
-    message.timeoutHeight !== undefined && (obj.timeoutHeight = message.timeoutHeight ? Height.toJSON(message.timeoutHeight) : undefined);
-    message.timeoutTimestamp !== undefined && (obj.timeoutTimestamp = (message.timeoutTimestamp || Long.UZERO).toString());
+    message.timeoutHeight !== undefined &&
+      (obj.timeoutHeight = message.timeoutHeight ? Height.toJSON(message.timeoutHeight) : undefined);
+    message.timeoutTimestamp !== undefined &&
+      (obj.timeoutTimestamp = (message.timeoutTimestamp || Long.UZERO).toString());
     return obj;
   },
 
@@ -159,14 +163,20 @@ export const MsgTransfer = {
     const message = createBaseMsgTransfer();
     message.sourcePort = object.sourcePort ?? "";
     message.sourceChannel = object.sourceChannel ?? "";
-    message.token = object.token !== undefined && object.token !== null ? Coin.fromPartial(object.token) : undefined;
+    message.token =
+      object.token !== undefined && object.token !== null ? Coin.fromPartial(object.token) : undefined;
     message.sender = object.sender ?? "";
     message.receiver = object.receiver ?? "";
-    message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? Height.fromPartial(object.timeoutHeight) : undefined;
-    message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? Long.fromValue(object.timeoutTimestamp) : Long.UZERO;
+    message.timeoutHeight =
+      object.timeoutHeight !== undefined && object.timeoutHeight !== null
+        ? Height.fromPartial(object.timeoutHeight)
+        : undefined;
+    message.timeoutTimestamp =
+      object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null
+        ? Long.fromValue(object.timeoutTimestamp)
+        : Long.UZERO;
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgTransferResponse(): MsgTransferResponse {
@@ -208,6 +218,5 @@ export const MsgTransferResponse = {
   fromPartial(_: DeepPartial<MsgTransferResponse>): MsgTransferResponse {
     const message = createBaseMsgTransferResponse();
     return message;
-  }
-
+  },
 };

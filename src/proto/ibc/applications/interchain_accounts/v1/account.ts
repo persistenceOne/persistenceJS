@@ -11,7 +11,7 @@ export interface InterchainAccount {
 function createBaseInterchainAccount(): InterchainAccount {
   return {
     baseAccount: undefined,
-    accountOwner: ""
+    accountOwner: "",
   };
 }
 
@@ -57,22 +57,25 @@ export const InterchainAccount = {
   fromJSON(object: any): InterchainAccount {
     return {
       baseAccount: isSet(object.baseAccount) ? BaseAccount.fromJSON(object.baseAccount) : undefined,
-      accountOwner: isSet(object.accountOwner) ? String(object.accountOwner) : ""
+      accountOwner: isSet(object.accountOwner) ? String(object.accountOwner) : "",
     };
   },
 
   toJSON(message: InterchainAccount): unknown {
     const obj: any = {};
-    message.baseAccount !== undefined && (obj.baseAccount = message.baseAccount ? BaseAccount.toJSON(message.baseAccount) : undefined);
+    message.baseAccount !== undefined &&
+      (obj.baseAccount = message.baseAccount ? BaseAccount.toJSON(message.baseAccount) : undefined);
     message.accountOwner !== undefined && (obj.accountOwner = message.accountOwner);
     return obj;
   },
 
   fromPartial(object: DeepPartial<InterchainAccount>): InterchainAccount {
     const message = createBaseInterchainAccount();
-    message.baseAccount = object.baseAccount !== undefined && object.baseAccount !== null ? BaseAccount.fromPartial(object.baseAccount) : undefined;
+    message.baseAccount =
+      object.baseAccount !== undefined && object.baseAccount !== null
+        ? BaseAccount.fromPartial(object.baseAccount)
+        : undefined;
     message.accountOwner = object.accountOwner ?? "";
     return message;
-  }
-
+  },
 };

@@ -14,7 +14,7 @@ export interface Pair {
 
 function createBasePairs(): Pairs {
   return {
-    pairs: []
+    pairs: [],
   };
 }
 
@@ -51,7 +51,7 @@ export const Pairs = {
 
   fromJSON(object: any): Pairs {
     return {
-      pairs: Array.isArray(object?.pairs) ? object.pairs.map((e: any) => Pair.fromJSON(e)) : []
+      pairs: Array.isArray(object?.pairs) ? object.pairs.map((e: any) => Pair.fromJSON(e)) : [],
     };
   },
 
@@ -59,7 +59,7 @@ export const Pairs = {
     const obj: any = {};
 
     if (message.pairs) {
-      obj.pairs = message.pairs.map(e => e ? Pair.toJSON(e) : undefined);
+      obj.pairs = message.pairs.map((e) => (e ? Pair.toJSON(e) : undefined));
     } else {
       obj.pairs = [];
     }
@@ -69,16 +69,15 @@ export const Pairs = {
 
   fromPartial(object: DeepPartial<Pairs>): Pairs {
     const message = createBasePairs();
-    message.pairs = object.pairs?.map(e => Pair.fromPartial(e)) || [];
+    message.pairs = object.pairs?.map((e) => Pair.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };
 
 function createBasePair(): Pair {
   return {
     key: new Uint8Array(),
-    value: new Uint8Array()
+    value: new Uint8Array(),
   };
 }
 
@@ -124,14 +123,16 @@ export const Pair = {
   fromJSON(object: any): Pair {
     return {
       key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      value: isSet(object.value) ? bytesFromBase64(object.value) : new Uint8Array()
+      value: isSet(object.value) ? bytesFromBase64(object.value) : new Uint8Array(),
     };
   },
 
   toJSON(message: Pair): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
-    message.value !== undefined && (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
+    message.key !== undefined &&
+      (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
+    message.value !== undefined &&
+      (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
     return obj;
   },
 
@@ -140,6 +141,5 @@ export const Pair = {
     message.key = object.key ?? new Uint8Array();
     message.value = object.value ?? new Uint8Array();
     return message;
-  }
-
+  },
 };

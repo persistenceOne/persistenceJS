@@ -18,7 +18,7 @@ export interface GrantAuthorization {
 
 function createBaseGenesisState(): GenesisState {
   return {
-    authorization: []
+    authorization: [],
   };
 }
 
@@ -55,7 +55,9 @@ export const GenesisState = {
 
   fromJSON(object: any): GenesisState {
     return {
-      authorization: Array.isArray(object?.authorization) ? object.authorization.map((e: any) => GrantAuthorization.fromJSON(e)) : []
+      authorization: Array.isArray(object?.authorization)
+        ? object.authorization.map((e: any) => GrantAuthorization.fromJSON(e))
+        : [],
     };
   },
 
@@ -63,7 +65,7 @@ export const GenesisState = {
     const obj: any = {};
 
     if (message.authorization) {
-      obj.authorization = message.authorization.map(e => e ? GrantAuthorization.toJSON(e) : undefined);
+      obj.authorization = message.authorization.map((e) => (e ? GrantAuthorization.toJSON(e) : undefined));
     } else {
       obj.authorization = [];
     }
@@ -73,10 +75,9 @@ export const GenesisState = {
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.authorization = object.authorization?.map(e => GrantAuthorization.fromPartial(e)) || [];
+    message.authorization = object.authorization?.map((e) => GrantAuthorization.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseGrantAuthorization(): GrantAuthorization {
@@ -84,7 +85,7 @@ function createBaseGrantAuthorization(): GrantAuthorization {
     granter: "",
     grantee: "",
     authorization: undefined,
-    expiration: undefined
+    expiration: undefined,
   };
 }
 
@@ -148,7 +149,7 @@ export const GrantAuthorization = {
       granter: isSet(object.granter) ? String(object.granter) : "",
       grantee: isSet(object.grantee) ? String(object.grantee) : "",
       authorization: isSet(object.authorization) ? Any.fromJSON(object.authorization) : undefined,
-      expiration: isSet(object.expiration) ? fromJsonTimestamp(object.expiration) : undefined
+      expiration: isSet(object.expiration) ? fromJsonTimestamp(object.expiration) : undefined,
     };
   },
 
@@ -156,7 +157,8 @@ export const GrantAuthorization = {
     const obj: any = {};
     message.granter !== undefined && (obj.granter = message.granter);
     message.grantee !== undefined && (obj.grantee = message.grantee);
-    message.authorization !== undefined && (obj.authorization = message.authorization ? Any.toJSON(message.authorization) : undefined);
+    message.authorization !== undefined &&
+      (obj.authorization = message.authorization ? Any.toJSON(message.authorization) : undefined);
     message.expiration !== undefined && (obj.expiration = message.expiration.toISOString());
     return obj;
   },
@@ -165,9 +167,11 @@ export const GrantAuthorization = {
     const message = createBaseGrantAuthorization();
     message.granter = object.granter ?? "";
     message.grantee = object.grantee ?? "";
-    message.authorization = object.authorization !== undefined && object.authorization !== null ? Any.fromPartial(object.authorization) : undefined;
+    message.authorization =
+      object.authorization !== undefined && object.authorization !== null
+        ? Any.fromPartial(object.authorization)
+        : undefined;
     message.expiration = object.expiration ?? undefined;
     return message;
-  }
-
+  },
 };

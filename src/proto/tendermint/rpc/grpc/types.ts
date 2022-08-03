@@ -50,13 +50,12 @@ export const RequestPing = {
   fromPartial(_: DeepPartial<RequestPing>): RequestPing {
     const message = createBaseRequestPing();
     return message;
-  }
-
+  },
 };
 
 function createBaseRequestBroadcastTx(): RequestBroadcastTx {
   return {
-    tx: new Uint8Array()
+    tx: new Uint8Array(),
   };
 }
 
@@ -93,13 +92,14 @@ export const RequestBroadcastTx = {
 
   fromJSON(object: any): RequestBroadcastTx {
     return {
-      tx: isSet(object.tx) ? bytesFromBase64(object.tx) : new Uint8Array()
+      tx: isSet(object.tx) ? bytesFromBase64(object.tx) : new Uint8Array(),
     };
   },
 
   toJSON(message: RequestBroadcastTx): unknown {
     const obj: any = {};
-    message.tx !== undefined && (obj.tx = base64FromBytes(message.tx !== undefined ? message.tx : new Uint8Array()));
+    message.tx !== undefined &&
+      (obj.tx = base64FromBytes(message.tx !== undefined ? message.tx : new Uint8Array()));
     return obj;
   },
 
@@ -107,8 +107,7 @@ export const RequestBroadcastTx = {
     const message = createBaseRequestBroadcastTx();
     message.tx = object.tx ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseResponsePing(): ResponsePing {
@@ -150,14 +149,13 @@ export const ResponsePing = {
   fromPartial(_: DeepPartial<ResponsePing>): ResponsePing {
     const message = createBaseResponsePing();
     return message;
-  }
-
+  },
 };
 
 function createBaseResponseBroadcastTx(): ResponseBroadcastTx {
   return {
     checkTx: undefined,
-    deliverTx: undefined
+    deliverTx: undefined,
   };
 }
 
@@ -203,22 +201,29 @@ export const ResponseBroadcastTx = {
   fromJSON(object: any): ResponseBroadcastTx {
     return {
       checkTx: isSet(object.checkTx) ? ResponseCheckTx.fromJSON(object.checkTx) : undefined,
-      deliverTx: isSet(object.deliverTx) ? ResponseDeliverTx.fromJSON(object.deliverTx) : undefined
+      deliverTx: isSet(object.deliverTx) ? ResponseDeliverTx.fromJSON(object.deliverTx) : undefined,
     };
   },
 
   toJSON(message: ResponseBroadcastTx): unknown {
     const obj: any = {};
-    message.checkTx !== undefined && (obj.checkTx = message.checkTx ? ResponseCheckTx.toJSON(message.checkTx) : undefined);
-    message.deliverTx !== undefined && (obj.deliverTx = message.deliverTx ? ResponseDeliverTx.toJSON(message.deliverTx) : undefined);
+    message.checkTx !== undefined &&
+      (obj.checkTx = message.checkTx ? ResponseCheckTx.toJSON(message.checkTx) : undefined);
+    message.deliverTx !== undefined &&
+      (obj.deliverTx = message.deliverTx ? ResponseDeliverTx.toJSON(message.deliverTx) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<ResponseBroadcastTx>): ResponseBroadcastTx {
     const message = createBaseResponseBroadcastTx();
-    message.checkTx = object.checkTx !== undefined && object.checkTx !== null ? ResponseCheckTx.fromPartial(object.checkTx) : undefined;
-    message.deliverTx = object.deliverTx !== undefined && object.deliverTx !== null ? ResponseDeliverTx.fromPartial(object.deliverTx) : undefined;
+    message.checkTx =
+      object.checkTx !== undefined && object.checkTx !== null
+        ? ResponseCheckTx.fromPartial(object.checkTx)
+        : undefined;
+    message.deliverTx =
+      object.deliverTx !== undefined && object.deliverTx !== null
+        ? ResponseDeliverTx.fromPartial(object.deliverTx)
+        : undefined;
     return message;
-  }
-
+  },
 };

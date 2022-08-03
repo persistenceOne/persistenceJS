@@ -13,7 +13,7 @@ export interface GenesisState {
 
 function createBaseGenesisState(): GenesisState {
   return {
-    constantFee: undefined
+    constantFee: undefined,
   };
 }
 
@@ -50,20 +50,23 @@ export const GenesisState = {
 
   fromJSON(object: any): GenesisState {
     return {
-      constantFee: isSet(object.constantFee) ? Coin.fromJSON(object.constantFee) : undefined
+      constantFee: isSet(object.constantFee) ? Coin.fromJSON(object.constantFee) : undefined,
     };
   },
 
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
-    message.constantFee !== undefined && (obj.constantFee = message.constantFee ? Coin.toJSON(message.constantFee) : undefined);
+    message.constantFee !== undefined &&
+      (obj.constantFee = message.constantFee ? Coin.toJSON(message.constantFee) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.constantFee = object.constantFee !== undefined && object.constantFee !== null ? Coin.fromPartial(object.constantFee) : undefined;
+    message.constantFee =
+      object.constantFee !== undefined && object.constantFee !== null
+        ? Coin.fromPartial(object.constantFee)
+        : undefined;
     return message;
-  }
-
+  },
 };

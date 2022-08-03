@@ -8,7 +8,7 @@ export interface BitArray {
 function createBaseBitArray(): BitArray {
   return {
     bits: Long.ZERO,
-    elems: []
+    elems: [],
   };
 }
 
@@ -38,7 +38,7 @@ export const BitArray = {
 
       switch (tag >>> 3) {
         case 1:
-          message.bits = (reader.int64() as Long);
+          message.bits = reader.int64() as Long;
           break;
 
         case 2:
@@ -46,10 +46,10 @@ export const BitArray = {
             const end2 = reader.uint32() + reader.pos;
 
             while (reader.pos < end2) {
-              message.elems.push((reader.uint64() as Long));
+              message.elems.push(reader.uint64() as Long);
             }
           } else {
-            message.elems.push((reader.uint64() as Long));
+            message.elems.push(reader.uint64() as Long);
           }
 
           break;
@@ -66,7 +66,7 @@ export const BitArray = {
   fromJSON(object: any): BitArray {
     return {
       bits: isSet(object.bits) ? Long.fromString(object.bits) : Long.ZERO,
-      elems: Array.isArray(object?.elems) ? object.elems.map((e: any) => Long.fromString(e)) : []
+      elems: Array.isArray(object?.elems) ? object.elems.map((e: any) => Long.fromString(e)) : [],
     };
   },
 
@@ -75,7 +75,7 @@ export const BitArray = {
     message.bits !== undefined && (obj.bits = (message.bits || Long.ZERO).toString());
 
     if (message.elems) {
-      obj.elems = message.elems.map(e => (e || Long.UZERO).toString());
+      obj.elems = message.elems.map((e) => (e || Long.UZERO).toString());
     } else {
       obj.elems = [];
     }
@@ -85,9 +85,9 @@ export const BitArray = {
 
   fromPartial(object: DeepPartial<BitArray>): BitArray {
     const message = createBaseBitArray();
-    message.bits = object.bits !== undefined && object.bits !== null ? Long.fromValue(object.bits) : Long.ZERO;
-    message.elems = object.elems?.map(e => Long.fromValue(e)) || [];
+    message.bits =
+      object.bits !== undefined && object.bits !== null ? Long.fromValue(object.bits) : Long.ZERO;
+    message.elems = object.elems?.map((e) => Long.fromValue(e)) || [];
     return message;
-  }
-
+  },
 };

@@ -25,7 +25,7 @@ function createBaseFungibleTokenPacketData(): FungibleTokenPacketData {
     denom: "",
     amount: "",
     sender: "",
-    receiver: ""
+    receiver: "",
   };
 }
 
@@ -89,7 +89,7 @@ export const FungibleTokenPacketData = {
       denom: isSet(object.denom) ? String(object.denom) : "",
       amount: isSet(object.amount) ? String(object.amount) : "",
       sender: isSet(object.sender) ? String(object.sender) : "",
-      receiver: isSet(object.receiver) ? String(object.receiver) : ""
+      receiver: isSet(object.receiver) ? String(object.receiver) : "",
     };
   },
 
@@ -109,6 +109,5 @@ export const FungibleTokenPacketData = {
     message.sender = object.sender ?? "";
     message.receiver = object.receiver ?? "";
     return message;
-  }
-
+  },
 };

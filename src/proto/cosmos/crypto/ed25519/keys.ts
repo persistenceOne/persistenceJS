@@ -22,7 +22,7 @@ export interface PrivKey {
 
 function createBasePubKey(): PubKey {
   return {
-    key: new Uint8Array()
+    key: new Uint8Array(),
   };
 }
 
@@ -59,13 +59,14 @@ export const PubKey = {
 
   fromJSON(object: any): PubKey {
     return {
-      key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array()
+      key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
     };
   },
 
   toJSON(message: PubKey): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
+    message.key !== undefined &&
+      (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
     return obj;
   },
 
@@ -73,13 +74,12 @@ export const PubKey = {
     const message = createBasePubKey();
     message.key = object.key ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBasePrivKey(): PrivKey {
   return {
-    key: new Uint8Array()
+    key: new Uint8Array(),
   };
 }
 
@@ -116,13 +116,14 @@ export const PrivKey = {
 
   fromJSON(object: any): PrivKey {
     return {
-      key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array()
+      key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
     };
   },
 
   toJSON(message: PrivKey): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
+    message.key !== undefined &&
+      (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
     return obj;
   },
 
@@ -130,6 +131,5 @@ export const PrivKey = {
     const message = createBasePrivKey();
     message.key = object.key ?? new Uint8Array();
     return message;
-  }
-
+  },
 };

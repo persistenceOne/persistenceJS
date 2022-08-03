@@ -10,7 +10,7 @@ function createBaseEventDataRoundState(): EventDataRoundState {
   return {
     height: Long.ZERO,
     round: 0,
-    step: ""
+    step: "",
   };
 }
 
@@ -41,7 +41,7 @@ export const EventDataRoundState = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         case 2:
@@ -65,7 +65,7 @@ export const EventDataRoundState = {
     return {
       height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
       round: isSet(object.round) ? Number(object.round) : 0,
-      step: isSet(object.step) ? String(object.step) : ""
+      step: isSet(object.step) ? String(object.step) : "",
     };
   },
 
@@ -79,10 +79,10 @@ export const EventDataRoundState = {
 
   fromPartial(object: DeepPartial<EventDataRoundState>): EventDataRoundState {
     const message = createBaseEventDataRoundState();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     message.round = object.round ?? 0;
     message.step = object.step ?? "";
     return message;
-  }
-
+  },
 };

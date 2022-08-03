@@ -5,7 +5,7 @@ import { DeepPartial } from "@osmonauts/helpers";
 /**
  * SendAuthorization allows the grantee to spend up to spend_limit coins from
  * the granter's account.
- * 
+ *
  * Since: cosmos-sdk 0.43
  */
 export interface SendAuthorization {
@@ -14,7 +14,7 @@ export interface SendAuthorization {
 
 function createBaseSendAuthorization(): SendAuthorization {
   return {
-    spendLimit: []
+    spendLimit: [],
   };
 }
 
@@ -51,7 +51,9 @@ export const SendAuthorization = {
 
   fromJSON(object: any): SendAuthorization {
     return {
-      spendLimit: Array.isArray(object?.spendLimit) ? object.spendLimit.map((e: any) => Coin.fromJSON(e)) : []
+      spendLimit: Array.isArray(object?.spendLimit)
+        ? object.spendLimit.map((e: any) => Coin.fromJSON(e))
+        : [],
     };
   },
 
@@ -59,7 +61,7 @@ export const SendAuthorization = {
     const obj: any = {};
 
     if (message.spendLimit) {
-      obj.spendLimit = message.spendLimit.map(e => e ? Coin.toJSON(e) : undefined);
+      obj.spendLimit = message.spendLimit.map((e) => (e ? Coin.toJSON(e) : undefined));
     } else {
       obj.spendLimit = [];
     }
@@ -69,8 +71,7 @@ export const SendAuthorization = {
 
   fromPartial(object: DeepPartial<SendAuthorization>): SendAuthorization {
     const message = createBaseSendAuthorization();
-    message.spendLimit = object.spendLimit?.map(e => Coin.fromPartial(e)) || [];
+    message.spendLimit = object.spendLimit?.map((e) => Coin.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };

@@ -39,7 +39,7 @@ export interface Params {
 function createBaseDenomTrace(): DenomTrace {
   return {
     path: "",
-    baseDenom: ""
+    baseDenom: "",
   };
 }
 
@@ -85,7 +85,7 @@ export const DenomTrace = {
   fromJSON(object: any): DenomTrace {
     return {
       path: isSet(object.path) ? String(object.path) : "",
-      baseDenom: isSet(object.baseDenom) ? String(object.baseDenom) : ""
+      baseDenom: isSet(object.baseDenom) ? String(object.baseDenom) : "",
     };
   },
 
@@ -101,14 +101,13 @@ export const DenomTrace = {
     message.path = object.path ?? "";
     message.baseDenom = object.baseDenom ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseParams(): Params {
   return {
     sendEnabled: false,
-    receiveEnabled: false
+    receiveEnabled: false,
   };
 }
 
@@ -154,7 +153,7 @@ export const Params = {
   fromJSON(object: any): Params {
     return {
       sendEnabled: isSet(object.sendEnabled) ? Boolean(object.sendEnabled) : false,
-      receiveEnabled: isSet(object.receiveEnabled) ? Boolean(object.receiveEnabled) : false
+      receiveEnabled: isSet(object.receiveEnabled) ? Boolean(object.receiveEnabled) : false,
     };
   },
 
@@ -170,6 +169,5 @@ export const Params = {
     message.sendEnabled = object.sendEnabled ?? false;
     message.receiveEnabled = object.receiveEnabled ?? false;
     return message;
-  }
-
+  },
 };

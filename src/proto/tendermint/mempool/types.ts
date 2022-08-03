@@ -9,7 +9,7 @@ export interface Message {
 
 function createBaseTxs(): Txs {
   return {
-    txs: []
+    txs: [],
   };
 }
 
@@ -46,7 +46,7 @@ export const Txs = {
 
   fromJSON(object: any): Txs {
     return {
-      txs: Array.isArray(object?.txs) ? object.txs.map((e: any) => bytesFromBase64(e)) : []
+      txs: Array.isArray(object?.txs) ? object.txs.map((e: any) => bytesFromBase64(e)) : [],
     };
   },
 
@@ -54,7 +54,7 @@ export const Txs = {
     const obj: any = {};
 
     if (message.txs) {
-      obj.txs = message.txs.map(e => base64FromBytes(e !== undefined ? e : new Uint8Array()));
+      obj.txs = message.txs.map((e) => base64FromBytes(e !== undefined ? e : new Uint8Array()));
     } else {
       obj.txs = [];
     }
@@ -64,15 +64,14 @@ export const Txs = {
 
   fromPartial(object: DeepPartial<Txs>): Txs {
     const message = createBaseTxs();
-    message.txs = object.txs?.map(e => e) || [];
+    message.txs = object.txs?.map((e) => e) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseMessage(): Message {
   return {
-    txs: undefined
+    txs: undefined,
   };
 }
 
@@ -109,7 +108,7 @@ export const Message = {
 
   fromJSON(object: any): Message {
     return {
-      txs: isSet(object.txs) ? Txs.fromJSON(object.txs) : undefined
+      txs: isSet(object.txs) ? Txs.fromJSON(object.txs) : undefined,
     };
   },
 
@@ -123,6 +122,5 @@ export const Message = {
     const message = createBaseMessage();
     message.txs = object.txs !== undefined && object.txs !== null ? Txs.fromPartial(object.txs) : undefined;
     return message;
-  }
-
+  },
 };

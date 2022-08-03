@@ -6,7 +6,7 @@ import { isSet, DeepPartial } from "@osmonauts/helpers";
 
 /**
  * QueryAccountsRequest is the request type for the Query/Accounts RPC method.
- * 
+ *
  * Since: cosmos-sdk 0.43
  */
 export interface QueryAccountsRequest {
@@ -16,7 +16,7 @@ export interface QueryAccountsRequest {
 
 /**
  * QueryAccountsResponse is the response type for the Query/Accounts RPC method.
- * 
+ *
  * Since: cosmos-sdk 0.43
  */
 export interface QueryAccountsResponse {
@@ -50,7 +50,7 @@ export interface QueryParamsResponse {
 
 function createBaseQueryAccountsRequest(): QueryAccountsRequest {
   return {
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -87,28 +87,31 @@ export const QueryAccountsRequest = {
 
   fromJSON(object: any): QueryAccountsRequest {
     return {
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
     };
   },
 
   toJSON(message: QueryAccountsRequest): unknown {
     const obj: any = {};
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryAccountsRequest>): QueryAccountsRequest {
     const message = createBaseQueryAccountsRequest();
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageRequest.fromPartial(object.pagination) : undefined;
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryAccountsResponse(): QueryAccountsResponse {
   return {
     accounts: [],
-    pagination: undefined
+    pagination: undefined,
   };
 }
 
@@ -154,7 +157,7 @@ export const QueryAccountsResponse = {
   fromJSON(object: any): QueryAccountsResponse {
     return {
       accounts: Array.isArray(object?.accounts) ? object.accounts.map((e: any) => Any.fromJSON(e)) : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
     };
   },
 
@@ -162,27 +165,30 @@ export const QueryAccountsResponse = {
     const obj: any = {};
 
     if (message.accounts) {
-      obj.accounts = message.accounts.map(e => e ? Any.toJSON(e) : undefined);
+      obj.accounts = message.accounts.map((e) => (e ? Any.toJSON(e) : undefined));
     } else {
       obj.accounts = [];
     }
 
-    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryAccountsResponse>): QueryAccountsResponse {
     const message = createBaseQueryAccountsResponse();
-    message.accounts = object.accounts?.map(e => Any.fromPartial(e)) || [];
-    message.pagination = object.pagination !== undefined && object.pagination !== null ? PageResponse.fromPartial(object.pagination) : undefined;
+    message.accounts = object.accounts?.map((e) => Any.fromPartial(e)) || [];
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromPartial(object.pagination)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryAccountRequest(): QueryAccountRequest {
   return {
-    address: ""
+    address: "",
   };
 }
 
@@ -219,7 +225,7 @@ export const QueryAccountRequest = {
 
   fromJSON(object: any): QueryAccountRequest {
     return {
-      address: isSet(object.address) ? String(object.address) : ""
+      address: isSet(object.address) ? String(object.address) : "",
     };
   },
 
@@ -233,13 +239,12 @@ export const QueryAccountRequest = {
     const message = createBaseQueryAccountRequest();
     message.address = object.address ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryAccountResponse(): QueryAccountResponse {
   return {
-    account: undefined
+    account: undefined,
   };
 }
 
@@ -276,22 +281,23 @@ export const QueryAccountResponse = {
 
   fromJSON(object: any): QueryAccountResponse {
     return {
-      account: isSet(object.account) ? Any.fromJSON(object.account) : undefined
+      account: isSet(object.account) ? Any.fromJSON(object.account) : undefined,
     };
   },
 
   toJSON(message: QueryAccountResponse): unknown {
     const obj: any = {};
-    message.account !== undefined && (obj.account = message.account ? Any.toJSON(message.account) : undefined);
+    message.account !== undefined &&
+      (obj.account = message.account ? Any.toJSON(message.account) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<QueryAccountResponse>): QueryAccountResponse {
     const message = createBaseQueryAccountResponse();
-    message.account = object.account !== undefined && object.account !== null ? Any.fromPartial(object.account) : undefined;
+    message.account =
+      object.account !== undefined && object.account !== null ? Any.fromPartial(object.account) : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryParamsRequest(): QueryParamsRequest {
@@ -333,13 +339,12 @@ export const QueryParamsRequest = {
   fromPartial(_: DeepPartial<QueryParamsRequest>): QueryParamsRequest {
     const message = createBaseQueryParamsRequest();
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
-    params: undefined
+    params: undefined,
   };
 }
 
@@ -376,7 +381,7 @@ export const QueryParamsResponse = {
 
   fromJSON(object: any): QueryParamsResponse {
     return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined
+      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
     };
   },
 
@@ -388,8 +393,8 @@ export const QueryParamsResponse = {
 
   fromPartial(object: DeepPartial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    message.params =
+      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     return message;
-  }
-
+  },
 };

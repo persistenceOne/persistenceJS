@@ -15,7 +15,7 @@ function createBaseMsgVerifyInvariant(): MsgVerifyInvariant {
   return {
     sender: "",
     invariantModuleName: "",
-    invariantRoute: ""
+    invariantRoute: "",
   };
 }
 
@@ -70,7 +70,7 @@ export const MsgVerifyInvariant = {
     return {
       sender: isSet(object.sender) ? String(object.sender) : "",
       invariantModuleName: isSet(object.invariantModuleName) ? String(object.invariantModuleName) : "",
-      invariantRoute: isSet(object.invariantRoute) ? String(object.invariantRoute) : ""
+      invariantRoute: isSet(object.invariantRoute) ? String(object.invariantRoute) : "",
     };
   },
 
@@ -88,8 +88,7 @@ export const MsgVerifyInvariant = {
     message.invariantModuleName = object.invariantModuleName ?? "";
     message.invariantRoute = object.invariantRoute ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgVerifyInvariantResponse(): MsgVerifyInvariantResponse {
@@ -131,6 +130,5 @@ export const MsgVerifyInvariantResponse = {
   fromPartial(_: DeepPartial<MsgVerifyInvariantResponse>): MsgVerifyInvariantResponse {
     const message = createBaseMsgVerifyInvariantResponse();
     return message;
-  }
-
+  },
 };

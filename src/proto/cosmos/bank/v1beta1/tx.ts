@@ -26,7 +26,7 @@ function createBaseMsgSend(): MsgSend {
   return {
     fromAddress: "",
     toAddress: "",
-    amount: []
+    amount: [],
   };
 }
 
@@ -81,7 +81,7 @@ export const MsgSend = {
     return {
       fromAddress: isSet(object.fromAddress) ? String(object.fromAddress) : "",
       toAddress: isSet(object.toAddress) ? String(object.toAddress) : "",
-      amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : []
+      amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : [],
     };
   },
 
@@ -91,7 +91,7 @@ export const MsgSend = {
     message.toAddress !== undefined && (obj.toAddress = message.toAddress);
 
     if (message.amount) {
-      obj.amount = message.amount.map(e => e ? Coin.toJSON(e) : undefined);
+      obj.amount = message.amount.map((e) => (e ? Coin.toJSON(e) : undefined));
     } else {
       obj.amount = [];
     }
@@ -103,10 +103,9 @@ export const MsgSend = {
     const message = createBaseMsgSend();
     message.fromAddress = object.fromAddress ?? "";
     message.toAddress = object.toAddress ?? "";
-    message.amount = object.amount?.map(e => Coin.fromPartial(e)) || [];
+    message.amount = object.amount?.map((e) => Coin.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgSendResponse(): MsgSendResponse {
@@ -148,14 +147,13 @@ export const MsgSendResponse = {
   fromPartial(_: DeepPartial<MsgSendResponse>): MsgSendResponse {
     const message = createBaseMsgSendResponse();
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgMultiSend(): MsgMultiSend {
   return {
     inputs: [],
-    outputs: []
+    outputs: [],
   };
 }
 
@@ -201,7 +199,7 @@ export const MsgMultiSend = {
   fromJSON(object: any): MsgMultiSend {
     return {
       inputs: Array.isArray(object?.inputs) ? object.inputs.map((e: any) => Input.fromJSON(e)) : [],
-      outputs: Array.isArray(object?.outputs) ? object.outputs.map((e: any) => Output.fromJSON(e)) : []
+      outputs: Array.isArray(object?.outputs) ? object.outputs.map((e: any) => Output.fromJSON(e)) : [],
     };
   },
 
@@ -209,13 +207,13 @@ export const MsgMultiSend = {
     const obj: any = {};
 
     if (message.inputs) {
-      obj.inputs = message.inputs.map(e => e ? Input.toJSON(e) : undefined);
+      obj.inputs = message.inputs.map((e) => (e ? Input.toJSON(e) : undefined));
     } else {
       obj.inputs = [];
     }
 
     if (message.outputs) {
-      obj.outputs = message.outputs.map(e => e ? Output.toJSON(e) : undefined);
+      obj.outputs = message.outputs.map((e) => (e ? Output.toJSON(e) : undefined));
     } else {
       obj.outputs = [];
     }
@@ -225,11 +223,10 @@ export const MsgMultiSend = {
 
   fromPartial(object: DeepPartial<MsgMultiSend>): MsgMultiSend {
     const message = createBaseMsgMultiSend();
-    message.inputs = object.inputs?.map(e => Input.fromPartial(e)) || [];
-    message.outputs = object.outputs?.map(e => Output.fromPartial(e)) || [];
+    message.inputs = object.inputs?.map((e) => Input.fromPartial(e)) || [];
+    message.outputs = object.outputs?.map((e) => Output.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgMultiSendResponse(): MsgMultiSendResponse {
@@ -271,6 +268,5 @@ export const MsgMultiSendResponse = {
   fromPartial(_: DeepPartial<MsgMultiSendResponse>): MsgMultiSendResponse {
     const message = createBaseMsgMultiSendResponse();
     return message;
-  }
-
+  },
 };

@@ -30,12 +30,11 @@ protoDirs.forEach(dirs => {
             aminoEncoding: {
                 enabled: false
             },
+            stargateClients:{
+                enabled: true
+            },
             lcdClients: {
                 enabled: false
-            },
-            stargateClients:{
-                enabled: true,
-                includeCosmosDefaultTypes: true
             },
             rpcClients: {
                 enabled: true,

@@ -32,7 +32,7 @@ function createBaseMessage(): Message {
     snapshotsRequest: undefined,
     snapshotsResponse: undefined,
     chunkRequest: undefined,
-    chunkResponse: undefined
+    chunkResponse: undefined,
   };
 }
 
@@ -93,31 +93,54 @@ export const Message = {
 
   fromJSON(object: any): Message {
     return {
-      snapshotsRequest: isSet(object.snapshotsRequest) ? SnapshotsRequest.fromJSON(object.snapshotsRequest) : undefined,
-      snapshotsResponse: isSet(object.snapshotsResponse) ? SnapshotsResponse.fromJSON(object.snapshotsResponse) : undefined,
+      snapshotsRequest: isSet(object.snapshotsRequest)
+        ? SnapshotsRequest.fromJSON(object.snapshotsRequest)
+        : undefined,
+      snapshotsResponse: isSet(object.snapshotsResponse)
+        ? SnapshotsResponse.fromJSON(object.snapshotsResponse)
+        : undefined,
       chunkRequest: isSet(object.chunkRequest) ? ChunkRequest.fromJSON(object.chunkRequest) : undefined,
-      chunkResponse: isSet(object.chunkResponse) ? ChunkResponse.fromJSON(object.chunkResponse) : undefined
+      chunkResponse: isSet(object.chunkResponse) ? ChunkResponse.fromJSON(object.chunkResponse) : undefined,
     };
   },
 
   toJSON(message: Message): unknown {
     const obj: any = {};
-    message.snapshotsRequest !== undefined && (obj.snapshotsRequest = message.snapshotsRequest ? SnapshotsRequest.toJSON(message.snapshotsRequest) : undefined);
-    message.snapshotsResponse !== undefined && (obj.snapshotsResponse = message.snapshotsResponse ? SnapshotsResponse.toJSON(message.snapshotsResponse) : undefined);
-    message.chunkRequest !== undefined && (obj.chunkRequest = message.chunkRequest ? ChunkRequest.toJSON(message.chunkRequest) : undefined);
-    message.chunkResponse !== undefined && (obj.chunkResponse = message.chunkResponse ? ChunkResponse.toJSON(message.chunkResponse) : undefined);
+    message.snapshotsRequest !== undefined &&
+      (obj.snapshotsRequest = message.snapshotsRequest
+        ? SnapshotsRequest.toJSON(message.snapshotsRequest)
+        : undefined);
+    message.snapshotsResponse !== undefined &&
+      (obj.snapshotsResponse = message.snapshotsResponse
+        ? SnapshotsResponse.toJSON(message.snapshotsResponse)
+        : undefined);
+    message.chunkRequest !== undefined &&
+      (obj.chunkRequest = message.chunkRequest ? ChunkRequest.toJSON(message.chunkRequest) : undefined);
+    message.chunkResponse !== undefined &&
+      (obj.chunkResponse = message.chunkResponse ? ChunkResponse.toJSON(message.chunkResponse) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<Message>): Message {
     const message = createBaseMessage();
-    message.snapshotsRequest = object.snapshotsRequest !== undefined && object.snapshotsRequest !== null ? SnapshotsRequest.fromPartial(object.snapshotsRequest) : undefined;
-    message.snapshotsResponse = object.snapshotsResponse !== undefined && object.snapshotsResponse !== null ? SnapshotsResponse.fromPartial(object.snapshotsResponse) : undefined;
-    message.chunkRequest = object.chunkRequest !== undefined && object.chunkRequest !== null ? ChunkRequest.fromPartial(object.chunkRequest) : undefined;
-    message.chunkResponse = object.chunkResponse !== undefined && object.chunkResponse !== null ? ChunkResponse.fromPartial(object.chunkResponse) : undefined;
+    message.snapshotsRequest =
+      object.snapshotsRequest !== undefined && object.snapshotsRequest !== null
+        ? SnapshotsRequest.fromPartial(object.snapshotsRequest)
+        : undefined;
+    message.snapshotsResponse =
+      object.snapshotsResponse !== undefined && object.snapshotsResponse !== null
+        ? SnapshotsResponse.fromPartial(object.snapshotsResponse)
+        : undefined;
+    message.chunkRequest =
+      object.chunkRequest !== undefined && object.chunkRequest !== null
+        ? ChunkRequest.fromPartial(object.chunkRequest)
+        : undefined;
+    message.chunkResponse =
+      object.chunkResponse !== undefined && object.chunkResponse !== null
+        ? ChunkResponse.fromPartial(object.chunkResponse)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseSnapshotsRequest(): SnapshotsRequest {
@@ -159,8 +182,7 @@ export const SnapshotsRequest = {
   fromPartial(_: DeepPartial<SnapshotsRequest>): SnapshotsRequest {
     const message = createBaseSnapshotsRequest();
     return message;
-  }
-
+  },
 };
 
 function createBaseSnapshotsResponse(): SnapshotsResponse {
@@ -169,7 +191,7 @@ function createBaseSnapshotsResponse(): SnapshotsResponse {
     format: 0,
     chunks: 0,
     hash: new Uint8Array(),
-    metadata: new Uint8Array()
+    metadata: new Uint8Array(),
   };
 }
 
@@ -208,7 +230,7 @@ export const SnapshotsResponse = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.uint64() as Long);
+          message.height = reader.uint64() as Long;
           break;
 
         case 2:
@@ -242,7 +264,7 @@ export const SnapshotsResponse = {
       format: isSet(object.format) ? Number(object.format) : 0,
       chunks: isSet(object.chunks) ? Number(object.chunks) : 0,
       hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array(),
-      metadata: isSet(object.metadata) ? bytesFromBase64(object.metadata) : new Uint8Array()
+      metadata: isSet(object.metadata) ? bytesFromBase64(object.metadata) : new Uint8Array(),
     };
   },
 
@@ -251,28 +273,30 @@ export const SnapshotsResponse = {
     message.height !== undefined && (obj.height = (message.height || Long.UZERO).toString());
     message.format !== undefined && (obj.format = Math.round(message.format));
     message.chunks !== undefined && (obj.chunks = Math.round(message.chunks));
-    message.hash !== undefined && (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
-    message.metadata !== undefined && (obj.metadata = base64FromBytes(message.metadata !== undefined ? message.metadata : new Uint8Array()));
+    message.hash !== undefined &&
+      (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
+    message.metadata !== undefined &&
+      (obj.metadata = base64FromBytes(message.metadata !== undefined ? message.metadata : new Uint8Array()));
     return obj;
   },
 
   fromPartial(object: DeepPartial<SnapshotsResponse>): SnapshotsResponse {
     const message = createBaseSnapshotsResponse();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
     message.format = object.format ?? 0;
     message.chunks = object.chunks ?? 0;
     message.hash = object.hash ?? new Uint8Array();
     message.metadata = object.metadata ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseChunkRequest(): ChunkRequest {
   return {
     height: Long.UZERO,
     format: 0,
-    index: 0
+    index: 0,
   };
 }
 
@@ -303,7 +327,7 @@ export const ChunkRequest = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.uint64() as Long);
+          message.height = reader.uint64() as Long;
           break;
 
         case 2:
@@ -327,7 +351,7 @@ export const ChunkRequest = {
     return {
       height: isSet(object.height) ? Long.fromString(object.height) : Long.UZERO,
       format: isSet(object.format) ? Number(object.format) : 0,
-      index: isSet(object.index) ? Number(object.index) : 0
+      index: isSet(object.index) ? Number(object.index) : 0,
     };
   },
 
@@ -341,12 +365,12 @@ export const ChunkRequest = {
 
   fromPartial(object: DeepPartial<ChunkRequest>): ChunkRequest {
     const message = createBaseChunkRequest();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
     message.format = object.format ?? 0;
     message.index = object.index ?? 0;
     return message;
-  }
-
+  },
 };
 
 function createBaseChunkResponse(): ChunkResponse {
@@ -355,7 +379,7 @@ function createBaseChunkResponse(): ChunkResponse {
     format: 0,
     index: 0,
     chunk: new Uint8Array(),
-    missing: false
+    missing: false,
   };
 }
 
@@ -394,7 +418,7 @@ export const ChunkResponse = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.uint64() as Long);
+          message.height = reader.uint64() as Long;
           break;
 
         case 2:
@@ -428,7 +452,7 @@ export const ChunkResponse = {
       format: isSet(object.format) ? Number(object.format) : 0,
       index: isSet(object.index) ? Number(object.index) : 0,
       chunk: isSet(object.chunk) ? bytesFromBase64(object.chunk) : new Uint8Array(),
-      missing: isSet(object.missing) ? Boolean(object.missing) : false
+      missing: isSet(object.missing) ? Boolean(object.missing) : false,
     };
   },
 
@@ -437,19 +461,20 @@ export const ChunkResponse = {
     message.height !== undefined && (obj.height = (message.height || Long.UZERO).toString());
     message.format !== undefined && (obj.format = Math.round(message.format));
     message.index !== undefined && (obj.index = Math.round(message.index));
-    message.chunk !== undefined && (obj.chunk = base64FromBytes(message.chunk !== undefined ? message.chunk : new Uint8Array()));
+    message.chunk !== undefined &&
+      (obj.chunk = base64FromBytes(message.chunk !== undefined ? message.chunk : new Uint8Array()));
     message.missing !== undefined && (obj.missing = message.missing);
     return obj;
   },
 
   fromPartial(object: DeepPartial<ChunkResponse>): ChunkResponse {
     const message = createBaseChunkResponse();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
     message.format = object.format ?? 0;
     message.index = object.index ?? 0;
     message.chunk = object.chunk ?? new Uint8Array();
     message.missing = object.missing ?? false;
     return message;
-  }
-
+  },
 };

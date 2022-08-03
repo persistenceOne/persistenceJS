@@ -4,7 +4,7 @@ import { Long, isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "@osm
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
  * pagination. Ex:
- * 
+ *
  * message SomeRequest {
  * Foo some_parameter = 1;
  * PageRequest pagination = 2;
@@ -41,7 +41,7 @@ export interface PageRequest {
 
   /**
    * reverse is set to true if results are to be returned in the descending order.
-   * 
+   *
    * Since: cosmos-sdk 0.43
    */
   reverse: boolean;
@@ -50,7 +50,7 @@ export interface PageRequest {
 /**
  * PageResponse is to be embedded in gRPC response messages where the
  * corresponding request message has used PageRequest.
- * 
+ *
  * message SomeResponse {
  * repeated Bar results = 1;
  * PageResponse page = 2;
@@ -76,7 +76,7 @@ function createBasePageRequest(): PageRequest {
     offset: Long.UZERO,
     limit: Long.UZERO,
     countTotal: false,
-    reverse: false
+    reverse: false,
   };
 }
 
@@ -119,11 +119,11 @@ export const PageRequest = {
           break;
 
         case 2:
-          message.offset = (reader.uint64() as Long);
+          message.offset = reader.uint64() as Long;
           break;
 
         case 3:
-          message.limit = (reader.uint64() as Long);
+          message.limit = reader.uint64() as Long;
           break;
 
         case 4:
@@ -149,13 +149,14 @@ export const PageRequest = {
       offset: isSet(object.offset) ? Long.fromString(object.offset) : Long.UZERO,
       limit: isSet(object.limit) ? Long.fromString(object.limit) : Long.UZERO,
       countTotal: isSet(object.countTotal) ? Boolean(object.countTotal) : false,
-      reverse: isSet(object.reverse) ? Boolean(object.reverse) : false
+      reverse: isSet(object.reverse) ? Boolean(object.reverse) : false,
     };
   },
 
   toJSON(message: PageRequest): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
+    message.key !== undefined &&
+      (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
     message.offset !== undefined && (obj.offset = (message.offset || Long.UZERO).toString());
     message.limit !== undefined && (obj.limit = (message.limit || Long.UZERO).toString());
     message.countTotal !== undefined && (obj.countTotal = message.countTotal);
@@ -166,19 +167,20 @@ export const PageRequest = {
   fromPartial(object: DeepPartial<PageRequest>): PageRequest {
     const message = createBasePageRequest();
     message.key = object.key ?? new Uint8Array();
-    message.offset = object.offset !== undefined && object.offset !== null ? Long.fromValue(object.offset) : Long.UZERO;
-    message.limit = object.limit !== undefined && object.limit !== null ? Long.fromValue(object.limit) : Long.UZERO;
+    message.offset =
+      object.offset !== undefined && object.offset !== null ? Long.fromValue(object.offset) : Long.UZERO;
+    message.limit =
+      object.limit !== undefined && object.limit !== null ? Long.fromValue(object.limit) : Long.UZERO;
     message.countTotal = object.countTotal ?? false;
     message.reverse = object.reverse ?? false;
     return message;
-  }
-
+  },
 };
 
 function createBasePageResponse(): PageResponse {
   return {
     nextKey: new Uint8Array(),
-    total: Long.UZERO
+    total: Long.UZERO,
   };
 }
 
@@ -209,7 +211,7 @@ export const PageResponse = {
           break;
 
         case 2:
-          message.total = (reader.uint64() as Long);
+          message.total = reader.uint64() as Long;
           break;
 
         default:
@@ -224,13 +226,14 @@ export const PageResponse = {
   fromJSON(object: any): PageResponse {
     return {
       nextKey: isSet(object.nextKey) ? bytesFromBase64(object.nextKey) : new Uint8Array(),
-      total: isSet(object.total) ? Long.fromString(object.total) : Long.UZERO
+      total: isSet(object.total) ? Long.fromString(object.total) : Long.UZERO,
     };
   },
 
   toJSON(message: PageResponse): unknown {
     const obj: any = {};
-    message.nextKey !== undefined && (obj.nextKey = base64FromBytes(message.nextKey !== undefined ? message.nextKey : new Uint8Array()));
+    message.nextKey !== undefined &&
+      (obj.nextKey = base64FromBytes(message.nextKey !== undefined ? message.nextKey : new Uint8Array()));
     message.total !== undefined && (obj.total = (message.total || Long.UZERO).toString());
     return obj;
   },
@@ -238,8 +241,8 @@ export const PageResponse = {
   fromPartial(object: DeepPartial<PageResponse>): PageResponse {
     const message = createBasePageResponse();
     message.nextKey = object.nextKey ?? new Uint8Array();
-    message.total = object.total !== undefined && object.total !== null ? Long.fromValue(object.total) : Long.UZERO;
+    message.total =
+      object.total !== undefined && object.total !== null ? Long.fromValue(object.total) : Long.UZERO;
     return message;
-  }
-
+  },
 };

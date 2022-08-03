@@ -9,7 +9,7 @@ export interface Params {
 
 function createBaseParams(): Params {
   return {
-    blockHeight: Long.UZERO
+    blockHeight: Long.UZERO,
   };
 }
 
@@ -32,7 +32,7 @@ export const Params = {
 
       switch (tag >>> 3) {
         case 1:
-          message.blockHeight = (reader.uint64() as Long);
+          message.blockHeight = reader.uint64() as Long;
           break;
 
         default:
@@ -46,7 +46,7 @@ export const Params = {
 
   fromJSON(object: any): Params {
     return {
-      blockHeight: isSet(object.blockHeight) ? Long.fromString(object.blockHeight) : Long.UZERO
+      blockHeight: isSet(object.blockHeight) ? Long.fromString(object.blockHeight) : Long.UZERO,
     };
   },
 
@@ -58,8 +58,10 @@ export const Params = {
 
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
-    message.blockHeight = object.blockHeight !== undefined && object.blockHeight !== null ? Long.fromValue(object.blockHeight) : Long.UZERO;
+    message.blockHeight =
+      object.blockHeight !== undefined && object.blockHeight !== null
+        ? Long.fromValue(object.blockHeight)
+        : Long.UZERO;
     return message;
-  }
-
+  },
 };

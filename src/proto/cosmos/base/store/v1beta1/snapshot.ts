@@ -23,7 +23,7 @@ export interface SnapshotIAVLItem {
 function createBaseSnapshotItem(): SnapshotItem {
   return {
     store: undefined,
-    iavl: undefined
+    iavl: undefined,
   };
 }
 
@@ -69,29 +69,36 @@ export const SnapshotItem = {
   fromJSON(object: any): SnapshotItem {
     return {
       store: isSet(object.store) ? SnapshotStoreItem.fromJSON(object.store) : undefined,
-      iavl: isSet(object.iavl) ? SnapshotIAVLItem.fromJSON(object.iavl) : undefined
+      iavl: isSet(object.iavl) ? SnapshotIAVLItem.fromJSON(object.iavl) : undefined,
     };
   },
 
   toJSON(message: SnapshotItem): unknown {
     const obj: any = {};
-    message.store !== undefined && (obj.store = message.store ? SnapshotStoreItem.toJSON(message.store) : undefined);
-    message.iavl !== undefined && (obj.iavl = message.iavl ? SnapshotIAVLItem.toJSON(message.iavl) : undefined);
+    message.store !== undefined &&
+      (obj.store = message.store ? SnapshotStoreItem.toJSON(message.store) : undefined);
+    message.iavl !== undefined &&
+      (obj.iavl = message.iavl ? SnapshotIAVLItem.toJSON(message.iavl) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<SnapshotItem>): SnapshotItem {
     const message = createBaseSnapshotItem();
-    message.store = object.store !== undefined && object.store !== null ? SnapshotStoreItem.fromPartial(object.store) : undefined;
-    message.iavl = object.iavl !== undefined && object.iavl !== null ? SnapshotIAVLItem.fromPartial(object.iavl) : undefined;
+    message.store =
+      object.store !== undefined && object.store !== null
+        ? SnapshotStoreItem.fromPartial(object.store)
+        : undefined;
+    message.iavl =
+      object.iavl !== undefined && object.iavl !== null
+        ? SnapshotIAVLItem.fromPartial(object.iavl)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseSnapshotStoreItem(): SnapshotStoreItem {
   return {
-    name: ""
+    name: "",
   };
 }
 
@@ -128,7 +135,7 @@ export const SnapshotStoreItem = {
 
   fromJSON(object: any): SnapshotStoreItem {
     return {
-      name: isSet(object.name) ? String(object.name) : ""
+      name: isSet(object.name) ? String(object.name) : "",
     };
   },
 
@@ -142,8 +149,7 @@ export const SnapshotStoreItem = {
     const message = createBaseSnapshotStoreItem();
     message.name = object.name ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseSnapshotIAVLItem(): SnapshotIAVLItem {
@@ -151,7 +157,7 @@ function createBaseSnapshotIAVLItem(): SnapshotIAVLItem {
     key: new Uint8Array(),
     value: new Uint8Array(),
     version: Long.ZERO,
-    height: 0
+    height: 0,
   };
 }
 
@@ -194,7 +200,7 @@ export const SnapshotIAVLItem = {
           break;
 
         case 3:
-          message.version = (reader.int64() as Long);
+          message.version = reader.int64() as Long;
           break;
 
         case 4:
@@ -215,14 +221,16 @@ export const SnapshotIAVLItem = {
       key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
       value: isSet(object.value) ? bytesFromBase64(object.value) : new Uint8Array(),
       version: isSet(object.version) ? Long.fromString(object.version) : Long.ZERO,
-      height: isSet(object.height) ? Number(object.height) : 0
+      height: isSet(object.height) ? Number(object.height) : 0,
     };
   },
 
   toJSON(message: SnapshotIAVLItem): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
-    message.value !== undefined && (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
+    message.key !== undefined &&
+      (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
+    message.value !== undefined &&
+      (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
     message.version !== undefined && (obj.version = (message.version || Long.ZERO).toString());
     message.height !== undefined && (obj.height = Math.round(message.height));
     return obj;
@@ -232,9 +240,9 @@ export const SnapshotIAVLItem = {
     const message = createBaseSnapshotIAVLItem();
     message.key = object.key ?? new Uint8Array();
     message.value = object.value ?? new Uint8Array();
-    message.version = object.version !== undefined && object.version !== null ? Long.fromValue(object.version) : Long.ZERO;
+    message.version =
+      object.version !== undefined && object.version !== null ? Long.fromValue(object.version) : Long.ZERO;
     message.height = object.height ?? 0;
     return message;
-  }
-
+  },
 };

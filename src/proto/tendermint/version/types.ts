@@ -24,7 +24,7 @@ export interface Consensus {
 function createBaseApp(): App {
   return {
     protocol: Long.UZERO,
-    software: ""
+    software: "",
   };
 }
 
@@ -51,7 +51,7 @@ export const App = {
 
       switch (tag >>> 3) {
         case 1:
-          message.protocol = (reader.uint64() as Long);
+          message.protocol = reader.uint64() as Long;
           break;
 
         case 2:
@@ -70,7 +70,7 @@ export const App = {
   fromJSON(object: any): App {
     return {
       protocol: isSet(object.protocol) ? Long.fromString(object.protocol) : Long.UZERO,
-      software: isSet(object.software) ? String(object.software) : ""
+      software: isSet(object.software) ? String(object.software) : "",
     };
   },
 
@@ -83,17 +83,19 @@ export const App = {
 
   fromPartial(object: DeepPartial<App>): App {
     const message = createBaseApp();
-    message.protocol = object.protocol !== undefined && object.protocol !== null ? Long.fromValue(object.protocol) : Long.UZERO;
+    message.protocol =
+      object.protocol !== undefined && object.protocol !== null
+        ? Long.fromValue(object.protocol)
+        : Long.UZERO;
     message.software = object.software ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseConsensus(): Consensus {
   return {
     block: Long.UZERO,
-    app: Long.UZERO
+    app: Long.UZERO,
   };
 }
 
@@ -120,11 +122,11 @@ export const Consensus = {
 
       switch (tag >>> 3) {
         case 1:
-          message.block = (reader.uint64() as Long);
+          message.block = reader.uint64() as Long;
           break;
 
         case 2:
-          message.app = (reader.uint64() as Long);
+          message.app = reader.uint64() as Long;
           break;
 
         default:
@@ -139,7 +141,7 @@ export const Consensus = {
   fromJSON(object: any): Consensus {
     return {
       block: isSet(object.block) ? Long.fromString(object.block) : Long.UZERO,
-      app: isSet(object.app) ? Long.fromString(object.app) : Long.UZERO
+      app: isSet(object.app) ? Long.fromString(object.app) : Long.UZERO,
     };
   },
 
@@ -152,9 +154,9 @@ export const Consensus = {
 
   fromPartial(object: DeepPartial<Consensus>): Consensus {
     const message = createBaseConsensus();
-    message.block = object.block !== undefined && object.block !== null ? Long.fromValue(object.block) : Long.UZERO;
+    message.block =
+      object.block !== undefined && object.block !== null ? Long.fromValue(object.block) : Long.UZERO;
     message.app = object.app !== undefined && object.app !== null ? Long.fromValue(object.app) : Long.UZERO;
     return message;
-  }
-
+  },
 };

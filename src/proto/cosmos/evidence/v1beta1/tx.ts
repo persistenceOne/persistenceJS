@@ -20,7 +20,7 @@ export interface MsgSubmitEvidenceResponse {
 function createBaseMsgSubmitEvidence(): MsgSubmitEvidence {
   return {
     submitter: "",
-    evidence: undefined
+    evidence: undefined,
   };
 }
 
@@ -66,29 +66,32 @@ export const MsgSubmitEvidence = {
   fromJSON(object: any): MsgSubmitEvidence {
     return {
       submitter: isSet(object.submitter) ? String(object.submitter) : "",
-      evidence: isSet(object.evidence) ? Any.fromJSON(object.evidence) : undefined
+      evidence: isSet(object.evidence) ? Any.fromJSON(object.evidence) : undefined,
     };
   },
 
   toJSON(message: MsgSubmitEvidence): unknown {
     const obj: any = {};
     message.submitter !== undefined && (obj.submitter = message.submitter);
-    message.evidence !== undefined && (obj.evidence = message.evidence ? Any.toJSON(message.evidence) : undefined);
+    message.evidence !== undefined &&
+      (obj.evidence = message.evidence ? Any.toJSON(message.evidence) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<MsgSubmitEvidence>): MsgSubmitEvidence {
     const message = createBaseMsgSubmitEvidence();
     message.submitter = object.submitter ?? "";
-    message.evidence = object.evidence !== undefined && object.evidence !== null ? Any.fromPartial(object.evidence) : undefined;
+    message.evidence =
+      object.evidence !== undefined && object.evidence !== null
+        ? Any.fromPartial(object.evidence)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgSubmitEvidenceResponse(): MsgSubmitEvidenceResponse {
   return {
-    hash: new Uint8Array()
+    hash: new Uint8Array(),
   };
 }
 
@@ -125,13 +128,14 @@ export const MsgSubmitEvidenceResponse = {
 
   fromJSON(object: any): MsgSubmitEvidenceResponse {
     return {
-      hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array()
+      hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array(),
     };
   },
 
   toJSON(message: MsgSubmitEvidenceResponse): unknown {
     const obj: any = {};
-    message.hash !== undefined && (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
+    message.hash !== undefined &&
+      (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
     return obj;
   },
 
@@ -139,6 +143,5 @@ export const MsgSubmitEvidenceResponse = {
     const message = createBaseMsgSubmitEvidenceResponse();
     message.hash = object.hash ?? new Uint8Array();
     return message;
-  }
-
+  },
 };

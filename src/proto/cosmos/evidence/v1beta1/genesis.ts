@@ -10,7 +10,7 @@ export interface GenesisState {
 
 function createBaseGenesisState(): GenesisState {
   return {
-    evidence: []
+    evidence: [],
   };
 }
 
@@ -47,7 +47,7 @@ export const GenesisState = {
 
   fromJSON(object: any): GenesisState {
     return {
-      evidence: Array.isArray(object?.evidence) ? object.evidence.map((e: any) => Any.fromJSON(e)) : []
+      evidence: Array.isArray(object?.evidence) ? object.evidence.map((e: any) => Any.fromJSON(e)) : [],
     };
   },
 
@@ -55,7 +55,7 @@ export const GenesisState = {
     const obj: any = {};
 
     if (message.evidence) {
-      obj.evidence = message.evidence.map(e => e ? Any.toJSON(e) : undefined);
+      obj.evidence = message.evidence.map((e) => (e ? Any.toJSON(e) : undefined));
     } else {
       obj.evidence = [];
     }
@@ -65,8 +65,7 @@ export const GenesisState = {
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.evidence = object.evidence?.map(e => Any.fromPartial(e)) || [];
+    message.evidence = object.evidence?.map((e) => Any.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };

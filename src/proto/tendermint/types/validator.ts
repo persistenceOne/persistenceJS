@@ -21,7 +21,7 @@ function createBaseValidatorSet(): ValidatorSet {
   return {
     validators: [],
     proposer: undefined,
-    totalVotingPower: Long.ZERO
+    totalVotingPower: Long.ZERO,
   };
 }
 
@@ -60,7 +60,7 @@ export const ValidatorSet = {
           break;
 
         case 3:
-          message.totalVotingPower = (reader.int64() as Long);
+          message.totalVotingPower = reader.int64() as Long;
           break;
 
         default:
@@ -74,9 +74,11 @@ export const ValidatorSet = {
 
   fromJSON(object: any): ValidatorSet {
     return {
-      validators: Array.isArray(object?.validators) ? object.validators.map((e: any) => Validator.fromJSON(e)) : [],
+      validators: Array.isArray(object?.validators)
+        ? object.validators.map((e: any) => Validator.fromJSON(e))
+        : [],
       proposer: isSet(object.proposer) ? Validator.fromJSON(object.proposer) : undefined,
-      totalVotingPower: isSet(object.totalVotingPower) ? Long.fromString(object.totalVotingPower) : Long.ZERO
+      totalVotingPower: isSet(object.totalVotingPower) ? Long.fromString(object.totalVotingPower) : Long.ZERO,
     };
   },
 
@@ -84,24 +86,31 @@ export const ValidatorSet = {
     const obj: any = {};
 
     if (message.validators) {
-      obj.validators = message.validators.map(e => e ? Validator.toJSON(e) : undefined);
+      obj.validators = message.validators.map((e) => (e ? Validator.toJSON(e) : undefined));
     } else {
       obj.validators = [];
     }
 
-    message.proposer !== undefined && (obj.proposer = message.proposer ? Validator.toJSON(message.proposer) : undefined);
-    message.totalVotingPower !== undefined && (obj.totalVotingPower = (message.totalVotingPower || Long.ZERO).toString());
+    message.proposer !== undefined &&
+      (obj.proposer = message.proposer ? Validator.toJSON(message.proposer) : undefined);
+    message.totalVotingPower !== undefined &&
+      (obj.totalVotingPower = (message.totalVotingPower || Long.ZERO).toString());
     return obj;
   },
 
   fromPartial(object: DeepPartial<ValidatorSet>): ValidatorSet {
     const message = createBaseValidatorSet();
-    message.validators = object.validators?.map(e => Validator.fromPartial(e)) || [];
-    message.proposer = object.proposer !== undefined && object.proposer !== null ? Validator.fromPartial(object.proposer) : undefined;
-    message.totalVotingPower = object.totalVotingPower !== undefined && object.totalVotingPower !== null ? Long.fromValue(object.totalVotingPower) : Long.ZERO;
+    message.validators = object.validators?.map((e) => Validator.fromPartial(e)) || [];
+    message.proposer =
+      object.proposer !== undefined && object.proposer !== null
+        ? Validator.fromPartial(object.proposer)
+        : undefined;
+    message.totalVotingPower =
+      object.totalVotingPower !== undefined && object.totalVotingPower !== null
+        ? Long.fromValue(object.totalVotingPower)
+        : Long.ZERO;
     return message;
-  }
-
+  },
 };
 
 function createBaseValidator(): Validator {
@@ -109,7 +118,7 @@ function createBaseValidator(): Validator {
     address: new Uint8Array(),
     pubKey: undefined,
     votingPower: Long.ZERO,
-    proposerPriority: Long.ZERO
+    proposerPriority: Long.ZERO,
   };
 }
 
@@ -152,11 +161,11 @@ export const Validator = {
           break;
 
         case 3:
-          message.votingPower = (reader.int64() as Long);
+          message.votingPower = reader.int64() as Long;
           break;
 
         case 4:
-          message.proposerPriority = (reader.int64() as Long);
+          message.proposerPriority = reader.int64() as Long;
           break;
 
         default:
@@ -173,34 +182,45 @@ export const Validator = {
       address: isSet(object.address) ? bytesFromBase64(object.address) : new Uint8Array(),
       pubKey: isSet(object.pubKey) ? PublicKey.fromJSON(object.pubKey) : undefined,
       votingPower: isSet(object.votingPower) ? Long.fromString(object.votingPower) : Long.ZERO,
-      proposerPriority: isSet(object.proposerPriority) ? Long.fromString(object.proposerPriority) : Long.ZERO
+      proposerPriority: isSet(object.proposerPriority) ? Long.fromString(object.proposerPriority) : Long.ZERO,
     };
   },
 
   toJSON(message: Validator): unknown {
     const obj: any = {};
-    message.address !== undefined && (obj.address = base64FromBytes(message.address !== undefined ? message.address : new Uint8Array()));
-    message.pubKey !== undefined && (obj.pubKey = message.pubKey ? PublicKey.toJSON(message.pubKey) : undefined);
+    message.address !== undefined &&
+      (obj.address = base64FromBytes(message.address !== undefined ? message.address : new Uint8Array()));
+    message.pubKey !== undefined &&
+      (obj.pubKey = message.pubKey ? PublicKey.toJSON(message.pubKey) : undefined);
     message.votingPower !== undefined && (obj.votingPower = (message.votingPower || Long.ZERO).toString());
-    message.proposerPriority !== undefined && (obj.proposerPriority = (message.proposerPriority || Long.ZERO).toString());
+    message.proposerPriority !== undefined &&
+      (obj.proposerPriority = (message.proposerPriority || Long.ZERO).toString());
     return obj;
   },
 
   fromPartial(object: DeepPartial<Validator>): Validator {
     const message = createBaseValidator();
     message.address = object.address ?? new Uint8Array();
-    message.pubKey = object.pubKey !== undefined && object.pubKey !== null ? PublicKey.fromPartial(object.pubKey) : undefined;
-    message.votingPower = object.votingPower !== undefined && object.votingPower !== null ? Long.fromValue(object.votingPower) : Long.ZERO;
-    message.proposerPriority = object.proposerPriority !== undefined && object.proposerPriority !== null ? Long.fromValue(object.proposerPriority) : Long.ZERO;
+    message.pubKey =
+      object.pubKey !== undefined && object.pubKey !== null
+        ? PublicKey.fromPartial(object.pubKey)
+        : undefined;
+    message.votingPower =
+      object.votingPower !== undefined && object.votingPower !== null
+        ? Long.fromValue(object.votingPower)
+        : Long.ZERO;
+    message.proposerPriority =
+      object.proposerPriority !== undefined && object.proposerPriority !== null
+        ? Long.fromValue(object.proposerPriority)
+        : Long.ZERO;
     return message;
-  }
-
+  },
 };
 
 function createBaseSimpleValidator(): SimpleValidator {
   return {
     pubKey: undefined,
-    votingPower: Long.ZERO
+    votingPower: Long.ZERO,
   };
 }
 
@@ -231,7 +251,7 @@ export const SimpleValidator = {
           break;
 
         case 2:
-          message.votingPower = (reader.int64() as Long);
+          message.votingPower = reader.int64() as Long;
           break;
 
         default:
@@ -246,22 +266,28 @@ export const SimpleValidator = {
   fromJSON(object: any): SimpleValidator {
     return {
       pubKey: isSet(object.pubKey) ? PublicKey.fromJSON(object.pubKey) : undefined,
-      votingPower: isSet(object.votingPower) ? Long.fromString(object.votingPower) : Long.ZERO
+      votingPower: isSet(object.votingPower) ? Long.fromString(object.votingPower) : Long.ZERO,
     };
   },
 
   toJSON(message: SimpleValidator): unknown {
     const obj: any = {};
-    message.pubKey !== undefined && (obj.pubKey = message.pubKey ? PublicKey.toJSON(message.pubKey) : undefined);
+    message.pubKey !== undefined &&
+      (obj.pubKey = message.pubKey ? PublicKey.toJSON(message.pubKey) : undefined);
     message.votingPower !== undefined && (obj.votingPower = (message.votingPower || Long.ZERO).toString());
     return obj;
   },
 
   fromPartial(object: DeepPartial<SimpleValidator>): SimpleValidator {
     const message = createBaseSimpleValidator();
-    message.pubKey = object.pubKey !== undefined && object.pubKey !== null ? PublicKey.fromPartial(object.pubKey) : undefined;
-    message.votingPower = object.votingPower !== undefined && object.votingPower !== null ? Long.fromValue(object.votingPower) : Long.ZERO;
+    message.pubKey =
+      object.pubKey !== undefined && object.pubKey !== null
+        ? PublicKey.fromPartial(object.pubKey)
+        : undefined;
+    message.votingPower =
+      object.votingPower !== undefined && object.votingPower !== null
+        ? Long.fromValue(object.votingPower)
+        : Long.ZERO;
     return message;
-  }
-
+  },
 };

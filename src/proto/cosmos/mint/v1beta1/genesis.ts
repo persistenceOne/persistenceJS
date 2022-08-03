@@ -14,7 +14,7 @@ export interface GenesisState {
 function createBaseGenesisState(): GenesisState {
   return {
     minter: undefined,
-    params: undefined
+    params: undefined,
   };
 }
 
@@ -60,7 +60,7 @@ export const GenesisState = {
   fromJSON(object: any): GenesisState {
     return {
       minter: isSet(object.minter) ? Minter.fromJSON(object.minter) : undefined,
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined
+      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
     };
   },
 
@@ -73,9 +73,10 @@ export const GenesisState = {
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.minter = object.minter !== undefined && object.minter !== null ? Minter.fromPartial(object.minter) : undefined;
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    message.minter =
+      object.minter !== undefined && object.minter !== null ? Minter.fromPartial(object.minter) : undefined;
+    message.params =
+      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     return message;
-  }
-
+  },
 };

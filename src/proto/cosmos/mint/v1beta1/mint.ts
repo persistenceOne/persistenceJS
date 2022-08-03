@@ -34,7 +34,7 @@ export interface Params {
 function createBaseMinter(): Minter {
   return {
     inflation: "",
-    annualProvisions: ""
+    annualProvisions: "",
   };
 }
 
@@ -80,7 +80,7 @@ export const Minter = {
   fromJSON(object: any): Minter {
     return {
       inflation: isSet(object.inflation) ? String(object.inflation) : "",
-      annualProvisions: isSet(object.annualProvisions) ? String(object.annualProvisions) : ""
+      annualProvisions: isSet(object.annualProvisions) ? String(object.annualProvisions) : "",
     };
   },
 
@@ -96,8 +96,7 @@ export const Minter = {
     message.inflation = object.inflation ?? "";
     message.annualProvisions = object.annualProvisions ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseParams(): Params {
@@ -107,7 +106,7 @@ function createBaseParams(): Params {
     inflationMax: "",
     inflationMin: "",
     goalBonded: "",
-    blocksPerYear: Long.UZERO
+    blocksPerYear: Long.UZERO,
   };
 }
 
@@ -170,7 +169,7 @@ export const Params = {
           break;
 
         case 6:
-          message.blocksPerYear = (reader.uint64() as Long);
+          message.blocksPerYear = reader.uint64() as Long;
           break;
 
         default:
@@ -189,7 +188,7 @@ export const Params = {
       inflationMax: isSet(object.inflationMax) ? String(object.inflationMax) : "",
       inflationMin: isSet(object.inflationMin) ? String(object.inflationMin) : "",
       goalBonded: isSet(object.goalBonded) ? String(object.goalBonded) : "",
-      blocksPerYear: isSet(object.blocksPerYear) ? Long.fromString(object.blocksPerYear) : Long.UZERO
+      blocksPerYear: isSet(object.blocksPerYear) ? Long.fromString(object.blocksPerYear) : Long.UZERO,
     };
   },
 
@@ -200,7 +199,8 @@ export const Params = {
     message.inflationMax !== undefined && (obj.inflationMax = message.inflationMax);
     message.inflationMin !== undefined && (obj.inflationMin = message.inflationMin);
     message.goalBonded !== undefined && (obj.goalBonded = message.goalBonded);
-    message.blocksPerYear !== undefined && (obj.blocksPerYear = (message.blocksPerYear || Long.UZERO).toString());
+    message.blocksPerYear !== undefined &&
+      (obj.blocksPerYear = (message.blocksPerYear || Long.UZERO).toString());
     return obj;
   },
 
@@ -211,8 +211,10 @@ export const Params = {
     message.inflationMax = object.inflationMax ?? "";
     message.inflationMin = object.inflationMin ?? "";
     message.goalBonded = object.goalBonded ?? "";
-    message.blocksPerYear = object.blocksPerYear !== undefined && object.blocksPerYear !== null ? Long.fromValue(object.blocksPerYear) : Long.UZERO;
+    message.blocksPerYear =
+      object.blocksPerYear !== undefined && object.blocksPerYear !== null
+        ? Long.fromValue(object.blocksPerYear)
+        : Long.UZERO;
     return message;
-  }
-
+  },
 };

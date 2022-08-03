@@ -41,7 +41,7 @@ export interface MerkleProof {
 
 function createBaseMerkleRoot(): MerkleRoot {
   return {
-    hash: new Uint8Array()
+    hash: new Uint8Array(),
   };
 }
 
@@ -78,13 +78,14 @@ export const MerkleRoot = {
 
   fromJSON(object: any): MerkleRoot {
     return {
-      hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array()
+      hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array(),
     };
   },
 
   toJSON(message: MerkleRoot): unknown {
     const obj: any = {};
-    message.hash !== undefined && (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
+    message.hash !== undefined &&
+      (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
     return obj;
   },
 
@@ -92,13 +93,12 @@ export const MerkleRoot = {
     const message = createBaseMerkleRoot();
     message.hash = object.hash ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseMerklePrefix(): MerklePrefix {
   return {
-    keyPrefix: new Uint8Array()
+    keyPrefix: new Uint8Array(),
   };
 }
 
@@ -135,13 +135,16 @@ export const MerklePrefix = {
 
   fromJSON(object: any): MerklePrefix {
     return {
-      keyPrefix: isSet(object.keyPrefix) ? bytesFromBase64(object.keyPrefix) : new Uint8Array()
+      keyPrefix: isSet(object.keyPrefix) ? bytesFromBase64(object.keyPrefix) : new Uint8Array(),
     };
   },
 
   toJSON(message: MerklePrefix): unknown {
     const obj: any = {};
-    message.keyPrefix !== undefined && (obj.keyPrefix = base64FromBytes(message.keyPrefix !== undefined ? message.keyPrefix : new Uint8Array()));
+    message.keyPrefix !== undefined &&
+      (obj.keyPrefix = base64FromBytes(
+        message.keyPrefix !== undefined ? message.keyPrefix : new Uint8Array(),
+      ));
     return obj;
   },
 
@@ -149,13 +152,12 @@ export const MerklePrefix = {
     const message = createBaseMerklePrefix();
     message.keyPrefix = object.keyPrefix ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseMerklePath(): MerklePath {
   return {
-    keyPath: []
+    keyPath: [],
   };
 }
 
@@ -192,7 +194,7 @@ export const MerklePath = {
 
   fromJSON(object: any): MerklePath {
     return {
-      keyPath: Array.isArray(object?.keyPath) ? object.keyPath.map((e: any) => String(e)) : []
+      keyPath: Array.isArray(object?.keyPath) ? object.keyPath.map((e: any) => String(e)) : [],
     };
   },
 
@@ -200,7 +202,7 @@ export const MerklePath = {
     const obj: any = {};
 
     if (message.keyPath) {
-      obj.keyPath = message.keyPath.map(e => e);
+      obj.keyPath = message.keyPath.map((e) => e);
     } else {
       obj.keyPath = [];
     }
@@ -210,15 +212,14 @@ export const MerklePath = {
 
   fromPartial(object: DeepPartial<MerklePath>): MerklePath {
     const message = createBaseMerklePath();
-    message.keyPath = object.keyPath?.map(e => e) || [];
+    message.keyPath = object.keyPath?.map((e) => e) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseMerkleProof(): MerkleProof {
   return {
-    proofs: []
+    proofs: [],
   };
 }
 
@@ -255,7 +256,7 @@ export const MerkleProof = {
 
   fromJSON(object: any): MerkleProof {
     return {
-      proofs: Array.isArray(object?.proofs) ? object.proofs.map((e: any) => CommitmentProof.fromJSON(e)) : []
+      proofs: Array.isArray(object?.proofs) ? object.proofs.map((e: any) => CommitmentProof.fromJSON(e)) : [],
     };
   },
 
@@ -263,7 +264,7 @@ export const MerkleProof = {
     const obj: any = {};
 
     if (message.proofs) {
-      obj.proofs = message.proofs.map(e => e ? CommitmentProof.toJSON(e) : undefined);
+      obj.proofs = message.proofs.map((e) => (e ? CommitmentProof.toJSON(e) : undefined));
     } else {
       obj.proofs = [];
     }
@@ -273,8 +274,7 @@ export const MerkleProof = {
 
   fromPartial(object: DeepPartial<MerkleProof>): MerkleProof {
     const message = createBaseMerkleProof();
-    message.proofs = object.proofs?.map(e => CommitmentProof.fromPartial(e)) || [];
+    message.proofs = object.proofs?.map((e) => CommitmentProof.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };

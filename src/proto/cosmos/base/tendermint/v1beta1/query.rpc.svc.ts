@@ -5,7 +5,20 @@ import { Block } from "../../../../tendermint/types/block";
 import { DefaultNodeInfo } from "../../../../tendermint/p2p/types";
 import { Rpc } from "@osmonauts/helpers";
 import * as _m0 from "protobufjs/minimal";
-import { GetNodeInfoRequest, GetNodeInfoResponse, GetSyncingRequest, GetSyncingResponse, GetLatestBlockRequest, GetLatestBlockResponse, GetBlockByHeightRequest, GetBlockByHeightResponse, GetLatestValidatorSetRequest, GetLatestValidatorSetResponse, GetValidatorSetByHeightRequest, GetValidatorSetByHeightResponse } from "./query";
+import {
+  GetNodeInfoRequest,
+  GetNodeInfoResponse,
+  GetSyncingRequest,
+  GetSyncingResponse,
+  GetLatestBlockRequest,
+  GetLatestBlockResponse,
+  GetBlockByHeightRequest,
+  GetBlockByHeightResponse,
+  GetLatestValidatorSetRequest,
+  GetLatestValidatorSetResponse,
+  GetValidatorSetByHeightRequest,
+  GetValidatorSetByHeightResponse,
+} from "./query";
 
 /** Service defines the RPC service */
 export interface Service {
@@ -26,7 +39,6 @@ export interface Service {
 
   getValidatorSetByHeight(request: GetValidatorSetByHeightRequest): Promise<GetValidatorSetByHeightResponse>;
   /*GetValidatorSetByHeight queries validator-set at a given height.*/
-
 }
 export class ServiceClientImpl implements Service {
   private readonly rpc: Rpc;
@@ -44,37 +56,40 @@ export class ServiceClientImpl implements Service {
   getNodeInfo(request: GetNodeInfoRequest): Promise<GetNodeInfoResponse> {
     const data = GetNodeInfoRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetNodeInfo", data);
-    return promise.then(data => GetNodeInfoResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => GetNodeInfoResponse.decode(new _m0.Reader(data)));
   }
 
   getSyncing(request: GetSyncingRequest): Promise<GetSyncingResponse> {
     const data = GetSyncingRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetSyncing", data);
-    return promise.then(data => GetSyncingResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => GetSyncingResponse.decode(new _m0.Reader(data)));
   }
 
   getLatestBlock(request: GetLatestBlockRequest): Promise<GetLatestBlockResponse> {
     const data = GetLatestBlockRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetLatestBlock", data);
-    return promise.then(data => GetLatestBlockResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => GetLatestBlockResponse.decode(new _m0.Reader(data)));
   }
 
   getBlockByHeight(request: GetBlockByHeightRequest): Promise<GetBlockByHeightResponse> {
     const data = GetBlockByHeightRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetBlockByHeight", data);
-    return promise.then(data => GetBlockByHeightResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => GetBlockByHeightResponse.decode(new _m0.Reader(data)));
   }
 
   getLatestValidatorSet(request: GetLatestValidatorSetRequest): Promise<GetLatestValidatorSetResponse> {
     const data = GetLatestValidatorSetRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetLatestValidatorSet", data);
-    return promise.then(data => GetLatestValidatorSetResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => GetLatestValidatorSetResponse.decode(new _m0.Reader(data)));
   }
 
   getValidatorSetByHeight(request: GetValidatorSetByHeightRequest): Promise<GetValidatorSetByHeightResponse> {
     const data = GetValidatorSetByHeightRequest.encode(request).finish();
-    const promise = this.rpc.request("cosmos.base.tendermint.v1beta1.Service", "GetValidatorSetByHeight", data);
-    return promise.then(data => GetValidatorSetByHeightResponse.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(
+      "cosmos.base.tendermint.v1beta1.Service",
+      "GetValidatorSetByHeight",
+      data,
+    );
+    return promise.then((data) => GetValidatorSetByHeightResponse.decode(new _m0.Reader(data)));
   }
-
 }

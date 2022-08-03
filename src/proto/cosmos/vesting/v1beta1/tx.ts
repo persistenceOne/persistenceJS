@@ -23,7 +23,7 @@ function createBaseMsgCreateVestingAccount(): MsgCreateVestingAccount {
     toAddress: "",
     amount: [],
     endTime: Long.ZERO,
-    delayed: false
+    delayed: false,
   };
 }
 
@@ -74,7 +74,7 @@ export const MsgCreateVestingAccount = {
           break;
 
         case 4:
-          message.endTime = (reader.int64() as Long);
+          message.endTime = reader.int64() as Long;
           break;
 
         case 5:
@@ -96,7 +96,7 @@ export const MsgCreateVestingAccount = {
       toAddress: isSet(object.toAddress) ? String(object.toAddress) : "",
       amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : [],
       endTime: isSet(object.endTime) ? Long.fromString(object.endTime) : Long.ZERO,
-      delayed: isSet(object.delayed) ? Boolean(object.delayed) : false
+      delayed: isSet(object.delayed) ? Boolean(object.delayed) : false,
     };
   },
 
@@ -106,7 +106,7 @@ export const MsgCreateVestingAccount = {
     message.toAddress !== undefined && (obj.toAddress = message.toAddress);
 
     if (message.amount) {
-      obj.amount = message.amount.map(e => e ? Coin.toJSON(e) : undefined);
+      obj.amount = message.amount.map((e) => (e ? Coin.toJSON(e) : undefined));
     } else {
       obj.amount = [];
     }
@@ -120,12 +120,12 @@ export const MsgCreateVestingAccount = {
     const message = createBaseMsgCreateVestingAccount();
     message.fromAddress = object.fromAddress ?? "";
     message.toAddress = object.toAddress ?? "";
-    message.amount = object.amount?.map(e => Coin.fromPartial(e)) || [];
-    message.endTime = object.endTime !== undefined && object.endTime !== null ? Long.fromValue(object.endTime) : Long.ZERO;
+    message.amount = object.amount?.map((e) => Coin.fromPartial(e)) || [];
+    message.endTime =
+      object.endTime !== undefined && object.endTime !== null ? Long.fromValue(object.endTime) : Long.ZERO;
     message.delayed = object.delayed ?? false;
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgCreateVestingAccountResponse(): MsgCreateVestingAccountResponse {
@@ -167,6 +167,5 @@ export const MsgCreateVestingAccountResponse = {
   fromPartial(_: DeepPartial<MsgCreateVestingAccountResponse>): MsgCreateVestingAccountResponse {
     const message = createBaseMsgCreateVestingAccountResponse();
     return message;
-  }
-
+  },
 };

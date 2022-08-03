@@ -214,7 +214,7 @@ export interface Model {
 
 function createBaseAccessTypeParam(): AccessTypeParam {
   return {
-    value: 0
+    value: 0,
   };
 }
 
@@ -237,7 +237,7 @@ export const AccessTypeParam = {
 
       switch (tag >>> 3) {
         case 1:
-          message.value = (reader.int32() as any);
+          message.value = reader.int32() as any;
           break;
 
         default:
@@ -251,7 +251,7 @@ export const AccessTypeParam = {
 
   fromJSON(object: any): AccessTypeParam {
     return {
-      value: isSet(object.value) ? accessTypeFromJSON(object.value) : 0
+      value: isSet(object.value) ? accessTypeFromJSON(object.value) : 0,
     };
   },
 
@@ -265,14 +265,13 @@ export const AccessTypeParam = {
     const message = createBaseAccessTypeParam();
     message.value = object.value ?? 0;
     return message;
-  }
-
+  },
 };
 
 function createBaseAccessConfig(): AccessConfig {
   return {
     permission: 0,
-    address: ""
+    address: "",
   };
 }
 
@@ -299,7 +298,7 @@ export const AccessConfig = {
 
       switch (tag >>> 3) {
         case 1:
-          message.permission = (reader.int32() as any);
+          message.permission = reader.int32() as any;
           break;
 
         case 2:
@@ -318,7 +317,7 @@ export const AccessConfig = {
   fromJSON(object: any): AccessConfig {
     return {
       permission: isSet(object.permission) ? accessTypeFromJSON(object.permission) : 0,
-      address: isSet(object.address) ? String(object.address) : ""
+      address: isSet(object.address) ? String(object.address) : "",
     };
   },
 
@@ -334,14 +333,13 @@ export const AccessConfig = {
     message.permission = object.permission ?? 0;
     message.address = object.address ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseParams(): Params {
   return {
     codeUploadAccess: undefined,
-    instantiateDefaultPermission: 0
+    instantiateDefaultPermission: 0,
   };
 }
 
@@ -372,7 +370,7 @@ export const Params = {
           break;
 
         case 2:
-          message.instantiateDefaultPermission = (reader.int32() as any);
+          message.instantiateDefaultPermission = reader.int32() as any;
           break;
 
         default:
@@ -386,32 +384,42 @@ export const Params = {
 
   fromJSON(object: any): Params {
     return {
-      codeUploadAccess: isSet(object.codeUploadAccess) ? AccessConfig.fromJSON(object.codeUploadAccess) : undefined,
-      instantiateDefaultPermission: isSet(object.instantiateDefaultPermission) ? accessTypeFromJSON(object.instantiateDefaultPermission) : 0
+      codeUploadAccess: isSet(object.codeUploadAccess)
+        ? AccessConfig.fromJSON(object.codeUploadAccess)
+        : undefined,
+      instantiateDefaultPermission: isSet(object.instantiateDefaultPermission)
+        ? accessTypeFromJSON(object.instantiateDefaultPermission)
+        : 0,
     };
   },
 
   toJSON(message: Params): unknown {
     const obj: any = {};
-    message.codeUploadAccess !== undefined && (obj.codeUploadAccess = message.codeUploadAccess ? AccessConfig.toJSON(message.codeUploadAccess) : undefined);
-    message.instantiateDefaultPermission !== undefined && (obj.instantiateDefaultPermission = accessTypeToJSON(message.instantiateDefaultPermission));
+    message.codeUploadAccess !== undefined &&
+      (obj.codeUploadAccess = message.codeUploadAccess
+        ? AccessConfig.toJSON(message.codeUploadAccess)
+        : undefined);
+    message.instantiateDefaultPermission !== undefined &&
+      (obj.instantiateDefaultPermission = accessTypeToJSON(message.instantiateDefaultPermission));
     return obj;
   },
 
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
-    message.codeUploadAccess = object.codeUploadAccess !== undefined && object.codeUploadAccess !== null ? AccessConfig.fromPartial(object.codeUploadAccess) : undefined;
+    message.codeUploadAccess =
+      object.codeUploadAccess !== undefined && object.codeUploadAccess !== null
+        ? AccessConfig.fromPartial(object.codeUploadAccess)
+        : undefined;
     message.instantiateDefaultPermission = object.instantiateDefaultPermission ?? 0;
     return message;
-  }
-
+  },
 };
 
 function createBaseCodeInfo(): CodeInfo {
   return {
     codeHash: new Uint8Array(),
     creator: "",
-    instantiateConfig: undefined
+    instantiateConfig: undefined,
   };
 }
 
@@ -466,15 +474,21 @@ export const CodeInfo = {
     return {
       codeHash: isSet(object.codeHash) ? bytesFromBase64(object.codeHash) : new Uint8Array(),
       creator: isSet(object.creator) ? String(object.creator) : "",
-      instantiateConfig: isSet(object.instantiateConfig) ? AccessConfig.fromJSON(object.instantiateConfig) : undefined
+      instantiateConfig: isSet(object.instantiateConfig)
+        ? AccessConfig.fromJSON(object.instantiateConfig)
+        : undefined,
     };
   },
 
   toJSON(message: CodeInfo): unknown {
     const obj: any = {};
-    message.codeHash !== undefined && (obj.codeHash = base64FromBytes(message.codeHash !== undefined ? message.codeHash : new Uint8Array()));
+    message.codeHash !== undefined &&
+      (obj.codeHash = base64FromBytes(message.codeHash !== undefined ? message.codeHash : new Uint8Array()));
     message.creator !== undefined && (obj.creator = message.creator);
-    message.instantiateConfig !== undefined && (obj.instantiateConfig = message.instantiateConfig ? AccessConfig.toJSON(message.instantiateConfig) : undefined);
+    message.instantiateConfig !== undefined &&
+      (obj.instantiateConfig = message.instantiateConfig
+        ? AccessConfig.toJSON(message.instantiateConfig)
+        : undefined);
     return obj;
   },
 
@@ -482,10 +496,12 @@ export const CodeInfo = {
     const message = createBaseCodeInfo();
     message.codeHash = object.codeHash ?? new Uint8Array();
     message.creator = object.creator ?? "";
-    message.instantiateConfig = object.instantiateConfig !== undefined && object.instantiateConfig !== null ? AccessConfig.fromPartial(object.instantiateConfig) : undefined;
+    message.instantiateConfig =
+      object.instantiateConfig !== undefined && object.instantiateConfig !== null
+        ? AccessConfig.fromPartial(object.instantiateConfig)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseContractInfo(): ContractInfo {
@@ -496,7 +512,7 @@ function createBaseContractInfo(): ContractInfo {
     label: "",
     created: undefined,
     ibcPortId: "",
-    extension: undefined
+    extension: undefined,
   };
 }
 
@@ -543,7 +559,7 @@ export const ContractInfo = {
 
       switch (tag >>> 3) {
         case 1:
-          message.codeId = (reader.uint64() as Long);
+          message.codeId = reader.uint64() as Long;
           break;
 
         case 2:
@@ -587,7 +603,7 @@ export const ContractInfo = {
       label: isSet(object.label) ? String(object.label) : "",
       created: isSet(object.created) ? AbsoluteTxPosition.fromJSON(object.created) : undefined,
       ibcPortId: isSet(object.ibcPortId) ? String(object.ibcPortId) : "",
-      extension: isSet(object.extension) ? Any.fromJSON(object.extension) : undefined
+      extension: isSet(object.extension) ? Any.fromJSON(object.extension) : undefined,
     };
   },
 
@@ -597,24 +613,32 @@ export const ContractInfo = {
     message.creator !== undefined && (obj.creator = message.creator);
     message.admin !== undefined && (obj.admin = message.admin);
     message.label !== undefined && (obj.label = message.label);
-    message.created !== undefined && (obj.created = message.created ? AbsoluteTxPosition.toJSON(message.created) : undefined);
+    message.created !== undefined &&
+      (obj.created = message.created ? AbsoluteTxPosition.toJSON(message.created) : undefined);
     message.ibcPortId !== undefined && (obj.ibcPortId = message.ibcPortId);
-    message.extension !== undefined && (obj.extension = message.extension ? Any.toJSON(message.extension) : undefined);
+    message.extension !== undefined &&
+      (obj.extension = message.extension ? Any.toJSON(message.extension) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<ContractInfo>): ContractInfo {
     const message = createBaseContractInfo();
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
+    message.codeId =
+      object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
     message.creator = object.creator ?? "";
     message.admin = object.admin ?? "";
     message.label = object.label ?? "";
-    message.created = object.created !== undefined && object.created !== null ? AbsoluteTxPosition.fromPartial(object.created) : undefined;
+    message.created =
+      object.created !== undefined && object.created !== null
+        ? AbsoluteTxPosition.fromPartial(object.created)
+        : undefined;
     message.ibcPortId = object.ibcPortId ?? "";
-    message.extension = object.extension !== undefined && object.extension !== null ? Any.fromPartial(object.extension) : undefined;
+    message.extension =
+      object.extension !== undefined && object.extension !== null
+        ? Any.fromPartial(object.extension)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseContractCodeHistoryEntry(): ContractCodeHistoryEntry {
@@ -622,7 +646,7 @@ function createBaseContractCodeHistoryEntry(): ContractCodeHistoryEntry {
     operation: 0,
     codeId: Long.UZERO,
     updated: undefined,
-    msg: new Uint8Array()
+    msg: new Uint8Array(),
   };
 }
 
@@ -657,11 +681,11 @@ export const ContractCodeHistoryEntry = {
 
       switch (tag >>> 3) {
         case 1:
-          message.operation = (reader.int32() as any);
+          message.operation = reader.int32() as any;
           break;
 
         case 2:
-          message.codeId = (reader.uint64() as Long);
+          message.codeId = reader.uint64() as Long;
           break;
 
         case 3:
@@ -686,34 +710,40 @@ export const ContractCodeHistoryEntry = {
       operation: isSet(object.operation) ? contractCodeHistoryOperationTypeFromJSON(object.operation) : 0,
       codeId: isSet(object.codeId) ? Long.fromString(object.codeId) : Long.UZERO,
       updated: isSet(object.updated) ? AbsoluteTxPosition.fromJSON(object.updated) : undefined,
-      msg: isSet(object.msg) ? bytesFromBase64(object.msg) : new Uint8Array()
+      msg: isSet(object.msg) ? bytesFromBase64(object.msg) : new Uint8Array(),
     };
   },
 
   toJSON(message: ContractCodeHistoryEntry): unknown {
     const obj: any = {};
-    message.operation !== undefined && (obj.operation = contractCodeHistoryOperationTypeToJSON(message.operation));
+    message.operation !== undefined &&
+      (obj.operation = contractCodeHistoryOperationTypeToJSON(message.operation));
     message.codeId !== undefined && (obj.codeId = (message.codeId || Long.UZERO).toString());
-    message.updated !== undefined && (obj.updated = message.updated ? AbsoluteTxPosition.toJSON(message.updated) : undefined);
-    message.msg !== undefined && (obj.msg = base64FromBytes(message.msg !== undefined ? message.msg : new Uint8Array()));
+    message.updated !== undefined &&
+      (obj.updated = message.updated ? AbsoluteTxPosition.toJSON(message.updated) : undefined);
+    message.msg !== undefined &&
+      (obj.msg = base64FromBytes(message.msg !== undefined ? message.msg : new Uint8Array()));
     return obj;
   },
 
   fromPartial(object: DeepPartial<ContractCodeHistoryEntry>): ContractCodeHistoryEntry {
     const message = createBaseContractCodeHistoryEntry();
     message.operation = object.operation ?? 0;
-    message.codeId = object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
-    message.updated = object.updated !== undefined && object.updated !== null ? AbsoluteTxPosition.fromPartial(object.updated) : undefined;
+    message.codeId =
+      object.codeId !== undefined && object.codeId !== null ? Long.fromValue(object.codeId) : Long.UZERO;
+    message.updated =
+      object.updated !== undefined && object.updated !== null
+        ? AbsoluteTxPosition.fromPartial(object.updated)
+        : undefined;
     message.msg = object.msg ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseAbsoluteTxPosition(): AbsoluteTxPosition {
   return {
     blockHeight: Long.UZERO,
-    txIndex: Long.UZERO
+    txIndex: Long.UZERO,
   };
 }
 
@@ -740,11 +770,11 @@ export const AbsoluteTxPosition = {
 
       switch (tag >>> 3) {
         case 1:
-          message.blockHeight = (reader.uint64() as Long);
+          message.blockHeight = reader.uint64() as Long;
           break;
 
         case 2:
-          message.txIndex = (reader.uint64() as Long);
+          message.txIndex = reader.uint64() as Long;
           break;
 
         default:
@@ -759,7 +789,7 @@ export const AbsoluteTxPosition = {
   fromJSON(object: any): AbsoluteTxPosition {
     return {
       blockHeight: isSet(object.blockHeight) ? Long.fromString(object.blockHeight) : Long.UZERO,
-      txIndex: isSet(object.txIndex) ? Long.fromString(object.txIndex) : Long.UZERO
+      txIndex: isSet(object.txIndex) ? Long.fromString(object.txIndex) : Long.UZERO,
     };
   },
 
@@ -772,17 +802,20 @@ export const AbsoluteTxPosition = {
 
   fromPartial(object: DeepPartial<AbsoluteTxPosition>): AbsoluteTxPosition {
     const message = createBaseAbsoluteTxPosition();
-    message.blockHeight = object.blockHeight !== undefined && object.blockHeight !== null ? Long.fromValue(object.blockHeight) : Long.UZERO;
-    message.txIndex = object.txIndex !== undefined && object.txIndex !== null ? Long.fromValue(object.txIndex) : Long.UZERO;
+    message.blockHeight =
+      object.blockHeight !== undefined && object.blockHeight !== null
+        ? Long.fromValue(object.blockHeight)
+        : Long.UZERO;
+    message.txIndex =
+      object.txIndex !== undefined && object.txIndex !== null ? Long.fromValue(object.txIndex) : Long.UZERO;
     return message;
-  }
-
+  },
 };
 
 function createBaseModel(): Model {
   return {
     key: new Uint8Array(),
-    value: new Uint8Array()
+    value: new Uint8Array(),
   };
 }
 
@@ -828,14 +861,16 @@ export const Model = {
   fromJSON(object: any): Model {
     return {
       key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      value: isSet(object.value) ? bytesFromBase64(object.value) : new Uint8Array()
+      value: isSet(object.value) ? bytesFromBase64(object.value) : new Uint8Array(),
     };
   },
 
   toJSON(message: Model): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
-    message.value !== undefined && (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
+    message.key !== undefined &&
+      (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
+    message.value !== undefined &&
+      (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
     return obj;
   },
 
@@ -844,6 +879,5 @@ export const Model = {
     message.key = object.key ?? new Uint8Array();
     message.value = object.value ?? new Uint8Array();
     return message;
-  }
-
+  },
 };

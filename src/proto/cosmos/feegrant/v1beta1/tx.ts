@@ -36,7 +36,7 @@ function createBaseMsgGrantAllowance(): MsgGrantAllowance {
   return {
     granter: "",
     grantee: "",
-    allowance: undefined
+    allowance: undefined,
   };
 }
 
@@ -91,7 +91,7 @@ export const MsgGrantAllowance = {
     return {
       granter: isSet(object.granter) ? String(object.granter) : "",
       grantee: isSet(object.grantee) ? String(object.grantee) : "",
-      allowance: isSet(object.allowance) ? Any.fromJSON(object.allowance) : undefined
+      allowance: isSet(object.allowance) ? Any.fromJSON(object.allowance) : undefined,
     };
   },
 
@@ -99,7 +99,8 @@ export const MsgGrantAllowance = {
     const obj: any = {};
     message.granter !== undefined && (obj.granter = message.granter);
     message.grantee !== undefined && (obj.grantee = message.grantee);
-    message.allowance !== undefined && (obj.allowance = message.allowance ? Any.toJSON(message.allowance) : undefined);
+    message.allowance !== undefined &&
+      (obj.allowance = message.allowance ? Any.toJSON(message.allowance) : undefined);
     return obj;
   },
 
@@ -107,10 +108,12 @@ export const MsgGrantAllowance = {
     const message = createBaseMsgGrantAllowance();
     message.granter = object.granter ?? "";
     message.grantee = object.grantee ?? "";
-    message.allowance = object.allowance !== undefined && object.allowance !== null ? Any.fromPartial(object.allowance) : undefined;
+    message.allowance =
+      object.allowance !== undefined && object.allowance !== null
+        ? Any.fromPartial(object.allowance)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgGrantAllowanceResponse(): MsgGrantAllowanceResponse {
@@ -152,14 +155,13 @@ export const MsgGrantAllowanceResponse = {
   fromPartial(_: DeepPartial<MsgGrantAllowanceResponse>): MsgGrantAllowanceResponse {
     const message = createBaseMsgGrantAllowanceResponse();
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgRevokeAllowance(): MsgRevokeAllowance {
   return {
     granter: "",
-    grantee: ""
+    grantee: "",
   };
 }
 
@@ -205,7 +207,7 @@ export const MsgRevokeAllowance = {
   fromJSON(object: any): MsgRevokeAllowance {
     return {
       granter: isSet(object.granter) ? String(object.granter) : "",
-      grantee: isSet(object.grantee) ? String(object.grantee) : ""
+      grantee: isSet(object.grantee) ? String(object.grantee) : "",
     };
   },
 
@@ -221,8 +223,7 @@ export const MsgRevokeAllowance = {
     message.granter = object.granter ?? "";
     message.grantee = object.grantee ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgRevokeAllowanceResponse(): MsgRevokeAllowanceResponse {
@@ -264,6 +265,5 @@ export const MsgRevokeAllowanceResponse = {
   fromPartial(_: DeepPartial<MsgRevokeAllowanceResponse>): MsgRevokeAllowanceResponse {
     const message = createBaseMsgRevokeAllowanceResponse();
     return message;
-  }
-
+  },
 };

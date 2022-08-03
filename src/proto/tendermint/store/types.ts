@@ -8,7 +8,7 @@ export interface BlockStoreState {
 function createBaseBlockStoreState(): BlockStoreState {
   return {
     base: Long.ZERO,
-    height: Long.ZERO
+    height: Long.ZERO,
   };
 }
 
@@ -35,11 +35,11 @@ export const BlockStoreState = {
 
       switch (tag >>> 3) {
         case 1:
-          message.base = (reader.int64() as Long);
+          message.base = reader.int64() as Long;
           break;
 
         case 2:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         default:
@@ -54,7 +54,7 @@ export const BlockStoreState = {
   fromJSON(object: any): BlockStoreState {
     return {
       base: isSet(object.base) ? Long.fromString(object.base) : Long.ZERO,
-      height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO
+      height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
     };
   },
 
@@ -67,9 +67,10 @@ export const BlockStoreState = {
 
   fromPartial(object: DeepPartial<BlockStoreState>): BlockStoreState {
     const message = createBaseBlockStoreState();
-    message.base = object.base !== undefined && object.base !== null ? Long.fromValue(object.base) : Long.ZERO;
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.base =
+      object.base !== undefined && object.base !== null ? Long.fromValue(object.base) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     return message;
-  }
-
+  },
 };

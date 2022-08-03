@@ -5,7 +5,7 @@ import { isSet, bytesFromBase64, base64FromBytes, DeepPartial } from "@osmonauts
  * StoreKVPair is a KVStore KVPair used for listening to state changes (Sets and Deletes)
  * It optionally includes the StoreKey for the originating KVStore and a Boolean flag to distinguish between Sets and
  * Deletes
- * 
+ *
  * Since: cosmos-sdk 0.43
  */
 export interface StoreKVPair {
@@ -23,7 +23,7 @@ function createBaseStoreKVPair(): StoreKVPair {
     storeKey: "",
     delete: false,
     key: new Uint8Array(),
-    value: new Uint8Array()
+    value: new Uint8Array(),
   };
 }
 
@@ -87,7 +87,7 @@ export const StoreKVPair = {
       storeKey: isSet(object.storeKey) ? String(object.storeKey) : "",
       delete: isSet(object.delete) ? Boolean(object.delete) : false,
       key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      value: isSet(object.value) ? bytesFromBase64(object.value) : new Uint8Array()
+      value: isSet(object.value) ? bytesFromBase64(object.value) : new Uint8Array(),
     };
   },
 
@@ -95,8 +95,10 @@ export const StoreKVPair = {
     const obj: any = {};
     message.storeKey !== undefined && (obj.storeKey = message.storeKey);
     message.delete !== undefined && (obj.delete = message.delete);
-    message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
-    message.value !== undefined && (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
+    message.key !== undefined &&
+      (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
+    message.value !== undefined &&
+      (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
     return obj;
   },
 
@@ -107,6 +109,5 @@ export const StoreKVPair = {
     message.key = object.key ?? new Uint8Array();
     message.value = object.value ?? new Uint8Array();
     return message;
-  }
-
+  },
 };

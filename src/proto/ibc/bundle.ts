@@ -45,89 +45,46 @@ export namespace ibc {
   export namespace applications {
     export namespace interchain_accounts {
       export namespace controller {
-        export const v1 = { ..._225,
-          ..._226,
-          ..._306
-        };
+        export const v1 = { ..._225, ..._226, ..._306 };
       }
       export namespace host {
-        export const v1 = { ..._227,
-          ..._228,
-          ..._307
-        };
+        export const v1 = { ..._227, ..._228, ..._307 };
       }
-      export const v1 = { ..._229,
-        ..._230,
-        ..._231,
-        ..._232
-      };
+      export const v1 = { ..._229, ..._230, ..._231, ..._232 };
     }
     export namespace transfer {
-      export const v1 = { ..._233,
-        ..._234,
-        ..._235,
-        ..._236,
-        ..._308,
-        ..._312
-      };
-      export const v2 = { ..._237
-      };
+      export const v1 = { ..._233, ..._234, ..._235, ..._236, ..._308, ..._312 };
+      export const v2 = { ..._237 };
     }
   }
   export namespace core {
     export namespace channel {
-      export const v1 = { ..._238,
-        ..._239,
-        ..._240,
-        ..._241,
-        ..._309,
-        ..._313
-      };
+      export const v1 = { ..._238, ..._239, ..._240, ..._241, ..._309, ..._313 };
     }
     export namespace client {
-      export const v1 = { ..._242,
-        ..._243,
-        ..._244,
-        ..._245,
-        ..._310,
-        ..._314
-      };
+      export const v1 = { ..._242, ..._243, ..._244, ..._245, ..._310, ..._314 };
     }
     export namespace commitment {
-      export const v1 = { ..._246
-      };
+      export const v1 = { ..._246 };
     }
     export namespace connection {
-      export const v1 = { ..._247,
-        ..._248,
-        ..._249,
-        ..._250,
-        ..._311,
-        ..._315
-      };
+      export const v1 = { ..._247, ..._248, ..._249, ..._250, ..._311, ..._315 };
     }
     export namespace types {
-      export const v1 = { ..._251
-      };
+      export const v1 = { ..._251 };
     }
   }
   export namespace lightclients {
     export namespace localhost {
-      export const v1 = { ..._252
-      };
+      export const v1 = { ..._252 };
     }
     export namespace solomachine {
-      export const v1 = { ..._253
-      };
-      export const v2 = { ..._254
-      };
+      export const v1 = { ..._253 };
+      export const v2 = { ..._254 };
     }
     export namespace tendermint {
-      export const v1 = { ..._255
-      };
+      export const v1 = { ..._255 };
     }
   }
-  export const ClientFactory = { ..._320,
-    ..._321
-  };
+  export const ClientFactory = { ..._320, ..._321 };
 }

@@ -77,13 +77,12 @@ export const QueryParamsRequest = {
   fromPartial(_: DeepPartial<QueryParamsRequest>): QueryParamsRequest {
     const message = createBaseQueryParamsRequest();
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
-    params: undefined
+    params: undefined,
   };
 }
 
@@ -120,7 +119,7 @@ export const QueryParamsResponse = {
 
   fromJSON(object: any): QueryParamsResponse {
     return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined
+      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
     };
   },
 
@@ -132,10 +131,10 @@ export const QueryParamsResponse = {
 
   fromPartial(object: DeepPartial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    message.params =
+      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryInflationRequest(): QueryInflationRequest {
@@ -177,13 +176,12 @@ export const QueryInflationRequest = {
   fromPartial(_: DeepPartial<QueryInflationRequest>): QueryInflationRequest {
     const message = createBaseQueryInflationRequest();
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryInflationResponse(): QueryInflationResponse {
   return {
-    inflation: new Uint8Array()
+    inflation: new Uint8Array(),
   };
 }
 
@@ -220,13 +218,16 @@ export const QueryInflationResponse = {
 
   fromJSON(object: any): QueryInflationResponse {
     return {
-      inflation: isSet(object.inflation) ? bytesFromBase64(object.inflation) : new Uint8Array()
+      inflation: isSet(object.inflation) ? bytesFromBase64(object.inflation) : new Uint8Array(),
     };
   },
 
   toJSON(message: QueryInflationResponse): unknown {
     const obj: any = {};
-    message.inflation !== undefined && (obj.inflation = base64FromBytes(message.inflation !== undefined ? message.inflation : new Uint8Array()));
+    message.inflation !== undefined &&
+      (obj.inflation = base64FromBytes(
+        message.inflation !== undefined ? message.inflation : new Uint8Array(),
+      ));
     return obj;
   },
 
@@ -234,8 +235,7 @@ export const QueryInflationResponse = {
     const message = createBaseQueryInflationResponse();
     message.inflation = object.inflation ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryAnnualProvisionsRequest(): QueryAnnualProvisionsRequest {
@@ -277,13 +277,12 @@ export const QueryAnnualProvisionsRequest = {
   fromPartial(_: DeepPartial<QueryAnnualProvisionsRequest>): QueryAnnualProvisionsRequest {
     const message = createBaseQueryAnnualProvisionsRequest();
     return message;
-  }
-
+  },
 };
 
 function createBaseQueryAnnualProvisionsResponse(): QueryAnnualProvisionsResponse {
   return {
-    annualProvisions: new Uint8Array()
+    annualProvisions: new Uint8Array(),
   };
 }
 
@@ -320,13 +319,18 @@ export const QueryAnnualProvisionsResponse = {
 
   fromJSON(object: any): QueryAnnualProvisionsResponse {
     return {
-      annualProvisions: isSet(object.annualProvisions) ? bytesFromBase64(object.annualProvisions) : new Uint8Array()
+      annualProvisions: isSet(object.annualProvisions)
+        ? bytesFromBase64(object.annualProvisions)
+        : new Uint8Array(),
     };
   },
 
   toJSON(message: QueryAnnualProvisionsResponse): unknown {
     const obj: any = {};
-    message.annualProvisions !== undefined && (obj.annualProvisions = base64FromBytes(message.annualProvisions !== undefined ? message.annualProvisions : new Uint8Array()));
+    message.annualProvisions !== undefined &&
+      (obj.annualProvisions = base64FromBytes(
+        message.annualProvisions !== undefined ? message.annualProvisions : new Uint8Array(),
+      ));
     return obj;
   },
 
@@ -334,6 +338,5 @@ export const QueryAnnualProvisionsResponse = {
     const message = createBaseQueryAnnualProvisionsResponse();
     message.annualProvisions = object.annualProvisions ?? new Uint8Array();
     return message;
-  }
-
+  },
 };

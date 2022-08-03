@@ -23,7 +23,7 @@ export interface Grant {
 
 function createBaseGenericAuthorization(): GenericAuthorization {
   return {
-    msg: ""
+    msg: "",
   };
 }
 
@@ -60,7 +60,7 @@ export const GenericAuthorization = {
 
   fromJSON(object: any): GenericAuthorization {
     return {
-      msg: isSet(object.msg) ? String(object.msg) : ""
+      msg: isSet(object.msg) ? String(object.msg) : "",
     };
   },
 
@@ -74,14 +74,13 @@ export const GenericAuthorization = {
     const message = createBaseGenericAuthorization();
     message.msg = object.msg ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseGrant(): Grant {
   return {
     authorization: undefined,
-    expiration: undefined
+    expiration: undefined,
   };
 }
 
@@ -127,22 +126,25 @@ export const Grant = {
   fromJSON(object: any): Grant {
     return {
       authorization: isSet(object.authorization) ? Any.fromJSON(object.authorization) : undefined,
-      expiration: isSet(object.expiration) ? fromJsonTimestamp(object.expiration) : undefined
+      expiration: isSet(object.expiration) ? fromJsonTimestamp(object.expiration) : undefined,
     };
   },
 
   toJSON(message: Grant): unknown {
     const obj: any = {};
-    message.authorization !== undefined && (obj.authorization = message.authorization ? Any.toJSON(message.authorization) : undefined);
+    message.authorization !== undefined &&
+      (obj.authorization = message.authorization ? Any.toJSON(message.authorization) : undefined);
     message.expiration !== undefined && (obj.expiration = message.expiration.toISOString());
     return obj;
   },
 
   fromPartial(object: DeepPartial<Grant>): Grant {
     const message = createBaseGrant();
-    message.authorization = object.authorization !== undefined && object.authorization !== null ? Any.fromPartial(object.authorization) : undefined;
+    message.authorization =
+      object.authorization !== undefined && object.authorization !== null
+        ? Any.fromPartial(object.authorization)
+        : undefined;
     message.expiration = object.expiration ?? undefined;
     return message;
-  }
-
+  },
 };

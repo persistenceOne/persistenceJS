@@ -1,4 +1,11 @@
-import { PartSetHeader, Part, SignedMsgType, BlockID, signedMsgTypeFromJSON, signedMsgTypeToJSON } from "../types/types";
+import {
+  PartSetHeader,
+  Part,
+  SignedMsgType,
+  BlockID,
+  signedMsgTypeFromJSON,
+  signedMsgTypeToJSON,
+} from "../types/types";
 import { Proposal as Proposal1 } from "../types/types";
 import { Vote as Vote2 } from "../types/types";
 import { BitArray } from "../libs/bits/types";
@@ -96,7 +103,7 @@ function createBaseNewRoundStep(): NewRoundStep {
     round: 0,
     step: 0,
     secondsSinceStartTime: Long.ZERO,
-    lastCommitRound: 0
+    lastCommitRound: 0,
   };
 }
 
@@ -135,7 +142,7 @@ export const NewRoundStep = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         case 2:
@@ -147,7 +154,7 @@ export const NewRoundStep = {
           break;
 
         case 4:
-          message.secondsSinceStartTime = (reader.int64() as Long);
+          message.secondsSinceStartTime = reader.int64() as Long;
           break;
 
         case 5:
@@ -168,8 +175,10 @@ export const NewRoundStep = {
       height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
       round: isSet(object.round) ? Number(object.round) : 0,
       step: isSet(object.step) ? Number(object.step) : 0,
-      secondsSinceStartTime: isSet(object.secondsSinceStartTime) ? Long.fromString(object.secondsSinceStartTime) : Long.ZERO,
-      lastCommitRound: isSet(object.lastCommitRound) ? Number(object.lastCommitRound) : 0
+      secondsSinceStartTime: isSet(object.secondsSinceStartTime)
+        ? Long.fromString(object.secondsSinceStartTime)
+        : Long.ZERO,
+      lastCommitRound: isSet(object.lastCommitRound) ? Number(object.lastCommitRound) : 0,
     };
   },
 
@@ -178,21 +187,25 @@ export const NewRoundStep = {
     message.height !== undefined && (obj.height = (message.height || Long.ZERO).toString());
     message.round !== undefined && (obj.round = Math.round(message.round));
     message.step !== undefined && (obj.step = Math.round(message.step));
-    message.secondsSinceStartTime !== undefined && (obj.secondsSinceStartTime = (message.secondsSinceStartTime || Long.ZERO).toString());
+    message.secondsSinceStartTime !== undefined &&
+      (obj.secondsSinceStartTime = (message.secondsSinceStartTime || Long.ZERO).toString());
     message.lastCommitRound !== undefined && (obj.lastCommitRound = Math.round(message.lastCommitRound));
     return obj;
   },
 
   fromPartial(object: DeepPartial<NewRoundStep>): NewRoundStep {
     const message = createBaseNewRoundStep();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     message.round = object.round ?? 0;
     message.step = object.step ?? 0;
-    message.secondsSinceStartTime = object.secondsSinceStartTime !== undefined && object.secondsSinceStartTime !== null ? Long.fromValue(object.secondsSinceStartTime) : Long.ZERO;
+    message.secondsSinceStartTime =
+      object.secondsSinceStartTime !== undefined && object.secondsSinceStartTime !== null
+        ? Long.fromValue(object.secondsSinceStartTime)
+        : Long.ZERO;
     message.lastCommitRound = object.lastCommitRound ?? 0;
     return message;
-  }
-
+  },
 };
 
 function createBaseNewValidBlock(): NewValidBlock {
@@ -201,7 +214,7 @@ function createBaseNewValidBlock(): NewValidBlock {
     round: 0,
     blockPartSetHeader: undefined,
     blockParts: undefined,
-    isCommit: false
+    isCommit: false,
   };
 }
 
@@ -240,7 +253,7 @@ export const NewValidBlock = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         case 2:
@@ -272,9 +285,11 @@ export const NewValidBlock = {
     return {
       height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
       round: isSet(object.round) ? Number(object.round) : 0,
-      blockPartSetHeader: isSet(object.blockPartSetHeader) ? PartSetHeader.fromJSON(object.blockPartSetHeader) : undefined,
+      blockPartSetHeader: isSet(object.blockPartSetHeader)
+        ? PartSetHeader.fromJSON(object.blockPartSetHeader)
+        : undefined,
       blockParts: isSet(object.blockParts) ? BitArray.fromJSON(object.blockParts) : undefined,
-      isCommit: isSet(object.isCommit) ? Boolean(object.isCommit) : false
+      isCommit: isSet(object.isCommit) ? Boolean(object.isCommit) : false,
     };
   },
 
@@ -282,27 +297,37 @@ export const NewValidBlock = {
     const obj: any = {};
     message.height !== undefined && (obj.height = (message.height || Long.ZERO).toString());
     message.round !== undefined && (obj.round = Math.round(message.round));
-    message.blockPartSetHeader !== undefined && (obj.blockPartSetHeader = message.blockPartSetHeader ? PartSetHeader.toJSON(message.blockPartSetHeader) : undefined);
-    message.blockParts !== undefined && (obj.blockParts = message.blockParts ? BitArray.toJSON(message.blockParts) : undefined);
+    message.blockPartSetHeader !== undefined &&
+      (obj.blockPartSetHeader = message.blockPartSetHeader
+        ? PartSetHeader.toJSON(message.blockPartSetHeader)
+        : undefined);
+    message.blockParts !== undefined &&
+      (obj.blockParts = message.blockParts ? BitArray.toJSON(message.blockParts) : undefined);
     message.isCommit !== undefined && (obj.isCommit = message.isCommit);
     return obj;
   },
 
   fromPartial(object: DeepPartial<NewValidBlock>): NewValidBlock {
     const message = createBaseNewValidBlock();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     message.round = object.round ?? 0;
-    message.blockPartSetHeader = object.blockPartSetHeader !== undefined && object.blockPartSetHeader !== null ? PartSetHeader.fromPartial(object.blockPartSetHeader) : undefined;
-    message.blockParts = object.blockParts !== undefined && object.blockParts !== null ? BitArray.fromPartial(object.blockParts) : undefined;
+    message.blockPartSetHeader =
+      object.blockPartSetHeader !== undefined && object.blockPartSetHeader !== null
+        ? PartSetHeader.fromPartial(object.blockPartSetHeader)
+        : undefined;
+    message.blockParts =
+      object.blockParts !== undefined && object.blockParts !== null
+        ? BitArray.fromPartial(object.blockParts)
+        : undefined;
     message.isCommit = object.isCommit ?? false;
     return message;
-  }
-
+  },
 };
 
 function createBaseProposal(): Proposal {
   return {
-    proposal: undefined
+    proposal: undefined,
   };
 }
 
@@ -339,29 +364,32 @@ export const Proposal = {
 
   fromJSON(object: any): Proposal {
     return {
-      proposal: isSet(object.proposal) ? Proposal1.fromJSON(object.proposal) : undefined
+      proposal: isSet(object.proposal) ? Proposal1.fromJSON(object.proposal) : undefined,
     };
   },
 
   toJSON(message: Proposal): unknown {
     const obj: any = {};
-    message.proposal !== undefined && (obj.proposal = message.proposal ? Proposal1.toJSON(message.proposal) : undefined);
+    message.proposal !== undefined &&
+      (obj.proposal = message.proposal ? Proposal1.toJSON(message.proposal) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<Proposal>): Proposal {
     const message = createBaseProposal();
-    message.proposal = object.proposal !== undefined && object.proposal !== null ? Proposal.fromPartial(object.proposal) : undefined;
+    message.proposal =
+      object.proposal !== undefined && object.proposal !== null
+        ? Proposal.fromPartial(object.proposal)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseProposalPOL(): ProposalPOL {
   return {
     height: Long.ZERO,
     proposalPolRound: 0,
-    proposalPol: undefined
+    proposalPol: undefined,
   };
 }
 
@@ -392,7 +420,7 @@ export const ProposalPOL = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         case 2:
@@ -416,7 +444,7 @@ export const ProposalPOL = {
     return {
       height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
       proposalPolRound: isSet(object.proposalPolRound) ? Number(object.proposalPolRound) : 0,
-      proposalPol: isSet(object.proposalPol) ? BitArray.fromJSON(object.proposalPol) : undefined
+      proposalPol: isSet(object.proposalPol) ? BitArray.fromJSON(object.proposalPol) : undefined,
     };
   },
 
@@ -424,25 +452,29 @@ export const ProposalPOL = {
     const obj: any = {};
     message.height !== undefined && (obj.height = (message.height || Long.ZERO).toString());
     message.proposalPolRound !== undefined && (obj.proposalPolRound = Math.round(message.proposalPolRound));
-    message.proposalPol !== undefined && (obj.proposalPol = message.proposalPol ? BitArray.toJSON(message.proposalPol) : undefined);
+    message.proposalPol !== undefined &&
+      (obj.proposalPol = message.proposalPol ? BitArray.toJSON(message.proposalPol) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<ProposalPOL>): ProposalPOL {
     const message = createBaseProposalPOL();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     message.proposalPolRound = object.proposalPolRound ?? 0;
-    message.proposalPol = object.proposalPol !== undefined && object.proposalPol !== null ? BitArray.fromPartial(object.proposalPol) : undefined;
+    message.proposalPol =
+      object.proposalPol !== undefined && object.proposalPol !== null
+        ? BitArray.fromPartial(object.proposalPol)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseBlockPart(): BlockPart {
   return {
     height: Long.ZERO,
     round: 0,
-    part: undefined
+    part: undefined,
   };
 }
 
@@ -473,7 +505,7 @@ export const BlockPart = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         case 2:
@@ -497,7 +529,7 @@ export const BlockPart = {
     return {
       height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
       round: isSet(object.round) ? Number(object.round) : 0,
-      part: isSet(object.part) ? Part.fromJSON(object.part) : undefined
+      part: isSet(object.part) ? Part.fromJSON(object.part) : undefined,
     };
   },
 
@@ -511,17 +543,18 @@ export const BlockPart = {
 
   fromPartial(object: DeepPartial<BlockPart>): BlockPart {
     const message = createBaseBlockPart();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     message.round = object.round ?? 0;
-    message.part = object.part !== undefined && object.part !== null ? Part.fromPartial(object.part) : undefined;
+    message.part =
+      object.part !== undefined && object.part !== null ? Part.fromPartial(object.part) : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseVote(): Vote {
   return {
-    vote: undefined
+    vote: undefined,
   };
 }
 
@@ -558,7 +591,7 @@ export const Vote = {
 
   fromJSON(object: any): Vote {
     return {
-      vote: isSet(object.vote) ? Vote2.fromJSON(object.vote) : undefined
+      vote: isSet(object.vote) ? Vote2.fromJSON(object.vote) : undefined,
     };
   },
 
@@ -570,10 +603,10 @@ export const Vote = {
 
   fromPartial(object: DeepPartial<Vote>): Vote {
     const message = createBaseVote();
-    message.vote = object.vote !== undefined && object.vote !== null ? Vote.fromPartial(object.vote) : undefined;
+    message.vote =
+      object.vote !== undefined && object.vote !== null ? Vote.fromPartial(object.vote) : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseHasVote(): HasVote {
@@ -581,7 +614,7 @@ function createBaseHasVote(): HasVote {
     height: Long.ZERO,
     round: 0,
     type: 0,
-    index: 0
+    index: 0,
   };
 }
 
@@ -616,7 +649,7 @@ export const HasVote = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         case 2:
@@ -624,7 +657,7 @@ export const HasVote = {
           break;
 
         case 3:
-          message.type = (reader.int32() as any);
+          message.type = reader.int32() as any;
           break;
 
         case 4:
@@ -645,7 +678,7 @@ export const HasVote = {
       height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
       round: isSet(object.round) ? Number(object.round) : 0,
       type: isSet(object.type) ? signedMsgTypeFromJSON(object.type) : 0,
-      index: isSet(object.index) ? Number(object.index) : 0
+      index: isSet(object.index) ? Number(object.index) : 0,
     };
   },
 
@@ -660,13 +693,13 @@ export const HasVote = {
 
   fromPartial(object: DeepPartial<HasVote>): HasVote {
     const message = createBaseHasVote();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     message.round = object.round ?? 0;
     message.type = object.type ?? 0;
     message.index = object.index ?? 0;
     return message;
-  }
-
+  },
 };
 
 function createBaseVoteSetMaj23(): VoteSetMaj23 {
@@ -674,7 +707,7 @@ function createBaseVoteSetMaj23(): VoteSetMaj23 {
     height: Long.ZERO,
     round: 0,
     type: 0,
-    blockId: undefined
+    blockId: undefined,
   };
 }
 
@@ -709,7 +742,7 @@ export const VoteSetMaj23 = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         case 2:
@@ -717,7 +750,7 @@ export const VoteSetMaj23 = {
           break;
 
         case 3:
-          message.type = (reader.int32() as any);
+          message.type = reader.int32() as any;
           break;
 
         case 4:
@@ -738,7 +771,7 @@ export const VoteSetMaj23 = {
       height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
       round: isSet(object.round) ? Number(object.round) : 0,
       type: isSet(object.type) ? signedMsgTypeFromJSON(object.type) : 0,
-      blockId: isSet(object.blockId) ? BlockID.fromJSON(object.blockId) : undefined
+      blockId: isSet(object.blockId) ? BlockID.fromJSON(object.blockId) : undefined,
     };
   },
 
@@ -747,19 +780,23 @@ export const VoteSetMaj23 = {
     message.height !== undefined && (obj.height = (message.height || Long.ZERO).toString());
     message.round !== undefined && (obj.round = Math.round(message.round));
     message.type !== undefined && (obj.type = signedMsgTypeToJSON(message.type));
-    message.blockId !== undefined && (obj.blockId = message.blockId ? BlockID.toJSON(message.blockId) : undefined);
+    message.blockId !== undefined &&
+      (obj.blockId = message.blockId ? BlockID.toJSON(message.blockId) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<VoteSetMaj23>): VoteSetMaj23 {
     const message = createBaseVoteSetMaj23();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     message.round = object.round ?? 0;
     message.type = object.type ?? 0;
-    message.blockId = object.blockId !== undefined && object.blockId !== null ? BlockID.fromPartial(object.blockId) : undefined;
+    message.blockId =
+      object.blockId !== undefined && object.blockId !== null
+        ? BlockID.fromPartial(object.blockId)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseVoteSetBits(): VoteSetBits {
@@ -768,7 +805,7 @@ function createBaseVoteSetBits(): VoteSetBits {
     round: 0,
     type: 0,
     blockId: undefined,
-    votes: undefined
+    votes: undefined,
   };
 }
 
@@ -807,7 +844,7 @@ export const VoteSetBits = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         case 2:
@@ -815,7 +852,7 @@ export const VoteSetBits = {
           break;
 
         case 3:
-          message.type = (reader.int32() as any);
+          message.type = reader.int32() as any;
           break;
 
         case 4:
@@ -841,7 +878,7 @@ export const VoteSetBits = {
       round: isSet(object.round) ? Number(object.round) : 0,
       type: isSet(object.type) ? signedMsgTypeFromJSON(object.type) : 0,
       blockId: isSet(object.blockId) ? BlockID.fromJSON(object.blockId) : undefined,
-      votes: isSet(object.votes) ? BitArray.fromJSON(object.votes) : undefined
+      votes: isSet(object.votes) ? BitArray.fromJSON(object.votes) : undefined,
     };
   },
 
@@ -850,21 +887,26 @@ export const VoteSetBits = {
     message.height !== undefined && (obj.height = (message.height || Long.ZERO).toString());
     message.round !== undefined && (obj.round = Math.round(message.round));
     message.type !== undefined && (obj.type = signedMsgTypeToJSON(message.type));
-    message.blockId !== undefined && (obj.blockId = message.blockId ? BlockID.toJSON(message.blockId) : undefined);
+    message.blockId !== undefined &&
+      (obj.blockId = message.blockId ? BlockID.toJSON(message.blockId) : undefined);
     message.votes !== undefined && (obj.votes = message.votes ? BitArray.toJSON(message.votes) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<VoteSetBits>): VoteSetBits {
     const message = createBaseVoteSetBits();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     message.round = object.round ?? 0;
     message.type = object.type ?? 0;
-    message.blockId = object.blockId !== undefined && object.blockId !== null ? BlockID.fromPartial(object.blockId) : undefined;
-    message.votes = object.votes !== undefined && object.votes !== null ? BitArray.fromPartial(object.votes) : undefined;
+    message.blockId =
+      object.blockId !== undefined && object.blockId !== null
+        ? BlockID.fromPartial(object.blockId)
+        : undefined;
+    message.votes =
+      object.votes !== undefined && object.votes !== null ? BitArray.fromPartial(object.votes) : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseMessage(): Message {
@@ -877,7 +919,7 @@ function createBaseMessage(): Message {
     vote: undefined,
     hasVote: undefined,
     voteSetMaj23: undefined,
-    voteSetBits: undefined
+    voteSetBits: undefined,
   };
 }
 
@@ -986,36 +1028,68 @@ export const Message = {
       vote: isSet(object.vote) ? Vote.fromJSON(object.vote) : undefined,
       hasVote: isSet(object.hasVote) ? HasVote.fromJSON(object.hasVote) : undefined,
       voteSetMaj23: isSet(object.voteSetMaj23) ? VoteSetMaj23.fromJSON(object.voteSetMaj23) : undefined,
-      voteSetBits: isSet(object.voteSetBits) ? VoteSetBits.fromJSON(object.voteSetBits) : undefined
+      voteSetBits: isSet(object.voteSetBits) ? VoteSetBits.fromJSON(object.voteSetBits) : undefined,
     };
   },
 
   toJSON(message: Message): unknown {
     const obj: any = {};
-    message.newRoundStep !== undefined && (obj.newRoundStep = message.newRoundStep ? NewRoundStep.toJSON(message.newRoundStep) : undefined);
-    message.newValidBlock !== undefined && (obj.newValidBlock = message.newValidBlock ? NewValidBlock.toJSON(message.newValidBlock) : undefined);
-    message.proposal !== undefined && (obj.proposal = message.proposal ? Proposal.toJSON(message.proposal) : undefined);
-    message.proposalPol !== undefined && (obj.proposalPol = message.proposalPol ? ProposalPOL.toJSON(message.proposalPol) : undefined);
-    message.blockPart !== undefined && (obj.blockPart = message.blockPart ? BlockPart.toJSON(message.blockPart) : undefined);
+    message.newRoundStep !== undefined &&
+      (obj.newRoundStep = message.newRoundStep ? NewRoundStep.toJSON(message.newRoundStep) : undefined);
+    message.newValidBlock !== undefined &&
+      (obj.newValidBlock = message.newValidBlock ? NewValidBlock.toJSON(message.newValidBlock) : undefined);
+    message.proposal !== undefined &&
+      (obj.proposal = message.proposal ? Proposal.toJSON(message.proposal) : undefined);
+    message.proposalPol !== undefined &&
+      (obj.proposalPol = message.proposalPol ? ProposalPOL.toJSON(message.proposalPol) : undefined);
+    message.blockPart !== undefined &&
+      (obj.blockPart = message.blockPart ? BlockPart.toJSON(message.blockPart) : undefined);
     message.vote !== undefined && (obj.vote = message.vote ? Vote.toJSON(message.vote) : undefined);
-    message.hasVote !== undefined && (obj.hasVote = message.hasVote ? HasVote.toJSON(message.hasVote) : undefined);
-    message.voteSetMaj23 !== undefined && (obj.voteSetMaj23 = message.voteSetMaj23 ? VoteSetMaj23.toJSON(message.voteSetMaj23) : undefined);
-    message.voteSetBits !== undefined && (obj.voteSetBits = message.voteSetBits ? VoteSetBits.toJSON(message.voteSetBits) : undefined);
+    message.hasVote !== undefined &&
+      (obj.hasVote = message.hasVote ? HasVote.toJSON(message.hasVote) : undefined);
+    message.voteSetMaj23 !== undefined &&
+      (obj.voteSetMaj23 = message.voteSetMaj23 ? VoteSetMaj23.toJSON(message.voteSetMaj23) : undefined);
+    message.voteSetBits !== undefined &&
+      (obj.voteSetBits = message.voteSetBits ? VoteSetBits.toJSON(message.voteSetBits) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<Message>): Message {
     const message = createBaseMessage();
-    message.newRoundStep = object.newRoundStep !== undefined && object.newRoundStep !== null ? NewRoundStep.fromPartial(object.newRoundStep) : undefined;
-    message.newValidBlock = object.newValidBlock !== undefined && object.newValidBlock !== null ? NewValidBlock.fromPartial(object.newValidBlock) : undefined;
-    message.proposal = object.proposal !== undefined && object.proposal !== null ? Proposal.fromPartial(object.proposal) : undefined;
-    message.proposalPol = object.proposalPol !== undefined && object.proposalPol !== null ? ProposalPOL.fromPartial(object.proposalPol) : undefined;
-    message.blockPart = object.blockPart !== undefined && object.blockPart !== null ? BlockPart.fromPartial(object.blockPart) : undefined;
-    message.vote = object.vote !== undefined && object.vote !== null ? Vote.fromPartial(object.vote) : undefined;
-    message.hasVote = object.hasVote !== undefined && object.hasVote !== null ? HasVote.fromPartial(object.hasVote) : undefined;
-    message.voteSetMaj23 = object.voteSetMaj23 !== undefined && object.voteSetMaj23 !== null ? VoteSetMaj23.fromPartial(object.voteSetMaj23) : undefined;
-    message.voteSetBits = object.voteSetBits !== undefined && object.voteSetBits !== null ? VoteSetBits.fromPartial(object.voteSetBits) : undefined;
+    message.newRoundStep =
+      object.newRoundStep !== undefined && object.newRoundStep !== null
+        ? NewRoundStep.fromPartial(object.newRoundStep)
+        : undefined;
+    message.newValidBlock =
+      object.newValidBlock !== undefined && object.newValidBlock !== null
+        ? NewValidBlock.fromPartial(object.newValidBlock)
+        : undefined;
+    message.proposal =
+      object.proposal !== undefined && object.proposal !== null
+        ? Proposal.fromPartial(object.proposal)
+        : undefined;
+    message.proposalPol =
+      object.proposalPol !== undefined && object.proposalPol !== null
+        ? ProposalPOL.fromPartial(object.proposalPol)
+        : undefined;
+    message.blockPart =
+      object.blockPart !== undefined && object.blockPart !== null
+        ? BlockPart.fromPartial(object.blockPart)
+        : undefined;
+    message.vote =
+      object.vote !== undefined && object.vote !== null ? Vote.fromPartial(object.vote) : undefined;
+    message.hasVote =
+      object.hasVote !== undefined && object.hasVote !== null
+        ? HasVote.fromPartial(object.hasVote)
+        : undefined;
+    message.voteSetMaj23 =
+      object.voteSetMaj23 !== undefined && object.voteSetMaj23 !== null
+        ? VoteSetMaj23.fromPartial(object.voteSetMaj23)
+        : undefined;
+    message.voteSetBits =
+      object.voteSetBits !== undefined && object.voteSetBits !== null
+        ? VoteSetBits.fromPartial(object.voteSetBits)
+        : undefined;
     return message;
-  }
-
+  },
 };

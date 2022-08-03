@@ -1,31 +1,41 @@
 import { PersistenceClient } from "../clients/client";
-import { cosmos } from "../proto";
-import { MsgSubmitProposalEncodeObject } from "@cosmjs/stargate";
-import { ClientRequest } from "http";
+import { cosmos } from "../proto/";
+import { coins } from "@cosmjs/stargate";
 
-export async function test() {
-  const client = await PersistenceClient.init(
-    "rifle same bitter control garage duck grab spare mountain doctor rubber cook",
-  ); //wasm1vw0gf8uc000h72qxzkdrx2x2u8zzj0ppfq02gd
+export async function MultiSend(client: PersistenceClient, input: [], output: []) {
+  //example type for inputs and outputs
+  // const input = [
+  //   {
+  //     address: "persistence123...", //fromAddress
+  //     coins: coins(300, "uxprt"),
+  //   },
+  // ];
+
+  // const output = [
+  //   {
+  //     address: "persistence1...", //toAddress 1
+  //     coins: coins(100, "uxprt"),
+  //   },
+  //   {
+  //     address: "persistence2...", //toAddress 2
+  //     coins: coins(100, "uxprt"),
+  //   },
+  //   {
+  //     address: "persistence3...", //toAddress 3
+  //     coins: coins(100, "uxprt"),
+  //   },
+  // ];
   const wallet = client.wallet;
   const [account] = await wallet.getAccounts();
-  const sendMsg = cosmos.bank.v1beta1.MessageComposer.fromJSON.send({
-    fromAddress: "wasm1vw0gf8uc000h72qxzkdrx2x2u8zzj0ppfq02gd",
-    toAddress: "wasm1q6gtklegcp6n29mg0lxk7k3uwkarj3jv6qu0vq",
-    Ammount: [
-      {
-        denom: client.config.gasPrices.denom,
-        amount: "100",
-      },
-    ],
-  });
+  const sendMsg = {
+    typeUrl: "/cosmos.bank.v1beta1.tx.MsgSend",
+    value: cosmos.bank.v1beta1.MsgMultiSend.fromJSON({ inputs: input, outputs: output }),
+  };
   const res = await client.core.signAndBroadcast(
     account.address,
     [sendMsg],
-    { amount: [{ denom: client.config.gasPrices.denom, amount: "10000" }], gas: "100" },
+    { amount: [{ denom: "uxprt", amount: "10000" }], gas: "100" },
     "test send",
   );
   console.log(res);
 }
-
-test();

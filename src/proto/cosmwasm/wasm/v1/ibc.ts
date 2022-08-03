@@ -35,7 +35,7 @@ function createBaseMsgIBCSend(): MsgIBCSend {
     channel: "",
     timeoutHeight: Long.UZERO,
     timeoutTimestamp: Long.UZERO,
-    data: new Uint8Array()
+    data: new Uint8Array(),
   };
 }
 
@@ -74,11 +74,11 @@ export const MsgIBCSend = {
           break;
 
         case 4:
-          message.timeoutHeight = (reader.uint64() as Long);
+          message.timeoutHeight = reader.uint64() as Long;
           break;
 
         case 5:
-          message.timeoutTimestamp = (reader.uint64() as Long);
+          message.timeoutTimestamp = reader.uint64() as Long;
           break;
 
         case 6:
@@ -98,34 +98,44 @@ export const MsgIBCSend = {
     return {
       channel: isSet(object.channel) ? String(object.channel) : "",
       timeoutHeight: isSet(object.timeoutHeight) ? Long.fromString(object.timeoutHeight) : Long.UZERO,
-      timeoutTimestamp: isSet(object.timeoutTimestamp) ? Long.fromString(object.timeoutTimestamp) : Long.UZERO,
-      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array()
+      timeoutTimestamp: isSet(object.timeoutTimestamp)
+        ? Long.fromString(object.timeoutTimestamp)
+        : Long.UZERO,
+      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(),
     };
   },
 
   toJSON(message: MsgIBCSend): unknown {
     const obj: any = {};
     message.channel !== undefined && (obj.channel = message.channel);
-    message.timeoutHeight !== undefined && (obj.timeoutHeight = (message.timeoutHeight || Long.UZERO).toString());
-    message.timeoutTimestamp !== undefined && (obj.timeoutTimestamp = (message.timeoutTimestamp || Long.UZERO).toString());
-    message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
+    message.timeoutHeight !== undefined &&
+      (obj.timeoutHeight = (message.timeoutHeight || Long.UZERO).toString());
+    message.timeoutTimestamp !== undefined &&
+      (obj.timeoutTimestamp = (message.timeoutTimestamp || Long.UZERO).toString());
+    message.data !== undefined &&
+      (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
     return obj;
   },
 
   fromPartial(object: DeepPartial<MsgIBCSend>): MsgIBCSend {
     const message = createBaseMsgIBCSend();
     message.channel = object.channel ?? "";
-    message.timeoutHeight = object.timeoutHeight !== undefined && object.timeoutHeight !== null ? Long.fromValue(object.timeoutHeight) : Long.UZERO;
-    message.timeoutTimestamp = object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null ? Long.fromValue(object.timeoutTimestamp) : Long.UZERO;
+    message.timeoutHeight =
+      object.timeoutHeight !== undefined && object.timeoutHeight !== null
+        ? Long.fromValue(object.timeoutHeight)
+        : Long.UZERO;
+    message.timeoutTimestamp =
+      object.timeoutTimestamp !== undefined && object.timeoutTimestamp !== null
+        ? Long.fromValue(object.timeoutTimestamp)
+        : Long.UZERO;
     message.data = object.data ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgIBCCloseChannel(): MsgIBCCloseChannel {
   return {
-    channel: ""
+    channel: "",
   };
 }
 
@@ -162,7 +172,7 @@ export const MsgIBCCloseChannel = {
 
   fromJSON(object: any): MsgIBCCloseChannel {
     return {
-      channel: isSet(object.channel) ? String(object.channel) : ""
+      channel: isSet(object.channel) ? String(object.channel) : "",
     };
   },
 
@@ -176,6 +186,5 @@ export const MsgIBCCloseChannel = {
     const message = createBaseMsgIBCCloseChannel();
     message.channel = object.channel ?? "";
     return message;
-  }
-
+  },
 };

@@ -57,8 +57,7 @@ export const PacketPing = {
   fromPartial(_: DeepPartial<PacketPing>): PacketPing {
     const message = createBasePacketPing();
     return message;
-  }
-
+  },
 };
 
 function createBasePacketPong(): PacketPong {
@@ -100,15 +99,14 @@ export const PacketPong = {
   fromPartial(_: DeepPartial<PacketPong>): PacketPong {
     const message = createBasePacketPong();
     return message;
-  }
-
+  },
 };
 
 function createBasePacketMsg(): PacketMsg {
   return {
     channelId: 0,
     eof: false,
-    data: new Uint8Array()
+    data: new Uint8Array(),
   };
 }
 
@@ -163,7 +161,7 @@ export const PacketMsg = {
     return {
       channelId: isSet(object.channelId) ? Number(object.channelId) : 0,
       eof: isSet(object.eof) ? Boolean(object.eof) : false,
-      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array()
+      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(),
     };
   },
 
@@ -171,7 +169,8 @@ export const PacketMsg = {
     const obj: any = {};
     message.channelId !== undefined && (obj.channelId = Math.round(message.channelId));
     message.eof !== undefined && (obj.eof = message.eof);
-    message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
+    message.data !== undefined &&
+      (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
     return obj;
   },
 
@@ -181,15 +180,14 @@ export const PacketMsg = {
     message.eof = object.eof ?? false;
     message.data = object.data ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBasePacket(): Packet {
   return {
     packetPing: undefined,
     packetPong: undefined,
-    packetMsg: undefined
+    packetMsg: undefined,
   };
 }
 
@@ -244,32 +242,43 @@ export const Packet = {
     return {
       packetPing: isSet(object.packetPing) ? PacketPing.fromJSON(object.packetPing) : undefined,
       packetPong: isSet(object.packetPong) ? PacketPong.fromJSON(object.packetPong) : undefined,
-      packetMsg: isSet(object.packetMsg) ? PacketMsg.fromJSON(object.packetMsg) : undefined
+      packetMsg: isSet(object.packetMsg) ? PacketMsg.fromJSON(object.packetMsg) : undefined,
     };
   },
 
   toJSON(message: Packet): unknown {
     const obj: any = {};
-    message.packetPing !== undefined && (obj.packetPing = message.packetPing ? PacketPing.toJSON(message.packetPing) : undefined);
-    message.packetPong !== undefined && (obj.packetPong = message.packetPong ? PacketPong.toJSON(message.packetPong) : undefined);
-    message.packetMsg !== undefined && (obj.packetMsg = message.packetMsg ? PacketMsg.toJSON(message.packetMsg) : undefined);
+    message.packetPing !== undefined &&
+      (obj.packetPing = message.packetPing ? PacketPing.toJSON(message.packetPing) : undefined);
+    message.packetPong !== undefined &&
+      (obj.packetPong = message.packetPong ? PacketPong.toJSON(message.packetPong) : undefined);
+    message.packetMsg !== undefined &&
+      (obj.packetMsg = message.packetMsg ? PacketMsg.toJSON(message.packetMsg) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<Packet>): Packet {
     const message = createBasePacket();
-    message.packetPing = object.packetPing !== undefined && object.packetPing !== null ? PacketPing.fromPartial(object.packetPing) : undefined;
-    message.packetPong = object.packetPong !== undefined && object.packetPong !== null ? PacketPong.fromPartial(object.packetPong) : undefined;
-    message.packetMsg = object.packetMsg !== undefined && object.packetMsg !== null ? PacketMsg.fromPartial(object.packetMsg) : undefined;
+    message.packetPing =
+      object.packetPing !== undefined && object.packetPing !== null
+        ? PacketPing.fromPartial(object.packetPing)
+        : undefined;
+    message.packetPong =
+      object.packetPong !== undefined && object.packetPong !== null
+        ? PacketPong.fromPartial(object.packetPong)
+        : undefined;
+    message.packetMsg =
+      object.packetMsg !== undefined && object.packetMsg !== null
+        ? PacketMsg.fromPartial(object.packetMsg)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseAuthSigMessage(): AuthSigMessage {
   return {
     pubKey: undefined,
-    sig: new Uint8Array()
+    sig: new Uint8Array(),
   };
 }
 
@@ -315,22 +324,26 @@ export const AuthSigMessage = {
   fromJSON(object: any): AuthSigMessage {
     return {
       pubKey: isSet(object.pubKey) ? PublicKey.fromJSON(object.pubKey) : undefined,
-      sig: isSet(object.sig) ? bytesFromBase64(object.sig) : new Uint8Array()
+      sig: isSet(object.sig) ? bytesFromBase64(object.sig) : new Uint8Array(),
     };
   },
 
   toJSON(message: AuthSigMessage): unknown {
     const obj: any = {};
-    message.pubKey !== undefined && (obj.pubKey = message.pubKey ? PublicKey.toJSON(message.pubKey) : undefined);
-    message.sig !== undefined && (obj.sig = base64FromBytes(message.sig !== undefined ? message.sig : new Uint8Array()));
+    message.pubKey !== undefined &&
+      (obj.pubKey = message.pubKey ? PublicKey.toJSON(message.pubKey) : undefined);
+    message.sig !== undefined &&
+      (obj.sig = base64FromBytes(message.sig !== undefined ? message.sig : new Uint8Array()));
     return obj;
   },
 
   fromPartial(object: DeepPartial<AuthSigMessage>): AuthSigMessage {
     const message = createBaseAuthSigMessage();
-    message.pubKey = object.pubKey !== undefined && object.pubKey !== null ? PublicKey.fromPartial(object.pubKey) : undefined;
+    message.pubKey =
+      object.pubKey !== undefined && object.pubKey !== null
+        ? PublicKey.fromPartial(object.pubKey)
+        : undefined;
     message.sig = object.sig ?? new Uint8Array();
     return message;
-  }
-
+  },
 };

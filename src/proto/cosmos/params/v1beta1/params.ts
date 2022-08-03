@@ -22,7 +22,7 @@ function createBaseParameterChangeProposal(): ParameterChangeProposal {
   return {
     title: "",
     description: "",
-    changes: []
+    changes: [],
   };
 }
 
@@ -77,7 +77,7 @@ export const ParameterChangeProposal = {
     return {
       title: isSet(object.title) ? String(object.title) : "",
       description: isSet(object.description) ? String(object.description) : "",
-      changes: Array.isArray(object?.changes) ? object.changes.map((e: any) => ParamChange.fromJSON(e)) : []
+      changes: Array.isArray(object?.changes) ? object.changes.map((e: any) => ParamChange.fromJSON(e)) : [],
     };
   },
 
@@ -87,7 +87,7 @@ export const ParameterChangeProposal = {
     message.description !== undefined && (obj.description = message.description);
 
     if (message.changes) {
-      obj.changes = message.changes.map(e => e ? ParamChange.toJSON(e) : undefined);
+      obj.changes = message.changes.map((e) => (e ? ParamChange.toJSON(e) : undefined));
     } else {
       obj.changes = [];
     }
@@ -99,17 +99,16 @@ export const ParameterChangeProposal = {
     const message = createBaseParameterChangeProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
-    message.changes = object.changes?.map(e => ParamChange.fromPartial(e)) || [];
+    message.changes = object.changes?.map((e) => ParamChange.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseParamChange(): ParamChange {
   return {
     subspace: "",
     key: "",
-    value: ""
+    value: "",
   };
 }
 
@@ -164,7 +163,7 @@ export const ParamChange = {
     return {
       subspace: isSet(object.subspace) ? String(object.subspace) : "",
       key: isSet(object.key) ? String(object.key) : "",
-      value: isSet(object.value) ? String(object.value) : ""
+      value: isSet(object.value) ? String(object.value) : "",
     };
   },
 
@@ -182,6 +181,5 @@ export const ParamChange = {
     message.key = object.key ?? "";
     message.value = object.value ?? "";
     return message;
-  }
-
+  },
 };

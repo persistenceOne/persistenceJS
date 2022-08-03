@@ -52,7 +52,7 @@ export interface MsgFundCommunityPoolResponse {}
 function createBaseMsgSetWithdrawAddress(): MsgSetWithdrawAddress {
   return {
     delegatorAddress: "",
-    withdrawAddress: ""
+    withdrawAddress: "",
   };
 }
 
@@ -98,7 +98,7 @@ export const MsgSetWithdrawAddress = {
   fromJSON(object: any): MsgSetWithdrawAddress {
     return {
       delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      withdrawAddress: isSet(object.withdrawAddress) ? String(object.withdrawAddress) : ""
+      withdrawAddress: isSet(object.withdrawAddress) ? String(object.withdrawAddress) : "",
     };
   },
 
@@ -114,8 +114,7 @@ export const MsgSetWithdrawAddress = {
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.withdrawAddress = object.withdrawAddress ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgSetWithdrawAddressResponse(): MsgSetWithdrawAddressResponse {
@@ -157,14 +156,13 @@ export const MsgSetWithdrawAddressResponse = {
   fromPartial(_: DeepPartial<MsgSetWithdrawAddressResponse>): MsgSetWithdrawAddressResponse {
     const message = createBaseMsgSetWithdrawAddressResponse();
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgWithdrawDelegatorReward(): MsgWithdrawDelegatorReward {
   return {
     delegatorAddress: "",
-    validatorAddress: ""
+    validatorAddress: "",
   };
 }
 
@@ -210,7 +208,7 @@ export const MsgWithdrawDelegatorReward = {
   fromJSON(object: any): MsgWithdrawDelegatorReward {
     return {
       delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : ""
+      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
     };
   },
 
@@ -226,8 +224,7 @@ export const MsgWithdrawDelegatorReward = {
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.validatorAddress = object.validatorAddress ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgWithdrawDelegatorRewardResponse(): MsgWithdrawDelegatorRewardResponse {
@@ -269,13 +266,12 @@ export const MsgWithdrawDelegatorRewardResponse = {
   fromPartial(_: DeepPartial<MsgWithdrawDelegatorRewardResponse>): MsgWithdrawDelegatorRewardResponse {
     const message = createBaseMsgWithdrawDelegatorRewardResponse();
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgWithdrawValidatorCommission(): MsgWithdrawValidatorCommission {
   return {
-    validatorAddress: ""
+    validatorAddress: "",
   };
 }
 
@@ -312,7 +308,7 @@ export const MsgWithdrawValidatorCommission = {
 
   fromJSON(object: any): MsgWithdrawValidatorCommission {
     return {
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : ""
+      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
     };
   },
 
@@ -326,8 +322,7 @@ export const MsgWithdrawValidatorCommission = {
     const message = createBaseMsgWithdrawValidatorCommission();
     message.validatorAddress = object.validatorAddress ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgWithdrawValidatorCommissionResponse(): MsgWithdrawValidatorCommissionResponse {
@@ -366,17 +361,18 @@ export const MsgWithdrawValidatorCommissionResponse = {
     return obj;
   },
 
-  fromPartial(_: DeepPartial<MsgWithdrawValidatorCommissionResponse>): MsgWithdrawValidatorCommissionResponse {
+  fromPartial(
+    _: DeepPartial<MsgWithdrawValidatorCommissionResponse>,
+  ): MsgWithdrawValidatorCommissionResponse {
     const message = createBaseMsgWithdrawValidatorCommissionResponse();
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgFundCommunityPool(): MsgFundCommunityPool {
   return {
     amount: [],
-    depositor: ""
+    depositor: "",
   };
 }
 
@@ -422,7 +418,7 @@ export const MsgFundCommunityPool = {
   fromJSON(object: any): MsgFundCommunityPool {
     return {
       amount: Array.isArray(object?.amount) ? object.amount.map((e: any) => Coin.fromJSON(e)) : [],
-      depositor: isSet(object.depositor) ? String(object.depositor) : ""
+      depositor: isSet(object.depositor) ? String(object.depositor) : "",
     };
   },
 
@@ -430,7 +426,7 @@ export const MsgFundCommunityPool = {
     const obj: any = {};
 
     if (message.amount) {
-      obj.amount = message.amount.map(e => e ? Coin.toJSON(e) : undefined);
+      obj.amount = message.amount.map((e) => (e ? Coin.toJSON(e) : undefined));
     } else {
       obj.amount = [];
     }
@@ -441,11 +437,10 @@ export const MsgFundCommunityPool = {
 
   fromPartial(object: DeepPartial<MsgFundCommunityPool>): MsgFundCommunityPool {
     const message = createBaseMsgFundCommunityPool();
-    message.amount = object.amount?.map(e => Coin.fromPartial(e)) || [];
+    message.amount = object.amount?.map((e) => Coin.fromPartial(e)) || [];
     message.depositor = object.depositor ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgFundCommunityPoolResponse(): MsgFundCommunityPoolResponse {
@@ -487,6 +482,5 @@ export const MsgFundCommunityPoolResponse = {
   fromPartial(_: DeepPartial<MsgFundCommunityPoolResponse>): MsgFundCommunityPoolResponse {
     const message = createBaseMsgFundCommunityPoolResponse();
     return message;
-  }
-
+  },
 };

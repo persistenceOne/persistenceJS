@@ -1,28 +1,26 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-      "outDir":"./main",
-      "isolatedModules": true,
-      "declaration": true,
-      "declarationDir": "./types",
-      "emitDeclarationOnly": true,
-      "allowJs": true,
-      "lib": [
-          "es2015",
-          "es2016",
-          "es2017",
-      ],
-      "baseUrl": ".",
-      "paths":{
-        "proto":["src/proto"],
-        "source":["source"]
-      }
+    "module": "CommonJS",
+    "esModuleInterop":false,
+    "noEmitOnError": true,
+    "isolatedModules": true,
+    "outDir":"./main",
+    "declaration": true,
+    "declarationDir": "./types",
+    "emitDeclarationOnly": true,
+    "allowJs": true,
+    "target":"es6",
+    "baseUrl": ".",
+    "paths":{
+      "proto":["src/proto"],
+      "source":["source"]
+    }
   },
   "include": [
-      "src/proto/**/*",
-      "src/clients/*",
-      "src/helpers/*",
-      "src/contracts/**/*",
-      "src/config/*",
+    "src/proto/**/*",
+    "src/clients/*",
+    "src/helpers/*",
+    "src/contracts/**/*",
+    "src/config/*",
   ],
 }

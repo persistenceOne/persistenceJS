@@ -42,7 +42,7 @@ export interface TimedWALMessage {
 function createBaseMsgInfo(): MsgInfo {
   return {
     msg: undefined,
-    peerId: ""
+    peerId: "",
   };
 }
 
@@ -88,7 +88,7 @@ export const MsgInfo = {
   fromJSON(object: any): MsgInfo {
     return {
       msg: isSet(object.msg) ? Message.fromJSON(object.msg) : undefined,
-      peerId: isSet(object.peerId) ? String(object.peerId) : ""
+      peerId: isSet(object.peerId) ? String(object.peerId) : "",
     };
   },
 
@@ -101,11 +101,11 @@ export const MsgInfo = {
 
   fromPartial(object: DeepPartial<MsgInfo>): MsgInfo {
     const message = createBaseMsgInfo();
-    message.msg = object.msg !== undefined && object.msg !== null ? Message.fromPartial(object.msg) : undefined;
+    message.msg =
+      object.msg !== undefined && object.msg !== null ? Message.fromPartial(object.msg) : undefined;
     message.peerId = object.peerId ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseTimeoutInfo(): TimeoutInfo {
@@ -113,7 +113,7 @@ function createBaseTimeoutInfo(): TimeoutInfo {
     duration: undefined,
     height: Long.ZERO,
     round: 0,
-    step: 0
+    step: 0,
   };
 }
 
@@ -152,7 +152,7 @@ export const TimeoutInfo = {
           break;
 
         case 2:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         case 3:
@@ -177,7 +177,7 @@ export const TimeoutInfo = {
       duration: isSet(object.duration) ? Duration.fromJSON(object.duration) : undefined,
       height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
       round: isSet(object.round) ? Number(object.round) : 0,
-      step: isSet(object.step) ? Number(object.step) : 0
+      step: isSet(object.step) ? Number(object.step) : 0,
     };
   },
 
@@ -193,17 +193,17 @@ export const TimeoutInfo = {
   fromPartial(object: DeepPartial<TimeoutInfo>): TimeoutInfo {
     const message = createBaseTimeoutInfo();
     message.duration = object.duration ?? undefined;
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     message.round = object.round ?? 0;
     message.step = object.step ?? 0;
     return message;
-  }
-
+  },
 };
 
 function createBaseEndHeight(): EndHeight {
   return {
-    height: Long.ZERO
+    height: Long.ZERO,
   };
 }
 
@@ -226,7 +226,7 @@ export const EndHeight = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         default:
@@ -240,7 +240,7 @@ export const EndHeight = {
 
   fromJSON(object: any): EndHeight {
     return {
-      height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO
+      height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
     };
   },
 
@@ -252,10 +252,10 @@ export const EndHeight = {
 
   fromPartial(object: DeepPartial<EndHeight>): EndHeight {
     const message = createBaseEndHeight();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     return message;
-  }
-
+  },
 };
 
 function createBaseWALMessage(): WALMessage {
@@ -263,7 +263,7 @@ function createBaseWALMessage(): WALMessage {
     eventDataRoundState: undefined,
     msgInfo: undefined,
     timeoutInfo: undefined,
-    endHeight: undefined
+    endHeight: undefined,
   };
 }
 
@@ -324,37 +324,56 @@ export const WALMessage = {
 
   fromJSON(object: any): WALMessage {
     return {
-      eventDataRoundState: isSet(object.eventDataRoundState) ? EventDataRoundState.fromJSON(object.eventDataRoundState) : undefined,
+      eventDataRoundState: isSet(object.eventDataRoundState)
+        ? EventDataRoundState.fromJSON(object.eventDataRoundState)
+        : undefined,
       msgInfo: isSet(object.msgInfo) ? MsgInfo.fromJSON(object.msgInfo) : undefined,
       timeoutInfo: isSet(object.timeoutInfo) ? TimeoutInfo.fromJSON(object.timeoutInfo) : undefined,
-      endHeight: isSet(object.endHeight) ? EndHeight.fromJSON(object.endHeight) : undefined
+      endHeight: isSet(object.endHeight) ? EndHeight.fromJSON(object.endHeight) : undefined,
     };
   },
 
   toJSON(message: WALMessage): unknown {
     const obj: any = {};
-    message.eventDataRoundState !== undefined && (obj.eventDataRoundState = message.eventDataRoundState ? EventDataRoundState.toJSON(message.eventDataRoundState) : undefined);
-    message.msgInfo !== undefined && (obj.msgInfo = message.msgInfo ? MsgInfo.toJSON(message.msgInfo) : undefined);
-    message.timeoutInfo !== undefined && (obj.timeoutInfo = message.timeoutInfo ? TimeoutInfo.toJSON(message.timeoutInfo) : undefined);
-    message.endHeight !== undefined && (obj.endHeight = message.endHeight ? EndHeight.toJSON(message.endHeight) : undefined);
+    message.eventDataRoundState !== undefined &&
+      (obj.eventDataRoundState = message.eventDataRoundState
+        ? EventDataRoundState.toJSON(message.eventDataRoundState)
+        : undefined);
+    message.msgInfo !== undefined &&
+      (obj.msgInfo = message.msgInfo ? MsgInfo.toJSON(message.msgInfo) : undefined);
+    message.timeoutInfo !== undefined &&
+      (obj.timeoutInfo = message.timeoutInfo ? TimeoutInfo.toJSON(message.timeoutInfo) : undefined);
+    message.endHeight !== undefined &&
+      (obj.endHeight = message.endHeight ? EndHeight.toJSON(message.endHeight) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<WALMessage>): WALMessage {
     const message = createBaseWALMessage();
-    message.eventDataRoundState = object.eventDataRoundState !== undefined && object.eventDataRoundState !== null ? EventDataRoundState.fromPartial(object.eventDataRoundState) : undefined;
-    message.msgInfo = object.msgInfo !== undefined && object.msgInfo !== null ? MsgInfo.fromPartial(object.msgInfo) : undefined;
-    message.timeoutInfo = object.timeoutInfo !== undefined && object.timeoutInfo !== null ? TimeoutInfo.fromPartial(object.timeoutInfo) : undefined;
-    message.endHeight = object.endHeight !== undefined && object.endHeight !== null ? EndHeight.fromPartial(object.endHeight) : undefined;
+    message.eventDataRoundState =
+      object.eventDataRoundState !== undefined && object.eventDataRoundState !== null
+        ? EventDataRoundState.fromPartial(object.eventDataRoundState)
+        : undefined;
+    message.msgInfo =
+      object.msgInfo !== undefined && object.msgInfo !== null
+        ? MsgInfo.fromPartial(object.msgInfo)
+        : undefined;
+    message.timeoutInfo =
+      object.timeoutInfo !== undefined && object.timeoutInfo !== null
+        ? TimeoutInfo.fromPartial(object.timeoutInfo)
+        : undefined;
+    message.endHeight =
+      object.endHeight !== undefined && object.endHeight !== null
+        ? EndHeight.fromPartial(object.endHeight)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseTimedWALMessage(): TimedWALMessage {
   return {
     time: undefined,
-    msg: undefined
+    msg: undefined,
   };
 }
 
@@ -400,7 +419,7 @@ export const TimedWALMessage = {
   fromJSON(object: any): TimedWALMessage {
     return {
       time: isSet(object.time) ? fromJsonTimestamp(object.time) : undefined,
-      msg: isSet(object.msg) ? WALMessage.fromJSON(object.msg) : undefined
+      msg: isSet(object.msg) ? WALMessage.fromJSON(object.msg) : undefined,
     };
   },
 
@@ -414,8 +433,8 @@ export const TimedWALMessage = {
   fromPartial(object: DeepPartial<TimedWALMessage>): TimedWALMessage {
     const message = createBaseTimedWALMessage();
     message.time = object.time ?? undefined;
-    message.msg = object.msg !== undefined && object.msg !== null ? WALMessage.fromPartial(object.msg) : undefined;
+    message.msg =
+      object.msg !== undefined && object.msg !== null ? WALMessage.fromPartial(object.msg) : undefined;
     return message;
-  }
-
+  },
 };

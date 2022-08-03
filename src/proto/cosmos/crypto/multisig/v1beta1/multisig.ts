@@ -23,7 +23,7 @@ export interface CompactBitArray {
 
 function createBaseMultiSignature(): MultiSignature {
   return {
-    signatures: []
+    signatures: [],
   };
 }
 
@@ -60,7 +60,9 @@ export const MultiSignature = {
 
   fromJSON(object: any): MultiSignature {
     return {
-      signatures: Array.isArray(object?.signatures) ? object.signatures.map((e: any) => bytesFromBase64(e)) : []
+      signatures: Array.isArray(object?.signatures)
+        ? object.signatures.map((e: any) => bytesFromBase64(e))
+        : [],
     };
   },
 
@@ -68,7 +70,7 @@ export const MultiSignature = {
     const obj: any = {};
 
     if (message.signatures) {
-      obj.signatures = message.signatures.map(e => base64FromBytes(e !== undefined ? e : new Uint8Array()));
+      obj.signatures = message.signatures.map((e) => base64FromBytes(e !== undefined ? e : new Uint8Array()));
     } else {
       obj.signatures = [];
     }
@@ -78,16 +80,15 @@ export const MultiSignature = {
 
   fromPartial(object: DeepPartial<MultiSignature>): MultiSignature {
     const message = createBaseMultiSignature();
-    message.signatures = object.signatures?.map(e => e) || [];
+    message.signatures = object.signatures?.map((e) => e) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseCompactBitArray(): CompactBitArray {
   return {
     extraBitsStored: 0,
-    elems: new Uint8Array()
+    elems: new Uint8Array(),
   };
 }
 
@@ -133,14 +134,15 @@ export const CompactBitArray = {
   fromJSON(object: any): CompactBitArray {
     return {
       extraBitsStored: isSet(object.extraBitsStored) ? Number(object.extraBitsStored) : 0,
-      elems: isSet(object.elems) ? bytesFromBase64(object.elems) : new Uint8Array()
+      elems: isSet(object.elems) ? bytesFromBase64(object.elems) : new Uint8Array(),
     };
   },
 
   toJSON(message: CompactBitArray): unknown {
     const obj: any = {};
     message.extraBitsStored !== undefined && (obj.extraBitsStored = Math.round(message.extraBitsStored));
-    message.elems !== undefined && (obj.elems = base64FromBytes(message.elems !== undefined ? message.elems : new Uint8Array()));
+    message.elems !== undefined &&
+      (obj.elems = base64FromBytes(message.elems !== undefined ? message.elems : new Uint8Array()));
     return obj;
   },
 
@@ -149,6 +151,5 @@ export const CompactBitArray = {
     message.extraBitsStored = object.extraBitsStored ?? 0;
     message.elems = object.elems ?? new Uint8Array();
     return message;
-  }
-
+  },
 };

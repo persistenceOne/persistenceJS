@@ -82,7 +82,7 @@ export interface Metadata {
 
   /**
    * name defines the name of the token (eg: Cosmos Atom)
-   * 
+   *
    * Since: cosmos-sdk 0.43
    */
   name: string;
@@ -90,7 +90,7 @@ export interface Metadata {
   /**
    * symbol is the token symbol usually shown on exchanges (eg: ATOM). This can
    * be the same as the display.
-   * 
+   *
    * Since: cosmos-sdk 0.43
    */
   symbol: string;
@@ -99,7 +99,7 @@ export interface Metadata {
 function createBaseParams(): Params {
   return {
     sendEnabled: [],
-    defaultSendEnabled: false
+    defaultSendEnabled: false,
   };
 }
 
@@ -144,8 +144,10 @@ export const Params = {
 
   fromJSON(object: any): Params {
     return {
-      sendEnabled: Array.isArray(object?.sendEnabled) ? object.sendEnabled.map((e: any) => SendEnabled.fromJSON(e)) : [],
-      defaultSendEnabled: isSet(object.defaultSendEnabled) ? Boolean(object.defaultSendEnabled) : false
+      sendEnabled: Array.isArray(object?.sendEnabled)
+        ? object.sendEnabled.map((e: any) => SendEnabled.fromJSON(e))
+        : [],
+      defaultSendEnabled: isSet(object.defaultSendEnabled) ? Boolean(object.defaultSendEnabled) : false,
     };
   },
 
@@ -153,7 +155,7 @@ export const Params = {
     const obj: any = {};
 
     if (message.sendEnabled) {
-      obj.sendEnabled = message.sendEnabled.map(e => e ? SendEnabled.toJSON(e) : undefined);
+      obj.sendEnabled = message.sendEnabled.map((e) => (e ? SendEnabled.toJSON(e) : undefined));
     } else {
       obj.sendEnabled = [];
     }
@@ -164,17 +166,16 @@ export const Params = {
 
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
-    message.sendEnabled = object.sendEnabled?.map(e => SendEnabled.fromPartial(e)) || [];
+    message.sendEnabled = object.sendEnabled?.map((e) => SendEnabled.fromPartial(e)) || [];
     message.defaultSendEnabled = object.defaultSendEnabled ?? false;
     return message;
-  }
-
+  },
 };
 
 function createBaseSendEnabled(): SendEnabled {
   return {
     denom: "",
-    enabled: false
+    enabled: false,
   };
 }
 
@@ -220,7 +221,7 @@ export const SendEnabled = {
   fromJSON(object: any): SendEnabled {
     return {
       denom: isSet(object.denom) ? String(object.denom) : "",
-      enabled: isSet(object.enabled) ? Boolean(object.enabled) : false
+      enabled: isSet(object.enabled) ? Boolean(object.enabled) : false,
     };
   },
 
@@ -236,14 +237,13 @@ export const SendEnabled = {
     message.denom = object.denom ?? "";
     message.enabled = object.enabled ?? false;
     return message;
-  }
-
+  },
 };
 
 function createBaseInput(): Input {
   return {
     address: "",
-    coins: []
+    coins: [],
   };
 }
 
@@ -289,7 +289,7 @@ export const Input = {
   fromJSON(object: any): Input {
     return {
       address: isSet(object.address) ? String(object.address) : "",
-      coins: Array.isArray(object?.coins) ? object.coins.map((e: any) => Coin.fromJSON(e)) : []
+      coins: Array.isArray(object?.coins) ? object.coins.map((e: any) => Coin.fromJSON(e)) : [],
     };
   },
 
@@ -298,7 +298,7 @@ export const Input = {
     message.address !== undefined && (obj.address = message.address);
 
     if (message.coins) {
-      obj.coins = message.coins.map(e => e ? Coin.toJSON(e) : undefined);
+      obj.coins = message.coins.map((e) => (e ? Coin.toJSON(e) : undefined));
     } else {
       obj.coins = [];
     }
@@ -309,16 +309,15 @@ export const Input = {
   fromPartial(object: DeepPartial<Input>): Input {
     const message = createBaseInput();
     message.address = object.address ?? "";
-    message.coins = object.coins?.map(e => Coin.fromPartial(e)) || [];
+    message.coins = object.coins?.map((e) => Coin.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseOutput(): Output {
   return {
     address: "",
-    coins: []
+    coins: [],
   };
 }
 
@@ -364,7 +363,7 @@ export const Output = {
   fromJSON(object: any): Output {
     return {
       address: isSet(object.address) ? String(object.address) : "",
-      coins: Array.isArray(object?.coins) ? object.coins.map((e: any) => Coin.fromJSON(e)) : []
+      coins: Array.isArray(object?.coins) ? object.coins.map((e: any) => Coin.fromJSON(e)) : [],
     };
   },
 
@@ -373,7 +372,7 @@ export const Output = {
     message.address !== undefined && (obj.address = message.address);
 
     if (message.coins) {
-      obj.coins = message.coins.map(e => e ? Coin.toJSON(e) : undefined);
+      obj.coins = message.coins.map((e) => (e ? Coin.toJSON(e) : undefined));
     } else {
       obj.coins = [];
     }
@@ -384,15 +383,14 @@ export const Output = {
   fromPartial(object: DeepPartial<Output>): Output {
     const message = createBaseOutput();
     message.address = object.address ?? "";
-    message.coins = object.coins?.map(e => Coin.fromPartial(e)) || [];
+    message.coins = object.coins?.map((e) => Coin.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseSupply(): Supply {
   return {
-    total: []
+    total: [],
   };
 }
 
@@ -429,7 +427,7 @@ export const Supply = {
 
   fromJSON(object: any): Supply {
     return {
-      total: Array.isArray(object?.total) ? object.total.map((e: any) => Coin.fromJSON(e)) : []
+      total: Array.isArray(object?.total) ? object.total.map((e: any) => Coin.fromJSON(e)) : [],
     };
   },
 
@@ -437,7 +435,7 @@ export const Supply = {
     const obj: any = {};
 
     if (message.total) {
-      obj.total = message.total.map(e => e ? Coin.toJSON(e) : undefined);
+      obj.total = message.total.map((e) => (e ? Coin.toJSON(e) : undefined));
     } else {
       obj.total = [];
     }
@@ -447,17 +445,16 @@ export const Supply = {
 
   fromPartial(object: DeepPartial<Supply>): Supply {
     const message = createBaseSupply();
-    message.total = object.total?.map(e => Coin.fromPartial(e)) || [];
+    message.total = object.total?.map((e) => Coin.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseDenomUnit(): DenomUnit {
   return {
     denom: "",
     exponent: 0,
-    aliases: []
+    aliases: [],
   };
 }
 
@@ -512,7 +509,7 @@ export const DenomUnit = {
     return {
       denom: isSet(object.denom) ? String(object.denom) : "",
       exponent: isSet(object.exponent) ? Number(object.exponent) : 0,
-      aliases: Array.isArray(object?.aliases) ? object.aliases.map((e: any) => String(e)) : []
+      aliases: Array.isArray(object?.aliases) ? object.aliases.map((e: any) => String(e)) : [],
     };
   },
 
@@ -522,7 +519,7 @@ export const DenomUnit = {
     message.exponent !== undefined && (obj.exponent = Math.round(message.exponent));
 
     if (message.aliases) {
-      obj.aliases = message.aliases.map(e => e);
+      obj.aliases = message.aliases.map((e) => e);
     } else {
       obj.aliases = [];
     }
@@ -534,10 +531,9 @@ export const DenomUnit = {
     const message = createBaseDenomUnit();
     message.denom = object.denom ?? "";
     message.exponent = object.exponent ?? 0;
-    message.aliases = object.aliases?.map(e => e) || [];
+    message.aliases = object.aliases?.map((e) => e) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseMetadata(): Metadata {
@@ -547,7 +543,7 @@ function createBaseMetadata(): Metadata {
     base: "",
     display: "",
     name: "",
-    symbol: ""
+    symbol: "",
   };
 }
 
@@ -625,11 +621,13 @@ export const Metadata = {
   fromJSON(object: any): Metadata {
     return {
       description: isSet(object.description) ? String(object.description) : "",
-      denomUnits: Array.isArray(object?.denomUnits) ? object.denomUnits.map((e: any) => DenomUnit.fromJSON(e)) : [],
+      denomUnits: Array.isArray(object?.denomUnits)
+        ? object.denomUnits.map((e: any) => DenomUnit.fromJSON(e))
+        : [],
       base: isSet(object.base) ? String(object.base) : "",
       display: isSet(object.display) ? String(object.display) : "",
       name: isSet(object.name) ? String(object.name) : "",
-      symbol: isSet(object.symbol) ? String(object.symbol) : ""
+      symbol: isSet(object.symbol) ? String(object.symbol) : "",
     };
   },
 
@@ -638,7 +636,7 @@ export const Metadata = {
     message.description !== undefined && (obj.description = message.description);
 
     if (message.denomUnits) {
-      obj.denomUnits = message.denomUnits.map(e => e ? DenomUnit.toJSON(e) : undefined);
+      obj.denomUnits = message.denomUnits.map((e) => (e ? DenomUnit.toJSON(e) : undefined));
     } else {
       obj.denomUnits = [];
     }
@@ -653,12 +651,11 @@ export const Metadata = {
   fromPartial(object: DeepPartial<Metadata>): Metadata {
     const message = createBaseMetadata();
     message.description = object.description ?? "";
-    message.denomUnits = object.denomUnits?.map(e => DenomUnit.fromPartial(e)) || [];
+    message.denomUnits = object.denomUnits?.map((e) => DenomUnit.fromPartial(e)) || [];
     message.base = object.base ?? "";
     message.display = object.display ?? "";
     message.name = object.name ?? "";
     message.symbol = object.symbol ?? "";
     return message;
-  }
-
+  },
 };

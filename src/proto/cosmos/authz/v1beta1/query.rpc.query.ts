@@ -8,7 +8,6 @@ import { QueryGrantsRequest, QueryGrantsResponse } from "./query";
 export interface Query {
   grants(request: QueryGrantsRequest): Promise<QueryGrantsResponse>;
   /*Returns list of `Authorization`, granted to the grantee by the granter.*/
-
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
@@ -21,7 +20,6 @@ export class QueryClientImpl implements Query {
   grants(request: QueryGrantsRequest): Promise<QueryGrantsResponse> {
     const data = QueryGrantsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.authz.v1beta1.Query", "Grants", data);
-    return promise.then(data => QueryGrantsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryGrantsResponse.decode(new _m0.Reader(data)));
   }
-
 }

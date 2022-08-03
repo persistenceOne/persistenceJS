@@ -20,7 +20,6 @@ export interface Msg {
   revoke(request: MsgRevoke): Promise<MsgRevokeResponse>;
   /*Revoke revokes any authorization corresponding to the provided method name on the
   granter's account that has been granted to the grantee.*/
-
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
@@ -35,19 +34,18 @@ export class MsgClientImpl implements Msg {
   grant(request: MsgGrant): Promise<MsgGrantResponse> {
     const data = MsgGrant.encode(request).finish();
     const promise = this.rpc.request("cosmos.authz.v1beta1.Msg", "Grant", data);
-    return promise.then(data => MsgGrantResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgGrantResponse.decode(new _m0.Reader(data)));
   }
 
   exec(request: MsgExec): Promise<MsgExecResponse> {
     const data = MsgExec.encode(request).finish();
     const promise = this.rpc.request("cosmos.authz.v1beta1.Msg", "Exec", data);
-    return promise.then(data => MsgExecResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgExecResponse.decode(new _m0.Reader(data)));
   }
 
   revoke(request: MsgRevoke): Promise<MsgRevokeResponse> {
     const data = MsgRevoke.encode(request).finish();
     const promise = this.rpc.request("cosmos.authz.v1beta1.Msg", "Revoke", data);
-    return promise.then(data => MsgRevokeResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgRevokeResponse.decode(new _m0.Reader(data)));
   }
-
 }

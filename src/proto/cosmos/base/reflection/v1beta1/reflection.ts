@@ -66,13 +66,12 @@ export const ListAllInterfacesRequest = {
   fromPartial(_: DeepPartial<ListAllInterfacesRequest>): ListAllInterfacesRequest {
     const message = createBaseListAllInterfacesRequest();
     return message;
-  }
-
+  },
 };
 
 function createBaseListAllInterfacesResponse(): ListAllInterfacesResponse {
   return {
-    interfaceNames: []
+    interfaceNames: [],
   };
 }
 
@@ -109,7 +108,9 @@ export const ListAllInterfacesResponse = {
 
   fromJSON(object: any): ListAllInterfacesResponse {
     return {
-      interfaceNames: Array.isArray(object?.interfaceNames) ? object.interfaceNames.map((e: any) => String(e)) : []
+      interfaceNames: Array.isArray(object?.interfaceNames)
+        ? object.interfaceNames.map((e: any) => String(e))
+        : [],
     };
   },
 
@@ -117,7 +118,7 @@ export const ListAllInterfacesResponse = {
     const obj: any = {};
 
     if (message.interfaceNames) {
-      obj.interfaceNames = message.interfaceNames.map(e => e);
+      obj.interfaceNames = message.interfaceNames.map((e) => e);
     } else {
       obj.interfaceNames = [];
     }
@@ -127,15 +128,14 @@ export const ListAllInterfacesResponse = {
 
   fromPartial(object: DeepPartial<ListAllInterfacesResponse>): ListAllInterfacesResponse {
     const message = createBaseListAllInterfacesResponse();
-    message.interfaceNames = object.interfaceNames?.map(e => e) || [];
+    message.interfaceNames = object.interfaceNames?.map((e) => e) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseListImplementationsRequest(): ListImplementationsRequest {
   return {
-    interfaceName: ""
+    interfaceName: "",
   };
 }
 
@@ -172,7 +172,7 @@ export const ListImplementationsRequest = {
 
   fromJSON(object: any): ListImplementationsRequest {
     return {
-      interfaceName: isSet(object.interfaceName) ? String(object.interfaceName) : ""
+      interfaceName: isSet(object.interfaceName) ? String(object.interfaceName) : "",
     };
   },
 
@@ -186,13 +186,12 @@ export const ListImplementationsRequest = {
     const message = createBaseListImplementationsRequest();
     message.interfaceName = object.interfaceName ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseListImplementationsResponse(): ListImplementationsResponse {
   return {
-    implementationMessageNames: []
+    implementationMessageNames: [],
   };
 }
 
@@ -229,7 +228,9 @@ export const ListImplementationsResponse = {
 
   fromJSON(object: any): ListImplementationsResponse {
     return {
-      implementationMessageNames: Array.isArray(object?.implementationMessageNames) ? object.implementationMessageNames.map((e: any) => String(e)) : []
+      implementationMessageNames: Array.isArray(object?.implementationMessageNames)
+        ? object.implementationMessageNames.map((e: any) => String(e))
+        : [],
     };
   },
 
@@ -237,7 +238,7 @@ export const ListImplementationsResponse = {
     const obj: any = {};
 
     if (message.implementationMessageNames) {
-      obj.implementationMessageNames = message.implementationMessageNames.map(e => e);
+      obj.implementationMessageNames = message.implementationMessageNames.map((e) => e);
     } else {
       obj.implementationMessageNames = [];
     }
@@ -247,8 +248,7 @@ export const ListImplementationsResponse = {
 
   fromPartial(object: DeepPartial<ListImplementationsResponse>): ListImplementationsResponse {
     const message = createBaseListImplementationsResponse();
-    message.implementationMessageNames = object.implementationMessageNames?.map(e => e) || [];
+    message.implementationMessageNames = object.implementationMessageNames?.map((e) => e) || [];
     return message;
-  }
-
+  },
 };

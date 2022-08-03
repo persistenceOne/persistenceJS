@@ -3,7 +3,7 @@ import { isSet, DeepPartial } from "@osmonauts/helpers";
 
 /**
  * Coin defines a token with a denomination and an amount.
- * 
+ *
  * NOTE: The amount field is an Int which implements the custom method
  * signatures required by gogoproto.
  */
@@ -14,7 +14,7 @@ export interface Coin {
 
 /**
  * DecCoin defines a token with a denomination and a decimal amount.
- * 
+ *
  * NOTE: The amount field is an Dec which implements the custom method
  * signatures required by gogoproto.
  */
@@ -36,7 +36,7 @@ export interface DecProto {
 function createBaseCoin(): Coin {
   return {
     denom: "",
-    amount: ""
+    amount: "",
   };
 }
 
@@ -82,7 +82,7 @@ export const Coin = {
   fromJSON(object: any): Coin {
     return {
       denom: isSet(object.denom) ? String(object.denom) : "",
-      amount: isSet(object.amount) ? String(object.amount) : ""
+      amount: isSet(object.amount) ? String(object.amount) : "",
     };
   },
 
@@ -98,14 +98,13 @@ export const Coin = {
     message.denom = object.denom ?? "";
     message.amount = object.amount ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseDecCoin(): DecCoin {
   return {
     denom: "",
-    amount: ""
+    amount: "",
   };
 }
 
@@ -151,7 +150,7 @@ export const DecCoin = {
   fromJSON(object: any): DecCoin {
     return {
       denom: isSet(object.denom) ? String(object.denom) : "",
-      amount: isSet(object.amount) ? String(object.amount) : ""
+      amount: isSet(object.amount) ? String(object.amount) : "",
     };
   },
 
@@ -167,13 +166,12 @@ export const DecCoin = {
     message.denom = object.denom ?? "";
     message.amount = object.amount ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseIntProto(): IntProto {
   return {
-    int: ""
+    int: "",
   };
 }
 
@@ -210,7 +208,7 @@ export const IntProto = {
 
   fromJSON(object: any): IntProto {
     return {
-      int: isSet(object.int) ? String(object.int) : ""
+      int: isSet(object.int) ? String(object.int) : "",
     };
   },
 
@@ -224,13 +222,12 @@ export const IntProto = {
     const message = createBaseIntProto();
     message.int = object.int ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseDecProto(): DecProto {
   return {
-    dec: ""
+    dec: "",
   };
 }
 
@@ -267,7 +264,7 @@ export const DecProto = {
 
   fromJSON(object: any): DecProto {
     return {
-      dec: isSet(object.dec) ? String(object.dec) : ""
+      dec: isSet(object.dec) ? String(object.dec) : "",
     };
   },
 
@@ -281,6 +278,5 @@ export const DecProto = {
     const message = createBaseDecProto();
     message.dec = object.dec ?? "";
     return message;
-  }
-
+  },
 };

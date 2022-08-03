@@ -29,7 +29,7 @@ function createBaseEventGrant(): EventGrant {
   return {
     msgTypeUrl: "",
     granter: "",
-    grantee: ""
+    grantee: "",
   };
 }
 
@@ -84,7 +84,7 @@ export const EventGrant = {
     return {
       msgTypeUrl: isSet(object.msgTypeUrl) ? String(object.msgTypeUrl) : "",
       granter: isSet(object.granter) ? String(object.granter) : "",
-      grantee: isSet(object.grantee) ? String(object.grantee) : ""
+      grantee: isSet(object.grantee) ? String(object.grantee) : "",
     };
   },
 
@@ -102,15 +102,14 @@ export const EventGrant = {
     message.granter = object.granter ?? "";
     message.grantee = object.grantee ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseEventRevoke(): EventRevoke {
   return {
     msgTypeUrl: "",
     granter: "",
-    grantee: ""
+    grantee: "",
   };
 }
 
@@ -165,7 +164,7 @@ export const EventRevoke = {
     return {
       msgTypeUrl: isSet(object.msgTypeUrl) ? String(object.msgTypeUrl) : "",
       granter: isSet(object.granter) ? String(object.granter) : "",
-      grantee: isSet(object.grantee) ? String(object.grantee) : ""
+      grantee: isSet(object.grantee) ? String(object.grantee) : "",
     };
   },
 
@@ -183,6 +182,5 @@ export const EventRevoke = {
     message.granter = object.granter ?? "";
     message.grantee = object.grantee ?? "";
     return message;
-  }
-
+  },
 };

@@ -2,7 +2,7 @@ import { PersistenceClient } from "../clients/client";
 import { MsgVote } from "../proto/cosmos/gov/v1beta1/tx";
 import { coins } from "@cosmjs/stargate";
 import { voteOptionFromJSON } from "../proto/cosmos/gov/v1beta1/gov";
-import Long = require("long");
+import * as Long from "long";
 
 export async function voteYes(client: PersistenceClient, proposalid: number) {
   const [account] = await client.wallet.getAccounts();

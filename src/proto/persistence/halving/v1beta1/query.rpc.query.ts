@@ -7,7 +7,6 @@ import { QueryParamsRequest, QueryParamsResponse } from "./query";
 export interface Query {
   params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
   /*Params returns the total set of halving parameters.*/
-
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
@@ -20,7 +19,6 @@ export class QueryClientImpl implements Query {
   params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
     const promise = this.rpc.request("persistence.halving.v1beta1.Query", "Params", data);
-    return promise.then(data => QueryParamsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryParamsResponse.decode(new _m0.Reader(data)));
   }
-
 }

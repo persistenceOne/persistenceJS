@@ -8,7 +8,6 @@ export interface Msg {
   createVestingAccount(request: MsgCreateVestingAccount): Promise<MsgCreateVestingAccountResponse>;
   /*CreateVestingAccount defines a method that enables creating a vesting
   account.*/
-
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
@@ -21,7 +20,6 @@ export class MsgClientImpl implements Msg {
   createVestingAccount(request: MsgCreateVestingAccount): Promise<MsgCreateVestingAccountResponse> {
     const data = MsgCreateVestingAccount.encode(request).finish();
     const promise = this.rpc.request("cosmos.vesting.v1beta1.Msg", "CreateVestingAccount", data);
-    return promise.then(data => MsgCreateVestingAccountResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgCreateVestingAccountResponse.decode(new _m0.Reader(data)));
   }
-
 }

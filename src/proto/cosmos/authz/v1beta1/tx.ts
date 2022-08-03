@@ -54,7 +54,7 @@ function createBaseMsgGrant(): MsgGrant {
   return {
     granter: "",
     grantee: "",
-    grant: undefined
+    grant: undefined,
   };
 }
 
@@ -109,7 +109,7 @@ export const MsgGrant = {
     return {
       granter: isSet(object.granter) ? String(object.granter) : "",
       grantee: isSet(object.grantee) ? String(object.grantee) : "",
-      grant: isSet(object.grant) ? Grant.fromJSON(object.grant) : undefined
+      grant: isSet(object.grant) ? Grant.fromJSON(object.grant) : undefined,
     };
   },
 
@@ -125,15 +125,15 @@ export const MsgGrant = {
     const message = createBaseMsgGrant();
     message.granter = object.granter ?? "";
     message.grantee = object.grantee ?? "";
-    message.grant = object.grant !== undefined && object.grant !== null ? Grant.fromPartial(object.grant) : undefined;
+    message.grant =
+      object.grant !== undefined && object.grant !== null ? Grant.fromPartial(object.grant) : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgExecResponse(): MsgExecResponse {
   return {
-    results: []
+    results: [],
   };
 }
 
@@ -170,7 +170,7 @@ export const MsgExecResponse = {
 
   fromJSON(object: any): MsgExecResponse {
     return {
-      results: Array.isArray(object?.results) ? object.results.map((e: any) => bytesFromBase64(e)) : []
+      results: Array.isArray(object?.results) ? object.results.map((e: any) => bytesFromBase64(e)) : [],
     };
   },
 
@@ -178,7 +178,7 @@ export const MsgExecResponse = {
     const obj: any = {};
 
     if (message.results) {
-      obj.results = message.results.map(e => base64FromBytes(e !== undefined ? e : new Uint8Array()));
+      obj.results = message.results.map((e) => base64FromBytes(e !== undefined ? e : new Uint8Array()));
     } else {
       obj.results = [];
     }
@@ -188,16 +188,15 @@ export const MsgExecResponse = {
 
   fromPartial(object: DeepPartial<MsgExecResponse>): MsgExecResponse {
     const message = createBaseMsgExecResponse();
-    message.results = object.results?.map(e => e) || [];
+    message.results = object.results?.map((e) => e) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgExec(): MsgExec {
   return {
     grantee: "",
-    msgs: []
+    msgs: [],
   };
 }
 
@@ -243,7 +242,7 @@ export const MsgExec = {
   fromJSON(object: any): MsgExec {
     return {
       grantee: isSet(object.grantee) ? String(object.grantee) : "",
-      msgs: Array.isArray(object?.msgs) ? object.msgs.map((e: any) => Any.fromJSON(e)) : []
+      msgs: Array.isArray(object?.msgs) ? object.msgs.map((e: any) => Any.fromJSON(e)) : [],
     };
   },
 
@@ -252,7 +251,7 @@ export const MsgExec = {
     message.grantee !== undefined && (obj.grantee = message.grantee);
 
     if (message.msgs) {
-      obj.msgs = message.msgs.map(e => e ? Any.toJSON(e) : undefined);
+      obj.msgs = message.msgs.map((e) => (e ? Any.toJSON(e) : undefined));
     } else {
       obj.msgs = [];
     }
@@ -263,10 +262,9 @@ export const MsgExec = {
   fromPartial(object: DeepPartial<MsgExec>): MsgExec {
     const message = createBaseMsgExec();
     message.grantee = object.grantee ?? "";
-    message.msgs = object.msgs?.map(e => Any.fromPartial(e)) || [];
+    message.msgs = object.msgs?.map((e) => Any.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgGrantResponse(): MsgGrantResponse {
@@ -308,15 +306,14 @@ export const MsgGrantResponse = {
   fromPartial(_: DeepPartial<MsgGrantResponse>): MsgGrantResponse {
     const message = createBaseMsgGrantResponse();
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgRevoke(): MsgRevoke {
   return {
     granter: "",
     grantee: "",
-    msgTypeUrl: ""
+    msgTypeUrl: "",
   };
 }
 
@@ -371,7 +368,7 @@ export const MsgRevoke = {
     return {
       granter: isSet(object.granter) ? String(object.granter) : "",
       grantee: isSet(object.grantee) ? String(object.grantee) : "",
-      msgTypeUrl: isSet(object.msgTypeUrl) ? String(object.msgTypeUrl) : ""
+      msgTypeUrl: isSet(object.msgTypeUrl) ? String(object.msgTypeUrl) : "",
     };
   },
 
@@ -389,8 +386,7 @@ export const MsgRevoke = {
     message.grantee = object.grantee ?? "";
     message.msgTypeUrl = object.msgTypeUrl ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgRevokeResponse(): MsgRevokeResponse {
@@ -432,6 +428,5 @@ export const MsgRevokeResponse = {
   fromPartial(_: DeepPartial<MsgRevokeResponse>): MsgRevokeResponse {
     const message = createBaseMsgRevokeResponse();
     return message;
-  }
-
+  },
 };

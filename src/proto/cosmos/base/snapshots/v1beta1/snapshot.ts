@@ -22,7 +22,7 @@ function createBaseSnapshot(): Snapshot {
     format: 0,
     chunks: 0,
     hash: new Uint8Array(),
-    metadata: undefined
+    metadata: undefined,
   };
 }
 
@@ -61,7 +61,7 @@ export const Snapshot = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.uint64() as Long);
+          message.height = reader.uint64() as Long;
           break;
 
         case 2:
@@ -95,7 +95,7 @@ export const Snapshot = {
       format: isSet(object.format) ? Number(object.format) : 0,
       chunks: isSet(object.chunks) ? Number(object.chunks) : 0,
       hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array(),
-      metadata: isSet(object.metadata) ? Metadata.fromJSON(object.metadata) : undefined
+      metadata: isSet(object.metadata) ? Metadata.fromJSON(object.metadata) : undefined,
     };
   },
 
@@ -104,26 +104,31 @@ export const Snapshot = {
     message.height !== undefined && (obj.height = (message.height || Long.UZERO).toString());
     message.format !== undefined && (obj.format = Math.round(message.format));
     message.chunks !== undefined && (obj.chunks = Math.round(message.chunks));
-    message.hash !== undefined && (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
-    message.metadata !== undefined && (obj.metadata = message.metadata ? Metadata.toJSON(message.metadata) : undefined);
+    message.hash !== undefined &&
+      (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
+    message.metadata !== undefined &&
+      (obj.metadata = message.metadata ? Metadata.toJSON(message.metadata) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<Snapshot>): Snapshot {
     const message = createBaseSnapshot();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.UZERO;
     message.format = object.format ?? 0;
     message.chunks = object.chunks ?? 0;
     message.hash = object.hash ?? new Uint8Array();
-    message.metadata = object.metadata !== undefined && object.metadata !== null ? Metadata.fromPartial(object.metadata) : undefined;
+    message.metadata =
+      object.metadata !== undefined && object.metadata !== null
+        ? Metadata.fromPartial(object.metadata)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseMetadata(): Metadata {
   return {
-    chunkHashes: []
+    chunkHashes: [],
   };
 }
 
@@ -160,7 +165,9 @@ export const Metadata = {
 
   fromJSON(object: any): Metadata {
     return {
-      chunkHashes: Array.isArray(object?.chunkHashes) ? object.chunkHashes.map((e: any) => bytesFromBase64(e)) : []
+      chunkHashes: Array.isArray(object?.chunkHashes)
+        ? object.chunkHashes.map((e: any) => bytesFromBase64(e))
+        : [],
     };
   },
 
@@ -168,7 +175,9 @@ export const Metadata = {
     const obj: any = {};
 
     if (message.chunkHashes) {
-      obj.chunkHashes = message.chunkHashes.map(e => base64FromBytes(e !== undefined ? e : new Uint8Array()));
+      obj.chunkHashes = message.chunkHashes.map((e) =>
+        base64FromBytes(e !== undefined ? e : new Uint8Array()),
+      );
     } else {
       obj.chunkHashes = [];
     }
@@ -178,8 +187,7 @@ export const Metadata = {
 
   fromPartial(object: DeepPartial<Metadata>): Metadata {
     const message = createBaseMetadata();
-    message.chunkHashes = object.chunkHashes?.map(e => e) || [];
+    message.chunkHashes = object.chunkHashes?.map((e) => e) || [];
     return message;
-  }
-
+  },
 };

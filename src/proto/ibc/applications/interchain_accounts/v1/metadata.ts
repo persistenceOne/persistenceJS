@@ -35,7 +35,7 @@ function createBaseMetadata(): Metadata {
     hostConnectionId: "",
     address: "",
     encoding: "",
-    txType: ""
+    txType: "",
   };
 }
 
@@ -113,18 +113,21 @@ export const Metadata = {
   fromJSON(object: any): Metadata {
     return {
       version: isSet(object.version) ? String(object.version) : "",
-      controllerConnectionId: isSet(object.controllerConnectionId) ? String(object.controllerConnectionId) : "",
+      controllerConnectionId: isSet(object.controllerConnectionId)
+        ? String(object.controllerConnectionId)
+        : "",
       hostConnectionId: isSet(object.hostConnectionId) ? String(object.hostConnectionId) : "",
       address: isSet(object.address) ? String(object.address) : "",
       encoding: isSet(object.encoding) ? String(object.encoding) : "",
-      txType: isSet(object.txType) ? String(object.txType) : ""
+      txType: isSet(object.txType) ? String(object.txType) : "",
     };
   },
 
   toJSON(message: Metadata): unknown {
     const obj: any = {};
     message.version !== undefined && (obj.version = message.version);
-    message.controllerConnectionId !== undefined && (obj.controllerConnectionId = message.controllerConnectionId);
+    message.controllerConnectionId !== undefined &&
+      (obj.controllerConnectionId = message.controllerConnectionId);
     message.hostConnectionId !== undefined && (obj.hostConnectionId = message.hostConnectionId);
     message.address !== undefined && (obj.address = message.address);
     message.encoding !== undefined && (obj.encoding = message.encoding);
@@ -141,6 +144,5 @@ export const Metadata = {
     message.encoding = object.encoding ?? "";
     message.txType = object.txType ?? "";
     return message;
-  }
-
+  },
 };

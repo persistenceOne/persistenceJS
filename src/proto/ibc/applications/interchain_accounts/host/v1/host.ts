@@ -16,7 +16,7 @@ export interface Params {
 function createBaseParams(): Params {
   return {
     hostEnabled: false,
-    allowMessages: []
+    allowMessages: [],
   };
 }
 
@@ -62,7 +62,9 @@ export const Params = {
   fromJSON(object: any): Params {
     return {
       hostEnabled: isSet(object.hostEnabled) ? Boolean(object.hostEnabled) : false,
-      allowMessages: Array.isArray(object?.allowMessages) ? object.allowMessages.map((e: any) => String(e)) : []
+      allowMessages: Array.isArray(object?.allowMessages)
+        ? object.allowMessages.map((e: any) => String(e))
+        : [],
     };
   },
 
@@ -71,7 +73,7 @@ export const Params = {
     message.hostEnabled !== undefined && (obj.hostEnabled = message.hostEnabled);
 
     if (message.allowMessages) {
-      obj.allowMessages = message.allowMessages.map(e => e);
+      obj.allowMessages = message.allowMessages.map((e) => e);
     } else {
       obj.allowMessages = [];
     }
@@ -82,8 +84,7 @@ export const Params = {
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
     message.hostEnabled = object.hostEnabled ?? false;
-    message.allowMessages = object.allowMessages?.map(e => e) || [];
+    message.allowMessages = object.allowMessages?.map((e) => e) || [];
     return message;
-  }
-
+  },
 };

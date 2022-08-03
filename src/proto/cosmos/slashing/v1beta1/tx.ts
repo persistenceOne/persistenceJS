@@ -11,7 +11,7 @@ export interface MsgUnjailResponse {}
 
 function createBaseMsgUnjail(): MsgUnjail {
   return {
-    validatorAddr: ""
+    validatorAddr: "",
   };
 }
 
@@ -48,7 +48,7 @@ export const MsgUnjail = {
 
   fromJSON(object: any): MsgUnjail {
     return {
-      validatorAddr: isSet(object.validatorAddr) ? String(object.validatorAddr) : ""
+      validatorAddr: isSet(object.validatorAddr) ? String(object.validatorAddr) : "",
     };
   },
 
@@ -62,8 +62,7 @@ export const MsgUnjail = {
     const message = createBaseMsgUnjail();
     message.validatorAddr = object.validatorAddr ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseMsgUnjailResponse(): MsgUnjailResponse {
@@ -105,6 +104,5 @@ export const MsgUnjailResponse = {
   fromPartial(_: DeepPartial<MsgUnjailResponse>): MsgUnjailResponse {
     const message = createBaseMsgUnjailResponse();
     return message;
-  }
-
+  },
 };

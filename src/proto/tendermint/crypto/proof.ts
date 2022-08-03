@@ -40,7 +40,7 @@ function createBaseProof(): Proof {
     total: Long.ZERO,
     index: Long.ZERO,
     leafHash: new Uint8Array(),
-    aunts: []
+    aunts: [],
   };
 }
 
@@ -75,11 +75,11 @@ export const Proof = {
 
       switch (tag >>> 3) {
         case 1:
-          message.total = (reader.int64() as Long);
+          message.total = reader.int64() as Long;
           break;
 
         case 2:
-          message.index = (reader.int64() as Long);
+          message.index = reader.int64() as Long;
           break;
 
         case 3:
@@ -104,7 +104,7 @@ export const Proof = {
       total: isSet(object.total) ? Long.fromString(object.total) : Long.ZERO,
       index: isSet(object.index) ? Long.fromString(object.index) : Long.ZERO,
       leafHash: isSet(object.leafHash) ? bytesFromBase64(object.leafHash) : new Uint8Array(),
-      aunts: Array.isArray(object?.aunts) ? object.aunts.map((e: any) => bytesFromBase64(e)) : []
+      aunts: Array.isArray(object?.aunts) ? object.aunts.map((e: any) => bytesFromBase64(e)) : [],
     };
   },
 
@@ -112,10 +112,11 @@ export const Proof = {
     const obj: any = {};
     message.total !== undefined && (obj.total = (message.total || Long.ZERO).toString());
     message.index !== undefined && (obj.index = (message.index || Long.ZERO).toString());
-    message.leafHash !== undefined && (obj.leafHash = base64FromBytes(message.leafHash !== undefined ? message.leafHash : new Uint8Array()));
+    message.leafHash !== undefined &&
+      (obj.leafHash = base64FromBytes(message.leafHash !== undefined ? message.leafHash : new Uint8Array()));
 
     if (message.aunts) {
-      obj.aunts = message.aunts.map(e => base64FromBytes(e !== undefined ? e : new Uint8Array()));
+      obj.aunts = message.aunts.map((e) => base64FromBytes(e !== undefined ? e : new Uint8Array()));
     } else {
       obj.aunts = [];
     }
@@ -125,19 +126,20 @@ export const Proof = {
 
   fromPartial(object: DeepPartial<Proof>): Proof {
     const message = createBaseProof();
-    message.total = object.total !== undefined && object.total !== null ? Long.fromValue(object.total) : Long.ZERO;
-    message.index = object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.ZERO;
+    message.total =
+      object.total !== undefined && object.total !== null ? Long.fromValue(object.total) : Long.ZERO;
+    message.index =
+      object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.ZERO;
     message.leafHash = object.leafHash ?? new Uint8Array();
-    message.aunts = object.aunts?.map(e => e) || [];
+    message.aunts = object.aunts?.map((e) => e) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseValueOp(): ValueOp {
   return {
     key: new Uint8Array(),
-    proof: undefined
+    proof: undefined,
   };
 }
 
@@ -183,13 +185,14 @@ export const ValueOp = {
   fromJSON(object: any): ValueOp {
     return {
       key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      proof: isSet(object.proof) ? Proof.fromJSON(object.proof) : undefined
+      proof: isSet(object.proof) ? Proof.fromJSON(object.proof) : undefined,
     };
   },
 
   toJSON(message: ValueOp): unknown {
     const obj: any = {};
-    message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
+    message.key !== undefined &&
+      (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
     message.proof !== undefined && (obj.proof = message.proof ? Proof.toJSON(message.proof) : undefined);
     return obj;
   },
@@ -197,17 +200,17 @@ export const ValueOp = {
   fromPartial(object: DeepPartial<ValueOp>): ValueOp {
     const message = createBaseValueOp();
     message.key = object.key ?? new Uint8Array();
-    message.proof = object.proof !== undefined && object.proof !== null ? Proof.fromPartial(object.proof) : undefined;
+    message.proof =
+      object.proof !== undefined && object.proof !== null ? Proof.fromPartial(object.proof) : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseDominoOp(): DominoOp {
   return {
     key: "",
     input: "",
-    output: ""
+    output: "",
   };
 }
 
@@ -262,7 +265,7 @@ export const DominoOp = {
     return {
       key: isSet(object.key) ? String(object.key) : "",
       input: isSet(object.input) ? String(object.input) : "",
-      output: isSet(object.output) ? String(object.output) : ""
+      output: isSet(object.output) ? String(object.output) : "",
     };
   },
 
@@ -280,15 +283,14 @@ export const DominoOp = {
     message.input = object.input ?? "";
     message.output = object.output ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseProofOp(): ProofOp {
   return {
     type: "",
     key: new Uint8Array(),
-    data: new Uint8Array()
+    data: new Uint8Array(),
   };
 }
 
@@ -343,15 +345,17 @@ export const ProofOp = {
     return {
       type: isSet(object.type) ? String(object.type) : "",
       key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(),
-      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array()
+      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(),
     };
   },
 
   toJSON(message: ProofOp): unknown {
     const obj: any = {};
     message.type !== undefined && (obj.type = message.type);
-    message.key !== undefined && (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
-    message.data !== undefined && (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
+    message.key !== undefined &&
+      (obj.key = base64FromBytes(message.key !== undefined ? message.key : new Uint8Array()));
+    message.data !== undefined &&
+      (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
     return obj;
   },
 
@@ -361,13 +365,12 @@ export const ProofOp = {
     message.key = object.key ?? new Uint8Array();
     message.data = object.data ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseProofOps(): ProofOps {
   return {
-    ops: []
+    ops: [],
   };
 }
 
@@ -404,7 +407,7 @@ export const ProofOps = {
 
   fromJSON(object: any): ProofOps {
     return {
-      ops: Array.isArray(object?.ops) ? object.ops.map((e: any) => ProofOp.fromJSON(e)) : []
+      ops: Array.isArray(object?.ops) ? object.ops.map((e: any) => ProofOp.fromJSON(e)) : [],
     };
   },
 
@@ -412,7 +415,7 @@ export const ProofOps = {
     const obj: any = {};
 
     if (message.ops) {
-      obj.ops = message.ops.map(e => e ? ProofOp.toJSON(e) : undefined);
+      obj.ops = message.ops.map((e) => (e ? ProofOp.toJSON(e) : undefined));
     } else {
       obj.ops = [];
     }
@@ -422,8 +425,7 @@ export const ProofOps = {
 
   fromPartial(object: DeepPartial<ProofOps>): ProofOps {
     const message = createBaseProofOps();
-    message.ops = object.ops?.map(e => ProofOp.fromPartial(e)) || [];
+    message.ops = object.ops?.map((e) => ProofOp.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };

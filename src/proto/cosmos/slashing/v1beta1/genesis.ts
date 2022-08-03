@@ -54,7 +54,7 @@ function createBaseGenesisState(): GenesisState {
   return {
     params: undefined,
     signingInfos: [],
-    missedBlocks: []
+    missedBlocks: [],
   };
 }
 
@@ -108,8 +108,12 @@ export const GenesisState = {
   fromJSON(object: any): GenesisState {
     return {
       params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      signingInfos: Array.isArray(object?.signingInfos) ? object.signingInfos.map((e: any) => SigningInfo.fromJSON(e)) : [],
-      missedBlocks: Array.isArray(object?.missedBlocks) ? object.missedBlocks.map((e: any) => ValidatorMissedBlocks.fromJSON(e)) : []
+      signingInfos: Array.isArray(object?.signingInfos)
+        ? object.signingInfos.map((e: any) => SigningInfo.fromJSON(e))
+        : [],
+      missedBlocks: Array.isArray(object?.missedBlocks)
+        ? object.missedBlocks.map((e: any) => ValidatorMissedBlocks.fromJSON(e))
+        : [],
     };
   },
 
@@ -118,13 +122,13 @@ export const GenesisState = {
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
 
     if (message.signingInfos) {
-      obj.signingInfos = message.signingInfos.map(e => e ? SigningInfo.toJSON(e) : undefined);
+      obj.signingInfos = message.signingInfos.map((e) => (e ? SigningInfo.toJSON(e) : undefined));
     } else {
       obj.signingInfos = [];
     }
 
     if (message.missedBlocks) {
-      obj.missedBlocks = message.missedBlocks.map(e => e ? ValidatorMissedBlocks.toJSON(e) : undefined);
+      obj.missedBlocks = message.missedBlocks.map((e) => (e ? ValidatorMissedBlocks.toJSON(e) : undefined));
     } else {
       obj.missedBlocks = [];
     }
@@ -134,18 +138,18 @@ export const GenesisState = {
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
-    message.params = object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
-    message.signingInfos = object.signingInfos?.map(e => SigningInfo.fromPartial(e)) || [];
-    message.missedBlocks = object.missedBlocks?.map(e => ValidatorMissedBlocks.fromPartial(e)) || [];
+    message.params =
+      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    message.signingInfos = object.signingInfos?.map((e) => SigningInfo.fromPartial(e)) || [];
+    message.missedBlocks = object.missedBlocks?.map((e) => ValidatorMissedBlocks.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseSigningInfo(): SigningInfo {
   return {
     address: "",
-    validatorSigningInfo: undefined
+    validatorSigningInfo: undefined,
   };
 }
 
@@ -191,30 +195,37 @@ export const SigningInfo = {
   fromJSON(object: any): SigningInfo {
     return {
       address: isSet(object.address) ? String(object.address) : "",
-      validatorSigningInfo: isSet(object.validatorSigningInfo) ? ValidatorSigningInfo.fromJSON(object.validatorSigningInfo) : undefined
+      validatorSigningInfo: isSet(object.validatorSigningInfo)
+        ? ValidatorSigningInfo.fromJSON(object.validatorSigningInfo)
+        : undefined,
     };
   },
 
   toJSON(message: SigningInfo): unknown {
     const obj: any = {};
     message.address !== undefined && (obj.address = message.address);
-    message.validatorSigningInfo !== undefined && (obj.validatorSigningInfo = message.validatorSigningInfo ? ValidatorSigningInfo.toJSON(message.validatorSigningInfo) : undefined);
+    message.validatorSigningInfo !== undefined &&
+      (obj.validatorSigningInfo = message.validatorSigningInfo
+        ? ValidatorSigningInfo.toJSON(message.validatorSigningInfo)
+        : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<SigningInfo>): SigningInfo {
     const message = createBaseSigningInfo();
     message.address = object.address ?? "";
-    message.validatorSigningInfo = object.validatorSigningInfo !== undefined && object.validatorSigningInfo !== null ? ValidatorSigningInfo.fromPartial(object.validatorSigningInfo) : undefined;
+    message.validatorSigningInfo =
+      object.validatorSigningInfo !== undefined && object.validatorSigningInfo !== null
+        ? ValidatorSigningInfo.fromPartial(object.validatorSigningInfo)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseValidatorMissedBlocks(): ValidatorMissedBlocks {
   return {
     address: "",
-    missedBlocks: []
+    missedBlocks: [],
   };
 }
 
@@ -260,7 +271,9 @@ export const ValidatorMissedBlocks = {
   fromJSON(object: any): ValidatorMissedBlocks {
     return {
       address: isSet(object.address) ? String(object.address) : "",
-      missedBlocks: Array.isArray(object?.missedBlocks) ? object.missedBlocks.map((e: any) => MissedBlock.fromJSON(e)) : []
+      missedBlocks: Array.isArray(object?.missedBlocks)
+        ? object.missedBlocks.map((e: any) => MissedBlock.fromJSON(e))
+        : [],
     };
   },
 
@@ -269,7 +282,7 @@ export const ValidatorMissedBlocks = {
     message.address !== undefined && (obj.address = message.address);
 
     if (message.missedBlocks) {
-      obj.missedBlocks = message.missedBlocks.map(e => e ? MissedBlock.toJSON(e) : undefined);
+      obj.missedBlocks = message.missedBlocks.map((e) => (e ? MissedBlock.toJSON(e) : undefined));
     } else {
       obj.missedBlocks = [];
     }
@@ -280,16 +293,15 @@ export const ValidatorMissedBlocks = {
   fromPartial(object: DeepPartial<ValidatorMissedBlocks>): ValidatorMissedBlocks {
     const message = createBaseValidatorMissedBlocks();
     message.address = object.address ?? "";
-    message.missedBlocks = object.missedBlocks?.map(e => MissedBlock.fromPartial(e)) || [];
+    message.missedBlocks = object.missedBlocks?.map((e) => MissedBlock.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };
 
 function createBaseMissedBlock(): MissedBlock {
   return {
     index: Long.ZERO,
-    missed: false
+    missed: false,
   };
 }
 
@@ -316,7 +328,7 @@ export const MissedBlock = {
 
       switch (tag >>> 3) {
         case 1:
-          message.index = (reader.int64() as Long);
+          message.index = reader.int64() as Long;
           break;
 
         case 2:
@@ -335,7 +347,7 @@ export const MissedBlock = {
   fromJSON(object: any): MissedBlock {
     return {
       index: isSet(object.index) ? Long.fromString(object.index) : Long.ZERO,
-      missed: isSet(object.missed) ? Boolean(object.missed) : false
+      missed: isSet(object.missed) ? Boolean(object.missed) : false,
     };
   },
 
@@ -348,9 +360,9 @@ export const MissedBlock = {
 
   fromPartial(object: DeepPartial<MissedBlock>): MissedBlock {
     const message = createBaseMissedBlock();
-    message.index = object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.ZERO;
+    message.index =
+      object.index !== undefined && object.index !== null ? Long.fromValue(object.index) : Long.ZERO;
     message.missed = object.missed ?? false;
     return message;
-  }
-
+  },
 };

@@ -1,7 +1,16 @@
 import { SignedMsgType, signedMsgTypeFromJSON, signedMsgTypeToJSON } from "./types";
 import { Timestamp } from "../../google/protobuf/timestamp";
 import * as _m0 from "protobufjs/minimal";
-import { isSet, bytesFromBase64, base64FromBytes, DeepPartial, toTimestamp, Long, fromTimestamp, fromJsonTimestamp } from "@osmonauts/helpers";
+import {
+  isSet,
+  bytesFromBase64,
+  base64FromBytes,
+  DeepPartial,
+  toTimestamp,
+  Long,
+  fromTimestamp,
+  fromJsonTimestamp,
+} from "@osmonauts/helpers";
 export interface CanonicalBlockID {
   hash: Uint8Array;
   partSetHeader: CanonicalPartSetHeader;
@@ -41,7 +50,7 @@ export interface CanonicalVote {
 function createBaseCanonicalBlockID(): CanonicalBlockID {
   return {
     hash: new Uint8Array(),
-    partSetHeader: undefined
+    partSetHeader: undefined,
   };
 }
 
@@ -87,30 +96,38 @@ export const CanonicalBlockID = {
   fromJSON(object: any): CanonicalBlockID {
     return {
       hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array(),
-      partSetHeader: isSet(object.partSetHeader) ? CanonicalPartSetHeader.fromJSON(object.partSetHeader) : undefined
+      partSetHeader: isSet(object.partSetHeader)
+        ? CanonicalPartSetHeader.fromJSON(object.partSetHeader)
+        : undefined,
     };
   },
 
   toJSON(message: CanonicalBlockID): unknown {
     const obj: any = {};
-    message.hash !== undefined && (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
-    message.partSetHeader !== undefined && (obj.partSetHeader = message.partSetHeader ? CanonicalPartSetHeader.toJSON(message.partSetHeader) : undefined);
+    message.hash !== undefined &&
+      (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
+    message.partSetHeader !== undefined &&
+      (obj.partSetHeader = message.partSetHeader
+        ? CanonicalPartSetHeader.toJSON(message.partSetHeader)
+        : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<CanonicalBlockID>): CanonicalBlockID {
     const message = createBaseCanonicalBlockID();
     message.hash = object.hash ?? new Uint8Array();
-    message.partSetHeader = object.partSetHeader !== undefined && object.partSetHeader !== null ? CanonicalPartSetHeader.fromPartial(object.partSetHeader) : undefined;
+    message.partSetHeader =
+      object.partSetHeader !== undefined && object.partSetHeader !== null
+        ? CanonicalPartSetHeader.fromPartial(object.partSetHeader)
+        : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseCanonicalPartSetHeader(): CanonicalPartSetHeader {
   return {
     total: 0,
-    hash: new Uint8Array()
+    hash: new Uint8Array(),
   };
 }
 
@@ -156,14 +173,15 @@ export const CanonicalPartSetHeader = {
   fromJSON(object: any): CanonicalPartSetHeader {
     return {
       total: isSet(object.total) ? Number(object.total) : 0,
-      hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array()
+      hash: isSet(object.hash) ? bytesFromBase64(object.hash) : new Uint8Array(),
     };
   },
 
   toJSON(message: CanonicalPartSetHeader): unknown {
     const obj: any = {};
     message.total !== undefined && (obj.total = Math.round(message.total));
-    message.hash !== undefined && (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
+    message.hash !== undefined &&
+      (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
     return obj;
   },
 
@@ -172,8 +190,7 @@ export const CanonicalPartSetHeader = {
     message.total = object.total ?? 0;
     message.hash = object.hash ?? new Uint8Array();
     return message;
-  }
-
+  },
 };
 
 function createBaseCanonicalProposal(): CanonicalProposal {
@@ -184,7 +201,7 @@ function createBaseCanonicalProposal(): CanonicalProposal {
     polRound: Long.ZERO,
     blockId: undefined,
     timestamp: undefined,
-    chainId: ""
+    chainId: "",
   };
 }
 
@@ -231,19 +248,19 @@ export const CanonicalProposal = {
 
       switch (tag >>> 3) {
         case 1:
-          message.type = (reader.int32() as any);
+          message.type = reader.int32() as any;
           break;
 
         case 2:
-          message.height = (reader.sfixed64() as Long);
+          message.height = reader.sfixed64() as Long;
           break;
 
         case 3:
-          message.round = (reader.sfixed64() as Long);
+          message.round = reader.sfixed64() as Long;
           break;
 
         case 4:
-          message.polRound = (reader.int64() as Long);
+          message.polRound = reader.int64() as Long;
           break;
 
         case 5:
@@ -275,7 +292,7 @@ export const CanonicalProposal = {
       polRound: isSet(object.polRound) ? Long.fromString(object.polRound) : Long.ZERO,
       blockId: isSet(object.blockId) ? CanonicalBlockID.fromJSON(object.blockId) : undefined,
       timestamp: isSet(object.timestamp) ? fromJsonTimestamp(object.timestamp) : undefined,
-      chainId: isSet(object.chainId) ? String(object.chainId) : ""
+      chainId: isSet(object.chainId) ? String(object.chainId) : "",
     };
   },
 
@@ -285,7 +302,8 @@ export const CanonicalProposal = {
     message.height !== undefined && (obj.height = (message.height || Long.ZERO).toString());
     message.round !== undefined && (obj.round = (message.round || Long.ZERO).toString());
     message.polRound !== undefined && (obj.polRound = (message.polRound || Long.ZERO).toString());
-    message.blockId !== undefined && (obj.blockId = message.blockId ? CanonicalBlockID.toJSON(message.blockId) : undefined);
+    message.blockId !== undefined &&
+      (obj.blockId = message.blockId ? CanonicalBlockID.toJSON(message.blockId) : undefined);
     message.timestamp !== undefined && (obj.timestamp = message.timestamp.toISOString());
     message.chainId !== undefined && (obj.chainId = message.chainId);
     return obj;
@@ -294,15 +312,20 @@ export const CanonicalProposal = {
   fromPartial(object: DeepPartial<CanonicalProposal>): CanonicalProposal {
     const message = createBaseCanonicalProposal();
     message.type = object.type ?? 0;
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
-    message.round = object.round !== undefined && object.round !== null ? Long.fromValue(object.round) : Long.ZERO;
-    message.polRound = object.polRound !== undefined && object.polRound !== null ? Long.fromValue(object.polRound) : Long.ZERO;
-    message.blockId = object.blockId !== undefined && object.blockId !== null ? CanonicalBlockID.fromPartial(object.blockId) : undefined;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.round =
+      object.round !== undefined && object.round !== null ? Long.fromValue(object.round) : Long.ZERO;
+    message.polRound =
+      object.polRound !== undefined && object.polRound !== null ? Long.fromValue(object.polRound) : Long.ZERO;
+    message.blockId =
+      object.blockId !== undefined && object.blockId !== null
+        ? CanonicalBlockID.fromPartial(object.blockId)
+        : undefined;
     message.timestamp = object.timestamp ?? undefined;
     message.chainId = object.chainId ?? "";
     return message;
-  }
-
+  },
 };
 
 function createBaseCanonicalVote(): CanonicalVote {
@@ -312,7 +335,7 @@ function createBaseCanonicalVote(): CanonicalVote {
     round: Long.ZERO,
     blockId: undefined,
     timestamp: undefined,
-    chainId: ""
+    chainId: "",
   };
 }
 
@@ -355,15 +378,15 @@ export const CanonicalVote = {
 
       switch (tag >>> 3) {
         case 1:
-          message.type = (reader.int32() as any);
+          message.type = reader.int32() as any;
           break;
 
         case 2:
-          message.height = (reader.sfixed64() as Long);
+          message.height = reader.sfixed64() as Long;
           break;
 
         case 3:
-          message.round = (reader.sfixed64() as Long);
+          message.round = reader.sfixed64() as Long;
           break;
 
         case 4:
@@ -394,7 +417,7 @@ export const CanonicalVote = {
       round: isSet(object.round) ? Long.fromString(object.round) : Long.ZERO,
       blockId: isSet(object.blockId) ? CanonicalBlockID.fromJSON(object.blockId) : undefined,
       timestamp: isSet(object.timestamp) ? fromJsonTimestamp(object.timestamp) : undefined,
-      chainId: isSet(object.chainId) ? String(object.chainId) : ""
+      chainId: isSet(object.chainId) ? String(object.chainId) : "",
     };
   },
 
@@ -403,7 +426,8 @@ export const CanonicalVote = {
     message.type !== undefined && (obj.type = signedMsgTypeToJSON(message.type));
     message.height !== undefined && (obj.height = (message.height || Long.ZERO).toString());
     message.round !== undefined && (obj.round = (message.round || Long.ZERO).toString());
-    message.blockId !== undefined && (obj.blockId = message.blockId ? CanonicalBlockID.toJSON(message.blockId) : undefined);
+    message.blockId !== undefined &&
+      (obj.blockId = message.blockId ? CanonicalBlockID.toJSON(message.blockId) : undefined);
     message.timestamp !== undefined && (obj.timestamp = message.timestamp.toISOString());
     message.chainId !== undefined && (obj.chainId = message.chainId);
     return obj;
@@ -412,12 +436,16 @@ export const CanonicalVote = {
   fromPartial(object: DeepPartial<CanonicalVote>): CanonicalVote {
     const message = createBaseCanonicalVote();
     message.type = object.type ?? 0;
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
-    message.round = object.round !== undefined && object.round !== null ? Long.fromValue(object.round) : Long.ZERO;
-    message.blockId = object.blockId !== undefined && object.blockId !== null ? CanonicalBlockID.fromPartial(object.blockId) : undefined;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.round =
+      object.round !== undefined && object.round !== null ? Long.fromValue(object.round) : Long.ZERO;
+    message.blockId =
+      object.blockId !== undefined && object.blockId !== null
+        ? CanonicalBlockID.fromPartial(object.blockId)
+        : undefined;
     message.timestamp = object.timestamp ?? undefined;
     message.chainId = object.chainId ?? "";
     return message;
-  }
-
+  },
 };

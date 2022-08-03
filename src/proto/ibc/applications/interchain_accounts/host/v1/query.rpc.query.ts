@@ -7,7 +7,6 @@ import { QueryParamsRequest, QueryParamsResponse } from "./query";
 export interface Query {
   params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
   /*Params queries all parameters of the ICA host submodule.*/
-
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
@@ -20,7 +19,6 @@ export class QueryClientImpl implements Query {
   params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.applications.interchain_accounts.host.v1.Query", "Params", data);
-    return promise.then(data => QueryParamsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryParamsResponse.decode(new _m0.Reader(data)));
   }
-
 }

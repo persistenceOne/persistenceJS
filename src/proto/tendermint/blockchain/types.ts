@@ -35,7 +35,7 @@ export interface Message {
 
 function createBaseBlockRequest(): BlockRequest {
   return {
-    height: Long.ZERO
+    height: Long.ZERO,
   };
 }
 
@@ -58,7 +58,7 @@ export const BlockRequest = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         default:
@@ -72,7 +72,7 @@ export const BlockRequest = {
 
   fromJSON(object: any): BlockRequest {
     return {
-      height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO
+      height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
     };
   },
 
@@ -84,15 +84,15 @@ export const BlockRequest = {
 
   fromPartial(object: DeepPartial<BlockRequest>): BlockRequest {
     const message = createBaseBlockRequest();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     return message;
-  }
-
+  },
 };
 
 function createBaseNoBlockResponse(): NoBlockResponse {
   return {
-    height: Long.ZERO
+    height: Long.ZERO,
   };
 }
 
@@ -115,7 +115,7 @@ export const NoBlockResponse = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         default:
@@ -129,7 +129,7 @@ export const NoBlockResponse = {
 
   fromJSON(object: any): NoBlockResponse {
     return {
-      height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO
+      height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
     };
   },
 
@@ -141,15 +141,15 @@ export const NoBlockResponse = {
 
   fromPartial(object: DeepPartial<NoBlockResponse>): NoBlockResponse {
     const message = createBaseNoBlockResponse();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
     return message;
-  }
-
+  },
 };
 
 function createBaseBlockResponse(): BlockResponse {
   return {
-    block: undefined
+    block: undefined,
   };
 }
 
@@ -186,7 +186,7 @@ export const BlockResponse = {
 
   fromJSON(object: any): BlockResponse {
     return {
-      block: isSet(object.block) ? Block.fromJSON(object.block) : undefined
+      block: isSet(object.block) ? Block.fromJSON(object.block) : undefined,
     };
   },
 
@@ -198,10 +198,10 @@ export const BlockResponse = {
 
   fromPartial(object: DeepPartial<BlockResponse>): BlockResponse {
     const message = createBaseBlockResponse();
-    message.block = object.block !== undefined && object.block !== null ? Block.fromPartial(object.block) : undefined;
+    message.block =
+      object.block !== undefined && object.block !== null ? Block.fromPartial(object.block) : undefined;
     return message;
-  }
-
+  },
 };
 
 function createBaseStatusRequest(): StatusRequest {
@@ -243,14 +243,13 @@ export const StatusRequest = {
   fromPartial(_: DeepPartial<StatusRequest>): StatusRequest {
     const message = createBaseStatusRequest();
     return message;
-  }
-
+  },
 };
 
 function createBaseStatusResponse(): StatusResponse {
   return {
     height: Long.ZERO,
-    base: Long.ZERO
+    base: Long.ZERO,
   };
 }
 
@@ -277,11 +276,11 @@ export const StatusResponse = {
 
       switch (tag >>> 3) {
         case 1:
-          message.height = (reader.int64() as Long);
+          message.height = reader.int64() as Long;
           break;
 
         case 2:
-          message.base = (reader.int64() as Long);
+          message.base = reader.int64() as Long;
           break;
 
         default:
@@ -296,7 +295,7 @@ export const StatusResponse = {
   fromJSON(object: any): StatusResponse {
     return {
       height: isSet(object.height) ? Long.fromString(object.height) : Long.ZERO,
-      base: isSet(object.base) ? Long.fromString(object.base) : Long.ZERO
+      base: isSet(object.base) ? Long.fromString(object.base) : Long.ZERO,
     };
   },
 
@@ -309,11 +308,12 @@ export const StatusResponse = {
 
   fromPartial(object: DeepPartial<StatusResponse>): StatusResponse {
     const message = createBaseStatusResponse();
-    message.height = object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
-    message.base = object.base !== undefined && object.base !== null ? Long.fromValue(object.base) : Long.ZERO;
+    message.height =
+      object.height !== undefined && object.height !== null ? Long.fromValue(object.height) : Long.ZERO;
+    message.base =
+      object.base !== undefined && object.base !== null ? Long.fromValue(object.base) : Long.ZERO;
     return message;
-  }
-
+  },
 };
 
 function createBaseMessage(): Message {
@@ -322,7 +322,7 @@ function createBaseMessage(): Message {
     noBlockResponse: undefined,
     blockResponse: undefined,
     statusRequest: undefined,
-    statusResponse: undefined
+    statusResponse: undefined,
   };
 }
 
@@ -392,31 +392,58 @@ export const Message = {
   fromJSON(object: any): Message {
     return {
       blockRequest: isSet(object.blockRequest) ? BlockRequest.fromJSON(object.blockRequest) : undefined,
-      noBlockResponse: isSet(object.noBlockResponse) ? NoBlockResponse.fromJSON(object.noBlockResponse) : undefined,
+      noBlockResponse: isSet(object.noBlockResponse)
+        ? NoBlockResponse.fromJSON(object.noBlockResponse)
+        : undefined,
       blockResponse: isSet(object.blockResponse) ? BlockResponse.fromJSON(object.blockResponse) : undefined,
       statusRequest: isSet(object.statusRequest) ? StatusRequest.fromJSON(object.statusRequest) : undefined,
-      statusResponse: isSet(object.statusResponse) ? StatusResponse.fromJSON(object.statusResponse) : undefined
+      statusResponse: isSet(object.statusResponse)
+        ? StatusResponse.fromJSON(object.statusResponse)
+        : undefined,
     };
   },
 
   toJSON(message: Message): unknown {
     const obj: any = {};
-    message.blockRequest !== undefined && (obj.blockRequest = message.blockRequest ? BlockRequest.toJSON(message.blockRequest) : undefined);
-    message.noBlockResponse !== undefined && (obj.noBlockResponse = message.noBlockResponse ? NoBlockResponse.toJSON(message.noBlockResponse) : undefined);
-    message.blockResponse !== undefined && (obj.blockResponse = message.blockResponse ? BlockResponse.toJSON(message.blockResponse) : undefined);
-    message.statusRequest !== undefined && (obj.statusRequest = message.statusRequest ? StatusRequest.toJSON(message.statusRequest) : undefined);
-    message.statusResponse !== undefined && (obj.statusResponse = message.statusResponse ? StatusResponse.toJSON(message.statusResponse) : undefined);
+    message.blockRequest !== undefined &&
+      (obj.blockRequest = message.blockRequest ? BlockRequest.toJSON(message.blockRequest) : undefined);
+    message.noBlockResponse !== undefined &&
+      (obj.noBlockResponse = message.noBlockResponse
+        ? NoBlockResponse.toJSON(message.noBlockResponse)
+        : undefined);
+    message.blockResponse !== undefined &&
+      (obj.blockResponse = message.blockResponse ? BlockResponse.toJSON(message.blockResponse) : undefined);
+    message.statusRequest !== undefined &&
+      (obj.statusRequest = message.statusRequest ? StatusRequest.toJSON(message.statusRequest) : undefined);
+    message.statusResponse !== undefined &&
+      (obj.statusResponse = message.statusResponse
+        ? StatusResponse.toJSON(message.statusResponse)
+        : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<Message>): Message {
     const message = createBaseMessage();
-    message.blockRequest = object.blockRequest !== undefined && object.blockRequest !== null ? BlockRequest.fromPartial(object.blockRequest) : undefined;
-    message.noBlockResponse = object.noBlockResponse !== undefined && object.noBlockResponse !== null ? NoBlockResponse.fromPartial(object.noBlockResponse) : undefined;
-    message.blockResponse = object.blockResponse !== undefined && object.blockResponse !== null ? BlockResponse.fromPartial(object.blockResponse) : undefined;
-    message.statusRequest = object.statusRequest !== undefined && object.statusRequest !== null ? StatusRequest.fromPartial(object.statusRequest) : undefined;
-    message.statusResponse = object.statusResponse !== undefined && object.statusResponse !== null ? StatusResponse.fromPartial(object.statusResponse) : undefined;
+    message.blockRequest =
+      object.blockRequest !== undefined && object.blockRequest !== null
+        ? BlockRequest.fromPartial(object.blockRequest)
+        : undefined;
+    message.noBlockResponse =
+      object.noBlockResponse !== undefined && object.noBlockResponse !== null
+        ? NoBlockResponse.fromPartial(object.noBlockResponse)
+        : undefined;
+    message.blockResponse =
+      object.blockResponse !== undefined && object.blockResponse !== null
+        ? BlockResponse.fromPartial(object.blockResponse)
+        : undefined;
+    message.statusRequest =
+      object.statusRequest !== undefined && object.statusRequest !== null
+        ? StatusRequest.fromPartial(object.statusRequest)
+        : undefined;
+    message.statusResponse =
+      object.statusResponse !== undefined && object.statusResponse !== null
+        ? StatusResponse.fromPartial(object.statusResponse)
+        : undefined;
     return message;
-  }
-
+  },
 };

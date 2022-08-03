@@ -15,7 +15,7 @@ export interface LegacyAminoPubKey {
 function createBaseLegacyAminoPubKey(): LegacyAminoPubKey {
   return {
     threshold: 0,
-    publicKeys: []
+    publicKeys: [],
   };
 }
 
@@ -61,7 +61,7 @@ export const LegacyAminoPubKey = {
   fromJSON(object: any): LegacyAminoPubKey {
     return {
       threshold: isSet(object.threshold) ? Number(object.threshold) : 0,
-      publicKeys: Array.isArray(object?.publicKeys) ? object.publicKeys.map((e: any) => Any.fromJSON(e)) : []
+      publicKeys: Array.isArray(object?.publicKeys) ? object.publicKeys.map((e: any) => Any.fromJSON(e)) : [],
     };
   },
 
@@ -70,7 +70,7 @@ export const LegacyAminoPubKey = {
     message.threshold !== undefined && (obj.threshold = Math.round(message.threshold));
 
     if (message.publicKeys) {
-      obj.publicKeys = message.publicKeys.map(e => e ? Any.toJSON(e) : undefined);
+      obj.publicKeys = message.publicKeys.map((e) => (e ? Any.toJSON(e) : undefined));
     } else {
       obj.publicKeys = [];
     }
@@ -81,8 +81,7 @@ export const LegacyAminoPubKey = {
   fromPartial(object: DeepPartial<LegacyAminoPubKey>): LegacyAminoPubKey {
     const message = createBaseLegacyAminoPubKey();
     message.threshold = object.threshold ?? 0;
-    message.publicKeys = object.publicKeys?.map(e => Any.fromPartial(e)) || [];
+    message.publicKeys = object.publicKeys?.map((e) => Any.fromPartial(e)) || [];
     return message;
-  }
-
+  },
 };

@@ -14,7 +14,7 @@ function createBaseBlock(): Block {
     header: undefined,
     data: undefined,
     evidence: undefined,
-    lastCommit: undefined
+    lastCommit: undefined,
   };
 }
 
@@ -78,7 +78,7 @@ export const Block = {
       header: isSet(object.header) ? Header.fromJSON(object.header) : undefined,
       data: isSet(object.data) ? Data.fromJSON(object.data) : undefined,
       evidence: isSet(object.evidence) ? EvidenceList.fromJSON(object.evidence) : undefined,
-      lastCommit: isSet(object.lastCommit) ? Commit.fromJSON(object.lastCommit) : undefined
+      lastCommit: isSet(object.lastCommit) ? Commit.fromJSON(object.lastCommit) : undefined,
     };
   },
 
@@ -86,18 +86,27 @@ export const Block = {
     const obj: any = {};
     message.header !== undefined && (obj.header = message.header ? Header.toJSON(message.header) : undefined);
     message.data !== undefined && (obj.data = message.data ? Data.toJSON(message.data) : undefined);
-    message.evidence !== undefined && (obj.evidence = message.evidence ? EvidenceList.toJSON(message.evidence) : undefined);
-    message.lastCommit !== undefined && (obj.lastCommit = message.lastCommit ? Commit.toJSON(message.lastCommit) : undefined);
+    message.evidence !== undefined &&
+      (obj.evidence = message.evidence ? EvidenceList.toJSON(message.evidence) : undefined);
+    message.lastCommit !== undefined &&
+      (obj.lastCommit = message.lastCommit ? Commit.toJSON(message.lastCommit) : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<Block>): Block {
     const message = createBaseBlock();
-    message.header = object.header !== undefined && object.header !== null ? Header.fromPartial(object.header) : undefined;
-    message.data = object.data !== undefined && object.data !== null ? Data.fromPartial(object.data) : undefined;
-    message.evidence = object.evidence !== undefined && object.evidence !== null ? EvidenceList.fromPartial(object.evidence) : undefined;
-    message.lastCommit = object.lastCommit !== undefined && object.lastCommit !== null ? Commit.fromPartial(object.lastCommit) : undefined;
+    message.header =
+      object.header !== undefined && object.header !== null ? Header.fromPartial(object.header) : undefined;
+    message.data =
+      object.data !== undefined && object.data !== null ? Data.fromPartial(object.data) : undefined;
+    message.evidence =
+      object.evidence !== undefined && object.evidence !== null
+        ? EvidenceList.fromPartial(object.evidence)
+        : undefined;
+    message.lastCommit =
+      object.lastCommit !== undefined && object.lastCommit !== null
+        ? Commit.fromPartial(object.lastCommit)
+        : undefined;
     return message;
-  }
-
+  },
 };
