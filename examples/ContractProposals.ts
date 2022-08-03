@@ -152,7 +152,5 @@ export async function ContractTest() {
     const contract = await test3.query.cosmwasm.wasm.v1.contractsByCode({ codeId: Long.fromNumber(codeId) })
     console.log("Contracts are => ", contract.contracts)
 }
-
 ContractTest()
-
 
