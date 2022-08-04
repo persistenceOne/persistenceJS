@@ -1,4 +1,4 @@
-import {PersistenceClient, BlMarketContract} from 'persistencejs';
+import {PersistenceClient, BlMarketContract} from 'persistenceonejs';
 
 async function Demo(){
     const test1 = await PersistenceClient.init(
@@ -8,7 +8,7 @@ async function Demo(){
     const codes = await test1.query.cosmwasm.wasm.v1.codes({})
     console.log(codes)
 
-    
+
 }
  
 Demo()

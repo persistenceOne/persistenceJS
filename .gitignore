@@ -7,8 +7,8 @@
 /coverage
 
 # dist
-main
-module
+/main
+/module
 
 # misc
 .env
