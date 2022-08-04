@@ -69,7 +69,7 @@
         "node-fetch": "^2.6.1",
         "osmojs": "^0.7.1",
         "pako": "^2.0.4",
-        "persistencejs": "file:../persistencejs",
+        "persistencejs": "file:../persistenceJs",
         "prettier": "^2.3.1",
         "promise": "^8.1.0",
         "protoc": "^1.0.4",
