@@ -1,5 +1,5 @@
-// export * from './Cw20Ics20Contract';
-export * from './BlMarketContract';
-// export * from './Cw20Contract';
-// export * from './OracleContract';
-// export * from './PTokenContract';
+export * as Cw20Ics20Contract from './Cw20Ics20Contract';
+export * as BlMarketContractfrom from './BlMarketContract';
+export * as Cw20Contract from './Cw20Contract';
+export * as OracleContract from './OracleContract';
+export * as PTokenContract from './PTokenContract';
