@@ -1,0 +1,1 @@
+import {DefaultConfig, DefaultWalletOptoions, LocalConfig} from './config';

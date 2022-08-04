@@ -2,7 +2,7 @@ import * as _m0 from "protobufjs/minimal";
 import { isSet } from "@osmonauts/helpers";
 /**
  * Coin defines a token with a denomination and an amount.
- * 
+ *
  * NOTE: The amount field is an Int which implements the custom method
  * signatures required by gogoproto.
  */

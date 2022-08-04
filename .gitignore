@@ -6,6 +6,10 @@
 # testing
 /coverage
 
+# dist
+main
+module
+
 # misc
 .env
 .DS_Store

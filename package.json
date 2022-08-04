@@ -2,6 +2,15 @@
     "name": "persistencejs",
     "version": "1.0.0",
     "description": "Client side JS libraries for persistenceSDK transaction generation, signing and broadcasting.",
+    "main": "main/index.js",
+    "module": "module/index.js",
+    "typings": "types/index.d.ts",
+    "files": [
+        "src",
+        "main",
+        "module",
+        "types"
+    ],
     "scripts": {
         "test-gov-contract": "NODE_ENV=development ts-node ./test/testContractProposals.ts",
         "build:main": "BABEL_ENV=production babel src --out-dir main --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
@@ -60,6 +69,7 @@
         "node-fetch": "^2.6.1",
         "osmojs": "^0.7.1",
         "pako": "^2.0.4",
+        "persistencejs": "file:../persistencejs",
         "prettier": "^2.3.1",
         "promise": "^8.1.0",
         "protoc": "^1.0.4",

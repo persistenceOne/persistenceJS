@@ -27,7 +27,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 /**
  * AuthorizationType defines the type of staking module authorization type
- * 
+ *
  * Since: cosmos-sdk 0.43
  */
 var AuthorizationType;
@@ -86,7 +86,7 @@ function authorizationTypeToJSON(object) {
 }
 /**
  * StakeAuthorization defines authorization for delegate/undelegate/redelegate.
- * 
+ *
  * Since: cosmos-sdk 0.43
  */
 

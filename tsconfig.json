@@ -1,26 +1,18 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "esModuleInterop":false,
-    "noEmitOnError": true,
-    "isolatedModules": true,
-    "outDir":"./main",
     "declaration": true,
     "declarationDir": "./types",
     "emitDeclarationOnly": true,
+    "isolatedModules": true,
     "allowJs": true,
-    "target":"es6",
-    "baseUrl": ".",
-    "paths":{
-      "proto":["src/proto"],
-      "source":["source"]
-    }
+    "lib": [
+        "es2015"
+    ]
   },
   "include": [
-    "src/proto/**/*",
-    "src/clients/*",
-    "src/helpers/*",
-    "src/contracts/**/*",
-    "src/config/*",
-  ],
+    "src/**/*",
+  ],    
+  "exclude": [
+    "node_modules"
+  ]
 }

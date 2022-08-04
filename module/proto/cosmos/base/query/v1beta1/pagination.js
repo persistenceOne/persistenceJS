@@ -3,7 +3,7 @@ import { Long, isSet, bytesFromBase64, base64FromBytes } from "@osmonauts/helper
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
  * pagination. Ex:
- * 
+ *
  * message SomeRequest {
  * Foo some_parameter = 1;
  * PageRequest pagination = 2;

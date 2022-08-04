@@ -1,0 +1,1 @@
+import {PersistenceClient, Config, WalletOptoions }  from './client';

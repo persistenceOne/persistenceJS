@@ -5,7 +5,7 @@ import * as _m0 from "protobufjs/minimal";
 import { isSet } from "@osmonauts/helpers";
 /**
  * QueryAccountsRequest is the request type for the Query/Accounts RPC method.
- * 
+ *
  * Since: cosmos-sdk 0.43
  */
 

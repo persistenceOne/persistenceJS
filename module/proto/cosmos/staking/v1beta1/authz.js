@@ -3,7 +3,7 @@ import * as _m0 from "protobufjs/minimal";
 import { isSet } from "@osmonauts/helpers";
 /**
  * AuthorizationType defines the type of staking module authorization type
- * 
+ *
  * Since: cosmos-sdk 0.43
  */
 
@@ -61,7 +61,7 @@ export function authorizationTypeToJSON(object) {
 }
 /**
  * StakeAuthorization defines authorization for delegate/undelegate/redelegate.
- * 
+ *
  * Since: cosmos-sdk 0.43
  */
 

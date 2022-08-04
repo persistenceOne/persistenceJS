@@ -23,4 +23,3 @@ export declare class PersistenceClient {
     private constructor();
     static init(mnemonic: string, chainConfig?: Config): Promise<PersistenceClient>;
 }
-export {};

@@ -138,7 +138,7 @@ export function proposalStatusToJSON(object) {
 }
 /**
  * WeightedVoteOption defines a unit of vote for vote split.
- * 
+ *
  * Since: cosmos-sdk 0.43
  */
 
