@@ -1,1 +1,1 @@
-import {PersistenceClient, Config, WalletOptoions }  from './client';
+export *  from './client';
