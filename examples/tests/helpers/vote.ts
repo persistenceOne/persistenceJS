@@ -1,7 +1,6 @@
-import { PersistenceClient } from "../clients/client";
-import { MsgVote } from "../proto/cosmos/gov/v1beta1/tx";
+import { PersistenceClient } from "persistenceonejs";
 import { coins } from "@cosmjs/stargate";
-import { voteOptionFromJSON } from "../proto/cosmos/gov/v1beta1/gov";
+import { cosmos } from "persistenceonejs";
 import * as Long from "long";
 
 export async function voteYes(client: PersistenceClient, proposalid: number) {
@@ -11,7 +10,7 @@ export async function voteYes(client: PersistenceClient, proposalid: number) {
     value: {
       proposalId: Long.fromNumber(proposalid),
       voter: account.address,
-      option: voteOptionFromJSON(1),
+      option: cosmos.gov.v1beta1.voteOptionFromJSON(1),
     },
   };
   const res = await client.core.signAndBroadcast(

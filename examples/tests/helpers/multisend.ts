@@ -1,5 +1,4 @@
-import { PersistenceClient } from "../clients/client";
-import { cosmos } from "../proto/";
+import { PersistenceClient, cosmos } from "persistenceonejs";
 import { coins } from "@cosmjs/stargate";
 
 export async function MultiSend(client: PersistenceClient, input: [], output: []) {

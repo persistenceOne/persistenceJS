@@ -1,4 +1,4 @@
-import { PersistenceClient } from "../clients/client";
+import { PersistenceClient } from "persistenceonejs";
 import { coins } from "@cosmjs/stargate";
 import { Any } from "cosmjs-types/google/protobuf/any";
 

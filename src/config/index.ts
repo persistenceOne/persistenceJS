@@ -1,1 +1,1 @@
-import * from './config';
+export * from './config';

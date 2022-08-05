@@ -1,5 +1,4 @@
-import { PersistenceClient } from "../clients/client";
-import { cosmos } from "../proto/";
+import { PersistenceClient, cosmos } from "persistenceonejs";
 import { Coin } from "@cosmjs/stargate";
 
 export async function Send(client: PersistenceClient, from: string, to: string, amount: Coin) {
