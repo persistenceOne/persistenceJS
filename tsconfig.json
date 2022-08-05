@@ -10,7 +10,7 @@
     ]
   },
   "include": [
-    "src/**/*", "examples/helpers",
+    "src/**/*",
   ],    
   "exclude": [
     "node_modules"
