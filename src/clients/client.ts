@@ -57,4 +57,3 @@ export class PersistenceClient {
     return new PersistenceClient(mnemonic, wallet, wasm, core, query);
   }
 }
-
