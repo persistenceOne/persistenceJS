@@ -151,3 +151,4 @@ export async function ContractTest() {
 ContractTest()
     .then(r => console.log("returned", r))
     .catch(e => console.log("error", e))
+    
