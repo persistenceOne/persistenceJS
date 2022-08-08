@@ -1,6 +1,5 @@
-import { PersistenceClient } from "persistenceonejs";
+import { PersistenceClient, cosmos } from "persistenceonejs";
 import { coins } from "@cosmjs/stargate";
-import { cosmos } from "persistenceonejs";
 import * as Long from "long";
 
 export async function voteYes(client: PersistenceClient, proposalid: number) {
