@@ -1,9 +1,6 @@
-import { PersistenceClient } from "../src/clients/client"
-import { contractProposal } from "../src/helpers/submitMsgProposal"
-import { voteYes } from '../src/helpers/vote'
-import { StoreCodeProposal } from '../src/proto/cosmwasm/wasm/v1/proposal'
-import { InstantiateContractProposal } from '../src/proto/cosmwasm/wasm/v1/proposal'
-import { accessTypeFromJSON } from '../src/proto/cosmwasm/wasm/v1/types'
+import { PersistenceClient, cosmwasm } from "persistenceonejs"
+import { contractProposal } from "./helpers/submitMsgProposal"
+import { voteYes } from './helpers/vote'
 import { coins } from "@cosmjs/stargate"
 import * as Pako from 'pako'
 import * as fs from 'fs'
@@ -22,8 +19,7 @@ export async function ContractTest() {
 
     const test1 = await PersistenceClient.init(
         "obtain door word season wealth inspire tobacco shallow thumb tip walk forum someone verb pistol bright mutual nest fog valley tiny section sauce typical"
-    )//persistence1ht0tun4u5uj4f4z83p9tncjerwu27ycsm52txm 
-
+    )//persistence1ht0tun4u5uj4f4z83p9tncjerwu27ycsm52txm
     const test2 = await PersistenceClient.init(
         "hungry foil sort arrest lizard sing acquire traffic veteran entire empty humble coach melody avoid gospel pair above chuckle hip list cage vessel zebra"
     )//persistence123em6jp7y96rtylp6tjk9r0dcescl0k4ccqvpu 
@@ -41,13 +37,13 @@ export async function ContractTest() {
         //wasm proposl of type StoreCodeProposal
         const wasmStoreProposal = {
             typeUrl: "/cosmwasm.wasm.v1.StoreCodeProposal",
-            value: Uint8Array.from(StoreCodeProposal.encode(StoreCodeProposal.fromPartial({
+            value: Uint8Array.from(cosmwasm.wasm.v1.StoreCodeProposal.encode(cosmwasm.wasm.v1.StoreCodeProposal.fromPartial({
                 title: "ICS20 Contract",
                 description: "Add wasm code for ICS20 contract.",
                 runAs: test3Address,
                 wasmByteCode: Pako.gzip(wasm, { level: 9 }),
                 instantiatePermission: {
-                    permission: accessTypeFromJSON(1),//'cosmjs-types/cosmwasm/wasm/v1beta1/types'
+                    permission: cosmwasm.wasm.v1.accessTypeFromJSON(1),//'cosmjs-types/cosmwasm/wasm/v1beta1/types'
                 }
             })).finish())
         }
@@ -105,7 +101,7 @@ export async function ContractTest() {
         //wasm proposl of type InstantiateContractProposal
         const initContractProposal = {
             typeUrl: "/cosmwasm.wasm.v1.InstantiateContractProposal",
-            value: Uint8Array.from(InstantiateContractProposal.encode(InstantiateContractProposal.fromJSON(
+            value: Uint8Array.from(cosmwasm.wasm.v1.InstantiateContractProposal.encode(cosmwasm.wasm.v1.InstantiateContractProposal.fromJSON(
                 {
                     title: "ICS20",
                     description: "CW20 ICS20 contract, used for ibc transfer.",
@@ -153,4 +149,6 @@ export async function ContractTest() {
     console.log("Contracts are => ", contract.contracts)
 }
 ContractTest()
-
+    .then(r => console.log("returned", r))
+    .catch(e => console.log("error", e))
+    
