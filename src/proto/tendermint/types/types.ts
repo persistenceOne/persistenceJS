@@ -661,35 +661,35 @@ export const Header = {
       (obj.lastBlockId = message.lastBlockId ? BlockID.toJSON(message.lastBlockId) : undefined);
     message.lastCommitHash !== undefined &&
       (obj.lastCommitHash = base64FromBytes(
-        message.lastCommitHash !== undefined ? message.lastCommitHash : new Uint8Array()
+        message.lastCommitHash !== undefined ? message.lastCommitHash : new Uint8Array(),
       ));
     message.dataHash !== undefined &&
       (obj.dataHash = base64FromBytes(message.dataHash !== undefined ? message.dataHash : new Uint8Array()));
     message.validatorsHash !== undefined &&
       (obj.validatorsHash = base64FromBytes(
-        message.validatorsHash !== undefined ? message.validatorsHash : new Uint8Array()
+        message.validatorsHash !== undefined ? message.validatorsHash : new Uint8Array(),
       ));
     message.nextValidatorsHash !== undefined &&
       (obj.nextValidatorsHash = base64FromBytes(
-        message.nextValidatorsHash !== undefined ? message.nextValidatorsHash : new Uint8Array()
+        message.nextValidatorsHash !== undefined ? message.nextValidatorsHash : new Uint8Array(),
       ));
     message.consensusHash !== undefined &&
       (obj.consensusHash = base64FromBytes(
-        message.consensusHash !== undefined ? message.consensusHash : new Uint8Array()
+        message.consensusHash !== undefined ? message.consensusHash : new Uint8Array(),
       ));
     message.appHash !== undefined &&
       (obj.appHash = base64FromBytes(message.appHash !== undefined ? message.appHash : new Uint8Array()));
     message.lastResultsHash !== undefined &&
       (obj.lastResultsHash = base64FromBytes(
-        message.lastResultsHash !== undefined ? message.lastResultsHash : new Uint8Array()
+        message.lastResultsHash !== undefined ? message.lastResultsHash : new Uint8Array(),
       ));
     message.evidenceHash !== undefined &&
       (obj.evidenceHash = base64FromBytes(
-        message.evidenceHash !== undefined ? message.evidenceHash : new Uint8Array()
+        message.evidenceHash !== undefined ? message.evidenceHash : new Uint8Array(),
       ));
     message.proposerAddress !== undefined &&
       (obj.proposerAddress = base64FromBytes(
-        message.proposerAddress !== undefined ? message.proposerAddress : new Uint8Array()
+        message.proposerAddress !== undefined ? message.proposerAddress : new Uint8Array(),
       ));
     return obj;
   },
@@ -908,12 +908,12 @@ export const Vote = {
     message.timestamp !== undefined && (obj.timestamp = message.timestamp.toISOString());
     message.validatorAddress !== undefined &&
       (obj.validatorAddress = base64FromBytes(
-        message.validatorAddress !== undefined ? message.validatorAddress : new Uint8Array()
+        message.validatorAddress !== undefined ? message.validatorAddress : new Uint8Array(),
       ));
     message.validatorIndex !== undefined && (obj.validatorIndex = Math.round(message.validatorIndex));
     message.signature !== undefined &&
       (obj.signature = base64FromBytes(
-        message.signature !== undefined ? message.signature : new Uint8Array()
+        message.signature !== undefined ? message.signature : new Uint8Array(),
       ));
     return obj;
   },
@@ -1121,12 +1121,12 @@ export const CommitSig = {
     message.blockIdFlag !== undefined && (obj.blockIdFlag = blockIDFlagToJSON(message.blockIdFlag));
     message.validatorAddress !== undefined &&
       (obj.validatorAddress = base64FromBytes(
-        message.validatorAddress !== undefined ? message.validatorAddress : new Uint8Array()
+        message.validatorAddress !== undefined ? message.validatorAddress : new Uint8Array(),
       ));
     message.timestamp !== undefined && (obj.timestamp = message.timestamp.toISOString());
     message.signature !== undefined &&
       (obj.signature = base64FromBytes(
-        message.signature !== undefined ? message.signature : new Uint8Array()
+        message.signature !== undefined ? message.signature : new Uint8Array(),
       ));
     return obj;
   },
@@ -1255,7 +1255,7 @@ export const Proposal = {
     message.timestamp !== undefined && (obj.timestamp = message.timestamp.toISOString());
     message.signature !== undefined &&
       (obj.signature = base64FromBytes(
-        message.signature !== undefined ? message.signature : new Uint8Array()
+        message.signature !== undefined ? message.signature : new Uint8Array(),
       ));
     return obj;
   },

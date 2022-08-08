@@ -48,7 +48,7 @@ export interface Query {
   /*UpgradedClientState queries an Upgraded IBC light client.*/
 
   upgradedConsensusState(
-    request: QueryUpgradedConsensusStateRequest
+    request: QueryUpgradedConsensusStateRequest,
   ): Promise<QueryUpgradedConsensusStateResponse>;
   /*UpgradedConsensusState queries an Upgraded IBC consensus state.*/
 }
@@ -110,7 +110,7 @@ export class QueryClientImpl implements Query {
   }
 
   upgradedConsensusState(
-    request: QueryUpgradedConsensusStateRequest
+    request: QueryUpgradedConsensusStateRequest,
   ): Promise<QueryUpgradedConsensusStateResponse> {
     const data = QueryUpgradedConsensusStateRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Query", "UpgradedConsensusState", data);

@@ -285,7 +285,7 @@ function createBaseQueryValidatorOutstandingRewardsRequest(): QueryValidatorOuts
 export const QueryValidatorOutstandingRewardsRequest = {
   encode(
     message: QueryValidatorOutstandingRewardsRequest,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.validatorAddress !== "") {
       writer.uint32(10).string(message.validatorAddress);
@@ -329,7 +329,7 @@ export const QueryValidatorOutstandingRewardsRequest = {
   },
 
   fromPartial(
-    object: DeepPartial<QueryValidatorOutstandingRewardsRequest>
+    object: DeepPartial<QueryValidatorOutstandingRewardsRequest>,
   ): QueryValidatorOutstandingRewardsRequest {
     const message = createBaseQueryValidatorOutstandingRewardsRequest();
     message.validatorAddress = object.validatorAddress ?? "";
@@ -346,7 +346,7 @@ function createBaseQueryValidatorOutstandingRewardsResponse(): QueryValidatorOut
 export const QueryValidatorOutstandingRewardsResponse = {
   encode(
     message: QueryValidatorOutstandingRewardsResponse,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.rewards !== undefined) {
       ValidatorOutstandingRewards.encode(message.rewards, writer.uint32(10).fork()).ldelim();
@@ -391,7 +391,7 @@ export const QueryValidatorOutstandingRewardsResponse = {
   },
 
   fromPartial(
-    object: DeepPartial<QueryValidatorOutstandingRewardsResponse>
+    object: DeepPartial<QueryValidatorOutstandingRewardsResponse>,
   ): QueryValidatorOutstandingRewardsResponse {
     const message = createBaseQueryValidatorOutstandingRewardsResponse();
     message.rewards =
@@ -1100,7 +1100,7 @@ function createBaseQueryDelegatorWithdrawAddressRequest(): QueryDelegatorWithdra
 export const QueryDelegatorWithdrawAddressRequest = {
   encode(
     message: QueryDelegatorWithdrawAddressRequest,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
@@ -1144,7 +1144,7 @@ export const QueryDelegatorWithdrawAddressRequest = {
   },
 
   fromPartial(
-    object: DeepPartial<QueryDelegatorWithdrawAddressRequest>
+    object: DeepPartial<QueryDelegatorWithdrawAddressRequest>,
   ): QueryDelegatorWithdrawAddressRequest {
     const message = createBaseQueryDelegatorWithdrawAddressRequest();
     message.delegatorAddress = object.delegatorAddress ?? "";
@@ -1161,7 +1161,7 @@ function createBaseQueryDelegatorWithdrawAddressResponse(): QueryDelegatorWithdr
 export const QueryDelegatorWithdrawAddressResponse = {
   encode(
     message: QueryDelegatorWithdrawAddressResponse,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.withdrawAddress !== "") {
       writer.uint32(10).string(message.withdrawAddress);
@@ -1205,7 +1205,7 @@ export const QueryDelegatorWithdrawAddressResponse = {
   },
 
   fromPartial(
-    object: DeepPartial<QueryDelegatorWithdrawAddressResponse>
+    object: DeepPartial<QueryDelegatorWithdrawAddressResponse>,
   ): QueryDelegatorWithdrawAddressResponse {
     const message = createBaseQueryDelegatorWithdrawAddressResponse();
     message.withdrawAddress = object.withdrawAddress ?? "";

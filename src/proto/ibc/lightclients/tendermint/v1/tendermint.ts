@@ -401,7 +401,7 @@ export const ConsensusState = {
     message.root !== undefined && (obj.root = message.root ? MerkleRoot.toJSON(message.root) : undefined);
     message.nextValidatorsHash !== undefined &&
       (obj.nextValidatorsHash = base64FromBytes(
-        message.nextValidatorsHash !== undefined ? message.nextValidatorsHash : new Uint8Array()
+        message.nextValidatorsHash !== undefined ? message.nextValidatorsHash : new Uint8Array(),
       ));
     return obj;
   },

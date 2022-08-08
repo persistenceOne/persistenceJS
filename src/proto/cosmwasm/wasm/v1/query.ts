@@ -826,7 +826,7 @@ export const QueryRawContractStateRequest = {
     message.address !== undefined && (obj.address = message.address);
     message.queryData !== undefined &&
       (obj.queryData = base64FromBytes(
-        message.queryData !== undefined ? message.queryData : new Uint8Array()
+        message.queryData !== undefined ? message.queryData : new Uint8Array(),
       ));
     return obj;
   },
@@ -954,7 +954,7 @@ export const QuerySmartContractStateRequest = {
     message.address !== undefined && (obj.address = message.address);
     message.queryData !== undefined &&
       (obj.queryData = base64FromBytes(
-        message.queryData !== undefined ? message.queryData : new Uint8Array()
+        message.queryData !== undefined ? message.queryData : new Uint8Array(),
       ));
     return obj;
   },

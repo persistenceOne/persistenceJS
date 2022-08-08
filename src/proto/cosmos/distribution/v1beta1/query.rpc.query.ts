@@ -36,7 +36,7 @@ export interface Query {
   /*Params queries params of the distribution module.*/
 
   validatorOutstandingRewards(
-    request: QueryValidatorOutstandingRewardsRequest
+    request: QueryValidatorOutstandingRewardsRequest,
   ): Promise<QueryValidatorOutstandingRewardsResponse>;
   /*ValidatorOutstandingRewards queries rewards of a validator address.*/
 
@@ -50,7 +50,7 @@ export interface Query {
   /*DelegationRewards queries the total rewards accrued by a delegation.*/
 
   delegationTotalRewards(
-    request: QueryDelegationTotalRewardsRequest
+    request: QueryDelegationTotalRewardsRequest,
   ): Promise<QueryDelegationTotalRewardsResponse>;
   /*DelegationTotalRewards queries the total rewards accrued by a each
   validator.*/
@@ -59,7 +59,7 @@ export interface Query {
   /*DelegatorValidators queries the validators of a delegator.*/
 
   delegatorWithdrawAddress(
-    request: QueryDelegatorWithdrawAddressRequest
+    request: QueryDelegatorWithdrawAddressRequest,
   ): Promise<QueryDelegatorWithdrawAddressResponse>;
   /*DelegatorWithdrawAddress queries withdraw address of a delegator.*/
 
@@ -89,13 +89,13 @@ export class QueryClientImpl implements Query {
   }
 
   validatorOutstandingRewards(
-    request: QueryValidatorOutstandingRewardsRequest
+    request: QueryValidatorOutstandingRewardsRequest,
   ): Promise<QueryValidatorOutstandingRewardsResponse> {
     const data = QueryValidatorOutstandingRewardsRequest.encode(request).finish();
     const promise = this.rpc.request(
       "cosmos.distribution.v1beta1.Query",
       "ValidatorOutstandingRewards",
-      data
+      data,
     );
     return promise.then((data) => QueryValidatorOutstandingRewardsResponse.decode(new _m0.Reader(data)));
   }
@@ -119,7 +119,7 @@ export class QueryClientImpl implements Query {
   }
 
   delegationTotalRewards(
-    request: QueryDelegationTotalRewardsRequest
+    request: QueryDelegationTotalRewardsRequest,
   ): Promise<QueryDelegationTotalRewardsResponse> {
     const data = QueryDelegationTotalRewardsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.distribution.v1beta1.Query", "DelegationTotalRewards", data);
@@ -133,7 +133,7 @@ export class QueryClientImpl implements Query {
   }
 
   delegatorWithdrawAddress(
-    request: QueryDelegatorWithdrawAddressRequest
+    request: QueryDelegatorWithdrawAddressRequest,
   ): Promise<QueryDelegatorWithdrawAddressResponse> {
     const data = QueryDelegatorWithdrawAddressRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.distribution.v1beta1.Query", "DelegatorWithdrawAddress", data);

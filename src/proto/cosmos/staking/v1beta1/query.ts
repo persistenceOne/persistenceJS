@@ -680,7 +680,7 @@ export const QueryValidatorDelegationsResponse = {
 
     if (message.delegationResponses) {
       obj.delegationResponses = message.delegationResponses.map((e) =>
-        e ? DelegationResponse.toJSON(e) : undefined
+        e ? DelegationResponse.toJSON(e) : undefined,
       );
     } else {
       obj.delegationResponses = [];
@@ -713,7 +713,7 @@ function createBaseQueryValidatorUnbondingDelegationsRequest(): QueryValidatorUn
 export const QueryValidatorUnbondingDelegationsRequest = {
   encode(
     message: QueryValidatorUnbondingDelegationsRequest,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.validatorAddr !== "") {
       writer.uint32(10).string(message.validatorAddr);
@@ -768,7 +768,7 @@ export const QueryValidatorUnbondingDelegationsRequest = {
   },
 
   fromPartial(
-    object: DeepPartial<QueryValidatorUnbondingDelegationsRequest>
+    object: DeepPartial<QueryValidatorUnbondingDelegationsRequest>,
   ): QueryValidatorUnbondingDelegationsRequest {
     const message = createBaseQueryValidatorUnbondingDelegationsRequest();
     message.validatorAddr = object.validatorAddr ?? "";
@@ -790,7 +790,7 @@ function createBaseQueryValidatorUnbondingDelegationsResponse(): QueryValidatorU
 export const QueryValidatorUnbondingDelegationsResponse = {
   encode(
     message: QueryValidatorUnbondingDelegationsResponse,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     for (const v of message.unbondingResponses) {
       UnbondingDelegation.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -843,7 +843,7 @@ export const QueryValidatorUnbondingDelegationsResponse = {
 
     if (message.unbondingResponses) {
       obj.unbondingResponses = message.unbondingResponses.map((e) =>
-        e ? UnbondingDelegation.toJSON(e) : undefined
+        e ? UnbondingDelegation.toJSON(e) : undefined,
       );
     } else {
       obj.unbondingResponses = [];
@@ -855,7 +855,7 @@ export const QueryValidatorUnbondingDelegationsResponse = {
   },
 
   fromPartial(
-    object: DeepPartial<QueryValidatorUnbondingDelegationsResponse>
+    object: DeepPartial<QueryValidatorUnbondingDelegationsResponse>,
   ): QueryValidatorUnbondingDelegationsResponse {
     const message = createBaseQueryValidatorUnbondingDelegationsResponse();
     message.unbondingResponses =
@@ -1260,7 +1260,7 @@ export const QueryDelegatorDelegationsResponse = {
 
     if (message.delegationResponses) {
       obj.delegationResponses = message.delegationResponses.map((e) =>
-        e ? DelegationResponse.toJSON(e) : undefined
+        e ? DelegationResponse.toJSON(e) : undefined,
       );
     } else {
       obj.delegationResponses = [];
@@ -1293,7 +1293,7 @@ function createBaseQueryDelegatorUnbondingDelegationsRequest(): QueryDelegatorUn
 export const QueryDelegatorUnbondingDelegationsRequest = {
   encode(
     message: QueryDelegatorUnbondingDelegationsRequest,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
@@ -1348,7 +1348,7 @@ export const QueryDelegatorUnbondingDelegationsRequest = {
   },
 
   fromPartial(
-    object: DeepPartial<QueryDelegatorUnbondingDelegationsRequest>
+    object: DeepPartial<QueryDelegatorUnbondingDelegationsRequest>,
   ): QueryDelegatorUnbondingDelegationsRequest {
     const message = createBaseQueryDelegatorUnbondingDelegationsRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
@@ -1370,7 +1370,7 @@ function createBaseQueryDelegatorUnbondingDelegationsResponse(): QueryDelegatorU
 export const QueryDelegatorUnbondingDelegationsResponse = {
   encode(
     message: QueryDelegatorUnbondingDelegationsResponse,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     for (const v of message.unbondingResponses) {
       UnbondingDelegation.encode(v!, writer.uint32(10).fork()).ldelim();
@@ -1423,7 +1423,7 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
 
     if (message.unbondingResponses) {
       obj.unbondingResponses = message.unbondingResponses.map((e) =>
-        e ? UnbondingDelegation.toJSON(e) : undefined
+        e ? UnbondingDelegation.toJSON(e) : undefined,
       );
     } else {
       obj.unbondingResponses = [];
@@ -1435,7 +1435,7 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
   },
 
   fromPartial(
-    object: DeepPartial<QueryDelegatorUnbondingDelegationsResponse>
+    object: DeepPartial<QueryDelegatorUnbondingDelegationsResponse>,
   ): QueryDelegatorUnbondingDelegationsResponse {
     const message = createBaseQueryDelegatorUnbondingDelegationsResponse();
     message.unbondingResponses =
@@ -1604,7 +1604,7 @@ export const QueryRedelegationsResponse = {
 
     if (message.redelegationResponses) {
       obj.redelegationResponses = message.redelegationResponses.map((e) =>
-        e ? RedelegationResponse.toJSON(e) : undefined
+        e ? RedelegationResponse.toJSON(e) : undefined,
       );
     } else {
       obj.redelegationResponses = [];

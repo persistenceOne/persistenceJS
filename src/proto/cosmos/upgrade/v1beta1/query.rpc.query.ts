@@ -21,7 +21,7 @@ export interface Query {
   /*AppliedPlan queries a previously applied upgrade plan by its name.*/
 
   upgradedConsensusState(
-    request: QueryUpgradedConsensusStateRequest
+    request: QueryUpgradedConsensusStateRequest,
   ): Promise<QueryUpgradedConsensusStateResponse>;
   /*UpgradedConsensusState queries the consensus state that will serve
   as a trusted kernel for the next version of this chain. It will only be
@@ -59,7 +59,7 @@ export class QueryClientImpl implements Query {
   }
 
   upgradedConsensusState(
-    request: QueryUpgradedConsensusStateRequest
+    request: QueryUpgradedConsensusStateRequest,
   ): Promise<QueryUpgradedConsensusStateResponse> {
     const data = QueryUpgradedConsensusStateRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.upgrade.v1beta1.Query", "UpgradedConsensusState", data);

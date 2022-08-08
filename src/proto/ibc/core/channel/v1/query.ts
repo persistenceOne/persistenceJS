@@ -1360,7 +1360,7 @@ export const QueryPacketCommitmentResponse = {
     const obj: any = {};
     message.commitment !== undefined &&
       (obj.commitment = base64FromBytes(
-        message.commitment !== undefined ? message.commitment : new Uint8Array()
+        message.commitment !== undefined ? message.commitment : new Uint8Array(),
       ));
     message.proof !== undefined &&
       (obj.proof = base64FromBytes(message.proof !== undefined ? message.proof : new Uint8Array()));
@@ -1878,7 +1878,7 @@ export const QueryPacketAcknowledgementResponse = {
     const obj: any = {};
     message.acknowledgement !== undefined &&
       (obj.acknowledgement = base64FromBytes(
-        message.acknowledgement !== undefined ? message.acknowledgement : new Uint8Array()
+        message.acknowledgement !== undefined ? message.acknowledgement : new Uint8Array(),
       ));
     message.proof !== undefined &&
       (obj.proof = base64FromBytes(message.proof !== undefined ? message.proof : new Uint8Array()));
@@ -1995,7 +1995,7 @@ export const QueryPacketAcknowledgementsRequest = {
 
     if (message.packetCommitmentSequences) {
       obj.packetCommitmentSequences = message.packetCommitmentSequences.map((e) =>
-        (e || Long.UZERO).toString()
+        (e || Long.UZERO).toString(),
       );
     } else {
       obj.packetCommitmentSequences = [];
@@ -2194,7 +2194,7 @@ export const QueryUnreceivedPacketsRequest = {
 
     if (message.packetCommitmentSequences) {
       obj.packetCommitmentSequences = message.packetCommitmentSequences.map((e) =>
-        (e || Long.UZERO).toString()
+        (e || Long.UZERO).toString(),
       );
     } else {
       obj.packetCommitmentSequences = [];

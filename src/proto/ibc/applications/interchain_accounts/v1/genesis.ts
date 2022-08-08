@@ -211,7 +211,7 @@ export const ControllerGenesisState = {
 
     if (message.interchainAccounts) {
       obj.interchainAccounts = message.interchainAccounts.map((e) =>
-        e ? RegisteredInterchainAccount.toJSON(e) : undefined
+        e ? RegisteredInterchainAccount.toJSON(e) : undefined,
       );
     } else {
       obj.interchainAccounts = [];
@@ -328,7 +328,7 @@ export const HostGenesisState = {
 
     if (message.interchainAccounts) {
       obj.interchainAccounts = message.interchainAccounts.map((e) =>
-        e ? RegisteredInterchainAccount.toJSON(e) : undefined
+        e ? RegisteredInterchainAccount.toJSON(e) : undefined,
       );
     } else {
       obj.interchainAccounts = [];

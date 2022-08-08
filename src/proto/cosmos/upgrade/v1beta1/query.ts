@@ -406,7 +406,7 @@ export const QueryUpgradedConsensusStateResponse = {
     const obj: any = {};
     message.upgradedConsensusState !== undefined &&
       (obj.upgradedConsensusState = base64FromBytes(
-        message.upgradedConsensusState !== undefined ? message.upgradedConsensusState : new Uint8Array()
+        message.upgradedConsensusState !== undefined ? message.upgradedConsensusState : new Uint8Array(),
       ));
     return obj;
   },

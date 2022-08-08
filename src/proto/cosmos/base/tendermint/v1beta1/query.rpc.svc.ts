@@ -88,7 +88,7 @@ export class ServiceClientImpl implements Service {
     const promise = this.rpc.request(
       "cosmos.base.tendermint.v1beta1.Service",
       "GetValidatorSetByHeight",
-      data
+      data,
     );
     return promise.then((data) => GetValidatorSetByHeightResponse.decode(new _m0.Reader(data)));
   }

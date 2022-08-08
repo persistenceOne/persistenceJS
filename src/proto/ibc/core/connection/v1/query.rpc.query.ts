@@ -30,13 +30,13 @@ export interface Query {
   state.*/
 
   connectionClientState(
-    request: QueryConnectionClientStateRequest
+    request: QueryConnectionClientStateRequest,
   ): Promise<QueryConnectionClientStateResponse>;
   /*ConnectionClientState queries the client state associated with the
   connection.*/
 
   connectionConsensusState(
-    request: QueryConnectionConsensusStateRequest
+    request: QueryConnectionConsensusStateRequest,
   ): Promise<QueryConnectionConsensusStateResponse>;
   /*ConnectionConsensusState queries the consensus state associated with the
   connection.*/
@@ -72,7 +72,7 @@ export class QueryClientImpl implements Query {
   }
 
   connectionClientState(
-    request: QueryConnectionClientStateRequest
+    request: QueryConnectionClientStateRequest,
   ): Promise<QueryConnectionClientStateResponse> {
     const data = QueryConnectionClientStateRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.connection.v1.Query", "ConnectionClientState", data);
@@ -80,7 +80,7 @@ export class QueryClientImpl implements Query {
   }
 
   connectionConsensusState(
-    request: QueryConnectionConsensusStateRequest
+    request: QueryConnectionConsensusStateRequest,
   ): Promise<QueryConnectionConsensusStateResponse> {
     const data = QueryConnectionConsensusStateRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.connection.v1.Query", "ConnectionConsensusState", data);

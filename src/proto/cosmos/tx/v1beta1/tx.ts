@@ -389,11 +389,11 @@ export const TxRaw = {
     const obj: any = {};
     message.bodyBytes !== undefined &&
       (obj.bodyBytes = base64FromBytes(
-        message.bodyBytes !== undefined ? message.bodyBytes : new Uint8Array()
+        message.bodyBytes !== undefined ? message.bodyBytes : new Uint8Array(),
       ));
     message.authInfoBytes !== undefined &&
       (obj.authInfoBytes = base64FromBytes(
-        message.authInfoBytes !== undefined ? message.authInfoBytes : new Uint8Array()
+        message.authInfoBytes !== undefined ? message.authInfoBytes : new Uint8Array(),
       ));
 
     if (message.signatures) {
@@ -491,11 +491,11 @@ export const SignDoc = {
     const obj: any = {};
     message.bodyBytes !== undefined &&
       (obj.bodyBytes = base64FromBytes(
-        message.bodyBytes !== undefined ? message.bodyBytes : new Uint8Array()
+        message.bodyBytes !== undefined ? message.bodyBytes : new Uint8Array(),
       ));
     message.authInfoBytes !== undefined &&
       (obj.authInfoBytes = base64FromBytes(
-        message.authInfoBytes !== undefined ? message.authInfoBytes : new Uint8Array()
+        message.authInfoBytes !== undefined ? message.authInfoBytes : new Uint8Array(),
       ));
     message.chainId !== undefined && (obj.chainId = message.chainId);
     message.accountNumber !== undefined &&
@@ -624,7 +624,7 @@ export const TxBody = {
 
     if (message.nonCriticalExtensionOptions) {
       obj.nonCriticalExtensionOptions = message.nonCriticalExtensionOptions.map((e) =>
-        e ? Any.toJSON(e) : undefined
+        e ? Any.toJSON(e) : undefined,
       );
     } else {
       obj.nonCriticalExtensionOptions = [];

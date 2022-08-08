@@ -357,7 +357,7 @@ export const Code = {
       (obj.codeInfo = message.codeInfo ? CodeInfo.toJSON(message.codeInfo) : undefined);
     message.codeBytes !== undefined &&
       (obj.codeBytes = base64FromBytes(
-        message.codeBytes !== undefined ? message.codeBytes : new Uint8Array()
+        message.codeBytes !== undefined ? message.codeBytes : new Uint8Array(),
       ));
     message.pinned !== undefined && (obj.pinned = message.pinned);
     return obj;

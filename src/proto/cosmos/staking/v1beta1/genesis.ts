@@ -172,12 +172,12 @@ export const GenesisState = {
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     message.lastTotalPower !== undefined &&
       (obj.lastTotalPower = base64FromBytes(
-        message.lastTotalPower !== undefined ? message.lastTotalPower : new Uint8Array()
+        message.lastTotalPower !== undefined ? message.lastTotalPower : new Uint8Array(),
       ));
 
     if (message.lastValidatorPowers) {
       obj.lastValidatorPowers = message.lastValidatorPowers.map((e) =>
-        e ? LastValidatorPower.toJSON(e) : undefined
+        e ? LastValidatorPower.toJSON(e) : undefined,
       );
     } else {
       obj.lastValidatorPowers = [];
@@ -197,7 +197,7 @@ export const GenesisState = {
 
     if (message.unbondingDelegations) {
       obj.unbondingDelegations = message.unbondingDelegations.map((e) =>
-        e ? UnbondingDelegation.toJSON(e) : undefined
+        e ? UnbondingDelegation.toJSON(e) : undefined,
       );
     } else {
       obj.unbondingDelegations = [];

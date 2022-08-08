@@ -21,7 +21,7 @@ export class QueryClientImpl implements Query {
     const promise = this.rpc.request(
       "ibc.applications.interchain_accounts.controller.v1.Query",
       "Params",
-      data
+      data,
     );
     return promise.then((data) => QueryParamsResponse.decode(new _m0.Reader(data)));
   }

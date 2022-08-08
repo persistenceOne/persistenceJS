@@ -1227,7 +1227,7 @@ export const RequestInitChain = {
 
     message.appStateBytes !== undefined &&
       (obj.appStateBytes = base64FromBytes(
-        message.appStateBytes !== undefined ? message.appStateBytes : new Uint8Array()
+        message.appStateBytes !== undefined ? message.appStateBytes : new Uint8Array(),
       ));
     message.initialHeight !== undefined &&
       (obj.initialHeight = (message.initialHeight || Long.ZERO).toString());
@@ -2516,7 +2516,7 @@ export const ResponseInfo = {
       (obj.lastBlockHeight = (message.lastBlockHeight || Long.ZERO).toString());
     message.lastBlockAppHash !== undefined &&
       (obj.lastBlockAppHash = base64FromBytes(
-        message.lastBlockAppHash !== undefined ? message.lastBlockAppHash : new Uint8Array()
+        message.lastBlockAppHash !== undefined ? message.lastBlockAppHash : new Uint8Array(),
       ));
     return obj;
   },

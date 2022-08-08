@@ -283,7 +283,7 @@ function createBaseValidatorAccumulatedCommissionRecord(): ValidatorAccumulatedC
 export const ValidatorAccumulatedCommissionRecord = {
   encode(
     message: ValidatorAccumulatedCommissionRecord,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.validatorAddress !== "") {
       writer.uint32(10).string(message.validatorAddress);
@@ -342,7 +342,7 @@ export const ValidatorAccumulatedCommissionRecord = {
   },
 
   fromPartial(
-    object: DeepPartial<ValidatorAccumulatedCommissionRecord>
+    object: DeepPartial<ValidatorAccumulatedCommissionRecord>,
   ): ValidatorAccumulatedCommissionRecord {
     const message = createBaseValidatorAccumulatedCommissionRecord();
     message.validatorAddress = object.validatorAddress ?? "";
@@ -792,13 +792,13 @@ export const GenesisState = {
 
         case 6:
           message.validatorAccumulatedCommissions.push(
-            ValidatorAccumulatedCommissionRecord.decode(reader, reader.uint32())
+            ValidatorAccumulatedCommissionRecord.decode(reader, reader.uint32()),
           );
           break;
 
         case 7:
           message.validatorHistoricalRewards.push(
-            ValidatorHistoricalRewardsRecord.decode(reader, reader.uint32())
+            ValidatorHistoricalRewardsRecord.decode(reader, reader.uint32()),
           );
           break;
 
@@ -836,7 +836,7 @@ export const GenesisState = {
         : [],
       validatorAccumulatedCommissions: Array.isArray(object?.validatorAccumulatedCommissions)
         ? object.validatorAccumulatedCommissions.map((e: any) =>
-            ValidatorAccumulatedCommissionRecord.fromJSON(e)
+            ValidatorAccumulatedCommissionRecord.fromJSON(e),
           )
         : [],
       validatorHistoricalRewards: Array.isArray(object?.validatorHistoricalRewards)
@@ -862,7 +862,7 @@ export const GenesisState = {
 
     if (message.delegatorWithdrawInfos) {
       obj.delegatorWithdrawInfos = message.delegatorWithdrawInfos.map((e) =>
-        e ? DelegatorWithdrawInfo.toJSON(e) : undefined
+        e ? DelegatorWithdrawInfo.toJSON(e) : undefined,
       );
     } else {
       obj.delegatorWithdrawInfos = [];
@@ -872,7 +872,7 @@ export const GenesisState = {
 
     if (message.outstandingRewards) {
       obj.outstandingRewards = message.outstandingRewards.map((e) =>
-        e ? ValidatorOutstandingRewardsRecord.toJSON(e) : undefined
+        e ? ValidatorOutstandingRewardsRecord.toJSON(e) : undefined,
       );
     } else {
       obj.outstandingRewards = [];
@@ -880,7 +880,7 @@ export const GenesisState = {
 
     if (message.validatorAccumulatedCommissions) {
       obj.validatorAccumulatedCommissions = message.validatorAccumulatedCommissions.map((e) =>
-        e ? ValidatorAccumulatedCommissionRecord.toJSON(e) : undefined
+        e ? ValidatorAccumulatedCommissionRecord.toJSON(e) : undefined,
       );
     } else {
       obj.validatorAccumulatedCommissions = [];
@@ -888,7 +888,7 @@ export const GenesisState = {
 
     if (message.validatorHistoricalRewards) {
       obj.validatorHistoricalRewards = message.validatorHistoricalRewards.map((e) =>
-        e ? ValidatorHistoricalRewardsRecord.toJSON(e) : undefined
+        e ? ValidatorHistoricalRewardsRecord.toJSON(e) : undefined,
       );
     } else {
       obj.validatorHistoricalRewards = [];
@@ -896,7 +896,7 @@ export const GenesisState = {
 
     if (message.validatorCurrentRewards) {
       obj.validatorCurrentRewards = message.validatorCurrentRewards.map((e) =>
-        e ? ValidatorCurrentRewardsRecord.toJSON(e) : undefined
+        e ? ValidatorCurrentRewardsRecord.toJSON(e) : undefined,
       );
     } else {
       obj.validatorCurrentRewards = [];
@@ -904,7 +904,7 @@ export const GenesisState = {
 
     if (message.delegatorStartingInfos) {
       obj.delegatorStartingInfos = message.delegatorStartingInfos.map((e) =>
-        e ? DelegatorStartingInfoRecord.toJSON(e) : undefined
+        e ? DelegatorStartingInfoRecord.toJSON(e) : undefined,
       );
     } else {
       obj.delegatorStartingInfos = [];
@@ -912,7 +912,7 @@ export const GenesisState = {
 
     if (message.validatorSlashEvents) {
       obj.validatorSlashEvents = message.validatorSlashEvents.map((e) =>
-        e ? ValidatorSlashEventRecord.toJSON(e) : undefined
+        e ? ValidatorSlashEventRecord.toJSON(e) : undefined,
       );
     } else {
       obj.validatorSlashEvents = [];
@@ -936,7 +936,7 @@ export const GenesisState = {
       object.outstandingRewards?.map((e) => ValidatorOutstandingRewardsRecord.fromPartial(e)) || [];
     message.validatorAccumulatedCommissions =
       object.validatorAccumulatedCommissions?.map((e) =>
-        ValidatorAccumulatedCommissionRecord.fromPartial(e)
+        ValidatorAccumulatedCommissionRecord.fromPartial(e),
       ) || [];
     message.validatorHistoricalRewards =
       object.validatorHistoricalRewards?.map((e) => ValidatorHistoricalRewardsRecord.fromPartial(e)) || [];

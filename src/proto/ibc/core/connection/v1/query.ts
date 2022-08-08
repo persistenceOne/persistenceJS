@@ -737,7 +737,7 @@ function createBaseQueryConnectionConsensusStateRequest(): QueryConnectionConsen
 export const QueryConnectionConsensusStateRequest = {
   encode(
     message: QueryConnectionConsensusStateRequest,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.connectionId !== "") {
       writer.uint32(10).string(message.connectionId);
@@ -803,7 +803,7 @@ export const QueryConnectionConsensusStateRequest = {
   },
 
   fromPartial(
-    object: DeepPartial<QueryConnectionConsensusStateRequest>
+    object: DeepPartial<QueryConnectionConsensusStateRequest>,
   ): QueryConnectionConsensusStateRequest {
     const message = createBaseQueryConnectionConsensusStateRequest();
     message.connectionId = object.connectionId ?? "";
@@ -831,7 +831,7 @@ function createBaseQueryConnectionConsensusStateResponse(): QueryConnectionConse
 export const QueryConnectionConsensusStateResponse = {
   encode(
     message: QueryConnectionConsensusStateResponse,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.consensusState !== undefined) {
       Any.encode(message.consensusState, writer.uint32(10).fork()).ldelim();
@@ -908,7 +908,7 @@ export const QueryConnectionConsensusStateResponse = {
   },
 
   fromPartial(
-    object: DeepPartial<QueryConnectionConsensusStateResponse>
+    object: DeepPartial<QueryConnectionConsensusStateResponse>,
   ): QueryConnectionConsensusStateResponse {
     const message = createBaseQueryConnectionConsensusStateResponse();
     message.consensusState =

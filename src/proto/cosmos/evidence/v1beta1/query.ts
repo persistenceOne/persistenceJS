@@ -83,7 +83,7 @@ export const QueryEvidenceRequest = {
     const obj: any = {};
     message.evidenceHash !== undefined &&
       (obj.evidenceHash = base64FromBytes(
-        message.evidenceHash !== undefined ? message.evidenceHash : new Uint8Array()
+        message.evidenceHash !== undefined ? message.evidenceHash : new Uint8Array(),
       ));
     return obj;
   },

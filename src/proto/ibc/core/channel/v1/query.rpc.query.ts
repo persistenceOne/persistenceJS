@@ -50,7 +50,7 @@ export interface Query {
   with the provided channel identifiers.*/
 
   channelConsensusState(
-    request: QueryChannelConsensusStateRequest
+    request: QueryChannelConsensusStateRequest,
   ): Promise<QueryChannelConsensusStateResponse>;
   /*ChannelConsensusState queries for the consensus state for the channel
   associated with the provided channel identifiers.*/
@@ -67,12 +67,12 @@ export interface Query {
   queried chain*/
 
   packetAcknowledgement(
-    request: QueryPacketAcknowledgementRequest
+    request: QueryPacketAcknowledgementRequest,
   ): Promise<QueryPacketAcknowledgementResponse>;
   /*PacketAcknowledgement queries a stored packet acknowledgement hash.*/
 
   packetAcknowledgements(
-    request: QueryPacketAcknowledgementsRequest
+    request: QueryPacketAcknowledgementsRequest,
   ): Promise<QueryPacketAcknowledgementsResponse>;
   /*PacketAcknowledgements returns all the packet acknowledgements associated
   with a channel.*/
@@ -133,7 +133,7 @@ export class QueryClientImpl implements Query {
   }
 
   channelConsensusState(
-    request: QueryChannelConsensusStateRequest
+    request: QueryChannelConsensusStateRequest,
   ): Promise<QueryChannelConsensusStateResponse> {
     const data = QueryChannelConsensusStateRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.channel.v1.Query", "ChannelConsensusState", data);
@@ -159,7 +159,7 @@ export class QueryClientImpl implements Query {
   }
 
   packetAcknowledgement(
-    request: QueryPacketAcknowledgementRequest
+    request: QueryPacketAcknowledgementRequest,
   ): Promise<QueryPacketAcknowledgementResponse> {
     const data = QueryPacketAcknowledgementRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.channel.v1.Query", "PacketAcknowledgement", data);
@@ -167,7 +167,7 @@ export class QueryClientImpl implements Query {
   }
 
   packetAcknowledgements(
-    request: QueryPacketAcknowledgementsRequest
+    request: QueryPacketAcknowledgementsRequest,
   ): Promise<QueryPacketAcknowledgementsResponse> {
     const data = QueryPacketAcknowledgementsRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.channel.v1.Query", "PacketAcknowledgements", data);

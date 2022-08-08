@@ -465,7 +465,7 @@ export const MsgChannelOpenTry = {
     message.counterpartyVersion !== undefined && (obj.counterpartyVersion = message.counterpartyVersion);
     message.proofInit !== undefined &&
       (obj.proofInit = base64FromBytes(
-        message.proofInit !== undefined ? message.proofInit : new Uint8Array()
+        message.proofInit !== undefined ? message.proofInit : new Uint8Array(),
       ));
     message.proofHeight !== undefined &&
       (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
@@ -1072,7 +1072,7 @@ export const MsgChannelCloseConfirm = {
     message.channelId !== undefined && (obj.channelId = message.channelId);
     message.proofInit !== undefined &&
       (obj.proofInit = base64FromBytes(
-        message.proofInit !== undefined ? message.proofInit : new Uint8Array()
+        message.proofInit !== undefined ? message.proofInit : new Uint8Array(),
       ));
     message.proofHeight !== undefined &&
       (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
@@ -1216,7 +1216,7 @@ export const MsgRecvPacket = {
     message.packet !== undefined && (obj.packet = message.packet ? Packet.toJSON(message.packet) : undefined);
     message.proofCommitment !== undefined &&
       (obj.proofCommitment = base64FromBytes(
-        message.proofCommitment !== undefined ? message.proofCommitment : new Uint8Array()
+        message.proofCommitment !== undefined ? message.proofCommitment : new Uint8Array(),
       ));
     message.proofHeight !== undefined &&
       (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
@@ -1386,7 +1386,7 @@ export const MsgTimeout = {
     message.packet !== undefined && (obj.packet = message.packet ? Packet.toJSON(message.packet) : undefined);
     message.proofUnreceived !== undefined &&
       (obj.proofUnreceived = base64FromBytes(
-        message.proofUnreceived !== undefined ? message.proofUnreceived : new Uint8Array()
+        message.proofUnreceived !== undefined ? message.proofUnreceived : new Uint8Array(),
       ));
     message.proofHeight !== undefined &&
       (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
@@ -1572,11 +1572,11 @@ export const MsgTimeoutOnClose = {
     message.packet !== undefined && (obj.packet = message.packet ? Packet.toJSON(message.packet) : undefined);
     message.proofUnreceived !== undefined &&
       (obj.proofUnreceived = base64FromBytes(
-        message.proofUnreceived !== undefined ? message.proofUnreceived : new Uint8Array()
+        message.proofUnreceived !== undefined ? message.proofUnreceived : new Uint8Array(),
       ));
     message.proofClose !== undefined &&
       (obj.proofClose = base64FromBytes(
-        message.proofClose !== undefined ? message.proofClose : new Uint8Array()
+        message.proofClose !== undefined ? message.proofClose : new Uint8Array(),
       ));
     message.proofHeight !== undefined &&
       (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
@@ -1751,11 +1751,11 @@ export const MsgAcknowledgement = {
     message.packet !== undefined && (obj.packet = message.packet ? Packet.toJSON(message.packet) : undefined);
     message.acknowledgement !== undefined &&
       (obj.acknowledgement = base64FromBytes(
-        message.acknowledgement !== undefined ? message.acknowledgement : new Uint8Array()
+        message.acknowledgement !== undefined ? message.acknowledgement : new Uint8Array(),
       ));
     message.proofAcked !== undefined &&
       (obj.proofAcked = base64FromBytes(
-        message.proofAcked !== undefined ? message.proofAcked : new Uint8Array()
+        message.proofAcked !== undefined ? message.proofAcked : new Uint8Array(),
       ));
     message.proofHeight !== undefined &&
       (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);

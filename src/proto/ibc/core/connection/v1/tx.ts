@@ -440,15 +440,15 @@ export const MsgConnectionOpenTry = {
       (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
     message.proofInit !== undefined &&
       (obj.proofInit = base64FromBytes(
-        message.proofInit !== undefined ? message.proofInit : new Uint8Array()
+        message.proofInit !== undefined ? message.proofInit : new Uint8Array(),
       ));
     message.proofClient !== undefined &&
       (obj.proofClient = base64FromBytes(
-        message.proofClient !== undefined ? message.proofClient : new Uint8Array()
+        message.proofClient !== undefined ? message.proofClient : new Uint8Array(),
       ));
     message.proofConsensus !== undefined &&
       (obj.proofConsensus = base64FromBytes(
-        message.proofConsensus !== undefined ? message.proofConsensus : new Uint8Array()
+        message.proofConsensus !== undefined ? message.proofConsensus : new Uint8Array(),
       ));
     message.consensusHeight !== undefined &&
       (obj.consensusHeight = message.consensusHeight ? Height.toJSON(message.consensusHeight) : undefined);
@@ -683,11 +683,11 @@ export const MsgConnectionOpenAck = {
       (obj.proofTry = base64FromBytes(message.proofTry !== undefined ? message.proofTry : new Uint8Array()));
     message.proofClient !== undefined &&
       (obj.proofClient = base64FromBytes(
-        message.proofClient !== undefined ? message.proofClient : new Uint8Array()
+        message.proofClient !== undefined ? message.proofClient : new Uint8Array(),
       ));
     message.proofConsensus !== undefined &&
       (obj.proofConsensus = base64FromBytes(
-        message.proofConsensus !== undefined ? message.proofConsensus : new Uint8Array()
+        message.proofConsensus !== undefined ? message.proofConsensus : new Uint8Array(),
       ));
     message.consensusHeight !== undefined &&
       (obj.consensusHeight = message.consensusHeight ? Height.toJSON(message.consensusHeight) : undefined);

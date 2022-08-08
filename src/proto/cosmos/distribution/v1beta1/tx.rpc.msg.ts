@@ -23,7 +23,7 @@ export interface Msg {
   from a single validator.*/
 
   withdrawValidatorCommission(
-    request: MsgWithdrawValidatorCommission
+    request: MsgWithdrawValidatorCommission,
   ): Promise<MsgWithdrawValidatorCommissionResponse>;
   /*WithdrawValidatorCommission defines a method to withdraw the
   full commission to the validator address.*/
@@ -56,7 +56,7 @@ export class MsgClientImpl implements Msg {
   }
 
   withdrawValidatorCommission(
-    request: MsgWithdrawValidatorCommission
+    request: MsgWithdrawValidatorCommission,
   ): Promise<MsgWithdrawValidatorCommissionResponse> {
     const data = MsgWithdrawValidatorCommission.encode(request).finish();
     const promise = this.rpc.request("cosmos.distribution.v1beta1.Msg", "WithdrawValidatorCommission", data);

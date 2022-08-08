@@ -575,7 +575,7 @@ export const Header = {
     message.timestamp !== undefined && (obj.timestamp = (message.timestamp || Long.UZERO).toString());
     message.signature !== undefined &&
       (obj.signature = base64FromBytes(
-        message.signature !== undefined ? message.signature : new Uint8Array()
+        message.signature !== undefined ? message.signature : new Uint8Array(),
       ));
     message.newPublicKey !== undefined &&
       (obj.newPublicKey = message.newPublicKey ? Any.toJSON(message.newPublicKey) : undefined);
@@ -783,7 +783,7 @@ export const SignatureAndData = {
     const obj: any = {};
     message.signature !== undefined &&
       (obj.signature = base64FromBytes(
-        message.signature !== undefined ? message.signature : new Uint8Array()
+        message.signature !== undefined ? message.signature : new Uint8Array(),
       ));
     message.dataType !== undefined && (obj.dataType = dataTypeToJSON(message.dataType));
     message.data !== undefined &&
@@ -862,7 +862,7 @@ export const TimestampedSignatureData = {
     const obj: any = {};
     message.signatureData !== undefined &&
       (obj.signatureData = base64FromBytes(
-        message.signatureData !== undefined ? message.signatureData : new Uint8Array()
+        message.signatureData !== undefined ? message.signatureData : new Uint8Array(),
       ));
     message.timestamp !== undefined && (obj.timestamp = (message.timestamp || Long.UZERO).toString());
     return obj;
@@ -1413,7 +1413,7 @@ export const PacketCommitmentData = {
       (obj.path = base64FromBytes(message.path !== undefined ? message.path : new Uint8Array()));
     message.commitment !== undefined &&
       (obj.commitment = base64FromBytes(
-        message.commitment !== undefined ? message.commitment : new Uint8Array()
+        message.commitment !== undefined ? message.commitment : new Uint8Array(),
       ));
     return obj;
   },
@@ -1487,7 +1487,7 @@ export const PacketAcknowledgementData = {
       (obj.path = base64FromBytes(message.path !== undefined ? message.path : new Uint8Array()));
     message.acknowledgement !== undefined &&
       (obj.acknowledgement = base64FromBytes(
-        message.acknowledgement !== undefined ? message.acknowledgement : new Uint8Array()
+        message.acknowledgement !== undefined ? message.acknowledgement : new Uint8Array(),
       ));
     return obj;
   },

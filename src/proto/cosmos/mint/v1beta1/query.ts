@@ -226,7 +226,7 @@ export const QueryInflationResponse = {
     const obj: any = {};
     message.inflation !== undefined &&
       (obj.inflation = base64FromBytes(
-        message.inflation !== undefined ? message.inflation : new Uint8Array()
+        message.inflation !== undefined ? message.inflation : new Uint8Array(),
       ));
     return obj;
   },
@@ -329,7 +329,7 @@ export const QueryAnnualProvisionsResponse = {
     const obj: any = {};
     message.annualProvisions !== undefined &&
       (obj.annualProvisions = base64FromBytes(
-        message.annualProvisions !== undefined ? message.annualProvisions : new Uint8Array()
+        message.annualProvisions !== undefined ? message.annualProvisions : new Uint8Array(),
       ));
     return obj;
   },

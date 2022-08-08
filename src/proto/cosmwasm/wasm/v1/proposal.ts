@@ -290,7 +290,7 @@ export const StoreCodeProposal = {
     message.runAs !== undefined && (obj.runAs = message.runAs);
     message.wasmByteCode !== undefined &&
       (obj.wasmByteCode = base64FromBytes(
-        message.wasmByteCode !== undefined ? message.wasmByteCode : new Uint8Array()
+        message.wasmByteCode !== undefined ? message.wasmByteCode : new Uint8Array(),
       ));
     message.instantiatePermission !== undefined &&
       (obj.instantiatePermission = message.instantiatePermission
@@ -1300,7 +1300,7 @@ export const UpdateInstantiateConfigProposal = {
 
     if (message.accessConfigUpdates) {
       obj.accessConfigUpdates = message.accessConfigUpdates.map((e) =>
-        e ? AccessConfigUpdate.toJSON(e) : undefined
+        e ? AccessConfigUpdate.toJSON(e) : undefined,
       );
     } else {
       obj.accessConfigUpdates = [];

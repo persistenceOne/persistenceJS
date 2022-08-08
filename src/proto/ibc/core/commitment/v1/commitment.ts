@@ -143,7 +143,7 @@ export const MerklePrefix = {
     const obj: any = {};
     message.keyPrefix !== undefined &&
       (obj.keyPrefix = base64FromBytes(
-        message.keyPrefix !== undefined ? message.keyPrefix : new Uint8Array()
+        message.keyPrefix !== undefined ? message.keyPrefix : new Uint8Array(),
       ));
     return obj;
   },

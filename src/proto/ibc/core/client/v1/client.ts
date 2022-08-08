@@ -314,7 +314,7 @@ export const ClientConsensusStates = {
 
     if (message.consensusStates) {
       obj.consensusStates = message.consensusStates.map((e) =>
-        e ? ConsensusStateWithHeight.toJSON(e) : undefined
+        e ? ConsensusStateWithHeight.toJSON(e) : undefined,
       );
     } else {
       obj.consensusStates = [];

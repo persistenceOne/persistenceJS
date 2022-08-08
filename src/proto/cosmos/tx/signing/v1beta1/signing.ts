@@ -415,7 +415,7 @@ export const SignatureDescriptor_Data_Single = {
     message.mode !== undefined && (obj.mode = signModeToJSON(message.mode));
     message.signature !== undefined &&
       (obj.signature = base64FromBytes(
-        message.signature !== undefined ? message.signature : new Uint8Array()
+        message.signature !== undefined ? message.signature : new Uint8Array(),
       ));
     return obj;
   },

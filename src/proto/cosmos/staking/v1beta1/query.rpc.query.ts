@@ -53,7 +53,7 @@ export interface Query {
   /*ValidatorDelegations queries delegate info for given validator.*/
 
   validatorUnbondingDelegations(
-    request: QueryValidatorUnbondingDelegationsRequest
+    request: QueryValidatorUnbondingDelegationsRequest,
   ): Promise<QueryValidatorUnbondingDelegationsResponse>;
   /*ValidatorUnbondingDelegations queries unbonding delegations of a validator.*/
 
@@ -68,7 +68,7 @@ export interface Query {
   /*DelegatorDelegations queries all delegations of a given delegator address.*/
 
   delegatorUnbondingDelegations(
-    request: QueryDelegatorUnbondingDelegationsRequest
+    request: QueryDelegatorUnbondingDelegationsRequest,
   ): Promise<QueryDelegatorUnbondingDelegationsResponse>;
   /*DelegatorUnbondingDelegations queries all unbonding delegations of a given
   delegator address.*/
@@ -127,7 +127,7 @@ export class QueryClientImpl implements Query {
   }
 
   validatorDelegations(
-    request: QueryValidatorDelegationsRequest
+    request: QueryValidatorDelegationsRequest,
   ): Promise<QueryValidatorDelegationsResponse> {
     const data = QueryValidatorDelegationsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "ValidatorDelegations", data);
@@ -135,7 +135,7 @@ export class QueryClientImpl implements Query {
   }
 
   validatorUnbondingDelegations(
-    request: QueryValidatorUnbondingDelegationsRequest
+    request: QueryValidatorUnbondingDelegationsRequest,
   ): Promise<QueryValidatorUnbondingDelegationsResponse> {
     const data = QueryValidatorUnbondingDelegationsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "ValidatorUnbondingDelegations", data);
@@ -155,7 +155,7 @@ export class QueryClientImpl implements Query {
   }
 
   delegatorDelegations(
-    request: QueryDelegatorDelegationsRequest
+    request: QueryDelegatorDelegationsRequest,
   ): Promise<QueryDelegatorDelegationsResponse> {
     const data = QueryDelegatorDelegationsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "DelegatorDelegations", data);
@@ -163,7 +163,7 @@ export class QueryClientImpl implements Query {
   }
 
   delegatorUnbondingDelegations(
-    request: QueryDelegatorUnbondingDelegationsRequest
+    request: QueryDelegatorUnbondingDelegationsRequest,
   ): Promise<QueryDelegatorUnbondingDelegationsResponse> {
     const data = QueryDelegatorUnbondingDelegationsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "DelegatorUnbondingDelegations", data);

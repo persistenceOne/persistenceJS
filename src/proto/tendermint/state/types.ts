@@ -620,7 +620,7 @@ export const State = {
       ).toString());
     message.lastResultsHash !== undefined &&
       (obj.lastResultsHash = base64FromBytes(
-        message.lastResultsHash !== undefined ? message.lastResultsHash : new Uint8Array()
+        message.lastResultsHash !== undefined ? message.lastResultsHash : new Uint8Array(),
       ));
     message.appHash !== undefined &&
       (obj.appHash = base64FromBytes(message.appHash !== undefined ? message.appHash : new Uint8Array()));

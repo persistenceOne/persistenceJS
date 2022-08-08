@@ -753,7 +753,7 @@ export const InterfaceDescriptor = {
 
         case 2:
           message.interfaceAcceptingMessages.push(
-            InterfaceAcceptingMessageDescriptor.decode(reader, reader.uint32())
+            InterfaceAcceptingMessageDescriptor.decode(reader, reader.uint32()),
           );
           break;
 
@@ -788,7 +788,7 @@ export const InterfaceDescriptor = {
 
     if (message.interfaceAcceptingMessages) {
       obj.interfaceAcceptingMessages = message.interfaceAcceptingMessages.map((e) =>
-        e ? InterfaceAcceptingMessageDescriptor.toJSON(e) : undefined
+        e ? InterfaceAcceptingMessageDescriptor.toJSON(e) : undefined,
       );
     } else {
       obj.interfaceAcceptingMessages = [];
@@ -796,7 +796,7 @@ export const InterfaceDescriptor = {
 
     if (message.interfaceImplementers) {
       obj.interfaceImplementers = message.interfaceImplementers.map((e) =>
-        e ? InterfaceImplementerDescriptor.toJSON(e) : undefined
+        e ? InterfaceImplementerDescriptor.toJSON(e) : undefined,
       );
     } else {
       obj.interfaceImplementers = [];
@@ -1734,7 +1734,7 @@ export const QueryServicesDescriptor = {
 
     if (message.queryServices) {
       obj.queryServices = message.queryServices.map((e) =>
-        e ? QueryServiceDescriptor.toJSON(e) : undefined
+        e ? QueryServiceDescriptor.toJSON(e) : undefined,
       );
     } else {
       obj.queryServices = [];

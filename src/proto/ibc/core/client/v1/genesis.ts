@@ -154,7 +154,7 @@ export const GenesisState = {
 
     if (message.clientsConsensus) {
       obj.clientsConsensus = message.clientsConsensus.map((e) =>
-        e ? ClientConsensusStates.toJSON(e) : undefined
+        e ? ClientConsensusStates.toJSON(e) : undefined,
       );
     } else {
       obj.clientsConsensus = [];
@@ -162,7 +162,7 @@ export const GenesisState = {
 
     if (message.clientsMetadata) {
       obj.clientsMetadata = message.clientsMetadata.map((e) =>
-        e ? IdentifiedGenesisMetadata.toJSON(e) : undefined
+        e ? IdentifiedGenesisMetadata.toJSON(e) : undefined,
       );
     } else {
       obj.clientsMetadata = [];

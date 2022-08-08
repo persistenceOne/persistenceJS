@@ -362,7 +362,7 @@ export const MsgWithdrawValidatorCommissionResponse = {
   },
 
   fromPartial(
-    _: DeepPartial<MsgWithdrawValidatorCommissionResponse>
+    _: DeepPartial<MsgWithdrawValidatorCommissionResponse>,
   ): MsgWithdrawValidatorCommissionResponse {
     const message = createBaseMsgWithdrawValidatorCommissionResponse();
     return message;

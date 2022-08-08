@@ -176,7 +176,7 @@ export const Metadata = {
 
     if (message.chunkHashes) {
       obj.chunkHashes = message.chunkHashes.map((e) =>
-        base64FromBytes(e !== undefined ? e : new Uint8Array())
+        base64FromBytes(e !== undefined ? e : new Uint8Array()),
       );
     } else {
       obj.chunkHashes = [];

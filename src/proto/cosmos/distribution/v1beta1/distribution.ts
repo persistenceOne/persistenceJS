@@ -275,7 +275,7 @@ export const ValidatorHistoricalRewards = {
 
     if (message.cumulativeRewardRatio) {
       obj.cumulativeRewardRatio = message.cumulativeRewardRatio.map((e) =>
-        e ? DecCoin.toJSON(e) : undefined
+        e ? DecCoin.toJSON(e) : undefined,
       );
     } else {
       obj.cumulativeRewardRatio = [];
@@ -616,7 +616,7 @@ export const ValidatorSlashEvents = {
 
     if (message.validatorSlashEvents) {
       obj.validatorSlashEvents = message.validatorSlashEvents.map((e) =>
-        e ? ValidatorSlashEvent.toJSON(e) : undefined
+        e ? ValidatorSlashEvent.toJSON(e) : undefined,
       );
     } else {
       obj.validatorSlashEvents = [];
@@ -967,7 +967,7 @@ function createBaseCommunityPoolSpendProposalWithDeposit(): CommunityPoolSpendPr
 export const CommunityPoolSpendProposalWithDeposit = {
   encode(
     message: CommunityPoolSpendProposalWithDeposit,
-    writer: _m0.Writer = _m0.Writer.create()
+    writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
@@ -1051,7 +1051,7 @@ export const CommunityPoolSpendProposalWithDeposit = {
   },
 
   fromPartial(
-    object: DeepPartial<CommunityPoolSpendProposalWithDeposit>
+    object: DeepPartial<CommunityPoolSpendProposalWithDeposit>,
   ): CommunityPoolSpendProposalWithDeposit {
     const message = createBaseCommunityPoolSpendProposalWithDeposit();
     message.title = object.title ?? "";

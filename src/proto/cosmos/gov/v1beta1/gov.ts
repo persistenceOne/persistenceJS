@@ -1078,11 +1078,11 @@ export const TallyParams = {
       (obj.quorum = base64FromBytes(message.quorum !== undefined ? message.quorum : new Uint8Array()));
     message.threshold !== undefined &&
       (obj.threshold = base64FromBytes(
-        message.threshold !== undefined ? message.threshold : new Uint8Array()
+        message.threshold !== undefined ? message.threshold : new Uint8Array(),
       ));
     message.vetoThreshold !== undefined &&
       (obj.vetoThreshold = base64FromBytes(
-        message.vetoThreshold !== undefined ? message.vetoThreshold : new Uint8Array()
+        message.vetoThreshold !== undefined ? message.vetoThreshold : new Uint8Array(),
       ));
     return obj;
   },

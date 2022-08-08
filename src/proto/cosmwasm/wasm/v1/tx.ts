@@ -199,7 +199,7 @@ export const MsgStoreCode = {
     message.sender !== undefined && (obj.sender = message.sender);
     message.wasmByteCode !== undefined &&
       (obj.wasmByteCode = base64FromBytes(
-        message.wasmByteCode !== undefined ? message.wasmByteCode : new Uint8Array()
+        message.wasmByteCode !== undefined ? message.wasmByteCode : new Uint8Array(),
       ));
     message.instantiatePermission !== undefined &&
       (obj.instantiatePermission = message.instantiatePermission

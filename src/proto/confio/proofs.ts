@@ -1071,7 +1071,7 @@ export const InnerSpec = {
     message.maxPrefixLength !== undefined && (obj.maxPrefixLength = Math.round(message.maxPrefixLength));
     message.emptyChild !== undefined &&
       (obj.emptyChild = base64FromBytes(
-        message.emptyChild !== undefined ? message.emptyChild : new Uint8Array()
+        message.emptyChild !== undefined ? message.emptyChild : new Uint8Array(),
       ));
     message.hash !== undefined && (obj.hash = hashOpToJSON(message.hash));
     return obj;

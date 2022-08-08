@@ -448,13 +448,13 @@ export const MsgUpgradeClient = {
       (obj.consensusState = message.consensusState ? Any.toJSON(message.consensusState) : undefined);
     message.proofUpgradeClient !== undefined &&
       (obj.proofUpgradeClient = base64FromBytes(
-        message.proofUpgradeClient !== undefined ? message.proofUpgradeClient : new Uint8Array()
+        message.proofUpgradeClient !== undefined ? message.proofUpgradeClient : new Uint8Array(),
       ));
     message.proofUpgradeConsensusState !== undefined &&
       (obj.proofUpgradeConsensusState = base64FromBytes(
         message.proofUpgradeConsensusState !== undefined
           ? message.proofUpgradeConsensusState
-          : new Uint8Array()
+          : new Uint8Array(),
       ));
     message.signer !== undefined && (obj.signer = message.signer);
     return obj;
