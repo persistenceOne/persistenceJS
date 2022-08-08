@@ -12,3 +12,4 @@ export * from "./gogoproto/bundle";
 export * from "./google/bundle";
 export * from "./ibc/bundle";
 export * from "./tendermint/bundle";
+export * from "./persistence/bundle";
