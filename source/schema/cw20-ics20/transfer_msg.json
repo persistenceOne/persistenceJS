@@ -3,10 +3,7 @@
   "title": "TransferMsg",
   "description": "This is the message we accept via Receive",
   "type": "object",
-  "required": [
-    "channel",
-    "remote_address"
-  ],
+  "required": ["channel", "remote_address"],
   "properties": {
     "channel": {
       "description": "The local channel to send the packets on",
@@ -18,10 +15,7 @@
     },
     "timeout": {
       "description": "How long the packet lives in seconds. If not specified, use default_timeout",
-      "type": [
-        "integer",
-        "null"
-      ],
+      "type": ["integer", "null"],
       "format": "uint64",
       "minimum": 0.0
     }

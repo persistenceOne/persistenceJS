@@ -4,9 +4,7 @@
   "oneOf": [
     {
       "type": "object",
-      "required": [
-        "config"
-      ],
+      "required": ["config"],
       "properties": {
         "config": {
           "type": "object"
@@ -16,15 +14,11 @@
     },
     {
       "type": "object",
-      "required": [
-        "feeder"
-      ],
+      "required": ["feeder"],
       "properties": {
         "feeder": {
           "type": "object",
-          "required": [
-            "asset"
-          ],
+          "required": ["asset"],
           "properties": {
             "asset": {
               "type": "string"
@@ -36,16 +30,11 @@
     },
     {
       "type": "object",
-      "required": [
-        "price"
-      ],
+      "required": ["price"],
       "properties": {
         "price": {
           "type": "object",
-          "required": [
-            "base",
-            "quote"
-          ],
+          "required": ["base", "quote"],
           "properties": {
             "base": {
               "type": "string"
@@ -60,26 +49,18 @@
     },
     {
       "type": "object",
-      "required": [
-        "prices"
-      ],
+      "required": ["prices"],
       "properties": {
         "prices": {
           "type": "object",
           "properties": {
             "limit": {
-              "type": [
-                "integer",
-                "null"
-              ],
+              "type": ["integer", "null"],
               "format": "uint32",
               "minimum": 0.0
             },
             "start_after": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             }
           }
         }

@@ -2,11 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ChannelResponse",
   "type": "object",
-  "required": [
-    "balances",
-    "info",
-    "total_sent"
-  ],
+  "required": ["balances", "info", "total_sent"],
   "properties": {
     "balances": {
       "description": "How many tokens we currently have pending over this channel",
@@ -36,9 +32,7 @@
       "oneOf": [
         {
           "type": "object",
-          "required": [
-            "native"
-          ],
+          "required": ["native"],
           "properties": {
             "native": {
               "$ref": "#/definitions/Coin"
@@ -48,9 +42,7 @@
         },
         {
           "type": "object",
-          "required": [
-            "cw20"
-          ],
+          "required": ["cw20"],
           "properties": {
             "cw20": {
               "$ref": "#/definitions/Cw20Coin"
@@ -62,11 +54,7 @@
     },
     "ChannelInfo": {
       "type": "object",
-      "required": [
-        "connection_id",
-        "counterparty_endpoint",
-        "id"
-      ],
+      "required": ["connection_id", "counterparty_endpoint", "id"],
       "properties": {
         "connection_id": {
           "description": "the connection this exists on (you can use to query client/consensus info)",
@@ -88,10 +76,7 @@
     },
     "Coin": {
       "type": "object",
-      "required": [
-        "amount",
-        "denom"
-      ],
+      "required": ["amount", "denom"],
       "properties": {
         "amount": {
           "$ref": "#/definitions/Uint128"
@@ -103,10 +88,7 @@
     },
     "Cw20Coin": {
       "type": "object",
-      "required": [
-        "address",
-        "amount"
-      ],
+      "required": ["address", "amount"],
       "properties": {
         "address": {
           "type": "string"
@@ -118,10 +100,7 @@
     },
     "IbcEndpoint": {
       "type": "object",
-      "required": [
-        "channel_id",
-        "port_id"
-      ],
+      "required": ["channel_id", "port_id"],
       "properties": {
         "channel_id": {
           "type": "string"

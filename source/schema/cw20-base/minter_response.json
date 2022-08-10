@@ -2,9 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "MinterResponse",
   "type": "object",
-  "required": [
-    "minter"
-  ],
+  "required": ["minter"],
   "properties": {
     "cap": {
       "description": "cap is a hard cap on total supply that can be achieved by minting. Note that this refers to total_supply. If None, there is unlimited cap.",

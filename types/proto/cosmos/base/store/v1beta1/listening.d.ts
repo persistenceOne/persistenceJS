@@ -8,17 +8,17 @@ import { DeepPartial } from "@osmonauts/helpers";
  * Since: cosmos-sdk 0.43
  */
 export interface StoreKVPair {
-    /** the store key for the KVStore this pair originates from */
-    storeKey: string;
-    /** true indicates a delete operation, false indicates a set operation */
-    delete: boolean;
-    key: Uint8Array;
-    value: Uint8Array;
+  /** the store key for the KVStore this pair originates from */
+  storeKey: string;
+  /** true indicates a delete operation, false indicates a set operation */
+  delete: boolean;
+  key: Uint8Array;
+  value: Uint8Array;
 }
 export declare const StoreKVPair: {
-    encode(message: StoreKVPair, writer?: _m0.Writer): _m0.Writer;
-    decode(input: _m0.Reader | Uint8Array, length?: number): StoreKVPair;
-    fromJSON(object: any): StoreKVPair;
-    toJSON(message: StoreKVPair): unknown;
-    fromPartial(object: DeepPartial<StoreKVPair>): StoreKVPair;
+  encode(message: StoreKVPair, writer?: _m0.Writer): _m0.Writer;
+  decode(input: _m0.Reader | Uint8Array, length?: number): StoreKVPair;
+  fromJSON(object: any): StoreKVPair;
+  toJSON(message: StoreKVPair): unknown;
+  fromPartial(object: DeepPartial<StoreKVPair>): StoreKVPair;
 };

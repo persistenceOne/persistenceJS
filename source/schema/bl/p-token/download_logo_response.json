@@ -3,10 +3,7 @@
   "title": "DownloadLogoResponse",
   "description": "When we download an embedded logo, we get this response type. We expect a SPA to be able to accept this info and display it.",
   "type": "object",
-  "required": [
-    "data",
-    "mime_type"
-  ],
+  "required": ["data", "mime_type"],
   "properties": {
     "data": {
       "$ref": "#/definitions/Binary"

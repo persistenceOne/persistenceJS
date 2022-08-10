@@ -2,9 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "AllAllowancesResponse",
   "type": "object",
-  "required": [
-    "allowances"
-  ],
+  "required": ["allowances"],
   "properties": {
     "allowances": {
       "type": "array",
@@ -16,11 +14,7 @@
   "definitions": {
     "AllowanceInfo": {
       "type": "object",
-      "required": [
-        "allowance",
-        "expires",
-        "spender"
-      ],
+      "required": ["allowance", "expires", "spender"],
       "properties": {
         "allowance": {
           "$ref": "#/definitions/Uint128"
@@ -39,9 +33,7 @@
         {
           "description": "AtHeight will expire when `env.block.height` >= height",
           "type": "object",
-          "required": [
-            "at_height"
-          ],
+          "required": ["at_height"],
           "properties": {
             "at_height": {
               "type": "integer",
@@ -54,9 +46,7 @@
         {
           "description": "AtTime will expire when `env.block.time` >= time",
           "type": "object",
-          "required": [
-            "at_time"
-          ],
+          "required": ["at_time"],
           "properties": {
             "at_time": {
               "$ref": "#/definitions/Timestamp"
@@ -67,9 +57,7 @@
         {
           "description": "Never will never expire. Used to express the empty variant",
           "type": "object",
-          "required": [
-            "never"
-          ],
+          "required": ["never"],
           "properties": {
             "never": {
               "type": "object"

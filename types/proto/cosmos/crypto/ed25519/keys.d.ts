@@ -8,26 +8,26 @@ import { DeepPartial } from "@osmonauts/helpers";
  * then you must create a new proto message and follow ADR-28 for Address construction.
  */
 export interface PubKey {
-    key: Uint8Array;
+  key: Uint8Array;
 }
 /**
  * Deprecated: PrivKey defines a ed25519 private key.
  * NOTE: ed25519 keys must not be used in SDK apps except in a tendermint validator context.
  */
 export interface PrivKey {
-    key: Uint8Array;
+  key: Uint8Array;
 }
 export declare const PubKey: {
-    encode(message: PubKey, writer?: _m0.Writer): _m0.Writer;
-    decode(input: _m0.Reader | Uint8Array, length?: number): PubKey;
-    fromJSON(object: any): PubKey;
-    toJSON(message: PubKey): unknown;
-    fromPartial(object: DeepPartial<PubKey>): PubKey;
+  encode(message: PubKey, writer?: _m0.Writer): _m0.Writer;
+  decode(input: _m0.Reader | Uint8Array, length?: number): PubKey;
+  fromJSON(object: any): PubKey;
+  toJSON(message: PubKey): unknown;
+  fromPartial(object: DeepPartial<PubKey>): PubKey;
 };
 export declare const PrivKey: {
-    encode(message: PrivKey, writer?: _m0.Writer): _m0.Writer;
-    decode(input: _m0.Reader | Uint8Array, length?: number): PrivKey;
-    fromJSON(object: any): PrivKey;
-    toJSON(message: PrivKey): unknown;
-    fromPartial(object: DeepPartial<PrivKey>): PrivKey;
+  encode(message: PrivKey, writer?: _m0.Writer): _m0.Writer;
+  decode(input: _m0.Reader | Uint8Array, length?: number): PrivKey;
+  fromJSON(object: any): PrivKey;
+  toJSON(message: PrivKey): unknown;
+  fromPartial(object: DeepPartial<PrivKey>): PrivKey;
 };

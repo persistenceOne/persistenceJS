@@ -48,15 +48,11 @@
       "oneOf": [
         {
           "type": "string",
-          "enum": [
-            "not_borrowing"
-          ]
+          "enum": ["not_borrowing"]
         },
         {
           "type": "object",
-          "required": [
-            "borrowing"
-          ],
+          "required": ["borrowing"],
           "properties": {
             "borrowing": {
               "$ref": "#/definitions/Decimal"

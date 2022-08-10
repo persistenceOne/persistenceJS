@@ -2,11 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "PriceResponse",
   "type": "object",
-  "required": [
-    "last_updated_base",
-    "last_updated_quote",
-    "rate"
-  ],
+  "required": ["last_updated_base", "last_updated_quote", "rate"],
   "properties": {
     "last_updated_base": {
       "type": "integer",

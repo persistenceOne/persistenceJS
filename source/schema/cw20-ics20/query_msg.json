@@ -5,9 +5,7 @@
     {
       "description": "Return the port ID bound by this contract. Returns PortResponse",
       "type": "object",
-      "required": [
-        "port"
-      ],
+      "required": ["port"],
       "properties": {
         "port": {
           "type": "object"
@@ -18,9 +16,7 @@
     {
       "description": "Show all channels we have connected to. Return type is ListChannelsResponse.",
       "type": "object",
-      "required": [
-        "list_channels"
-      ],
+      "required": ["list_channels"],
       "properties": {
         "list_channels": {
           "type": "object"
@@ -31,15 +27,11 @@
     {
       "description": "Returns the details of the name channel, error if not created. Return type: ChannelResponse.",
       "type": "object",
-      "required": [
-        "channel"
-      ],
+      "required": ["channel"],
       "properties": {
         "channel": {
           "type": "object",
-          "required": [
-            "id"
-          ],
+          "required": ["id"],
           "properties": {
             "id": {
               "type": "string"
@@ -52,9 +44,7 @@
     {
       "description": "Show the Config. Returns ConfigResponse (currently including admin as well)",
       "type": "object",
-      "required": [
-        "config"
-      ],
+      "required": ["config"],
       "properties": {
         "config": {
           "type": "object"
@@ -65,9 +55,7 @@
     {
       "description": "Return AdminResponse",
       "type": "object",
-      "required": [
-        "admin"
-      ],
+      "required": ["admin"],
       "properties": {
         "admin": {
           "type": "object"
@@ -78,15 +66,11 @@
     {
       "description": "Query if a given cw20 contract is allowed. Returns AllowedResponse",
       "type": "object",
-      "required": [
-        "allowed"
-      ],
+      "required": ["allowed"],
       "properties": {
         "allowed": {
           "type": "object",
-          "required": [
-            "contract"
-          ],
+          "required": ["contract"],
           "properties": {
             "contract": {
               "type": "string"
@@ -99,26 +83,18 @@
     {
       "description": "List all allowed cw20 contracts. Returns ListAllowedResponse",
       "type": "object",
-      "required": [
-        "list_allowed"
-      ],
+      "required": ["list_allowed"],
       "properties": {
         "list_allowed": {
           "type": "object",
           "properties": {
             "limit": {
-              "type": [
-                "integer",
-                "null"
-              ],
+              "type": ["integer", "null"],
               "format": "uint32",
               "minimum": 0.0
             },
             "start_after": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             }
           }
         }

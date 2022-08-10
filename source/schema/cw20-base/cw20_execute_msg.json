@@ -5,16 +5,11 @@
     {
       "description": "Transfer is a base message to move tokens to another account without triggering actions",
       "type": "object",
-      "required": [
-        "transfer"
-      ],
+      "required": ["transfer"],
       "properties": {
         "transfer": {
           "type": "object",
-          "required": [
-            "amount",
-            "recipient"
-          ],
+          "required": ["amount", "recipient"],
           "properties": {
             "amount": {
               "$ref": "#/definitions/Uint128"
@@ -30,15 +25,11 @@
     {
       "description": "Burn is a base message to destroy tokens forever",
       "type": "object",
-      "required": [
-        "burn"
-      ],
+      "required": ["burn"],
       "properties": {
         "burn": {
           "type": "object",
-          "required": [
-            "amount"
-          ],
+          "required": ["amount"],
           "properties": {
             "amount": {
               "$ref": "#/definitions/Uint128"
@@ -51,17 +42,11 @@
     {
       "description": "Send is a base message to transfer tokens to a contract and trigger an action on the receiving contract.",
       "type": "object",
-      "required": [
-        "send"
-      ],
+      "required": ["send"],
       "properties": {
         "send": {
           "type": "object",
-          "required": [
-            "amount",
-            "contract",
-            "msg"
-          ],
+          "required": ["amount", "contract", "msg"],
           "properties": {
             "amount": {
               "$ref": "#/definitions/Uint128"
@@ -80,16 +65,11 @@
     {
       "description": "Only with \"approval\" extension. Allows spender to access an additional amount tokens from the owner's (env.sender) account. If expires is Some(), overwrites current allowance expiration with this one.",
       "type": "object",
-      "required": [
-        "increase_allowance"
-      ],
+      "required": ["increase_allowance"],
       "properties": {
         "increase_allowance": {
           "type": "object",
-          "required": [
-            "amount",
-            "spender"
-          ],
+          "required": ["amount", "spender"],
           "properties": {
             "amount": {
               "$ref": "#/definitions/Uint128"
@@ -115,16 +95,11 @@
     {
       "description": "Only with \"approval\" extension. Lowers the spender's access of tokens from the owner's (env.sender) account by amount. If expires is Some(), overwrites current allowance expiration with this one.",
       "type": "object",
-      "required": [
-        "decrease_allowance"
-      ],
+      "required": ["decrease_allowance"],
       "properties": {
         "decrease_allowance": {
           "type": "object",
-          "required": [
-            "amount",
-            "spender"
-          ],
+          "required": ["amount", "spender"],
           "properties": {
             "amount": {
               "$ref": "#/definitions/Uint128"
@@ -150,17 +125,11 @@
     {
       "description": "Only with \"approval\" extension. Transfers amount tokens from owner -> recipient if `env.sender` has sufficient pre-approval.",
       "type": "object",
-      "required": [
-        "transfer_from"
-      ],
+      "required": ["transfer_from"],
       "properties": {
         "transfer_from": {
           "type": "object",
-          "required": [
-            "amount",
-            "owner",
-            "recipient"
-          ],
+          "required": ["amount", "owner", "recipient"],
           "properties": {
             "amount": {
               "$ref": "#/definitions/Uint128"
@@ -179,18 +148,11 @@
     {
       "description": "Only with \"approval\" extension. Sends amount tokens from owner -> contract if `env.sender` has sufficient pre-approval.",
       "type": "object",
-      "required": [
-        "send_from"
-      ],
+      "required": ["send_from"],
       "properties": {
         "send_from": {
           "type": "object",
-          "required": [
-            "amount",
-            "contract",
-            "msg",
-            "owner"
-          ],
+          "required": ["amount", "contract", "msg", "owner"],
           "properties": {
             "amount": {
               "$ref": "#/definitions/Uint128"
@@ -212,16 +174,11 @@
     {
       "description": "Only with \"approval\" extension. Destroys tokens forever",
       "type": "object",
-      "required": [
-        "burn_from"
-      ],
+      "required": ["burn_from"],
       "properties": {
         "burn_from": {
           "type": "object",
-          "required": [
-            "amount",
-            "owner"
-          ],
+          "required": ["amount", "owner"],
           "properties": {
             "amount": {
               "$ref": "#/definitions/Uint128"
@@ -237,16 +194,11 @@
     {
       "description": "Only with the \"mintable\" extension. If authorized, creates amount new tokens and adds to the recipient balance.",
       "type": "object",
-      "required": [
-        "mint"
-      ],
+      "required": ["mint"],
       "properties": {
         "mint": {
           "type": "object",
-          "required": [
-            "amount",
-            "recipient"
-          ],
+          "required": ["amount", "recipient"],
           "properties": {
             "amount": {
               "$ref": "#/definitions/Uint128"
@@ -262,15 +214,11 @@
     {
       "description": "Only with the \"mintable\" extension. The current minter may set a new minter.",
       "type": "object",
-      "required": [
-        "update_minter"
-      ],
+      "required": ["update_minter"],
       "properties": {
         "update_minter": {
           "type": "object",
-          "required": [
-            "new_minter"
-          ],
+          "required": ["new_minter"],
           "properties": {
             "new_minter": {
               "type": "string"
@@ -283,33 +231,22 @@
     {
       "description": "Only with the \"marketing\" extension. If authorized, updates marketing metadata. Setting None/null for any of these will leave it unchanged. Setting Some(\"\") will clear this field on the contract storage",
       "type": "object",
-      "required": [
-        "update_marketing"
-      ],
+      "required": ["update_marketing"],
       "properties": {
         "update_marketing": {
           "type": "object",
           "properties": {
             "description": {
               "description": "A longer description of the token and it's utility. Designed for tooltips or such",
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "marketing": {
               "description": "The address (if any) who can update this data structure",
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             },
             "project": {
               "description": "A URL pointing to the project behind this token.",
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             }
           }
         }
@@ -319,9 +256,7 @@
     {
       "description": "If set as the \"marketing\" role on the contract, upload a new URL, SVG, or PNG for the token",
       "type": "object",
-      "required": [
-        "upload_logo"
-      ],
+      "required": ["upload_logo"],
       "properties": {
         "upload_logo": {
           "$ref": "#/definitions/Logo"
@@ -341,9 +276,7 @@
         {
           "description": "Store the Logo as an SVG file. The content must conform to the spec at https://en.wikipedia.org/wiki/Scalable_Vector_Graphics (The contract should do some light-weight sanity-check validation)",
           "type": "object",
-          "required": [
-            "svg"
-          ],
+          "required": ["svg"],
           "properties": {
             "svg": {
               "$ref": "#/definitions/Binary"
@@ -354,9 +287,7 @@
         {
           "description": "Store the Logo as a PNG file. This will likely only support up to 64x64 or so within the 5KB limit.",
           "type": "object",
-          "required": [
-            "png"
-          ],
+          "required": ["png"],
           "properties": {
             "png": {
               "$ref": "#/definitions/Binary"
@@ -372,9 +303,7 @@
         {
           "description": "AtHeight will expire when `env.block.height` >= height",
           "type": "object",
-          "required": [
-            "at_height"
-          ],
+          "required": ["at_height"],
           "properties": {
             "at_height": {
               "type": "integer",
@@ -387,9 +316,7 @@
         {
           "description": "AtTime will expire when `env.block.time` >= time",
           "type": "object",
-          "required": [
-            "at_time"
-          ],
+          "required": ["at_time"],
           "properties": {
             "at_time": {
               "$ref": "#/definitions/Timestamp"
@@ -400,9 +327,7 @@
         {
           "description": "Never will never expire. Used to express the empty variant",
           "type": "object",
-          "required": [
-            "never"
-          ],
+          "required": ["never"],
           "properties": {
             "never": {
               "type": "object"
@@ -418,9 +343,7 @@
         {
           "description": "A reference to an externally hosted logo. Must be a valid HTTP or HTTPS URL.",
           "type": "object",
-          "required": [
-            "url"
-          ],
+          "required": ["url"],
           "properties": {
             "url": {
               "type": "string"
@@ -431,9 +354,7 @@
         {
           "description": "Logo content stored on the blockchain. Enforce maximum size of 5KB on all variants",
           "type": "object",
-          "required": [
-            "embedded"
-          ],
+          "required": ["embedded"],
           "properties": {
             "embedded": {
               "$ref": "#/definitions/EmbeddedLogo"

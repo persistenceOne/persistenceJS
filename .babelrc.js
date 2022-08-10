@@ -4,11 +4,11 @@ module.exports = (api) => {
   api.cache(() => process.env.MODULE);
   return {
     plugins: [
-      ['@babel/transform-runtime', { useESModules }],
-      '@babel/proposal-object-rest-spread',
-      '@babel/proposal-class-properties',
-      '@babel/proposal-export-default-from'
+      ["@babel/transform-runtime", { useESModules }],
+      "@babel/proposal-object-rest-spread",
+      "@babel/proposal-class-properties",
+      "@babel/proposal-export-default-from",
     ],
-    presets: useESModules ? ['@babel/typescript'] : ['@babel/typescript', '@babel/env']
+    presets: useESModules ? ["@babel/typescript"] : ["@babel/typescript", "@babel/env"],
   };
 };

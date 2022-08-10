@@ -43,20 +43,20 @@ import { DeepPartial } from "@osmonauts/helpers";
  * handled, all other features will continue to work unchanged.
  */
 export interface HttpBody {
-    /** The HTTP Content-Type header value specifying the content type of the body. */
-    contentType: string;
-    /** The HTTP request/response body as raw binary. */
-    data: Uint8Array;
-    /**
-     * Application specific response metadata. Must be set in the first response
-     * for streaming APIs.
-     */
-    extensions: Any[];
+  /** The HTTP Content-Type header value specifying the content type of the body. */
+  contentType: string;
+  /** The HTTP request/response body as raw binary. */
+  data: Uint8Array;
+  /**
+   * Application specific response metadata. Must be set in the first response
+   * for streaming APIs.
+   */
+  extensions: Any[];
 }
 export declare const HttpBody: {
-    encode(message: HttpBody, writer?: _m0.Writer): _m0.Writer;
-    decode(input: _m0.Reader | Uint8Array, length?: number): HttpBody;
-    fromJSON(object: any): HttpBody;
-    toJSON(message: HttpBody): unknown;
-    fromPartial(object: DeepPartial<HttpBody>): HttpBody;
+  encode(message: HttpBody, writer?: _m0.Writer): _m0.Writer;
+  decode(input: _m0.Reader | Uint8Array, length?: number): HttpBody;
+  fromJSON(object: any): HttpBody;
+  toJSON(message: HttpBody): unknown;
+  fromPartial(object: DeepPartial<HttpBody>): HttpBody;
 };

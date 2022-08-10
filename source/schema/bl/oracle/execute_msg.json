@@ -4,18 +4,13 @@
   "oneOf": [
     {
       "type": "object",
-      "required": [
-        "update_config"
-      ],
+      "required": ["update_config"],
       "properties": {
         "update_config": {
           "type": "object",
           "properties": {
             "owner": {
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             }
           }
         }
@@ -24,16 +19,11 @@
     },
     {
       "type": "object",
-      "required": [
-        "register_feeder"
-      ],
+      "required": ["register_feeder"],
       "properties": {
         "register_feeder": {
           "type": "object",
-          "required": [
-            "asset",
-            "feeder"
-          ],
+          "required": ["asset", "feeder"],
           "properties": {
             "asset": {
               "type": "string"
@@ -48,16 +38,11 @@
     },
     {
       "type": "object",
-      "required": [
-        "feed_price"
-      ],
+      "required": ["feed_price"],
       "properties": {
         "feed_price": {
           "type": "object",
-          "required": [
-            "assets",
-            "prices"
-          ],
+          "required": ["assets", "prices"],
           "properties": {
             "assets": {
               "type": "array",

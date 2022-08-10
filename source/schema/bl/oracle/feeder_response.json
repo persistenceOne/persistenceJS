@@ -2,10 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "FeederResponse",
   "type": "object",
-  "required": [
-    "asset",
-    "feeder"
-  ],
+  "required": ["asset", "feeder"],
   "properties": {
     "asset": {
       "type": "string"
