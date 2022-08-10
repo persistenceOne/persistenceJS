@@ -1,0 +1,32 @@
+*.log
+npm-debug.log*
+
+protobuf
+out
+*.proto
+
+# snapshots
+*.snap
+
+# Coverage directory used by tools like istanbul
+coverage
+.nyc_output
+
+# Dependency directories
+node_modules
+
+# npm package lock
+yarn.lock
+
+# project files
+.github
+.gitmodules
+.husky
+.prettierrc.json
+.babelrc.js
+.gitignore
+examples
+source
+tsconfig.json
+scripts
+NOTICE

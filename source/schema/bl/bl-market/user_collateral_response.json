@@ -2,9 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "UserCollateralResponse",
   "type": "object",
-  "required": [
-    "collateral"
-  ],
+  "required": ["collateral"],
   "properties": {
     "collateral": {
       "type": "array",
@@ -16,20 +14,11 @@
   "definitions": {
     "AssetType": {
       "type": "string",
-      "enum": [
-        "cw20",
-        "native"
-      ]
+      "enum": ["cw20", "native"]
     },
     "UserAssetCollateralResponse": {
       "type": "object",
-      "required": [
-        "asset_label",
-        "asset_reference",
-        "asset_type",
-        "denom",
-        "enabled"
-      ],
+      "required": ["asset_label", "asset_reference", "asset_type", "denom", "enabled"],
       "properties": {
         "asset_label": {
           "description": "Either denom if native asset or contract address if cw20",

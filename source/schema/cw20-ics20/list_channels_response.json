@@ -2,9 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ListChannelsResponse",
   "type": "object",
-  "required": [
-    "channels"
-  ],
+  "required": ["channels"],
   "properties": {
     "channels": {
       "type": "array",
@@ -16,11 +14,7 @@
   "definitions": {
     "ChannelInfo": {
       "type": "object",
-      "required": [
-        "connection_id",
-        "counterparty_endpoint",
-        "id"
-      ],
+      "required": ["connection_id", "counterparty_endpoint", "id"],
       "properties": {
         "connection_id": {
           "description": "the connection this exists on (you can use to query client/consensus info)",
@@ -42,10 +36,7 @@
     },
     "IbcEndpoint": {
       "type": "object",
-      "required": [
-        "channel_id",
-        "port_id"
-      ],
+      "required": ["channel_id", "port_id"],
       "properties": {
         "channel_id": {
           "type": "string"

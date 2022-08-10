@@ -2,9 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "MarketsListResponse",
   "type": "object",
-  "required": [
-    "markets_list"
-  ],
+  "required": ["markets_list"],
   "properties": {
     "markets_list": {
       "type": "array",
@@ -20,20 +18,11 @@
     },
     "AssetType": {
       "type": "string",
-      "enum": [
-        "cw20",
-        "native"
-      ]
+      "enum": ["cw20", "native"]
     },
     "MarketInfo": {
       "type": "object",
-      "required": [
-        "asset_label",
-        "asset_reference",
-        "asset_type",
-        "cw20_token_address",
-        "denom"
-      ],
+      "required": ["asset_label", "asset_reference", "asset_type", "cw20_token_address", "denom"],
       "properties": {
         "asset_label": {
           "description": "Either denom if native asset or contract address if cw20",

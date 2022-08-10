@@ -2,11 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ConfigResponse",
   "type": "object",
-  "required": [
-    "market_count",
-    "owner",
-    "ptoken_code_id"
-  ],
+  "required": ["market_count", "owner", "ptoken_code_id"],
   "properties": {
     "market_count": {
       "type": "integer",

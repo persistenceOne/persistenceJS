@@ -2,13 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "MarketInfo",
   "type": "object",
-  "required": [
-    "asset_label",
-    "asset_reference",
-    "asset_type",
-    "cw20_token_address",
-    "denom"
-  ],
+  "required": ["asset_label", "asset_reference", "asset_type", "cw20_token_address", "denom"],
   "properties": {
     "asset_label": {
       "description": "Either denom if native asset or contract address if cw20",
@@ -51,10 +45,7 @@
     },
     "AssetType": {
       "type": "string",
-      "enum": [
-        "cw20",
-        "native"
-      ]
+      "enum": ["cw20", "native"]
     }
   }
 }

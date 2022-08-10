@@ -2,9 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "InstantiateMsg",
   "type": "object",
-  "required": [
-    "config"
-  ],
+  "required": ["config"],
   "properties": {
     "config": {
       "description": "Contract configuration",
@@ -21,31 +19,19 @@
       "properties": {
         "owner": {
           "description": "Owner address for config update",
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "protocol_admin": {
           "description": "Protocol admin address (admin for all the contracts)",
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "protocol_rewards_collector_address": {
           "description": "Address to collect protocol fees",
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "ptoken_code_id": {
           "description": "ptoken cw20 code id",
-          "type": [
-            "integer",
-            "null"
-          ],
+          "type": ["integer", "null"],
           "format": "uint64",
           "minimum": 0.0
         }

@@ -5,9 +5,7 @@
     {
       "description": "Implementation of cw20 receive msg",
       "type": "object",
-      "required": [
-        "receive"
-      ],
+      "required": ["receive"],
       "properties": {
         "receive": {
           "$ref": "#/definitions/Cw20ReceiveMsg"
@@ -18,15 +16,11 @@
     {
       "description": "Update contract config (only owner can call)",
       "type": "object",
-      "required": [
-        "update_config"
-      ],
+      "required": ["update_config"],
       "properties": {
         "update_config": {
           "type": "object",
-          "required": [
-            "config"
-          ],
+          "required": ["config"],
           "properties": {
             "config": {
               "$ref": "#/definitions/ConfigParams"
@@ -39,16 +33,11 @@
     {
       "description": "Initialize an asset on the money market (only owner can call)",
       "type": "object",
-      "required": [
-        "init_asset"
-      ],
+      "required": ["init_asset"],
       "properties": {
         "init_asset": {
           "type": "object",
-          "required": [
-            "asset",
-            "asset_params"
-          ],
+          "required": ["asset", "asset_params"],
           "properties": {
             "asset": {
               "description": "Asset enum",
@@ -68,10 +57,7 @@
             },
             "asset_symbol": {
               "description": "Symbol to be used for cw20 Token name and description of asset",
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             }
           }
         }
@@ -81,15 +67,11 @@
     {
       "description": "Callback sent from pToken contract after instantiated",
       "type": "object",
-      "required": [
-        "__init_asset_token_callback"
-      ],
+      "required": ["__init_asset_token_callback"],
       "properties": {
         "__init_asset_token_callback": {
           "type": "object",
-          "required": [
-            "reference"
-          ],
+          "required": ["reference"],
           "properties": {
             "reference": {
               "description": "Either the denom for a native asset or address for a cw20 token in bytes",
@@ -108,16 +90,11 @@
     {
       "description": "Update an asset on the money market (only owner can call)",
       "type": "object",
-      "required": [
-        "update_asset"
-      ],
+      "required": ["update_asset"],
       "properties": {
         "update_asset": {
           "type": "object",
-          "required": [
-            "asset",
-            "asset_params"
-          ],
+          "required": ["asset", "asset_params"],
           "properties": {
             "asset": {
               "description": "Asset related info",
@@ -143,15 +120,11 @@
     {
       "description": "Deposit native coins. Deposited coins must be sent in the transaction this call is made",
       "type": "object",
-      "required": [
-        "deposit_native"
-      ],
+      "required": ["deposit_native"],
       "properties": {
         "deposit_native": {
           "type": "object",
-          "required": [
-            "denom"
-          ],
+          "required": ["denom"],
           "properties": {
             "denom": {
               "description": "Denom used",
@@ -159,10 +132,7 @@
             },
             "on_behalf_of": {
               "description": "Address that will receive the pTokens",
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             }
           }
         }
@@ -172,15 +142,11 @@
     {
       "description": "Withdraw an amount of the asset burning an equivalent amount of pTokens.",
       "type": "object",
-      "required": [
-        "withdraw"
-      ],
+      "required": ["withdraw"],
       "properties": {
         "withdraw": {
           "type": "object",
-          "required": [
-            "asset"
-          ],
+          "required": ["asset"],
           "properties": {
             "amount": {
               "description": "Amount to be withdrawn. If None is specified, the full pToken balance will be burned in exchange for the equivalent asset amount.",
@@ -209,16 +175,11 @@
     {
       "description": "Borrow native coins. If borrow allowed, amount is added to caller's debt and sent to the address. If asset is a native token, the amount sent is selected so that the sum of the transfered amount plus the stability tax payed is equal to the borrowed amount.",
       "type": "object",
-      "required": [
-        "borrow"
-      ],
+      "required": ["borrow"],
       "properties": {
         "borrow": {
           "type": "object",
-          "required": [
-            "amount",
-            "asset"
-          ],
+          "required": ["amount", "asset"],
           "properties": {
             "amount": {
               "description": "Amount to borrow",
@@ -238,10 +199,7 @@
             },
             "recipient": {
               "description": "The address where the borrowed amount is sent",
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             }
           }
         }
@@ -251,15 +209,11 @@
     {
       "description": "Repay native coins loan. Coins used to repay must be sent in the transaction this call is made.",
       "type": "object",
-      "required": [
-        "repay_native"
-      ],
+      "required": ["repay_native"],
       "properties": {
         "repay_native": {
           "type": "object",
-          "required": [
-            "denom"
-          ],
+          "required": ["denom"],
           "properties": {
             "denom": {
               "description": "Native denom",
@@ -267,10 +221,7 @@
             },
             "on_behalf_of": {
               "description": "Repay the funds for the user",
-              "type": [
-                "string",
-                "null"
-              ]
+              "type": ["string", "null"]
             }
           }
         }
@@ -284,15 +235,11 @@
       "oneOf": [
         {
           "type": "object",
-          "required": [
-            "cw20"
-          ],
+          "required": ["cw20"],
           "properties": {
             "cw20": {
               "type": "object",
-              "required": [
-                "contract_addr"
-              ],
+              "required": ["contract_addr"],
               "properties": {
                 "contract_addr": {
                   "type": "string"
@@ -304,15 +251,11 @@
         },
         {
           "type": "object",
-          "required": [
-            "native"
-          ],
+          "required": ["native"],
           "properties": {
             "native": {
               "type": "object",
-              "required": [
-                "denom"
-              ],
+              "required": ["denom"],
               "properties": {
                 "denom": {
                   "type": "string"
@@ -329,24 +272,15 @@
       "properties": {
         "active": {
           "description": "Enable or disable any action including deposit/withdraw/borrow/repay/liquidate",
-          "type": [
-            "boolean",
-            "null"
-          ]
+          "type": ["boolean", "null"]
         },
         "borrow_enabled": {
           "description": "Enable or disable borrow",
-          "type": [
-            "boolean",
-            "null"
-          ]
+          "type": ["boolean", "null"]
         },
         "deposit_enabled": {
           "description": "Enable or disable deposit",
-          "type": [
-            "boolean",
-            "null"
-          ]
+          "type": ["boolean", "null"]
         },
         "initial_borrow_rate": {
           "description": "Initial borrow rate",
@@ -425,31 +359,19 @@
       "properties": {
         "owner": {
           "description": "Owner address for config update",
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "protocol_admin": {
           "description": "Protocol admin address (admin for all the contracts)",
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "protocol_rewards_collector_address": {
           "description": "Address to collect protocol fees",
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "ptoken_code_id": {
           "description": "ptoken cw20 code id",
-          "type": [
-            "integer",
-            "null"
-          ],
+          "type": ["integer", "null"],
           "format": "uint64",
           "minimum": 0.0
         }
@@ -458,11 +380,7 @@
     "Cw20ReceiveMsg": {
       "description": "Cw20ReceiveMsg should be de/serialized under `Receive()` variant in a ExecuteMsg",
       "type": "object",
-      "required": [
-        "amount",
-        "msg",
-        "sender"
-      ],
+      "required": ["amount", "msg", "sender"],
       "properties": {
         "amount": {
           "$ref": "#/definitions/Uint128"
@@ -483,9 +401,7 @@
       "oneOf": [
         {
           "type": "object",
-          "required": [
-            "linear"
-          ],
+          "required": ["linear"],
           "properties": {
             "linear": {
               "$ref": "#/definitions/LinearInterestRateModelParams"
@@ -498,12 +414,7 @@
     "LinearInterestRateModelParams": {
       "description": "Linear interest rate model",
       "type": "object",
-      "required": [
-        "base",
-        "optimal_utilization_rate",
-        "slope_1",
-        "slope_2"
-      ],
+      "required": ["base", "optimal_utilization_rate", "slope_1", "slope_2"],
       "properties": {
         "base": {
           "description": "Base rate",

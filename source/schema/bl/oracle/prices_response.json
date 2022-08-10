@@ -2,9 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "PricesResponse",
   "type": "object",
-  "required": [
-    "prices"
-  ],
+  "required": ["prices"],
   "properties": {
     "prices": {
       "type": "array",
@@ -20,11 +18,7 @@
     },
     "PricesResponseElem": {
       "type": "object",
-      "required": [
-        "asset",
-        "last_updated_time",
-        "price"
-      ],
+      "required": ["asset", "last_updated_time", "price"],
       "properties": {
         "asset": {
           "type": "string"

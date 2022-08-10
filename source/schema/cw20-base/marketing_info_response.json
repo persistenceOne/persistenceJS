@@ -5,10 +5,7 @@
   "properties": {
     "description": {
       "description": "A longer description of the token and it's utility. Designed for tooltips or such",
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     },
     "logo": {
       "description": "A link to the logo, or a comment there is an on-chain logo stored",
@@ -34,10 +31,7 @@
     },
     "project": {
       "description": "A URL pointing to the project behind this token.",
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     }
   },
   "definitions": {
@@ -50,16 +44,12 @@
       "oneOf": [
         {
           "type": "string",
-          "enum": [
-            "embedded"
-          ]
+          "enum": ["embedded"]
         },
         {
           "description": "A reference to an externally hosted logo. Must be a valid HTTP or HTTPS URL.",
           "type": "object",
-          "required": [
-            "url"
-          ],
+          "required": ["url"],
           "properties": {
             "url": {
               "type": "string"
