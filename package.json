@@ -6,10 +6,10 @@
   "module": "module/index.js",
   "typings": "types/index.d.ts",
   "files": [
-      "src",
-      "main",
-      "module",
-      "types"
+    "src",
+    "main",
+    "module",
+    "types"
   ],
   "scripts": {
     "test-gov-contract": "NODE_ENV=development ts-node ./examples/ContractProposals.ts",
