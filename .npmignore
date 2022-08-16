@@ -1,8 +1,6 @@
 *.log
 npm-debug.log*
 
-protobuf
-out
 *.proto
 
 # snapshots
