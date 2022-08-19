@@ -45,7 +45,7 @@ export class PersistenceClient {
     this.query = queryclient;
   }
 
-  static async init(mnemonic: string, signer, chainConfig?: Config): Promise<PersistenceClient> {
+  static async init(mnemonic: string, signer?, chainConfig?: Config): Promise<PersistenceClient> {
     //wallet
     const config = chainConfig || LocalConfig;
     const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, DefaultWalletOptoions);
