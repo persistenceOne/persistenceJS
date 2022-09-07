@@ -18,7 +18,7 @@ export class PersistenceClient {
     wasm: SigningCosmWasmClient,
     core: SigningStargateClient,
     query,
-    offlineSigner?:OfflineSigner,
+    offlineSigner?: OfflineSigner,
     mnemonic?: string,
     config?: Config,
   ) {
@@ -33,7 +33,7 @@ export class PersistenceClient {
   static async init(mnemonic: string, chainConfig?: Config): Promise<PersistenceClient> {
     const config = chainConfig || LocalConfig;
     // Get offline signer
-    const offlineSigner =await wallet.setupNodeLocal(config, mnemonic, DefaultWalletOptions)
+    const offlineSigner = await wallet.setupNodeLocal(config, mnemonic, DefaultWalletOptions);
 
     // Init SigningStargateClient client
     const core = await SigningStargateClient.connectWithSigner(config.rpc, offlineSigner, {

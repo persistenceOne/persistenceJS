@@ -9,9 +9,9 @@ export interface Config {
 }
 
 export interface WalletOptions {
-  bip39Password: string,
-  hdPaths: HdPath[],
-  prefix: string,
+  bip39Password: string;
+  hdPaths: HdPath[];
+  prefix: string;
 }
 
 export const DefaultConfig = {
