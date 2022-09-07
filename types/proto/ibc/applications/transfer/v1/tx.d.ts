@@ -8,41 +8,40 @@ import { Long, DeepPartial } from "@osmonauts/helpers";
  * https://github.com/cosmos/ibc/tree/master/spec/app/ics-020-fungible-token-transfer#data-structures
  */
 export interface MsgTransfer {
-    /** the port on which the packet will be sent */
-    sourcePort: string;
-    /** the channel by which the packet will be sent */
-    sourceChannel: string;
-    /** the tokens to be transferred */
-    token: Coin;
-    /** the sender address */
-    sender: string;
-    /** the recipient address on the destination chain */
-    receiver: string;
-    /**
-     * Timeout height relative to the current block height.
-     * The timeout is disabled when set to 0.
-     */
-    timeoutHeight: Height;
-    /**
-     * Timeout timestamp in absolute nanoseconds since unix epoch.
-     * The timeout is disabled when set to 0.
-     */
-    timeoutTimestamp: Long;
+  /** the port on which the packet will be sent */
+  sourcePort: string;
+  /** the channel by which the packet will be sent */
+  sourceChannel: string;
+  /** the tokens to be transferred */
+  token: Coin;
+  /** the sender address */
+  sender: string;
+  /** the recipient address on the destination chain */
+  receiver: string;
+  /**
+   * Timeout height relative to the current block height.
+   * The timeout is disabled when set to 0.
+   */
+  timeoutHeight: Height;
+  /**
+   * Timeout timestamp in absolute nanoseconds since unix epoch.
+   * The timeout is disabled when set to 0.
+   */
+  timeoutTimestamp: Long;
 }
 /** MsgTransferResponse defines the Msg/Transfer response type. */
-export interface MsgTransferResponse {
-}
+export interface MsgTransferResponse {}
 export declare const MsgTransfer: {
-    encode(message: MsgTransfer, writer?: _m0.Writer): _m0.Writer;
-    decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransfer;
-    fromJSON(object: any): MsgTransfer;
-    toJSON(message: MsgTransfer): unknown;
-    fromPartial(object: DeepPartial<MsgTransfer>): MsgTransfer;
+  encode(message: MsgTransfer, writer?: _m0.Writer): _m0.Writer;
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransfer;
+  fromJSON(object: any): MsgTransfer;
+  toJSON(message: MsgTransfer): unknown;
+  fromPartial(object: DeepPartial<MsgTransfer>): MsgTransfer;
 };
 export declare const MsgTransferResponse: {
-    encode(_: MsgTransferResponse, writer?: _m0.Writer): _m0.Writer;
-    decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransferResponse;
-    fromJSON(_: any): MsgTransferResponse;
-    toJSON(_: MsgTransferResponse): unknown;
-    fromPartial(_: DeepPartial<MsgTransferResponse>): MsgTransferResponse;
+  encode(_: MsgTransferResponse, writer?: _m0.Writer): _m0.Writer;
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransferResponse;
+  fromJSON(_: any): MsgTransferResponse;
+  toJSON(_: MsgTransferResponse): unknown;
+  fromPartial(_: DeepPartial<MsgTransferResponse>): MsgTransferResponse;
 };
