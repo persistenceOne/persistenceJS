@@ -5,12 +5,12 @@ import { DirectSecp256k1HdWallet, OfflineSigner } from "@cosmjs/proto-signing";
 import { GasPrice, SigningStargateClient } from "@cosmjs/stargate";
 // import { getOfflineSigner } from "@cosmostation/cosmos-client";
 import { Keplr } from "@keplr-wallet/types";
-import { Config } from "../config/config";
+import { Config, WalletOptions } from "../config/config";
 
 declare const window: any;
 
 export const wallet = {
-  setupWebKeplr: async (config: Config): Promise<[SigningCosmWasmClient, any]> => {
+  setupWebKeplr: async (config: Config): Promise<OfflineSigner> => {
     // check browser compatibility
     if (!window.keplr) {
       throw new Error("Keplr is not supported or installed on this browser!");
@@ -23,24 +23,11 @@ export const wallet = {
 
     // Setup signer
     const offlineSigner = await window.getOfflineSignerAuto(config.chainId);
-
-    // Init SigningCosmWasmClient client
-    const signingClient = await SigningCosmWasmClient.connectWithSigner(config.rpc, offlineSigner, {
-      prefix: config.prefix,
-      gasPrice: config.gasPrice,
-    });
-
-    return [signingClient, offlineSigner];
+    return offlineSigner;
   },
-  // setupCosmostation: async (config: Config): Promise<[SigningCosmWasmClient, OfflineSigner]> => {
+  // setupCosmostation: async (config: Config): Promise<OfflineSigner> => {
   //   // Setup signer
   //   const offlineSigner = await getOfflineSigner(config.chainId);
-
-  //   // Init SigningCosmWasmClient client
-  //   const signingClient = await SigningCosmWasmClient.connectWithSigner(config.rpc, offlineSigner, {
-  //     prefix: config.prefix,
-  //     gasPrice: config.gasPrice,
-  //   });
 
   //   return [signingClient, offlineSigner];
   // },
@@ -48,35 +35,16 @@ export const wallet = {
     config: Config,
     mnemonic: string,
     WalletOptions: any,
-  ): Promise<[SigningStargateClient, SigningCosmWasmClient, DirectSecp256k1HdWallet]> => {
+  ): Promise<OfflineSigner> => {
     // Setup signer
     const offlineSigner = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, WalletOptions);
-
-    // Init SigningStargateClient client
-    const core = await SigningStargateClient.connectWithSigner(config.rpc, offlineSigner, {
-      prefix: config.prefix,
-      gasPrice: config.gasPrice,
-    });
-
-    // Init SigningCosmWasmClient client
-    const wasm = await SigningCosmWasmClient.connectWithSigner(config.rpc, offlineSigner, {
-      prefix: config.prefix,
-      gasPrice: config.gasPrice,
-    });
-
-    const chainId = await core.getChainId();
-
-    if (chainId !== config.chainId) {
-      throw Error("Given ChainId doesn't match the clients ChainID!");
-    }
-
-    return [core, wasm, offlineSigner];
+    return offlineSigner;
   },
   setupWebLedger: async (
     config: Config,
     transport: any,
-    WalletOptions: any,
-  ): Promise<SigningCosmWasmClient> => {
+    WalletOptions: WalletOptions,
+  ): Promise<OfflineSigner> => {
     const interactiveTimeout = 120_000;
 
     // Prepare ledger
@@ -87,20 +55,10 @@ export const wallet = {
       hdPaths: WalletOptions.hdPaths,
       prefix: config.prefix,
     });
-
-    // Init SigningCosmWasmClient client
-    const client = await SigningCosmWasmClient.connectWithSigner(config.rpc, offlineSigner, {
-      prefix: config.prefix,
-      gasPrice: config.gasPrice,
-    });
-
-    const chainId = await client.getChainId();
-
-    if (chainId !== config.chainId) {
-      throw Error("Given ChainId doesn't match the clients ChainID!");
-    }
-
-    return client;
+    return offlineSigner;
   },
-  makeRandomClinet: async () => {},
+  makeRandomClinet: async (): 
+  Promise<OfflineSigner>=> {
+    return DirectSecp256k1HdWallet.generate(12)
+  },
 };

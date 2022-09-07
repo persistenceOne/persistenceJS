@@ -8,6 +8,12 @@ export interface Config {
   prefix: string;
 }
 
+export interface WalletOptions {
+  bip39Password: string,
+  hdPaths: HdPath[],
+  prefix: string,
+}
+
 export const DefaultConfig = {
   rpc: "https://rpc.testnet.persistence.one:443",
   chainId: "test-core-1",

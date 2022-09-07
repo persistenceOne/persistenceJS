@@ -7,15 +7,15 @@ import { DeepPartial } from "@osmonauts/helpers";
  * Since: cosmos-sdk 0.43
  */
 export declare enum AuthorizationType {
-  /** AUTHORIZATION_TYPE_UNSPECIFIED - AUTHORIZATION_TYPE_UNSPECIFIED specifies an unknown authorization type */
-  AUTHORIZATION_TYPE_UNSPECIFIED = 0,
-  /** AUTHORIZATION_TYPE_DELEGATE - AUTHORIZATION_TYPE_DELEGATE defines an authorization type for Msg/Delegate */
-  AUTHORIZATION_TYPE_DELEGATE = 1,
-  /** AUTHORIZATION_TYPE_UNDELEGATE - AUTHORIZATION_TYPE_UNDELEGATE defines an authorization type for Msg/Undelegate */
-  AUTHORIZATION_TYPE_UNDELEGATE = 2,
-  /** AUTHORIZATION_TYPE_REDELEGATE - AUTHORIZATION_TYPE_REDELEGATE defines an authorization type for Msg/BeginRedelegate */
-  AUTHORIZATION_TYPE_REDELEGATE = 3,
-  UNRECOGNIZED = -1,
+    /** AUTHORIZATION_TYPE_UNSPECIFIED - AUTHORIZATION_TYPE_UNSPECIFIED specifies an unknown authorization type */
+    AUTHORIZATION_TYPE_UNSPECIFIED = 0,
+    /** AUTHORIZATION_TYPE_DELEGATE - AUTHORIZATION_TYPE_DELEGATE defines an authorization type for Msg/Delegate */
+    AUTHORIZATION_TYPE_DELEGATE = 1,
+    /** AUTHORIZATION_TYPE_UNDELEGATE - AUTHORIZATION_TYPE_UNDELEGATE defines an authorization type for Msg/Undelegate */
+    AUTHORIZATION_TYPE_UNDELEGATE = 2,
+    /** AUTHORIZATION_TYPE_REDELEGATE - AUTHORIZATION_TYPE_REDELEGATE defines an authorization type for Msg/BeginRedelegate */
+    AUTHORIZATION_TYPE_REDELEGATE = 3,
+    UNRECOGNIZED = -1
 }
 export declare function authorizationTypeFromJSON(object: any): AuthorizationType;
 export declare function authorizationTypeToJSON(object: AuthorizationType): string;
@@ -25,36 +25,36 @@ export declare function authorizationTypeToJSON(object: AuthorizationType): stri
  * Since: cosmos-sdk 0.43
  */
 export interface StakeAuthorization {
-  /**
-   * max_tokens specifies the maximum amount of tokens can be delegate to a validator. If it is
-   * empty, there is no spend limit and any amount of coins can be delegated.
-   */
-  maxTokens: Coin;
-  /**
-   * allow_list specifies list of validator addresses to whom grantee can delegate tokens on behalf of granter's
-   * account.
-   */
-  allowList?: StakeAuthorization_Validators;
-  /** deny_list specifies list of validator addresses to whom grantee can not delegate tokens. */
-  denyList?: StakeAuthorization_Validators;
-  /** authorization_type defines one of AuthorizationType. */
-  authorizationType: AuthorizationType;
+    /**
+     * max_tokens specifies the maximum amount of tokens can be delegate to a validator. If it is
+     * empty, there is no spend limit and any amount of coins can be delegated.
+     */
+    maxTokens: Coin;
+    /**
+     * allow_list specifies list of validator addresses to whom grantee can delegate tokens on behalf of granter's
+     * account.
+     */
+    allowList?: StakeAuthorization_Validators;
+    /** deny_list specifies list of validator addresses to whom grantee can not delegate tokens. */
+    denyList?: StakeAuthorization_Validators;
+    /** authorization_type defines one of AuthorizationType. */
+    authorizationType: AuthorizationType;
 }
 /** Validators defines list of validator addresses. */
 export interface StakeAuthorization_Validators {
-  address: string[];
+    address: string[];
 }
 export declare const StakeAuthorization: {
-  encode(message: StakeAuthorization, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): StakeAuthorization;
-  fromJSON(object: any): StakeAuthorization;
-  toJSON(message: StakeAuthorization): unknown;
-  fromPartial(object: DeepPartial<StakeAuthorization>): StakeAuthorization;
+    encode(message: StakeAuthorization, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): StakeAuthorization;
+    fromJSON(object: any): StakeAuthorization;
+    toJSON(message: StakeAuthorization): unknown;
+    fromPartial(object: DeepPartial<StakeAuthorization>): StakeAuthorization;
 };
 export declare const StakeAuthorization_Validators: {
-  encode(message: StakeAuthorization_Validators, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): StakeAuthorization_Validators;
-  fromJSON(object: any): StakeAuthorization_Validators;
-  toJSON(message: StakeAuthorization_Validators): unknown;
-  fromPartial(object: DeepPartial<StakeAuthorization_Validators>): StakeAuthorization_Validators;
+    encode(message: StakeAuthorization_Validators, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): StakeAuthorization_Validators;
+    fromJSON(object: any): StakeAuthorization_Validators;
+    toJSON(message: StakeAuthorization_Validators): unknown;
+    fromPartial(object: DeepPartial<StakeAuthorization_Validators>): StakeAuthorization_Validators;
 };
