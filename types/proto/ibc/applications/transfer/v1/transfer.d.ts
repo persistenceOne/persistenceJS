@@ -5,13 +5,13 @@ import { DeepPartial } from "@osmonauts/helpers";
  * source tracing information path.
  */
 export interface DenomTrace {
-  /**
-   * path defines the chain of port/channel identifiers used for tracing the
-   * source of the fungible token.
-   */
-  path: string;
-  /** base denomination of the relayed fungible token. */
-  baseDenom: string;
+    /**
+     * path defines the chain of port/channel identifiers used for tracing the
+     * source of the fungible token.
+     */
+    path: string;
+    /** base denomination of the relayed fungible token. */
+    baseDenom: string;
 }
 /**
  * Params defines the set of IBC transfer parameters.
@@ -20,28 +20,28 @@ export interface DenomTrace {
  * parameter for the denomination to false.
  */
 export interface Params {
-  /**
-   * send_enabled enables or disables all cross-chain token transfers from this
-   * chain.
-   */
-  sendEnabled: boolean;
-  /**
-   * receive_enabled enables or disables all cross-chain token transfers to this
-   * chain.
-   */
-  receiveEnabled: boolean;
+    /**
+     * send_enabled enables or disables all cross-chain token transfers from this
+     * chain.
+     */
+    sendEnabled: boolean;
+    /**
+     * receive_enabled enables or disables all cross-chain token transfers to this
+     * chain.
+     */
+    receiveEnabled: boolean;
 }
 export declare const DenomTrace: {
-  encode(message: DenomTrace, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): DenomTrace;
-  fromJSON(object: any): DenomTrace;
-  toJSON(message: DenomTrace): unknown;
-  fromPartial(object: DeepPartial<DenomTrace>): DenomTrace;
+    encode(message: DenomTrace, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): DenomTrace;
+    fromJSON(object: any): DenomTrace;
+    toJSON(message: DenomTrace): unknown;
+    fromPartial(object: DeepPartial<DenomTrace>): DenomTrace;
 };
 export declare const Params: {
-  encode(message: Params, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): Params;
-  fromJSON(object: any): Params;
-  toJSON(message: Params): unknown;
-  fromPartial(object: DeepPartial<Params>): Params;
+    encode(message: Params, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): Params;
+    fromJSON(object: any): Params;
+    toJSON(message: Params): unknown;
+    fromPartial(object: DeepPartial<Params>): Params;
 };

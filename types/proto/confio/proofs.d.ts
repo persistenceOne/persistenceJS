@@ -1,15 +1,15 @@
 import * as _m0 from "protobufjs/minimal";
 import { DeepPartial } from "@osmonauts/helpers";
 export declare enum HashOp {
-  /** NO_HASH - NO_HASH is the default if no data passed. Note this is an illegal argument some places. */
-  NO_HASH = 0,
-  SHA256 = 1,
-  SHA512 = 2,
-  KECCAK = 3,
-  RIPEMD160 = 4,
-  /** BITCOIN - ripemd160(sha256(x)) */
-  BITCOIN = 5,
-  UNRECOGNIZED = -1,
+    /** NO_HASH - NO_HASH is the default if no data passed. Note this is an illegal argument some places. */
+    NO_HASH = 0,
+    SHA256 = 1,
+    SHA512 = 2,
+    KECCAK = 3,
+    RIPEMD160 = 4,
+    /** BITCOIN - ripemd160(sha256(x)) */
+    BITCOIN = 5,
+    UNRECOGNIZED = -1
 }
 export declare function hashOpFromJSON(object: any): HashOp;
 export declare function hashOpToJSON(object: HashOp): string;
@@ -20,25 +20,25 @@ export declare function hashOpToJSON(object: HashOp): string;
  * (Each one with it's own encoded length)
  */
 export declare enum LengthOp {
-  /** NO_PREFIX - NO_PREFIX don't include any length info */
-  NO_PREFIX = 0,
-  /** VAR_PROTO - VAR_PROTO uses protobuf (and go-amino) varint encoding of the length */
-  VAR_PROTO = 1,
-  /** VAR_RLP - VAR_RLP uses rlp int encoding of the length */
-  VAR_RLP = 2,
-  /** FIXED32_BIG - FIXED32_BIG uses big-endian encoding of the length as a 32 bit integer */
-  FIXED32_BIG = 3,
-  /** FIXED32_LITTLE - FIXED32_LITTLE uses little-endian encoding of the length as a 32 bit integer */
-  FIXED32_LITTLE = 4,
-  /** FIXED64_BIG - FIXED64_BIG uses big-endian encoding of the length as a 64 bit integer */
-  FIXED64_BIG = 5,
-  /** FIXED64_LITTLE - FIXED64_LITTLE uses little-endian encoding of the length as a 64 bit integer */
-  FIXED64_LITTLE = 6,
-  /** REQUIRE_32_BYTES - REQUIRE_32_BYTES is like NONE, but will fail if the input is not exactly 32 bytes (sha256 output) */
-  REQUIRE_32_BYTES = 7,
-  /** REQUIRE_64_BYTES - REQUIRE_64_BYTES is like NONE, but will fail if the input is not exactly 64 bytes (sha512 output) */
-  REQUIRE_64_BYTES = 8,
-  UNRECOGNIZED = -1,
+    /** NO_PREFIX - NO_PREFIX don't include any length info */
+    NO_PREFIX = 0,
+    /** VAR_PROTO - VAR_PROTO uses protobuf (and go-amino) varint encoding of the length */
+    VAR_PROTO = 1,
+    /** VAR_RLP - VAR_RLP uses rlp int encoding of the length */
+    VAR_RLP = 2,
+    /** FIXED32_BIG - FIXED32_BIG uses big-endian encoding of the length as a 32 bit integer */
+    FIXED32_BIG = 3,
+    /** FIXED32_LITTLE - FIXED32_LITTLE uses little-endian encoding of the length as a 32 bit integer */
+    FIXED32_LITTLE = 4,
+    /** FIXED64_BIG - FIXED64_BIG uses big-endian encoding of the length as a 64 bit integer */
+    FIXED64_BIG = 5,
+    /** FIXED64_LITTLE - FIXED64_LITTLE uses little-endian encoding of the length as a 64 bit integer */
+    FIXED64_LITTLE = 6,
+    /** REQUIRE_32_BYTES - REQUIRE_32_BYTES is like NONE, but will fail if the input is not exactly 32 bytes (sha256 output) */
+    REQUIRE_32_BYTES = 7,
+    /** REQUIRE_64_BYTES - REQUIRE_64_BYTES is like NONE, but will fail if the input is not exactly 64 bytes (sha512 output) */
+    REQUIRE_64_BYTES = 8,
+    UNRECOGNIZED = -1
 }
 export declare function lengthOpFromJSON(object: any): LengthOp;
 export declare function lengthOpToJSON(object: LengthOp): string;
@@ -64,10 +64,10 @@ export declare function lengthOpToJSON(object: LengthOp): string;
  * length-prefix the data before hashing it.
  */
 export interface ExistenceProof {
-  key: Uint8Array;
-  value: Uint8Array;
-  leaf: LeafOp;
-  path: InnerOp[];
+    key: Uint8Array;
+    value: Uint8Array;
+    leaf: LeafOp;
+    path: InnerOp[];
 }
 /**
  * NonExistenceProof takes a proof of two neighbors, one left of the desired key,
@@ -75,17 +75,17 @@ export interface ExistenceProof {
  * then there is no valid proof for the given key.
  */
 export interface NonExistenceProof {
-  /** TODO: remove this as unnecessary??? we prove a range */
-  key: Uint8Array;
-  left: ExistenceProof;
-  right: ExistenceProof;
+    /** TODO: remove this as unnecessary??? we prove a range */
+    key: Uint8Array;
+    left: ExistenceProof;
+    right: ExistenceProof;
 }
 /** CommitmentProof is either an ExistenceProof or a NonExistenceProof, or a Batch of such messages */
 export interface CommitmentProof {
-  exist?: ExistenceProof;
-  nonexist?: NonExistenceProof;
-  batch?: BatchProof;
-  compressed?: CompressedBatchProof;
+    exist?: ExistenceProof;
+    nonexist?: NonExistenceProof;
+    batch?: BatchProof;
+    compressed?: CompressedBatchProof;
 }
 /**
  * LeafOp represents the raw key-value data we wish to prove, and
@@ -104,15 +104,15 @@ export interface CommitmentProof {
  * output = hash(prefix || length(hkey) || hkey || length(hvalue) || hvalue)
  */
 export interface LeafOp {
-  hash: HashOp;
-  prehashKey: HashOp;
-  prehashValue: HashOp;
-  length: LengthOp;
-  /**
-   * prefix is a fixed bytes that may optionally be included at the beginning to differentiate
-   * a leaf node from an inner node.
-   */
-  prefix: Uint8Array;
+    hash: HashOp;
+    prehashKey: HashOp;
+    prehashValue: HashOp;
+    length: LengthOp;
+    /**
+     * prefix is a fixed bytes that may optionally be included at the beginning to differentiate
+     * a leaf node from an inner node.
+     */
+    prefix: Uint8Array;
 }
 /**
  * InnerOp represents a merkle-proof step that is not a leaf.
@@ -132,9 +132,9 @@ export interface LeafOp {
  * If either of prefix or suffix is empty, we just treat it as an empty string
  */
 export interface InnerOp {
-  hash: HashOp;
-  prefix: Uint8Array;
-  suffix: Uint8Array;
+    hash: HashOp;
+    prefix: Uint8Array;
+    suffix: Uint8Array;
 }
 /**
  * ProofSpec defines what the expected parameters are for a given proof type.
@@ -149,16 +149,16 @@ export interface InnerOp {
  * tree format server uses. But not in code, rather a configuration object.
  */
 export interface ProofSpec {
-  /**
-   * any field in the ExistenceProof must be the same as in this spec.
-   * except Prefix, which is just the first bytes of prefix (spec can be longer)
-   */
-  leafSpec: LeafOp;
-  innerSpec: InnerSpec;
-  /** max_depth (if > 0) is the maximum number of InnerOps allowed (mainly for fixed-depth tries) */
-  maxDepth: number;
-  /** min_depth (if > 0) is the minimum number of InnerOps allowed (mainly for fixed-depth tries) */
-  minDepth: number;
+    /**
+     * any field in the ExistenceProof must be the same as in this spec.
+     * except Prefix, which is just the first bytes of prefix (spec can be longer)
+     */
+    leafSpec: LeafOp;
+    innerSpec: InnerSpec;
+    /** max_depth (if > 0) is the maximum number of InnerOps allowed (mainly for fixed-depth tries) */
+    maxDepth: number;
+    /** min_depth (if > 0) is the minimum number of InnerOps allowed (mainly for fixed-depth tries) */
+    minDepth: number;
 }
 /**
  * InnerSpec contains all store-specific structure info to determine if two proofs from a
@@ -171,139 +171,139 @@ export interface ProofSpec {
  * isLeftNeighbor(spec: InnerSpec, left: InnerOp, right: InnerOp)
  */
 export interface InnerSpec {
-  /**
-   * Child order is the ordering of the children node, must count from 0
-   * iavl tree is [0, 1] (left then right)
-   * merk is [0, 2, 1] (left, right, here)
-   */
-  childOrder: number[];
-  childSize: number;
-  minPrefixLength: number;
-  maxPrefixLength: number;
-  /** empty child is the prehash image that is used when one child is nil (eg. 20 bytes of 0) */
-  emptyChild: Uint8Array;
-  /** hash is the algorithm that must be used for each InnerOp */
-  hash: HashOp;
+    /**
+     * Child order is the ordering of the children node, must count from 0
+     * iavl tree is [0, 1] (left then right)
+     * merk is [0, 2, 1] (left, right, here)
+     */
+    childOrder: number[];
+    childSize: number;
+    minPrefixLength: number;
+    maxPrefixLength: number;
+    /** empty child is the prehash image that is used when one child is nil (eg. 20 bytes of 0) */
+    emptyChild: Uint8Array;
+    /** hash is the algorithm that must be used for each InnerOp */
+    hash: HashOp;
 }
 /** BatchProof is a group of multiple proof types than can be compressed */
 export interface BatchProof {
-  entries: BatchEntry[];
+    entries: BatchEntry[];
 }
 /** Use BatchEntry not CommitmentProof, to avoid recursion */
 export interface BatchEntry {
-  exist?: ExistenceProof;
-  nonexist?: NonExistenceProof;
+    exist?: ExistenceProof;
+    nonexist?: NonExistenceProof;
 }
 export interface CompressedBatchProof {
-  entries: CompressedBatchEntry[];
-  lookupInners: InnerOp[];
+    entries: CompressedBatchEntry[];
+    lookupInners: InnerOp[];
 }
 /** Use BatchEntry not CommitmentProof, to avoid recursion */
 export interface CompressedBatchEntry {
-  exist?: CompressedExistenceProof;
-  nonexist?: CompressedNonExistenceProof;
+    exist?: CompressedExistenceProof;
+    nonexist?: CompressedNonExistenceProof;
 }
 export interface CompressedExistenceProof {
-  key: Uint8Array;
-  value: Uint8Array;
-  leaf: LeafOp;
-  /** these are indexes into the lookup_inners table in CompressedBatchProof */
-  path: number[];
+    key: Uint8Array;
+    value: Uint8Array;
+    leaf: LeafOp;
+    /** these are indexes into the lookup_inners table in CompressedBatchProof */
+    path: number[];
 }
 export interface CompressedNonExistenceProof {
-  /** TODO: remove this as unnecessary??? we prove a range */
-  key: Uint8Array;
-  left: CompressedExistenceProof;
-  right: CompressedExistenceProof;
+    /** TODO: remove this as unnecessary??? we prove a range */
+    key: Uint8Array;
+    left: CompressedExistenceProof;
+    right: CompressedExistenceProof;
 }
 export declare const ExistenceProof: {
-  encode(message: ExistenceProof, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): ExistenceProof;
-  fromJSON(object: any): ExistenceProof;
-  toJSON(message: ExistenceProof): unknown;
-  fromPartial(object: DeepPartial<ExistenceProof>): ExistenceProof;
+    encode(message: ExistenceProof, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): ExistenceProof;
+    fromJSON(object: any): ExistenceProof;
+    toJSON(message: ExistenceProof): unknown;
+    fromPartial(object: DeepPartial<ExistenceProof>): ExistenceProof;
 };
 export declare const NonExistenceProof: {
-  encode(message: NonExistenceProof, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): NonExistenceProof;
-  fromJSON(object: any): NonExistenceProof;
-  toJSON(message: NonExistenceProof): unknown;
-  fromPartial(object: DeepPartial<NonExistenceProof>): NonExistenceProof;
+    encode(message: NonExistenceProof, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): NonExistenceProof;
+    fromJSON(object: any): NonExistenceProof;
+    toJSON(message: NonExistenceProof): unknown;
+    fromPartial(object: DeepPartial<NonExistenceProof>): NonExistenceProof;
 };
 export declare const CommitmentProof: {
-  encode(message: CommitmentProof, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): CommitmentProof;
-  fromJSON(object: any): CommitmentProof;
-  toJSON(message: CommitmentProof): unknown;
-  fromPartial(object: DeepPartial<CommitmentProof>): CommitmentProof;
+    encode(message: CommitmentProof, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): CommitmentProof;
+    fromJSON(object: any): CommitmentProof;
+    toJSON(message: CommitmentProof): unknown;
+    fromPartial(object: DeepPartial<CommitmentProof>): CommitmentProof;
 };
 export declare const LeafOp: {
-  encode(message: LeafOp, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): LeafOp;
-  fromJSON(object: any): LeafOp;
-  toJSON(message: LeafOp): unknown;
-  fromPartial(object: DeepPartial<LeafOp>): LeafOp;
+    encode(message: LeafOp, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): LeafOp;
+    fromJSON(object: any): LeafOp;
+    toJSON(message: LeafOp): unknown;
+    fromPartial(object: DeepPartial<LeafOp>): LeafOp;
 };
 export declare const InnerOp: {
-  encode(message: InnerOp, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): InnerOp;
-  fromJSON(object: any): InnerOp;
-  toJSON(message: InnerOp): unknown;
-  fromPartial(object: DeepPartial<InnerOp>): InnerOp;
+    encode(message: InnerOp, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): InnerOp;
+    fromJSON(object: any): InnerOp;
+    toJSON(message: InnerOp): unknown;
+    fromPartial(object: DeepPartial<InnerOp>): InnerOp;
 };
 export declare const ProofSpec: {
-  encode(message: ProofSpec, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): ProofSpec;
-  fromJSON(object: any): ProofSpec;
-  toJSON(message: ProofSpec): unknown;
-  fromPartial(object: DeepPartial<ProofSpec>): ProofSpec;
+    encode(message: ProofSpec, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): ProofSpec;
+    fromJSON(object: any): ProofSpec;
+    toJSON(message: ProofSpec): unknown;
+    fromPartial(object: DeepPartial<ProofSpec>): ProofSpec;
 };
 export declare const InnerSpec: {
-  encode(message: InnerSpec, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): InnerSpec;
-  fromJSON(object: any): InnerSpec;
-  toJSON(message: InnerSpec): unknown;
-  fromPartial(object: DeepPartial<InnerSpec>): InnerSpec;
+    encode(message: InnerSpec, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): InnerSpec;
+    fromJSON(object: any): InnerSpec;
+    toJSON(message: InnerSpec): unknown;
+    fromPartial(object: DeepPartial<InnerSpec>): InnerSpec;
 };
 export declare const BatchProof: {
-  encode(message: BatchProof, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchProof;
-  fromJSON(object: any): BatchProof;
-  toJSON(message: BatchProof): unknown;
-  fromPartial(object: DeepPartial<BatchProof>): BatchProof;
+    encode(message: BatchProof, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): BatchProof;
+    fromJSON(object: any): BatchProof;
+    toJSON(message: BatchProof): unknown;
+    fromPartial(object: DeepPartial<BatchProof>): BatchProof;
 };
 export declare const BatchEntry: {
-  encode(message: BatchEntry, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): BatchEntry;
-  fromJSON(object: any): BatchEntry;
-  toJSON(message: BatchEntry): unknown;
-  fromPartial(object: DeepPartial<BatchEntry>): BatchEntry;
+    encode(message: BatchEntry, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): BatchEntry;
+    fromJSON(object: any): BatchEntry;
+    toJSON(message: BatchEntry): unknown;
+    fromPartial(object: DeepPartial<BatchEntry>): BatchEntry;
 };
 export declare const CompressedBatchProof: {
-  encode(message: CompressedBatchProof, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): CompressedBatchProof;
-  fromJSON(object: any): CompressedBatchProof;
-  toJSON(message: CompressedBatchProof): unknown;
-  fromPartial(object: DeepPartial<CompressedBatchProof>): CompressedBatchProof;
+    encode(message: CompressedBatchProof, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): CompressedBatchProof;
+    fromJSON(object: any): CompressedBatchProof;
+    toJSON(message: CompressedBatchProof): unknown;
+    fromPartial(object: DeepPartial<CompressedBatchProof>): CompressedBatchProof;
 };
 export declare const CompressedBatchEntry: {
-  encode(message: CompressedBatchEntry, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): CompressedBatchEntry;
-  fromJSON(object: any): CompressedBatchEntry;
-  toJSON(message: CompressedBatchEntry): unknown;
-  fromPartial(object: DeepPartial<CompressedBatchEntry>): CompressedBatchEntry;
+    encode(message: CompressedBatchEntry, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): CompressedBatchEntry;
+    fromJSON(object: any): CompressedBatchEntry;
+    toJSON(message: CompressedBatchEntry): unknown;
+    fromPartial(object: DeepPartial<CompressedBatchEntry>): CompressedBatchEntry;
 };
 export declare const CompressedExistenceProof: {
-  encode(message: CompressedExistenceProof, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): CompressedExistenceProof;
-  fromJSON(object: any): CompressedExistenceProof;
-  toJSON(message: CompressedExistenceProof): unknown;
-  fromPartial(object: DeepPartial<CompressedExistenceProof>): CompressedExistenceProof;
+    encode(message: CompressedExistenceProof, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): CompressedExistenceProof;
+    fromJSON(object: any): CompressedExistenceProof;
+    toJSON(message: CompressedExistenceProof): unknown;
+    fromPartial(object: DeepPartial<CompressedExistenceProof>): CompressedExistenceProof;
 };
 export declare const CompressedNonExistenceProof: {
-  encode(message: CompressedNonExistenceProof, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): CompressedNonExistenceProof;
-  fromJSON(object: any): CompressedNonExistenceProof;
-  toJSON(message: CompressedNonExistenceProof): unknown;
-  fromPartial(object: DeepPartial<CompressedNonExistenceProof>): CompressedNonExistenceProof;
+    encode(message: CompressedNonExistenceProof, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): CompressedNonExistenceProof;
+    fromJSON(object: any): CompressedNonExistenceProof;
+    toJSON(message: CompressedNonExistenceProof): unknown;
+    fromPartial(object: DeepPartial<CompressedNonExistenceProof>): CompressedNonExistenceProof;
 };

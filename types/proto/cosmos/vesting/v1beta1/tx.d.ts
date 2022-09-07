@@ -6,25 +6,26 @@ import { Long, DeepPartial } from "@osmonauts/helpers";
  * account.
  */
 export interface MsgCreateVestingAccount {
-  fromAddress: string;
-  toAddress: string;
-  amount: Coin[];
-  endTime: Long;
-  delayed: boolean;
+    fromAddress: string;
+    toAddress: string;
+    amount: Coin[];
+    endTime: Long;
+    delayed: boolean;
 }
 /** MsgCreateVestingAccountResponse defines the Msg/CreateVestingAccount response type. */
-export interface MsgCreateVestingAccountResponse {}
+export interface MsgCreateVestingAccountResponse {
+}
 export declare const MsgCreateVestingAccount: {
-  encode(message: MsgCreateVestingAccount, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateVestingAccount;
-  fromJSON(object: any): MsgCreateVestingAccount;
-  toJSON(message: MsgCreateVestingAccount): unknown;
-  fromPartial(object: DeepPartial<MsgCreateVestingAccount>): MsgCreateVestingAccount;
+    encode(message: MsgCreateVestingAccount, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateVestingAccount;
+    fromJSON(object: any): MsgCreateVestingAccount;
+    toJSON(message: MsgCreateVestingAccount): unknown;
+    fromPartial(object: DeepPartial<MsgCreateVestingAccount>): MsgCreateVestingAccount;
 };
 export declare const MsgCreateVestingAccountResponse: {
-  encode(_: MsgCreateVestingAccountResponse, writer?: _m0.Writer): _m0.Writer;
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateVestingAccountResponse;
-  fromJSON(_: any): MsgCreateVestingAccountResponse;
-  toJSON(_: MsgCreateVestingAccountResponse): unknown;
-  fromPartial(_: DeepPartial<MsgCreateVestingAccountResponse>): MsgCreateVestingAccountResponse;
+    encode(_: MsgCreateVestingAccountResponse, writer?: _m0.Writer): _m0.Writer;
+    decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateVestingAccountResponse;
+    fromJSON(_: any): MsgCreateVestingAccountResponse;
+    toJSON(_: MsgCreateVestingAccountResponse): unknown;
+    fromPartial(_: DeepPartial<MsgCreateVestingAccountResponse>): MsgCreateVestingAccountResponse;
 };
