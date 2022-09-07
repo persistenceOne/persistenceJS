@@ -2,4 +2,4 @@ export * from "./proto";
 export * from "./config";
 export * from "./contracts";
 export * from "./clients";
-export * from "./wallet"
+export * from "./wallet";

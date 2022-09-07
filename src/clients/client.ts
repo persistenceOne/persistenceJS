@@ -3,7 +3,7 @@ import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { DefaultWalletOptions, LocalConfig, Config } from "../config/config";
 import { createRPCQueryClient } from "../proto/cosmwasm/rpc.query";
-import { wallet } from "../wallet/wallet"
+import { wallet } from "../wallet/wallet";
 
 export class PersistenceClient {
   public mnemonic: string;
@@ -32,13 +32,13 @@ export class PersistenceClient {
   static async init(mnemonic: string, chainConfig?: Config): Promise<PersistenceClient> {
     const config = chainConfig || LocalConfig;
     //signing clients
-    const [core, wasm, offlineSigner] = await wallet.setupNodeLocal(config, mnemonic, DefaultWalletOptions)
+    const [core, wasm, offlineSigner] = await wallet.setupNodeLocal(config, mnemonic, DefaultWalletOptions);
     //query client
     const tendermintClient = await Tendermint34Client.connect(config.rpc);
     const queryClient = new QueryClient(tendermintClient);
     const rpc = await createProtobufRpcClient(queryClient);
     const query = await createRPCQueryClient({ rpc: rpc });
 
-    return new PersistenceClient(wasm, core, query, offlineSigner)
+    return new PersistenceClient(wasm, core, query, offlineSigner);
   }
 }

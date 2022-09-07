@@ -37,7 +37,6 @@
     "@cosmjs/proto-signing": "^0.28.11",
     "@cosmjs/stargate": "^0.28.11",
     "@cosmjs/tendermint-rpc": "^0.28.11",
-    "@cosmostation/cosmos-client": "^0.0.1",
     "@keplr-wallet/types": "^0.10.23",
     "@osmonauts/ast": "^0.8.0",
     "@osmonauts/helpers": "^0.4.0",

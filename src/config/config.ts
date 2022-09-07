@@ -1,5 +1,5 @@
 import { stringToPath, HdPath } from "@cosmjs/crypto";
-import {Coin, GasPrice} from "@cosmjs/stargate"
+import { Coin, GasPrice } from "@cosmjs/stargate";
 export interface Config {
   rpc: string;
   chainId: string;
@@ -22,7 +22,6 @@ export const LocalConfig = {
   gasPrice: GasPrice.fromString("200000.00stake"),
   gasAdjustment: "1.5",
   prefix: "persistence",
-
 };
 
 export const DefaultWalletOptions = {
