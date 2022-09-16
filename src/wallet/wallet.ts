@@ -31,7 +31,11 @@ export const wallet = {
 
   //   return [signingClient, offlineSigner];
   // },
-  setupNodeLocal: async (config: Config, mnemonic: string, WalletOptions: any): Promise<OfflineSigner> => {
+  setupNodeLocal: async (
+    config: Config,
+    mnemonic: string,
+    WalletOptions: WalletOptions,
+  ): Promise<OfflineSigner> => {
     // Setup signer
     const offlineSigner = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, WalletOptions);
     return offlineSigner;
