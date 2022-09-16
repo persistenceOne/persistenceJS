@@ -1,7 +1,44 @@
-#!/usr/bin/env node
-import { generate } from "cosmwasm-typescript-gen";
-import { join } from "path";
+import codegen from "@cosmwasm/ts-codegen";
 
-generate("cw20", ["../source/schema/cw20-base"], "../src/contracts");
+codegen({
+  contracts: [
+    {
+      name: "CW20",
+      dir: "./source/schema/cw20-base",
+    },
+    {
+      name: "Cw20ICS20",
+      dir: "./source/schema/cw20-ics20",
+    },
+  ],
+  outPath: "./src/contracts",
 
-// cli command: cosmwasm-typescript-gen generate --schema ./source/schema/cw20-base/ --out ./src/contracts --name cw20
+  // options are completely optional ;)
+  options: {
+    bundle: {
+      bundleFile: "index.ts",
+      scope: "contracts",
+    },
+    types: {
+      enabled: true,
+    },
+    client: {
+      enabled: true,
+    },
+    reactQuery: {
+      enabled: true,
+      optionalClient: true,
+      version: "v4",
+      mutations: true,
+      queryKeys: true,
+    },
+    recoil: {
+      enabled: false,
+    },
+    messageComposer: {
+      enabled: false,
+    },
+  },
+}).then(() => {
+  console.log("✨ all done!");
+});

@@ -2,7 +2,7 @@ import { createProtobufRpcClient, QueryClient, SigningStargateClient } from "@co
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { OfflineSigner } from "@cosmjs/proto-signing";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
-import { DefaultWalletOptions, LocalConfig, Config } from "../config/config";
+import { DefaultWalletOptions, LocalConfig, Config, WalletOptions } from "../config/config";
 import { createRPCQueryClient } from "../proto/cosmwasm/rpc.query";
 import { wallet } from "../wallet/wallet";
 
@@ -30,10 +30,15 @@ export class PersistenceClient {
     this.config = config;
   }
 
-  static async init(mnemonic: string, chainConfig?: Config): Promise<PersistenceClient> {
+  static async init(
+    mnemonic: string,
+    chainConfig?: Config,
+    walletOptions?: WalletOptions,
+  ): Promise<PersistenceClient> {
     const config = chainConfig || LocalConfig;
+    const WalletOptions = walletOptions || DefaultWalletOptions;
     // Get offline signer
-    const offlineSigner = await wallet.setupNodeLocal(config, mnemonic, DefaultWalletOptions);
+    const offlineSigner = await wallet.setupNodeLocal(config, mnemonic, WalletOptions);
 
     // Init SigningStargateClient client
     const core = await SigningStargateClient.connectWithSigner(config.rpc, offlineSigner, {
