@@ -3,7 +3,10 @@
     "declaration": true,
     "declarationDir": "./types",
     "emitDeclarationOnly": true,
+    "target": "es2018",
+    "module": "commonjs",
     "isolatedModules": true,
+    "esModuleInterop": true,
     "allowJs": true,
     "lib": ["es2015"]
   },

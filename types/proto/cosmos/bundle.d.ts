@@ -6383,7 +6383,13 @@ export declare namespace cosmos {
               extraBitsStored?: number;
               elems?: Uint8Array;
             };
-            signatures?: any[];
+            signatures?: {
+              single?: {
+                mode?: _211.SignMode;
+                signature?: Uint8Array;
+              };
+              multi?: any;
+            }[];
           }): _211.SignatureDescriptor_Data_Multi;
         };
       };
@@ -6592,7 +6598,12 @@ export declare namespace cosmos {
             extraBitsStored?: number;
             elems?: Uint8Array;
           };
-          modeInfos?: any[];
+          modeInfos?: {
+            single?: {
+              mode?: _211.SignMode;
+            };
+            multi?: any;
+          }[];
         }): _213.ModeInfo_Multi;
       };
       Fee: {

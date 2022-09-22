@@ -1,63 +1,63 @@
-import { HdPath } from "@cosmjs/crypto";
-import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import { Coin, createProtobufRpcClient, QueryClient, SigningStargateClient } from "@cosmjs/stargate";
+import { createProtobufRpcClient, QueryClient, SigningStargateClient } from "@cosmjs/stargate";
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { OfflineSigner } from "@cosmjs/proto-signing";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
-import { DefaultWalletOptoions, LocalConfig } from "../config/config";
+import { DefaultWalletOptions, LocalConfig, Config, WalletOptions } from "../config/config";
 import { createRPCQueryClient } from "../proto/cosmwasm/rpc.query";
-export interface Config {
-  rpc: string;
-  chainId: string;
-  gasPrices: Coin;
-  gasAdjustment: string;
-}
-
-export interface WalletOptoions {
-  bip39Password: string;
-  hdPaths: HdPath;
-  prefix: string;
-}
+import { wallet } from "../wallet/wallet";
 
 export class PersistenceClient {
-  public wallet: DirectSecp256k1HdWallet;
-  public signer
   public mnemonic: string;
   public config: Config;
   public core: SigningStargateClient;
   public wasm: SigningCosmWasmClient;
+  public offlineSigner: OfflineSigner;
   public query;
 
   private constructor(
-    mnemonic: string,
-    wallet: DirectSecp256k1HdWallet,
-    signer,
     wasm: SigningCosmWasmClient,
     core: SigningStargateClient,
-    queryclient,
+    query,
+    offlineSigner?: OfflineSigner,
+    mnemonic?: string,
     config?: Config,
   ) {
-    this.mnemonic = mnemonic;
-    this.config = config;
-    this.wallet = wallet;
-    this.signer = signer;
     this.core = core;
     this.wasm = wasm;
-    this.query = queryclient;
+    this.query = query;
+    this.offlineSigner = offlineSigner;
+    this.mnemonic = mnemonic;
+    this.config = config;
   }
 
-  static async init(mnemonic: string, signer?, chainConfig?: Config): Promise<PersistenceClient> {
-    //wallet
+  static async init(
+    mnemonic: string,
+    chainConfig?: Config,
+    walletOptions?: WalletOptions,
+  ): Promise<PersistenceClient> {
     const config = chainConfig || LocalConfig;
-    const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, DefaultWalletOptoions);
-    const clientsigner = signer || wallet
-    //signing clients
-    const core = await SigningStargateClient.connectWithSigner(config.rpc, clientsigner);
-    const wasm = await SigningCosmWasmClient.connectWithSigner(config.rpc, clientsigner);
+    const WalletOptions = walletOptions || DefaultWalletOptions;
+    // Get offline signer
+    const offlineSigner = await wallet.setupNodeLocal(config, mnemonic, WalletOptions);
+
+    // Init SigningStargateClient client
+    const core = await SigningStargateClient.connectWithSigner(config.rpc, offlineSigner, {
+      prefix: config.prefix,
+      gasPrice: config.gasPrice,
+    });
+
+    // Init SigningCosmWasmClient client
+    const wasm = await SigningCosmWasmClient.connectWithSigner(config.rpc, offlineSigner, {
+      prefix: config.prefix,
+      gasPrice: config.gasPrice,
+    });
+
     //query client
     const tendermintClient = await Tendermint34Client.connect(config.rpc);
     const queryClient = new QueryClient(tendermintClient);
     const rpc = await createProtobufRpcClient(queryClient);
     const query = await createRPCQueryClient({ rpc: rpc });
-    return new PersistenceClient(mnemonic, wallet, clientsigner, wasm, core, query, config);
+
+    return new PersistenceClient(wasm, core, query, offlineSigner);
   }
 }
