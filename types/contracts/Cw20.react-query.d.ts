@@ -126,12 +126,12 @@ export interface Cw20DownloadLogoQuery<TData> extends Cw20ReactQuery<DownloadLog
 export declare function useCw20DownloadLogoQuery<TData = DownloadLogoResponse>({
   client,
   options,
-}: Cw20DownloadLogoQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20DownloadLogoQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20MarketingInfoQuery<TData> extends Cw20ReactQuery<MarketingInfoResponse, TData> {}
 export declare function useCw20MarketingInfoQuery<TData = MarketingInfoResponse>({
   client,
   options,
-}: Cw20MarketingInfoQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20MarketingInfoQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20AllAccountsQuery<TData> extends Cw20ReactQuery<AllAccountsResponse, TData> {
   args: {
     limit?: number;
@@ -142,7 +142,7 @@ export declare function useCw20AllAccountsQuery<TData = AllAccountsResponse>({
   client,
   args,
   options,
-}: Cw20AllAccountsQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20AllAccountsQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20AllAllowancesQuery<TData> extends Cw20ReactQuery<AllAllowancesResponse, TData> {
   args: {
     limit?: number;
@@ -154,7 +154,7 @@ export declare function useCw20AllAllowancesQuery<TData = AllAllowancesResponse>
   client,
   args,
   options,
-}: Cw20AllAllowancesQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20AllAllowancesQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20AllowanceQuery<TData> extends Cw20ReactQuery<AllowanceResponse, TData> {
   args: {
     owner: string;
@@ -165,17 +165,17 @@ export declare function useCw20AllowanceQuery<TData = AllowanceResponse>({
   client,
   args,
   options,
-}: Cw20AllowanceQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20AllowanceQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20MinterQuery<TData> extends Cw20ReactQuery<MinterResponse, TData> {}
 export declare function useCw20MinterQuery<TData = MinterResponse>({
   client,
   options,
-}: Cw20MinterQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20MinterQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20TokenInfoQuery<TData> extends Cw20ReactQuery<TokenInfoResponse, TData> {}
 export declare function useCw20TokenInfoQuery<TData = TokenInfoResponse>({
   client,
   options,
-}: Cw20TokenInfoQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20TokenInfoQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20BalanceQuery<TData> extends Cw20ReactQuery<BalanceResponse, TData> {
   args: {
     address: string;
@@ -185,4 +185,4 @@ export declare function useCw20BalanceQuery<TData = BalanceResponse>({
   client,
   args,
   options,
-}: Cw20BalanceQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20BalanceQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;

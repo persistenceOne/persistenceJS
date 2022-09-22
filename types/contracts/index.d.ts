@@ -14,45 +14,39 @@ export declare namespace contracts {
     useCw20DownloadLogoQuery<TData = _0.DownloadLogoResponse>({
       client,
       options,
-    }: _2.Cw20DownloadLogoQuery<TData>): import("@tanstack/query-core").QueryObserverResult<TData, Error>;
+    }: _2.Cw20DownloadLogoQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
     useCw20MarketingInfoQuery<TData_1 = _0.MarketingInfoResponse>({
       client,
       options,
-    }: _2.Cw20MarketingInfoQuery<TData_1>): import("@tanstack/query-core").QueryObserverResult<
-      TData_1,
-      Error
-    >;
+    }: _2.Cw20MarketingInfoQuery<TData_1>): import("@tanstack/react-query").UseQueryResult<TData_1, Error>;
     useCw20AllAccountsQuery<TData_2 = _0.AllAccountsResponse>({
       client,
       args,
       options,
-    }: _2.Cw20AllAccountsQuery<TData_2>): import("@tanstack/query-core").QueryObserverResult<TData_2, Error>;
+    }: _2.Cw20AllAccountsQuery<TData_2>): import("@tanstack/react-query").UseQueryResult<TData_2, Error>;
     useCw20AllAllowancesQuery<TData_3 = _0.AllAllowancesResponse>({
       client,
       args,
       options,
-    }: _2.Cw20AllAllowancesQuery<TData_3>): import("@tanstack/query-core").QueryObserverResult<
-      TData_3,
-      Error
-    >;
+    }: _2.Cw20AllAllowancesQuery<TData_3>): import("@tanstack/react-query").UseQueryResult<TData_3, Error>;
     useCw20AllowanceQuery<TData_4 = _0.AllowanceResponse>({
       client,
       args,
       options,
-    }: _2.Cw20AllowanceQuery<TData_4>): import("@tanstack/query-core").QueryObserverResult<TData_4, Error>;
+    }: _2.Cw20AllowanceQuery<TData_4>): import("@tanstack/react-query").UseQueryResult<TData_4, Error>;
     useCw20MinterQuery<TData_5 = _0.MinterResponse>({
       client,
       options,
-    }: _2.Cw20MinterQuery<TData_5>): import("@tanstack/query-core").QueryObserverResult<TData_5, Error>;
+    }: _2.Cw20MinterQuery<TData_5>): import("@tanstack/react-query").UseQueryResult<TData_5, Error>;
     useCw20TokenInfoQuery<TData_6 = _0.TokenInfoResponse>({
       client,
       options,
-    }: _2.Cw20TokenInfoQuery<TData_6>): import("@tanstack/query-core").QueryObserverResult<TData_6, Error>;
+    }: _2.Cw20TokenInfoQuery<TData_6>): import("@tanstack/react-query").UseQueryResult<TData_6, Error>;
     useCw20BalanceQuery<TData_7 = _0.BalanceResponse>({
       client,
       args,
       options,
-    }: _2.Cw20BalanceQuery<TData_7>): import("@tanstack/query-core").QueryObserverResult<TData_7, Error>;
+    }: _2.Cw20BalanceQuery<TData_7>): import("@tanstack/react-query").UseQueryResult<TData_7, Error>;
     cw20QueryKeys: {
       contract: readonly [
         {
@@ -161,139 +155,95 @@ export declare namespace contracts {
       client,
       args,
       options,
-    }: _5.Cw20ICS20ListAllowedQuery<TData>): import("@tanstack/query-core").QueryObserverResult<TData, Error>;
+    }: _5.Cw20ICS20ListAllowedQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
     useCw20ICS20AllowedQuery<TData_1 = any>({
       client,
       args,
       options,
-    }: _5.Cw20ICS20AllowedQuery<TData_1>): import("@tanstack/query-core").QueryObserverResult<TData_1, Error>;
+    }: _5.Cw20ICS20AllowedQuery<TData_1>): import("@tanstack/react-query").UseQueryResult<TData_1, Error>;
     useCw20ICS20AdminQuery<TData_2 = any>({
       client,
       options,
-    }: _5.Cw20ICS20AdminQuery<TData_2>): import("@tanstack/query-core").QueryObserverResult<TData_2, Error>;
+    }: _5.Cw20ICS20AdminQuery<TData_2>): import("@tanstack/react-query").UseQueryResult<TData_2, Error>;
     useCw20ICS20ConfigQuery<TData_3 = any>({
       client,
       options,
-    }: _5.Cw20ICS20ConfigQuery<TData_3>): import("@tanstack/query-core").QueryObserverResult<TData_3, Error>;
+    }: _5.Cw20ICS20ConfigQuery<TData_3>): import("@tanstack/react-query").UseQueryResult<TData_3, Error>;
     useCw20ICS20ChannelQuery<TData_4 = _3.ChannelResponse>({
       client,
       args,
       options,
-    }: _5.Cw20ICS20ChannelQuery<TData_4>): import("@tanstack/query-core").QueryObserverResult<TData_4, Error>;
+    }: _5.Cw20ICS20ChannelQuery<TData_4>): import("@tanstack/react-query").UseQueryResult<TData_4, Error>;
     useCw20ICS20ListChannelsQuery<TData_5 = _3.ListChannelsResponse>({
       client,
       options,
-    }: _5.Cw20ICS20ListChannelsQuery<TData_5>): import("@tanstack/query-core").QueryObserverResult<
+    }: _5.Cw20ICS20ListChannelsQuery<TData_5>): import("@tanstack/react-query").UseQueryResult<
       TData_5,
       Error
     >;
     useCw20ICS20PortQuery<TData_6 = _3.PortResponse>({
       client,
       options,
-    }: _5.Cw20ICS20PortQuery<TData_6>): import("@tanstack/query-core").QueryObserverResult<TData_6, Error>;
+    }: _5.Cw20ICS20PortQuery<TData_6>): import("@tanstack/react-query").UseQueryResult<TData_6, Error>;
     useCw20ICS20UpdateAdminMutation(
-      options?: Pick<
+      options?: Omit<
         import("@tanstack/react-query").UseMutationOptions<
           import("@cosmjs/cosmwasm-stargate").ExecuteResult,
           Error,
           _5.Cw20ICS20UpdateAdminMutation,
           unknown
         >,
-        | "useErrorBoundary"
-        | "onSuccess"
-        | "onError"
-        | "onSettled"
-        | "retry"
-        | "retryDelay"
-        | "networkMode"
-        | "cacheTime"
-        | "meta"
-        | "mutationKey"
-        | "onMutate"
-        | "context"
+        "mutationFn"
       >,
-    ): import("@tanstack/react-query").UseBaseMutationResult<
+    ): import("@tanstack/react-query").UseMutationResult<
       import("@cosmjs/cosmwasm-stargate").ExecuteResult,
       Error,
       _5.Cw20ICS20UpdateAdminMutation,
       unknown
     >;
     useCw20ICS20AllowMutation(
-      options?: Pick<
+      options?: Omit<
         import("@tanstack/react-query").UseMutationOptions<
           import("@cosmjs/cosmwasm-stargate").ExecuteResult,
           Error,
           _5.Cw20ICS20AllowMutation,
           unknown
         >,
-        | "useErrorBoundary"
-        | "onSuccess"
-        | "onError"
-        | "onSettled"
-        | "retry"
-        | "retryDelay"
-        | "networkMode"
-        | "cacheTime"
-        | "meta"
-        | "mutationKey"
-        | "onMutate"
-        | "context"
+        "mutationFn"
       >,
-    ): import("@tanstack/react-query").UseBaseMutationResult<
+    ): import("@tanstack/react-query").UseMutationResult<
       import("@cosmjs/cosmwasm-stargate").ExecuteResult,
       Error,
       _5.Cw20ICS20AllowMutation,
       unknown
     >;
     useCw20ICS20TransferMutation(
-      options?: Pick<
+      options?: Omit<
         import("@tanstack/react-query").UseMutationOptions<
           import("@cosmjs/cosmwasm-stargate").ExecuteResult,
           Error,
           _5.Cw20ICS20TransferMutation,
           unknown
         >,
-        | "useErrorBoundary"
-        | "onSuccess"
-        | "onError"
-        | "onSettled"
-        | "retry"
-        | "retryDelay"
-        | "networkMode"
-        | "cacheTime"
-        | "meta"
-        | "mutationKey"
-        | "onMutate"
-        | "context"
+        "mutationFn"
       >,
-    ): import("@tanstack/react-query").UseBaseMutationResult<
+    ): import("@tanstack/react-query").UseMutationResult<
       import("@cosmjs/cosmwasm-stargate").ExecuteResult,
       Error,
       _5.Cw20ICS20TransferMutation,
       unknown
     >;
     useCw20ICS20ReceiveMutation(
-      options?: Pick<
+      options?: Omit<
         import("@tanstack/react-query").UseMutationOptions<
           import("@cosmjs/cosmwasm-stargate").ExecuteResult,
           Error,
           _5.Cw20ICS20ReceiveMutation,
           unknown
         >,
-        | "useErrorBoundary"
-        | "onSuccess"
-        | "onError"
-        | "onSettled"
-        | "retry"
-        | "retryDelay"
-        | "networkMode"
-        | "cacheTime"
-        | "meta"
-        | "mutationKey"
-        | "onMutate"
-        | "context"
+        "mutationFn"
       >,
-    ): import("@tanstack/react-query").UseBaseMutationResult<
+    ): import("@tanstack/react-query").UseMutationResult<
       import("@cosmjs/cosmwasm-stargate").ExecuteResult,
       Error,
       _5.Cw20ICS20ReceiveMutation,

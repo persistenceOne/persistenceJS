@@ -1,6 +1,6 @@
 {
   "name": "persistenceonejs",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Client side JS libraries for persistenceSDK transaction generation, signing and broadcasting.",
   "main": "main/index.js",
   "module": "module/index.js",
@@ -15,7 +15,7 @@
     "test-gov-contract": "NODE_ENV=development ts-node ./examples/ContractProposals.ts",
     "build:main": "BABEL_ENV=production babel src --out-dir main --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
     "build:module": "MODULE=true babel src --out-dir module --delete-dir-on-start  --extensions \".tsx,.ts,.js\"",
-    "build": "npm run build:module && npm run build:main && tsc --project ./tsconfig.json",
+    "build": "npm run build:module && npm run build:main",
     "build:ts-proto": "NODE_ENV=development npm run clean && ./scripts/ts-proto-gen.sh && cti create ./src -w",
     "build:telescope": "NODE_ENV=development ts-node ./scripts/telescope.ts",
     "build:contracts": "NODE_ENV=development ts-node ./scripts/contracts.ts",

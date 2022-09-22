@@ -122,7 +122,7 @@ export declare function useCw20ICS20ListAllowedQuery<TData = any>({
   client,
   args,
   options,
-}: Cw20ICS20ListAllowedQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20ICS20ListAllowedQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20ICS20AllowedQuery<TData> extends Cw20ICS20ReactQuery<any, TData> {
   args: {
     contract: string;
@@ -132,17 +132,17 @@ export declare function useCw20ICS20AllowedQuery<TData = any>({
   client,
   args,
   options,
-}: Cw20ICS20AllowedQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20ICS20AllowedQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20ICS20AdminQuery<TData> extends Cw20ICS20ReactQuery<any, TData> {}
 export declare function useCw20ICS20AdminQuery<TData = any>({
   client,
   options,
-}: Cw20ICS20AdminQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20ICS20AdminQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20ICS20ConfigQuery<TData> extends Cw20ICS20ReactQuery<any, TData> {}
 export declare function useCw20ICS20ConfigQuery<TData = any>({
   client,
   options,
-}: Cw20ICS20ConfigQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20ICS20ConfigQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20ICS20ChannelQuery<TData> extends Cw20ICS20ReactQuery<ChannelResponse, TData> {
   args: {
     id: string;
@@ -152,17 +152,17 @@ export declare function useCw20ICS20ChannelQuery<TData = ChannelResponse>({
   client,
   args,
   options,
-}: Cw20ICS20ChannelQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20ICS20ChannelQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20ICS20ListChannelsQuery<TData> extends Cw20ICS20ReactQuery<ListChannelsResponse, TData> {}
 export declare function useCw20ICS20ListChannelsQuery<TData = ListChannelsResponse>({
   client,
   options,
-}: Cw20ICS20ListChannelsQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20ICS20ListChannelsQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20ICS20PortQuery<TData> extends Cw20ICS20ReactQuery<PortResponse, TData> {}
 export declare function useCw20ICS20PortQuery<TData = PortResponse>({
   client,
   options,
-}: Cw20ICS20PortQuery<TData>): import("@tanstack/react-query").QueryObserverResult<TData, Error>;
+}: Cw20ICS20PortQuery<TData>): import("@tanstack/react-query").UseQueryResult<TData, Error>;
 export interface Cw20ICS20UpdateAdminMutation {
   client: Cw20ICS20Client;
   msg: {
@@ -176,7 +176,7 @@ export interface Cw20ICS20UpdateAdminMutation {
 }
 export declare function useCw20ICS20UpdateAdminMutation(
   options?: Omit<UseMutationOptions<ExecuteResult, Error, Cw20ICS20UpdateAdminMutation>, "mutationFn">,
-): import("@tanstack/react-query").UseBaseMutationResult<
+): import("@tanstack/react-query").UseMutationResult<
   ExecuteResult,
   Error,
   Cw20ICS20UpdateAdminMutation,
@@ -193,12 +193,7 @@ export interface Cw20ICS20AllowMutation {
 }
 export declare function useCw20ICS20AllowMutation(
   options?: Omit<UseMutationOptions<ExecuteResult, Error, Cw20ICS20AllowMutation>, "mutationFn">,
-): import("@tanstack/react-query").UseBaseMutationResult<
-  ExecuteResult,
-  Error,
-  Cw20ICS20AllowMutation,
-  unknown
->;
+): import("@tanstack/react-query").UseMutationResult<ExecuteResult, Error, Cw20ICS20AllowMutation, unknown>;
 export interface Cw20ICS20TransferMutation {
   client: Cw20ICS20Client;
   msg: TransferMsg;
@@ -210,7 +205,7 @@ export interface Cw20ICS20TransferMutation {
 }
 export declare function useCw20ICS20TransferMutation(
   options?: Omit<UseMutationOptions<ExecuteResult, Error, Cw20ICS20TransferMutation>, "mutationFn">,
-): import("@tanstack/react-query").UseBaseMutationResult<
+): import("@tanstack/react-query").UseMutationResult<
   ExecuteResult,
   Error,
   Cw20ICS20TransferMutation,
@@ -227,9 +222,4 @@ export interface Cw20ICS20ReceiveMutation {
 }
 export declare function useCw20ICS20ReceiveMutation(
   options?: Omit<UseMutationOptions<ExecuteResult, Error, Cw20ICS20ReceiveMutation>, "mutationFn">,
-): import("@tanstack/react-query").UseBaseMutationResult<
-  ExecuteResult,
-  Error,
-  Cw20ICS20ReceiveMutation,
-  unknown
->;
+): import("@tanstack/react-query").UseMutationResult<ExecuteResult, Error, Cw20ICS20ReceiveMutation, unknown>;
