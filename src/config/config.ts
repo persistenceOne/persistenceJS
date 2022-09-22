@@ -32,6 +32,6 @@ export const LocalConfig = {
 
 export const DefaultWalletOptions = {
   bip39Password: "",
-  hdPaths: [stringToPath("m/44'/118'/0'/0/0")],
+  hdPaths: [stringToPath("m/44'/750'/0'/0/0")],
   prefix: "persistence",
 };
