@@ -15,7 +15,7 @@
     "build:ts-proto": "NODE_ENV=development ./scripts/ts-proto-gen.sh && cti create ./src -w",
     "build:telescope": "NODE_ENV=development ts-node ./scripts/telescope.ts && npm run format",
     "prepare-publishing": "./scripts/prepare-publishing.sh",
-    "build": "./scripts/build.sh",
+    "build": "tsc",
     "format": "prettier --write --loglevel warn \"./src/**/*.ts\"",
     "prepare": "husky install"
   },
