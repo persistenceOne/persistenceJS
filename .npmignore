@@ -18,12 +18,10 @@ yarn.lock
 
 # project files
 .github
-.gitmodules
 .husky
 .prettierrc.json
 .babelrc.js
 .gitignore
-examples
 source
 tsconfig.json
 scripts
