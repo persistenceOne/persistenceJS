@@ -23,6 +23,8 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: Prepare
+        run: npm run prepare-publishing
       - name: Publish
         run: npm publish
         env:
