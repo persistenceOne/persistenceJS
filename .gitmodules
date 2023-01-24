@@ -1,8 +1,0 @@
-[submodule "cosmos-sdk"]
-	path = source/cosmos-sdk
-	url = https://github.com/cosmos/cosmos-sdk.git
-	branch = 47f46643affd7ec7978329c42bac47275ac7e1cc
-[submodule "wasmd"]
-	path = source/wasmd
-	url = https://github.com/CosmWasm/wasmd.git
-	branch = e4a2bfb5616c4ce3ddbc994a17c20b6de5fccad1
