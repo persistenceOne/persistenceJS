@@ -1,38 +1,95 @@
 #!/usr/bin/env node
-import { join } from "path";
+import {join} from "path";
+import {writeFileSync} from "fs" ;
 import telescope from "@osmonauts/telescope";
 
-const protoDirs = [
-  ["./source/cosmos-sdk/proto", "./source/cosmos-sdk/third_party/proto"],
-  ["./source/persistenceCore/proto", "./source/cosmos-sdk/third_party/proto"],
-  ["./source/wasmd/proto", "./source/wasmd/third_party/proto"],
-];
-const outPath = join(__dirname, "../src/proto");
+const outPath = join(__dirname, '/../src');
 
-protoDirs.forEach((dirs) => {
-  telescope({
-    protoDirs: ["third_party", ...dirs],
-    outPath,
+telescope({
+    protoDirs: ["./proto"],
+    outPath: outPath,
     options: {
-      includePackageVar: false,
-      aminoEncoding: {
-        enabled: false,
-      },
-      stargateClients: {
-        enabled: true,
-      },
-      lcdClients: {
-        enabled: false,
-      },
-      rpcClients: {
-        enabled: true,
-        camelCase: true,
-      },
-      typingsFormat: {
-        duration: "duration",
-        timestamp: "date",
-        useExact: false,
-      },
-    },
-  });
+        logLevel: 0,
+        useSDKTypes: false,
+        tsDisable: {
+            disableAll: false
+        },
+        eslintDisable: {
+            disableAll: true
+        },
+        bundle: {
+            enabled: false
+        },
+        prototypes: {
+            includePackageVar: true,
+            excluded: {
+                protos: [
+                    'cosmos/authz/v1beta1/event.proto',
+                    'cosmos/base/reflection/v2alpha1/reflection.proto',
+                    'cosmos/crypto/secp256r1/keys.proto',
+                    'ibc/core/port/v1/query.proto',
+                    'ibc/lightclients/solomachine/v2/solomachine.proto',
+                    'tendermint/libs/bits/types.proto',
+                    'google/api/httpbody.proto',
+                    'tendermint/blockchain/types.proto',
+                    'tendermint/consensus/types.proto',
+                    'tendermint/consensus/wal.proto',
+                    'tendermint/mempool/types.proto',
+                    'tendermint/p2p/conn.proto',
+                    'tendermint/p2p/pex.proto',
+                    'tendermint/privval/types.proto',
+                    'tendermint/rpc/grpc/types.proto',
+                    'tendermint/state/types.proto',
+                    'tendermint/statesync/types.proto',
+                    'tendermint/store/types.proto',
+                    'tendermint/types/canonical.proto',
+                    'tendermint/types/events.proto',
+                ]
+            },
+            methods: {
+                // There are users who need those functions. CosmJS does not need them directly.
+                // See https://github.com/cosmos/cosmjs/pull/1329
+                fromJSON: true,
+                toJSON: true,
+            },
+            typingsFormat: {
+                useDeepPartial: true,
+                useExact: true,
+                timestamp: 'timestamp',
+                duration: 'duration'
+            }
+        },
+        lcdClients: {
+            enabled: false
+        },
+        rpcClients: {
+            enabled: true,
+            inline: true,
+            extensions: false,
+            camelCase: false,
+            enabledServices: [
+                'Msg',
+                'Query',
+                'Service',
+                'ReflectionService',
+                'ABCIApplication'
+            ]
+        },
+        aminoEncoding: {
+            enabled: false
+        }
+    }
+}).then(() => {
+    // Create index.ts
+    const index_ts = `
+    // Auto-generated, see scripts/codegen.js!
+    // Exports we want to provide at the root of the "cosmjs-types" package
+    export { DeepPartial, Exact } from "./helpers";
+    `;
+    writeFileSync(`${outPath}/index.ts`, index_ts);
+
+    console.log('✨ All Done!');
+}, (e) => {
+    console.error(e);
+    process.exit(1);
 });

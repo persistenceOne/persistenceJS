@@ -1,24 +1,8 @@
-[submodule "persistenceCore"]
-	path = persistenceCore
-	url = https://github.com/persistenceOne/persistenceCore.git
 [submodule "cosmos-sdk"]
-	path = cosmos-sdk
-	url = https://github.com/cosmos/cosmos-sdk.git
-[submodule "BL-contracts"]
-	path = BL-contracts
-	url = https://github.com/persistenceOne/BL-contracts.git
-[submodule "cw-plus"]
-	path = cw-plus
-	url = https://github.com/CosmWasm/cw-plus.git
-[submodule "source/cosmos-sdk"]
 	path = source/cosmos-sdk
 	url = https://github.com/cosmos/cosmos-sdk.git
-[submodule "source/cw-plus"]
-	path = source/cw-plus
-	url = https://github.com/CosmWasm/cw-plus.git
-[submodule "source/wasmd"]
+	branch = 47f46643affd7ec7978329c42bac47275ac7e1cc
+[submodule "wasmd"]
 	path = source/wasmd
 	url = https://github.com/CosmWasm/wasmd.git
-[submodule "source/persistenceCore"]
-	path = source/persistenceCore
-	url = https://github.com/persistenceOne/persistenceCore.git
+	branch = e4a2bfb5616c4ce3ddbc994a17c20b6de5fccad1
