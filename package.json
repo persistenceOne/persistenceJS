@@ -1,13 +1,23 @@
 {
   "name": "persistenceonejs",
-  "version": "2.0.0",
+  "version": "2.0.4",
   "description": "Client side JS libraries for persistenceSDK transaction generation, signing and broadcasting.",
   "main": "main/index.js",
   "module": "module/index.js",
   "files": [
-    "src",
-    "main",
-    "module"
+    "confio/",
+    "cosmos/",
+    "cosmos_proto/",
+    "cosmwasm/",
+    "gogoproto/",
+    "google/",
+    "ibc/",
+    "tendermint/",
+    "pstake/",
+    "persistence/",
+    "/helpers.*",
+    "/index.*",
+    "*.md"
   ],
   "scripts": {
     "build:main": "BABEL_ENV=production babel src --out-dir build --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
