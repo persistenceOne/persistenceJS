@@ -128,6 +128,15 @@ export interface CommunityPoolSpendProposalWithDeposit {
   amount: string;
   deposit: string;
 }
+/**
+ * TokenizeShareRecordReward represents the properties of tokenize share
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface TokenizeShareRecordReward {
+  recordId: Long;
+  reward: DecCoin[];
+}
 function createBaseParams(): Params {
   return {
     communityTax: "",
@@ -895,6 +904,70 @@ export const CommunityPoolSpendProposalWithDeposit = {
     message.recipient = object.recipient ?? "";
     message.amount = object.amount ?? "";
     message.deposit = object.deposit ?? "";
+    return message;
+  },
+};
+function createBaseTokenizeShareRecordReward(): TokenizeShareRecordReward {
+  return {
+    recordId: Long.UZERO,
+    reward: [],
+  };
+}
+export const TokenizeShareRecordReward = {
+  encode(message: TokenizeShareRecordReward, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.recordId.isZero()) {
+      writer.uint32(8).uint64(message.recordId);
+    }
+    for (const v of message.reward) {
+      DecCoin.encode(v!, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): TokenizeShareRecordReward {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTokenizeShareRecordReward();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.recordId = reader.uint64() as Long;
+          break;
+        case 2:
+          message.reward.push(DecCoin.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): TokenizeShareRecordReward {
+    return {
+      recordId: isSet(object.recordId) ? Long.fromValue(object.recordId) : Long.UZERO,
+      reward: Array.isArray(object?.reward) ? object.reward.map((e: any) => DecCoin.fromJSON(e)) : [],
+    };
+  },
+  toJSON(message: TokenizeShareRecordReward): unknown {
+    const obj: any = {};
+    message.recordId !== undefined && (obj.recordId = (message.recordId || Long.UZERO).toString());
+    if (message.reward) {
+      obj.reward = message.reward.map((e) => (e ? DecCoin.toJSON(e) : undefined));
+    } else {
+      obj.reward = [];
+    }
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<TokenizeShareRecordReward>, I>>(
+    object: I,
+  ): TokenizeShareRecordReward {
+    const message = createBaseTokenizeShareRecordReward();
+    message.recordId =
+      object.recordId !== undefined && object.recordId !== null
+        ? Long.fromValue(object.recordId)
+        : Long.UZERO;
+    message.reward = object.reward?.map((e) => DecCoin.fromPartial(e)) || [];
     return message;
   },
 };

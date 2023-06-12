@@ -112,6 +112,89 @@ export interface MsgUpdateParams {
  * Since: cosmos-sdk 0.47
  */
 export interface MsgUpdateParamsResponse {}
+/**
+ * MsgUnbondValidator defines a method for performing the status transition for
+ * a validator from bonded to unbonded
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgUnbondValidator {
+  validatorAddress: string;
+}
+/**
+ * MsgUnbondValidatorResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgUnbondValidatorResponse {}
+/**
+ * MsgTokenizeShares
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgTokenizeShares {
+  delegatorAddress: string;
+  validatorAddress: string;
+  amount?: Coin;
+  tokenizedShareOwner: string;
+}
+/**
+ * MsgTokenizeSharesResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgTokenizeSharesResponse {
+  amount?: Coin;
+}
+/**
+ * MsgRedeemTokensForShares
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgRedeemTokensForShares {
+  delegatorAddress: string;
+  amount?: Coin;
+}
+/**
+ * MsgRedeemTokensForSharesResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgRedeemTokensForSharesResponse {
+  amount?: Coin;
+}
+/**
+ * MsgTransferTokenizeShareRecord
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgTransferTokenizeShareRecord {
+  tokenizeShareRecordId: Long;
+  sender: string;
+  newOwner: string;
+}
+/**
+ * MsgTransferTokenizeShareRecordResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgTransferTokenizeShareRecordResponse {}
+/**
+ * MsgValidatorBond defines a SDK message for performing validator self-bond of delegated coins
+ * from a delegator to a validator.
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgValidatorBond {
+  delegatorAddress: string;
+  validatorAddress: string;
+}
+/**
+ * MsgValidatorBondResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgValidatorBondResponse {}
 function createBaseMsgCreateValidator(): MsgCreateValidator {
   return {
     description: undefined,
@@ -919,6 +1002,510 @@ export const MsgUpdateParamsResponse = {
     return message;
   },
 };
+function createBaseMsgUnbondValidator(): MsgUnbondValidator {
+  return {
+    validatorAddress: "",
+  };
+}
+export const MsgUnbondValidator = {
+  encode(message: MsgUnbondValidator, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.validatorAddress !== "") {
+      writer.uint32(10).string(message.validatorAddress);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUnbondValidator {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgUnbondValidator();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.validatorAddress = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgUnbondValidator {
+    return {
+      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
+    };
+  },
+  toJSON(message: MsgUnbondValidator): unknown {
+    const obj: any = {};
+    message.validatorAddress !== undefined && (obj.validatorAddress = message.validatorAddress);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgUnbondValidator>, I>>(object: I): MsgUnbondValidator {
+    const message = createBaseMsgUnbondValidator();
+    message.validatorAddress = object.validatorAddress ?? "";
+    return message;
+  },
+};
+function createBaseMsgUnbondValidatorResponse(): MsgUnbondValidatorResponse {
+  return {};
+}
+export const MsgUnbondValidatorResponse = {
+  encode(_: MsgUnbondValidatorResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUnbondValidatorResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgUnbondValidatorResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgUnbondValidatorResponse {
+    return {};
+  },
+  toJSON(_: MsgUnbondValidatorResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgUnbondValidatorResponse>, I>>(_: I): MsgUnbondValidatorResponse {
+    const message = createBaseMsgUnbondValidatorResponse();
+    return message;
+  },
+};
+function createBaseMsgTokenizeShares(): MsgTokenizeShares {
+  return {
+    delegatorAddress: "",
+    validatorAddress: "",
+    amount: undefined,
+    tokenizedShareOwner: "",
+  };
+}
+export const MsgTokenizeShares = {
+  encode(message: MsgTokenizeShares, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.delegatorAddress !== "") {
+      writer.uint32(10).string(message.delegatorAddress);
+    }
+    if (message.validatorAddress !== "") {
+      writer.uint32(18).string(message.validatorAddress);
+    }
+    if (message.amount !== undefined) {
+      Coin.encode(message.amount, writer.uint32(26).fork()).ldelim();
+    }
+    if (message.tokenizedShareOwner !== "") {
+      writer.uint32(34).string(message.tokenizedShareOwner);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTokenizeShares {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgTokenizeShares();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.delegatorAddress = reader.string();
+          break;
+        case 2:
+          message.validatorAddress = reader.string();
+          break;
+        case 3:
+          message.amount = Coin.decode(reader, reader.uint32());
+          break;
+        case 4:
+          message.tokenizedShareOwner = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgTokenizeShares {
+    return {
+      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
+      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
+      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
+      tokenizedShareOwner: isSet(object.tokenizedShareOwner) ? String(object.tokenizedShareOwner) : "",
+    };
+  },
+  toJSON(message: MsgTokenizeShares): unknown {
+    const obj: any = {};
+    message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
+    message.validatorAddress !== undefined && (obj.validatorAddress = message.validatorAddress);
+    message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
+    message.tokenizedShareOwner !== undefined && (obj.tokenizedShareOwner = message.tokenizedShareOwner);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgTokenizeShares>, I>>(object: I): MsgTokenizeShares {
+    const message = createBaseMsgTokenizeShares();
+    message.delegatorAddress = object.delegatorAddress ?? "";
+    message.validatorAddress = object.validatorAddress ?? "";
+    message.amount =
+      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    message.tokenizedShareOwner = object.tokenizedShareOwner ?? "";
+    return message;
+  },
+};
+function createBaseMsgTokenizeSharesResponse(): MsgTokenizeSharesResponse {
+  return {
+    amount: undefined,
+  };
+}
+export const MsgTokenizeSharesResponse = {
+  encode(message: MsgTokenizeSharesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.amount !== undefined) {
+      Coin.encode(message.amount, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTokenizeSharesResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgTokenizeSharesResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.amount = Coin.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgTokenizeSharesResponse {
+    return {
+      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
+    };
+  },
+  toJSON(message: MsgTokenizeSharesResponse): unknown {
+    const obj: any = {};
+    message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgTokenizeSharesResponse>, I>>(
+    object: I,
+  ): MsgTokenizeSharesResponse {
+    const message = createBaseMsgTokenizeSharesResponse();
+    message.amount =
+      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    return message;
+  },
+};
+function createBaseMsgRedeemTokensForShares(): MsgRedeemTokensForShares {
+  return {
+    delegatorAddress: "",
+    amount: undefined,
+  };
+}
+export const MsgRedeemTokensForShares = {
+  encode(message: MsgRedeemTokensForShares, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.delegatorAddress !== "") {
+      writer.uint32(10).string(message.delegatorAddress);
+    }
+    if (message.amount !== undefined) {
+      Coin.encode(message.amount, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgRedeemTokensForShares {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgRedeemTokensForShares();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.delegatorAddress = reader.string();
+          break;
+        case 2:
+          message.amount = Coin.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgRedeemTokensForShares {
+    return {
+      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
+      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
+    };
+  },
+  toJSON(message: MsgRedeemTokensForShares): unknown {
+    const obj: any = {};
+    message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
+    message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgRedeemTokensForShares>, I>>(
+    object: I,
+  ): MsgRedeemTokensForShares {
+    const message = createBaseMsgRedeemTokensForShares();
+    message.delegatorAddress = object.delegatorAddress ?? "";
+    message.amount =
+      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    return message;
+  },
+};
+function createBaseMsgRedeemTokensForSharesResponse(): MsgRedeemTokensForSharesResponse {
+  return {
+    amount: undefined,
+  };
+}
+export const MsgRedeemTokensForSharesResponse = {
+  encode(message: MsgRedeemTokensForSharesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.amount !== undefined) {
+      Coin.encode(message.amount, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgRedeemTokensForSharesResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgRedeemTokensForSharesResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.amount = Coin.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgRedeemTokensForSharesResponse {
+    return {
+      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
+    };
+  },
+  toJSON(message: MsgRedeemTokensForSharesResponse): unknown {
+    const obj: any = {};
+    message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgRedeemTokensForSharesResponse>, I>>(
+    object: I,
+  ): MsgRedeemTokensForSharesResponse {
+    const message = createBaseMsgRedeemTokensForSharesResponse();
+    message.amount =
+      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    return message;
+  },
+};
+function createBaseMsgTransferTokenizeShareRecord(): MsgTransferTokenizeShareRecord {
+  return {
+    tokenizeShareRecordId: Long.UZERO,
+    sender: "",
+    newOwner: "",
+  };
+}
+export const MsgTransferTokenizeShareRecord = {
+  encode(message: MsgTransferTokenizeShareRecord, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.tokenizeShareRecordId.isZero()) {
+      writer.uint32(8).uint64(message.tokenizeShareRecordId);
+    }
+    if (message.sender !== "") {
+      writer.uint32(18).string(message.sender);
+    }
+    if (message.newOwner !== "") {
+      writer.uint32(26).string(message.newOwner);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransferTokenizeShareRecord {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgTransferTokenizeShareRecord();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.tokenizeShareRecordId = reader.uint64() as Long;
+          break;
+        case 2:
+          message.sender = reader.string();
+          break;
+        case 3:
+          message.newOwner = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgTransferTokenizeShareRecord {
+    return {
+      tokenizeShareRecordId: isSet(object.tokenizeShareRecordId)
+        ? Long.fromValue(object.tokenizeShareRecordId)
+        : Long.UZERO,
+      sender: isSet(object.sender) ? String(object.sender) : "",
+      newOwner: isSet(object.newOwner) ? String(object.newOwner) : "",
+    };
+  },
+  toJSON(message: MsgTransferTokenizeShareRecord): unknown {
+    const obj: any = {};
+    message.tokenizeShareRecordId !== undefined &&
+      (obj.tokenizeShareRecordId = (message.tokenizeShareRecordId || Long.UZERO).toString());
+    message.sender !== undefined && (obj.sender = message.sender);
+    message.newOwner !== undefined && (obj.newOwner = message.newOwner);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgTransferTokenizeShareRecord>, I>>(
+    object: I,
+  ): MsgTransferTokenizeShareRecord {
+    const message = createBaseMsgTransferTokenizeShareRecord();
+    message.tokenizeShareRecordId =
+      object.tokenizeShareRecordId !== undefined && object.tokenizeShareRecordId !== null
+        ? Long.fromValue(object.tokenizeShareRecordId)
+        : Long.UZERO;
+    message.sender = object.sender ?? "";
+    message.newOwner = object.newOwner ?? "";
+    return message;
+  },
+};
+function createBaseMsgTransferTokenizeShareRecordResponse(): MsgTransferTokenizeShareRecordResponse {
+  return {};
+}
+export const MsgTransferTokenizeShareRecordResponse = {
+  encode(_: MsgTransferTokenizeShareRecordResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransferTokenizeShareRecordResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgTransferTokenizeShareRecordResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgTransferTokenizeShareRecordResponse {
+    return {};
+  },
+  toJSON(_: MsgTransferTokenizeShareRecordResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgTransferTokenizeShareRecordResponse>, I>>(
+    _: I,
+  ): MsgTransferTokenizeShareRecordResponse {
+    const message = createBaseMsgTransferTokenizeShareRecordResponse();
+    return message;
+  },
+};
+function createBaseMsgValidatorBond(): MsgValidatorBond {
+  return {
+    delegatorAddress: "",
+    validatorAddress: "",
+  };
+}
+export const MsgValidatorBond = {
+  encode(message: MsgValidatorBond, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.delegatorAddress !== "") {
+      writer.uint32(10).string(message.delegatorAddress);
+    }
+    if (message.validatorAddress !== "") {
+      writer.uint32(18).string(message.validatorAddress);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgValidatorBond {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgValidatorBond();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.delegatorAddress = reader.string();
+          break;
+        case 2:
+          message.validatorAddress = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgValidatorBond {
+    return {
+      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
+      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
+    };
+  },
+  toJSON(message: MsgValidatorBond): unknown {
+    const obj: any = {};
+    message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
+    message.validatorAddress !== undefined && (obj.validatorAddress = message.validatorAddress);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgValidatorBond>, I>>(object: I): MsgValidatorBond {
+    const message = createBaseMsgValidatorBond();
+    message.delegatorAddress = object.delegatorAddress ?? "";
+    message.validatorAddress = object.validatorAddress ?? "";
+    return message;
+  },
+};
+function createBaseMsgValidatorBondResponse(): MsgValidatorBondResponse {
+  return {};
+}
+export const MsgValidatorBondResponse = {
+  encode(_: MsgValidatorBondResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgValidatorBondResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgValidatorBondResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgValidatorBondResponse {
+    return {};
+  },
+  toJSON(_: MsgValidatorBondResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgValidatorBondResponse>, I>>(_: I): MsgValidatorBondResponse {
+    const message = createBaseMsgValidatorBondResponse();
+    return message;
+  },
+};
 /** Msg defines the staking Msg service. */
 export interface Msg {
   /** CreateValidator defines a method for creating a new validator. */
@@ -952,9 +1539,45 @@ export interface Msg {
   /**
    * UpdateParams defines an operation for updating the x/staking module
    * parameters.
+   *
    * Since: cosmos-sdk 0.47
    */
   UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse>;
+  /**
+   * UnbondValidator defines a method for performing the status transition for a validator
+   * from bonded to unbonded
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  UnbondValidator(request: MsgUnbondValidator): Promise<MsgUnbondValidatorResponse>;
+  /**
+   * TokenizeShares defines a method for tokenizing shares from a validator.
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  TokenizeShares(request: MsgTokenizeShares): Promise<MsgTokenizeSharesResponse>;
+  /**
+   * RedeemTokens defines a method for redeeming tokens from a validator for
+   * shares.
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  RedeemTokens(request: MsgRedeemTokensForShares): Promise<MsgRedeemTokensForSharesResponse>;
+  /**
+   * TransferTokenizeShareRecord defines a method to transfer ownership of
+   * TokenizeShareRecord
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  TransferTokenizeShareRecord(
+    request: MsgTransferTokenizeShareRecord,
+  ): Promise<MsgTransferTokenizeShareRecordResponse>;
+  /**
+   * ValidatorBond defines a method for performing a validator self-bond
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  ValidatorBond(request: MsgValidatorBond): Promise<MsgValidatorBondResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
@@ -967,6 +1590,11 @@ export class MsgClientImpl implements Msg {
     this.Undelegate = this.Undelegate.bind(this);
     this.CancelUnbondingDelegation = this.CancelUnbondingDelegation.bind(this);
     this.UpdateParams = this.UpdateParams.bind(this);
+    this.UnbondValidator = this.UnbondValidator.bind(this);
+    this.TokenizeShares = this.TokenizeShares.bind(this);
+    this.RedeemTokens = this.RedeemTokens.bind(this);
+    this.TransferTokenizeShareRecord = this.TransferTokenizeShareRecord.bind(this);
+    this.ValidatorBond = this.ValidatorBond.bind(this);
   }
   CreateValidator(request: MsgCreateValidator): Promise<MsgCreateValidatorResponse> {
     const data = MsgCreateValidator.encode(request).finish();
@@ -1004,5 +1632,32 @@ export class MsgClientImpl implements Msg {
     const data = MsgUpdateParams.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "UpdateParams", data);
     return promise.then((data) => MsgUpdateParamsResponse.decode(new _m0.Reader(data)));
+  }
+  UnbondValidator(request: MsgUnbondValidator): Promise<MsgUnbondValidatorResponse> {
+    const data = MsgUnbondValidator.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "UnbondValidator", data);
+    return promise.then((data) => MsgUnbondValidatorResponse.decode(new _m0.Reader(data)));
+  }
+  TokenizeShares(request: MsgTokenizeShares): Promise<MsgTokenizeSharesResponse> {
+    const data = MsgTokenizeShares.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "TokenizeShares", data);
+    return promise.then((data) => MsgTokenizeSharesResponse.decode(new _m0.Reader(data)));
+  }
+  RedeemTokens(request: MsgRedeemTokensForShares): Promise<MsgRedeemTokensForSharesResponse> {
+    const data = MsgRedeemTokensForShares.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "RedeemTokens", data);
+    return promise.then((data) => MsgRedeemTokensForSharesResponse.decode(new _m0.Reader(data)));
+  }
+  TransferTokenizeShareRecord(
+    request: MsgTransferTokenizeShareRecord,
+  ): Promise<MsgTransferTokenizeShareRecordResponse> {
+    const data = MsgTransferTokenizeShareRecord.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "TransferTokenizeShareRecord", data);
+    return promise.then((data) => MsgTransferTokenizeShareRecordResponse.decode(new _m0.Reader(data)));
+  }
+  ValidatorBond(request: MsgValidatorBond): Promise<MsgValidatorBondResponse> {
+    const data = MsgValidatorBond.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "ValidatorBond", data);
+    return promise.then((data) => MsgValidatorBondResponse.decode(new _m0.Reader(data)));
   }
 }

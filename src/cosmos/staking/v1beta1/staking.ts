@@ -174,10 +174,30 @@ export interface Validator {
    * Since: cosmos-sdk 0.46
    */
   minSelfDelegation: string;
-  /** strictly positive if this validator's unbonding has been stopped by external modules */
+  /**
+   * strictly positive if this validator's unbonding has been stopped by external modules
+   *
+   * Since: cosmos-sdk 0.47
+   */
   unbondingOnHoldRefCount: Long;
-  /** list of unbonding ids, each uniquely identifing an unbonding of this validator */
+  /**
+   * list of unbonding ids, each uniquely identifing an unbonding of this validator
+   *
+   * Since: cosmos-sdk 0.47
+   */
   unbondingIds: Long[];
+  /**
+   * total_validator_bond_shares is the number of shares self bonded from the validator.
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  totalValidatorBondShares: string;
+  /**
+   * total_liquid_shares is the total number of shares either tokenized or owned by a liquid staking provider.
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  totalLiquidShares: string;
 }
 /** ValAddresses defines a repeated set of validator addresses. */
 export interface ValAddresses {
@@ -223,6 +243,12 @@ export interface Delegation {
   validatorAddress: string;
   /** shares define the delegation shares received. */
   shares: string;
+  /**
+   * has this delegation been marked as a validator self bond.
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  validatorBond: boolean;
 }
 /**
  * UnbondingDelegation stores all of a single delegator's unbonding bonds
@@ -250,6 +276,19 @@ export interface UnbondingDelegationEntry {
   unbondingId: Long;
   /** Strictly positive if this entry's unbonding has been stopped by external modules */
   unbondingOnHoldRefCount: Long;
+  /**
+   * validator_bond_factor is required for tokenize share and undelegation check for network safety
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  validatorBondFactor: string;
+  /**
+   * global_liquid_staking_cap represents a cap on the portion of stake that
+   * comes from liquid staking providers
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  globalLiquidStakingCap: string;
 }
 /** RedelegationEntry defines a redelegation object with relevant metadata. */
 export interface RedelegationEntry {
@@ -294,6 +333,10 @@ export interface Params {
   bondDenom: string;
   /** min_commission_rate is the chain-wide minimum commission rate that a validator can charge their delegators */
   minCommissionRate: string;
+  /** validator_bond_factor */
+  validatorBondFactor: string;
+  /** global_liquid_staking_cap */
+  globalLiquidStakingCap: string;
 }
 /**
  * DelegationResponse is equivalent to Delegation except that it contains a
@@ -335,6 +378,18 @@ export interface Pool {
  */
 export interface ValidatorUpdates {
   updates: ValidatorUpdate[];
+}
+/**
+ * TokenizeShareRecord
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface TokenizeShareRecord {
+  id: Long;
+  owner: string;
+  /** module account take the role of delegator */
+  moduleAccount: string;
+  validator: string;
 }
 function createBaseHistoricalInfo(): HistoricalInfo {
   return {
@@ -627,6 +682,8 @@ function createBaseValidator(): Validator {
     minSelfDelegation: "",
     unbondingOnHoldRefCount: Long.ZERO,
     unbondingIds: [],
+    totalValidatorBondShares: "",
+    totalLiquidShares: "",
   };
 }
 export const Validator = {
@@ -672,6 +729,12 @@ export const Validator = {
       writer.uint64(v);
     }
     writer.ldelim();
+    if (message.totalValidatorBondShares !== "") {
+      writer.uint32(114).string(message.totalValidatorBondShares);
+    }
+    if (message.totalLiquidShares !== "") {
+      writer.uint32(122).string(message.totalLiquidShares);
+    }
     return writer;
   },
   decode(input: _m0.Reader | Uint8Array, length?: number): Validator {
@@ -727,6 +790,12 @@ export const Validator = {
             message.unbondingIds.push(reader.uint64() as Long);
           }
           break;
+        case 14:
+          message.totalValidatorBondShares = reader.string();
+          break;
+        case 15:
+          message.totalLiquidShares = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -753,6 +822,10 @@ export const Validator = {
       unbondingIds: Array.isArray(object?.unbondingIds)
         ? object.unbondingIds.map((e: any) => Long.fromValue(e))
         : [],
+      totalValidatorBondShares: isSet(object.totalValidatorBondShares)
+        ? String(object.totalValidatorBondShares)
+        : "",
+      totalLiquidShares: isSet(object.totalLiquidShares) ? String(object.totalLiquidShares) : "",
     };
   },
   toJSON(message: Validator): unknown {
@@ -780,6 +853,9 @@ export const Validator = {
     } else {
       obj.unbondingIds = [];
     }
+    message.totalValidatorBondShares !== undefined &&
+      (obj.totalValidatorBondShares = message.totalValidatorBondShares);
+    message.totalLiquidShares !== undefined && (obj.totalLiquidShares = message.totalLiquidShares);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<Validator>, I>>(object: I): Validator {
@@ -815,6 +891,8 @@ export const Validator = {
         ? Long.fromValue(object.unbondingOnHoldRefCount)
         : Long.ZERO;
     message.unbondingIds = object.unbondingIds?.map((e) => Long.fromValue(e)) || [];
+    message.totalValidatorBondShares = object.totalValidatorBondShares ?? "";
+    message.totalLiquidShares = object.totalLiquidShares ?? "";
     return message;
   },
 };
@@ -1092,6 +1170,7 @@ function createBaseDelegation(): Delegation {
     delegatorAddress: "",
     validatorAddress: "",
     shares: "",
+    validatorBond: false,
   };
 }
 export const Delegation = {
@@ -1104,6 +1183,9 @@ export const Delegation = {
     }
     if (message.shares !== "") {
       writer.uint32(26).string(message.shares);
+    }
+    if (message.validatorBond === true) {
+      writer.uint32(32).bool(message.validatorBond);
     }
     return writer;
   },
@@ -1123,6 +1205,9 @@ export const Delegation = {
         case 3:
           message.shares = reader.string();
           break;
+        case 4:
+          message.validatorBond = reader.bool();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1135,6 +1220,7 @@ export const Delegation = {
       delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
       validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
       shares: isSet(object.shares) ? String(object.shares) : "",
+      validatorBond: isSet(object.validatorBond) ? Boolean(object.validatorBond) : false,
     };
   },
   toJSON(message: Delegation): unknown {
@@ -1142,6 +1228,7 @@ export const Delegation = {
     message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
     message.validatorAddress !== undefined && (obj.validatorAddress = message.validatorAddress);
     message.shares !== undefined && (obj.shares = message.shares);
+    message.validatorBond !== undefined && (obj.validatorBond = message.validatorBond);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<Delegation>, I>>(object: I): Delegation {
@@ -1149,6 +1236,7 @@ export const Delegation = {
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.validatorAddress = object.validatorAddress ?? "";
     message.shares = object.shares ?? "";
+    message.validatorBond = object.validatorBond ?? false;
     return message;
   },
 };
@@ -1231,6 +1319,8 @@ function createBaseUnbondingDelegationEntry(): UnbondingDelegationEntry {
     balance: "",
     unbondingId: Long.UZERO,
     unbondingOnHoldRefCount: Long.ZERO,
+    validatorBondFactor: "",
+    globalLiquidStakingCap: "",
   };
 }
 export const UnbondingDelegationEntry = {
@@ -1252,6 +1342,12 @@ export const UnbondingDelegationEntry = {
     }
     if (!message.unbondingOnHoldRefCount.isZero()) {
       writer.uint32(48).int64(message.unbondingOnHoldRefCount);
+    }
+    if (message.validatorBondFactor !== "") {
+      writer.uint32(58).string(message.validatorBondFactor);
+    }
+    if (message.globalLiquidStakingCap !== "") {
+      writer.uint32(66).string(message.globalLiquidStakingCap);
     }
     return writer;
   },
@@ -1280,6 +1376,12 @@ export const UnbondingDelegationEntry = {
         case 6:
           message.unbondingOnHoldRefCount = reader.int64() as Long;
           break;
+        case 7:
+          message.validatorBondFactor = reader.string();
+          break;
+        case 8:
+          message.globalLiquidStakingCap = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1297,6 +1399,10 @@ export const UnbondingDelegationEntry = {
       unbondingOnHoldRefCount: isSet(object.unbondingOnHoldRefCount)
         ? Long.fromValue(object.unbondingOnHoldRefCount)
         : Long.ZERO,
+      validatorBondFactor: isSet(object.validatorBondFactor) ? String(object.validatorBondFactor) : "",
+      globalLiquidStakingCap: isSet(object.globalLiquidStakingCap)
+        ? String(object.globalLiquidStakingCap)
+        : "",
     };
   },
   toJSON(message: UnbondingDelegationEntry): unknown {
@@ -1310,6 +1416,9 @@ export const UnbondingDelegationEntry = {
     message.unbondingId !== undefined && (obj.unbondingId = (message.unbondingId || Long.UZERO).toString());
     message.unbondingOnHoldRefCount !== undefined &&
       (obj.unbondingOnHoldRefCount = (message.unbondingOnHoldRefCount || Long.ZERO).toString());
+    message.validatorBondFactor !== undefined && (obj.validatorBondFactor = message.validatorBondFactor);
+    message.globalLiquidStakingCap !== undefined &&
+      (obj.globalLiquidStakingCap = message.globalLiquidStakingCap);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<UnbondingDelegationEntry>, I>>(
@@ -1334,6 +1443,8 @@ export const UnbondingDelegationEntry = {
       object.unbondingOnHoldRefCount !== undefined && object.unbondingOnHoldRefCount !== null
         ? Long.fromValue(object.unbondingOnHoldRefCount)
         : Long.ZERO;
+    message.validatorBondFactor = object.validatorBondFactor ?? "";
+    message.globalLiquidStakingCap = object.globalLiquidStakingCap ?? "";
     return message;
   },
 };
@@ -1538,6 +1649,8 @@ function createBaseParams(): Params {
     historicalEntries: 0,
     bondDenom: "",
     minCommissionRate: "",
+    validatorBondFactor: "",
+    globalLiquidStakingCap: "",
   };
 }
 export const Params = {
@@ -1559,6 +1672,12 @@ export const Params = {
     }
     if (message.minCommissionRate !== "") {
       writer.uint32(50).string(message.minCommissionRate);
+    }
+    if (message.validatorBondFactor !== "") {
+      writer.uint32(58).string(message.validatorBondFactor);
+    }
+    if (message.globalLiquidStakingCap !== "") {
+      writer.uint32(66).string(message.globalLiquidStakingCap);
     }
     return writer;
   },
@@ -1587,6 +1706,12 @@ export const Params = {
         case 6:
           message.minCommissionRate = reader.string();
           break;
+        case 7:
+          message.validatorBondFactor = reader.string();
+          break;
+        case 8:
+          message.globalLiquidStakingCap = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1602,6 +1727,10 @@ export const Params = {
       historicalEntries: isSet(object.historicalEntries) ? Number(object.historicalEntries) : 0,
       bondDenom: isSet(object.bondDenom) ? String(object.bondDenom) : "",
       minCommissionRate: isSet(object.minCommissionRate) ? String(object.minCommissionRate) : "",
+      validatorBondFactor: isSet(object.validatorBondFactor) ? String(object.validatorBondFactor) : "",
+      globalLiquidStakingCap: isSet(object.globalLiquidStakingCap)
+        ? String(object.globalLiquidStakingCap)
+        : "",
     };
   },
   toJSON(message: Params): unknown {
@@ -1614,6 +1743,9 @@ export const Params = {
       (obj.historicalEntries = Math.round(message.historicalEntries));
     message.bondDenom !== undefined && (obj.bondDenom = message.bondDenom);
     message.minCommissionRate !== undefined && (obj.minCommissionRate = message.minCommissionRate);
+    message.validatorBondFactor !== undefined && (obj.validatorBondFactor = message.validatorBondFactor);
+    message.globalLiquidStakingCap !== undefined &&
+      (obj.globalLiquidStakingCap = message.globalLiquidStakingCap);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
@@ -1627,6 +1759,8 @@ export const Params = {
     message.historicalEntries = object.historicalEntries ?? 0;
     message.bondDenom = object.bondDenom ?? "";
     message.minCommissionRate = object.minCommissionRate ?? "";
+    message.validatorBondFactor = object.validatorBondFactor ?? "";
+    message.globalLiquidStakingCap = object.globalLiquidStakingCap ?? "";
     return message;
   },
 };
@@ -1924,6 +2058,81 @@ export const ValidatorUpdates = {
   fromPartial<I extends Exact<DeepPartial<ValidatorUpdates>, I>>(object: I): ValidatorUpdates {
     const message = createBaseValidatorUpdates();
     message.updates = object.updates?.map((e) => ValidatorUpdate.fromPartial(e)) || [];
+    return message;
+  },
+};
+function createBaseTokenizeShareRecord(): TokenizeShareRecord {
+  return {
+    id: Long.UZERO,
+    owner: "",
+    moduleAccount: "",
+    validator: "",
+  };
+}
+export const TokenizeShareRecord = {
+  encode(message: TokenizeShareRecord, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.id.isZero()) {
+      writer.uint32(8).uint64(message.id);
+    }
+    if (message.owner !== "") {
+      writer.uint32(18).string(message.owner);
+    }
+    if (message.moduleAccount !== "") {
+      writer.uint32(26).string(message.moduleAccount);
+    }
+    if (message.validator !== "") {
+      writer.uint32(34).string(message.validator);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): TokenizeShareRecord {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTokenizeShareRecord();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.id = reader.uint64() as Long;
+          break;
+        case 2:
+          message.owner = reader.string();
+          break;
+        case 3:
+          message.moduleAccount = reader.string();
+          break;
+        case 4:
+          message.validator = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): TokenizeShareRecord {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+      owner: isSet(object.owner) ? String(object.owner) : "",
+      moduleAccount: isSet(object.moduleAccount) ? String(object.moduleAccount) : "",
+      validator: isSet(object.validator) ? String(object.validator) : "",
+    };
+  },
+  toJSON(message: TokenizeShareRecord): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    message.owner !== undefined && (obj.owner = message.owner);
+    message.moduleAccount !== undefined && (obj.moduleAccount = message.moduleAccount);
+    message.validator !== undefined && (obj.validator = message.validator);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<TokenizeShareRecord>, I>>(object: I): TokenizeShareRecord {
+    const message = createBaseTokenizeShareRecord();
+    message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
+    message.owner = object.owner ?? "";
+    message.moduleAccount = object.moduleAccount ?? "";
+    message.validator = object.validator ?? "";
     return message;
   },
 };
