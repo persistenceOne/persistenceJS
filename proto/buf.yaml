@@ -1,7 +1,17 @@
 version: v1
-build:
-  excludes:
-    - google/protobuf
+name: buf.build/cosmos/ibc
+deps:
+  # TODO: update sdk buf dependency when v0.47.0 is tagged and pushed to BSR
+  # see: (https://github.com/cosmos/cosmos-sdk/tree/main/proto#sdk-x-buf)
+  - buf.build/cosmos/cosmos-proto:1935555c206d4afb9e94615dfd0fad31
+  - buf.build/cosmos/gogo-proto:a14993478f40695898ed8a86931094b6656e8a5d
+  - buf.build/googleapis/googleapis:8d7204855ec14631a499bd7393ce1970
+  - buf.build/cosmos/ics23:b1abd8678aab07165efd453c96796a179eb3131f
+  - buf.build/persistence/cosmos-sdk-lsm:v47-lsm
+  - buf.build/persistence/pstake-native:80a56ee5c9d0429c97425d3ad12183c2
+breaking:
+  use:
+    - FILE
 lint:
   use:
     - DEFAULT
@@ -13,24 +23,3 @@ lint:
     - SERVICE_SUFFIX
     - PACKAGE_VERSION_SUFFIX
     - RPC_REQUEST_STANDARD_NAME
-    - RPC_REQUEST_RESPONSE_UNIQUE
-    - RPC_RESPONSE_STANDARD_NAME
-    - RPC_REQUEST_RESPONSE_UNIQUE
-    - COMMENT_MESSAGE
-  ignore:
-    - tendermint
-    - gogoproto
-    - cosmos_proto
-    - google
-    - confio
-    - cosmos
-    - ibc
-    - tendermint
-breaking:
-  use:
-    - FILE
-  ignore:
-    - tendermint
-    - gogoproto
-    - cosmos_proto
-    - google

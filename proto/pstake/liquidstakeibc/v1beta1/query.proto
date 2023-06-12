@@ -1,0 +1,104 @@
+syntax = "proto3";
+package pstake.liquidstakeibc.v1beta1;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+
+import "pstake/liquidstakeibc/v1beta1/params.proto";
+import "pstake/liquidstakeibc/v1beta1/liquidstakeibc.proto";
+
+// this line is used by starport scaffolding # 1
+
+option go_package = "github.com/persistenceOne/pstake-native/v2/x/liquidstakeibc/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/pstake/liquidstakeibc/v1beta1/params";
+  }
+
+  // Queries a HostChain by id.
+  rpc HostChain(QueryHostChainRequest) returns (QueryHostChainResponse) {
+    option (google.api.http).get = "/pstake/liquidstakeibc/v1beta1/host_chain/{chain_id}";
+  }
+
+  // Queries for all the HostChains.
+  rpc HostChains(QueryHostChainsRequest) returns (QueryHostChainsResponse) {
+    option (google.api.http).get = "/pstake/liquidstakeibc/v1beta1/host_chains";
+  }
+
+  // Queries for all the deposits for a host chain.
+  rpc Deposits(QueryDepositsRequest) returns (QueryDepositsResponse) {
+    option (google.api.http).get = "/pstake/liquidstakeibc/v1beta1/deposits/{host_denom}";
+  }
+
+  // Queries all unbondings for a host chain.
+  rpc Unbondings(QueryUnbondingsRequest) returns (QueryUnbondingsResponse) {
+    option (google.api.http).get = "/pstake/liquidstakeibc/v1beta1/unbondings/{host_denom}";
+  }
+
+  // Queries all unbondings for a delegator address.
+  rpc UserUnbondings(QueryUserUnbondingsRequest) returns (QueryUserUnbondingsResponse) {
+    option (google.api.http).get = "/pstake/liquidstakeibc/v1beta1/user_unbondings/{address}";
+  }
+
+  // Queries all validator unbondings for a host chain.
+  rpc ValidatorUnbondings(QueryValidatorUnbondingRequest) returns (QueryValidatorUnbondingResponse) {
+    option (google.api.http).get = "/pstake/liquidstakeibc/v1beta1/validator_unbondings/{host_denom}";
+  }
+}
+
+message QueryParamsRequest {}
+
+message QueryParamsResponse {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryHostChainRequest {
+  string chain_id = 1;
+}
+
+message QueryHostChainResponse {
+  HostChain host_chain = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryHostChainsRequest {
+}
+
+message QueryHostChainsResponse {
+  repeated HostChain host_chains = 1;
+}
+
+message QueryDepositsRequest {
+  string host_denom = 1;
+}
+
+message QueryDepositsResponse {
+  repeated Deposit deposits = 1;
+}
+
+message QueryUnbondingsRequest {
+  string host_denom = 1;
+}
+
+message QueryUnbondingsResponse {
+  repeated Unbonding unbondings = 1;
+}
+
+message QueryUserUnbondingsRequest {
+  string address = 1;
+}
+
+message QueryUserUnbondingsResponse {
+  repeated UserUnbonding user_unbondings = 1;
+}
+
+message QueryValidatorUnbondingRequest {
+  string host_denom = 1;
+}
+
+message QueryValidatorUnbondingResponse {
+  repeated ValidatorUnbonding validator_unbondings = 1;
+}
