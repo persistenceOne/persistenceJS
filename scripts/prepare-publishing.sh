@@ -2,7 +2,7 @@
 set -o errexit -o nounset -o pipefail
 command -v shellcheck >/dev/null && shellcheck "$0"
 
-DIRS="confio cosmos cosmos_proto cosmwasm gogoproto google ibc tendermint pstake persistence"
+DIRS="amino cosmos cosmos_proto cosmwasm gogoproto google ibc tendermint pstake persistence"
 FILES="helpers.d.ts helpers.js helpers.js.map index.d.ts index.js index.js.map"
 
 for dir in $DIRS; do
