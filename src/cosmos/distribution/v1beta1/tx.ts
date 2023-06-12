@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { Coin } from "../../base/v1beta1/coin";
 import { Params } from "./distribution";
+import { Long, isSet, DeepPartial, Exact, Rpc } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact, Rpc } from "../../../helpers";
 export const protobufPackage = "cosmos.distribution.v1beta1";
 /**
  * MsgSetWithdrawAddress sets the withdraw address for
@@ -100,6 +100,35 @@ export interface MsgCommunityPoolSpend {
  * Since: cosmos-sdk 0.47
  */
 export interface MsgCommunityPoolSpendResponse {}
+/**
+ * MsgWithdrawTokenizeShareRecordReward
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgWithdrawTokenizeShareRecordReward {
+  ownerAddress: string;
+  recordId: Long;
+}
+/**
+ * MsgWithdrawTokenizeShareRecordRewardResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgWithdrawTokenizeShareRecordRewardResponse {}
+/**
+ * MsgWithdrawAllTokenizeShareRecordReward
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgWithdrawAllTokenizeShareRecordReward {
+  ownerAddress: string;
+}
+/**
+ * MsgWithdrawAllTokenizeShareRecordRewardResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface MsgWithdrawAllTokenizeShareRecordRewardResponse {}
 function createBaseMsgSetWithdrawAddress(): MsgSetWithdrawAddress {
   return {
     delegatorAddress: "",
@@ -686,6 +715,195 @@ export const MsgCommunityPoolSpendResponse = {
     return message;
   },
 };
+function createBaseMsgWithdrawTokenizeShareRecordReward(): MsgWithdrawTokenizeShareRecordReward {
+  return {
+    ownerAddress: "",
+    recordId: Long.UZERO,
+  };
+}
+export const MsgWithdrawTokenizeShareRecordReward = {
+  encode(
+    message: MsgWithdrawTokenizeShareRecordReward,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.ownerAddress !== "") {
+      writer.uint32(10).string(message.ownerAddress);
+    }
+    if (!message.recordId.isZero()) {
+      writer.uint32(16).uint64(message.recordId);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgWithdrawTokenizeShareRecordReward {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgWithdrawTokenizeShareRecordReward();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.ownerAddress = reader.string();
+          break;
+        case 2:
+          message.recordId = reader.uint64() as Long;
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgWithdrawTokenizeShareRecordReward {
+    return {
+      ownerAddress: isSet(object.ownerAddress) ? String(object.ownerAddress) : "",
+      recordId: isSet(object.recordId) ? Long.fromValue(object.recordId) : Long.UZERO,
+    };
+  },
+  toJSON(message: MsgWithdrawTokenizeShareRecordReward): unknown {
+    const obj: any = {};
+    message.ownerAddress !== undefined && (obj.ownerAddress = message.ownerAddress);
+    message.recordId !== undefined && (obj.recordId = (message.recordId || Long.UZERO).toString());
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgWithdrawTokenizeShareRecordReward>, I>>(
+    object: I,
+  ): MsgWithdrawTokenizeShareRecordReward {
+    const message = createBaseMsgWithdrawTokenizeShareRecordReward();
+    message.ownerAddress = object.ownerAddress ?? "";
+    message.recordId =
+      object.recordId !== undefined && object.recordId !== null
+        ? Long.fromValue(object.recordId)
+        : Long.UZERO;
+    return message;
+  },
+};
+function createBaseMsgWithdrawTokenizeShareRecordRewardResponse(): MsgWithdrawTokenizeShareRecordRewardResponse {
+  return {};
+}
+export const MsgWithdrawTokenizeShareRecordRewardResponse = {
+  encode(
+    _: MsgWithdrawTokenizeShareRecordRewardResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgWithdrawTokenizeShareRecordRewardResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgWithdrawTokenizeShareRecordRewardResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgWithdrawTokenizeShareRecordRewardResponse {
+    return {};
+  },
+  toJSON(_: MsgWithdrawTokenizeShareRecordRewardResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgWithdrawTokenizeShareRecordRewardResponse>, I>>(
+    _: I,
+  ): MsgWithdrawTokenizeShareRecordRewardResponse {
+    const message = createBaseMsgWithdrawTokenizeShareRecordRewardResponse();
+    return message;
+  },
+};
+function createBaseMsgWithdrawAllTokenizeShareRecordReward(): MsgWithdrawAllTokenizeShareRecordReward {
+  return {
+    ownerAddress: "",
+  };
+}
+export const MsgWithdrawAllTokenizeShareRecordReward = {
+  encode(
+    message: MsgWithdrawAllTokenizeShareRecordReward,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.ownerAddress !== "") {
+      writer.uint32(10).string(message.ownerAddress);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgWithdrawAllTokenizeShareRecordReward {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgWithdrawAllTokenizeShareRecordReward();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.ownerAddress = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgWithdrawAllTokenizeShareRecordReward {
+    return {
+      ownerAddress: isSet(object.ownerAddress) ? String(object.ownerAddress) : "",
+    };
+  },
+  toJSON(message: MsgWithdrawAllTokenizeShareRecordReward): unknown {
+    const obj: any = {};
+    message.ownerAddress !== undefined && (obj.ownerAddress = message.ownerAddress);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgWithdrawAllTokenizeShareRecordReward>, I>>(
+    object: I,
+  ): MsgWithdrawAllTokenizeShareRecordReward {
+    const message = createBaseMsgWithdrawAllTokenizeShareRecordReward();
+    message.ownerAddress = object.ownerAddress ?? "";
+    return message;
+  },
+};
+function createBaseMsgWithdrawAllTokenizeShareRecordRewardResponse(): MsgWithdrawAllTokenizeShareRecordRewardResponse {
+  return {};
+}
+export const MsgWithdrawAllTokenizeShareRecordRewardResponse = {
+  encode(
+    _: MsgWithdrawAllTokenizeShareRecordRewardResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgWithdrawAllTokenizeShareRecordRewardResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgWithdrawAllTokenizeShareRecordRewardResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgWithdrawAllTokenizeShareRecordRewardResponse {
+    return {};
+  },
+  toJSON(_: MsgWithdrawAllTokenizeShareRecordRewardResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgWithdrawAllTokenizeShareRecordRewardResponse>, I>>(
+    _: I,
+  ): MsgWithdrawAllTokenizeShareRecordRewardResponse {
+    const message = createBaseMsgWithdrawAllTokenizeShareRecordRewardResponse();
+    return message;
+  },
+};
 /** Msg defines the distribution Msg service. */
 export interface Msg {
   /**
@@ -726,6 +944,22 @@ export interface Msg {
    * Since: cosmos-sdk 0.47
    */
   CommunityPoolSpend(request: MsgCommunityPoolSpend): Promise<MsgCommunityPoolSpendResponse>;
+  /**
+   * WithdrawTokenizeShareRecordReward defines a method to withdraw reward for an owning TokenizeShareRecord
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  WithdrawTokenizeShareRecordReward(
+    request: MsgWithdrawTokenizeShareRecordReward,
+  ): Promise<MsgWithdrawTokenizeShareRecordRewardResponse>;
+  /**
+   * WithdrawAllTokenizeShareRecordReward defines a method to withdraw reward for all owning TokenizeShareRecord
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  WithdrawAllTokenizeShareRecordReward(
+    request: MsgWithdrawAllTokenizeShareRecordReward,
+  ): Promise<MsgWithdrawAllTokenizeShareRecordRewardResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
@@ -737,6 +971,8 @@ export class MsgClientImpl implements Msg {
     this.FundCommunityPool = this.FundCommunityPool.bind(this);
     this.UpdateParams = this.UpdateParams.bind(this);
     this.CommunityPoolSpend = this.CommunityPoolSpend.bind(this);
+    this.WithdrawTokenizeShareRecordReward = this.WithdrawTokenizeShareRecordReward.bind(this);
+    this.WithdrawAllTokenizeShareRecordReward = this.WithdrawAllTokenizeShareRecordReward.bind(this);
   }
   SetWithdrawAddress(request: MsgSetWithdrawAddress): Promise<MsgSetWithdrawAddressResponse> {
     const data = MsgSetWithdrawAddress.encode(request).finish();
@@ -769,5 +1005,29 @@ export class MsgClientImpl implements Msg {
     const data = MsgCommunityPoolSpend.encode(request).finish();
     const promise = this.rpc.request("cosmos.distribution.v1beta1.Msg", "CommunityPoolSpend", data);
     return promise.then((data) => MsgCommunityPoolSpendResponse.decode(new _m0.Reader(data)));
+  }
+  WithdrawTokenizeShareRecordReward(
+    request: MsgWithdrawTokenizeShareRecordReward,
+  ): Promise<MsgWithdrawTokenizeShareRecordRewardResponse> {
+    const data = MsgWithdrawTokenizeShareRecordReward.encode(request).finish();
+    const promise = this.rpc.request(
+      "cosmos.distribution.v1beta1.Msg",
+      "WithdrawTokenizeShareRecordReward",
+      data,
+    );
+    return promise.then((data) => MsgWithdrawTokenizeShareRecordRewardResponse.decode(new _m0.Reader(data)));
+  }
+  WithdrawAllTokenizeShareRecordReward(
+    request: MsgWithdrawAllTokenizeShareRecordReward,
+  ): Promise<MsgWithdrawAllTokenizeShareRecordRewardResponse> {
+    const data = MsgWithdrawAllTokenizeShareRecordReward.encode(request).finish();
+    const promise = this.rpc.request(
+      "cosmos.distribution.v1beta1.Msg",
+      "WithdrawAllTokenizeShareRecordReward",
+      data,
+    );
+    return promise.then((data) =>
+      MsgWithdrawAllTokenizeShareRecordRewardResponse.decode(new _m0.Reader(data)),
+    );
   }
 }

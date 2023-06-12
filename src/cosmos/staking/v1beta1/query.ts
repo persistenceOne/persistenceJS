@@ -8,7 +8,9 @@ import {
   HistoricalInfo,
   Pool,
   Params,
+  TokenizeShareRecord,
 } from "./staking";
+import { Coin } from "../../base/v1beta1/coin";
 import { Long, isSet, DeepPartial, Exact, Rpc } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "cosmos.staking.v1beta1";
@@ -233,6 +235,96 @@ export interface QueryParamsRequest {}
 export interface QueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: Params;
+}
+/**
+ * QueryTokenizeShareRecordByIdRequest
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTokenizeShareRecordByIdRequest {
+  id: Long;
+}
+/**
+ * QueryTokenizeShareRecordByIdResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTokenizeShareRecordByIdResponse {
+  record?: TokenizeShareRecord;
+}
+/**
+ * QueryTokenizeShareRecordByDenomRequest
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTokenizeShareRecordByDenomRequest {
+  denom: string;
+}
+/**
+ * QueryTokenizeShareRecordByDenomResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTokenizeShareRecordByDenomResponse {
+  record?: TokenizeShareRecord;
+}
+/**
+ * QueryTokenizeShareRecordsOwnedRequest
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTokenizeShareRecordsOwnedRequest {
+  owner: string;
+}
+/**
+ * QueryTokenizeShareRecordsOwnedResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTokenizeShareRecordsOwnedResponse {
+  records: TokenizeShareRecord[];
+}
+/**
+ * QueryAllTokenizeShareRecordsRequest
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryAllTokenizeShareRecordsRequest {}
+/**
+ * QueryAllTokenizeShareRecordsResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryAllTokenizeShareRecordsResponse {
+  records: TokenizeShareRecord[];
+}
+/**
+ * QueryLastTokenizeShareRecordIdRequest
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryLastTokenizeShareRecordIdRequest {}
+/**
+ * QueryLastTokenizeShareRecordIdResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryLastTokenizeShareRecordIdResponse {
+  id: Long;
+}
+/**
+ * QueryTotalTokenizeSharedAssetsRequest
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTotalTokenizeSharedAssetsRequest {}
+/**
+ * QueryTotalTokenizeSharedAssetsResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTotalTokenizeSharedAssetsResponse {
+  value?: Coin;
 }
 function createBaseQueryValidatorsRequest(): QueryValidatorsRequest {
   return {
@@ -1845,6 +1937,579 @@ export const QueryParamsResponse = {
     return message;
   },
 };
+function createBaseQueryTokenizeShareRecordByIdRequest(): QueryTokenizeShareRecordByIdRequest {
+  return {
+    id: Long.UZERO,
+  };
+}
+export const QueryTokenizeShareRecordByIdRequest = {
+  encode(message: QueryTokenizeShareRecordByIdRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (!message.id.isZero()) {
+      writer.uint32(8).uint64(message.id);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordByIdRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTokenizeShareRecordByIdRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.id = reader.uint64() as Long;
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTokenizeShareRecordByIdRequest {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+    };
+  },
+  toJSON(message: QueryTokenizeShareRecordByIdRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordByIdRequest>, I>>(
+    object: I,
+  ): QueryTokenizeShareRecordByIdRequest {
+    const message = createBaseQueryTokenizeShareRecordByIdRequest();
+    message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
+    return message;
+  },
+};
+function createBaseQueryTokenizeShareRecordByIdResponse(): QueryTokenizeShareRecordByIdResponse {
+  return {
+    record: undefined,
+  };
+}
+export const QueryTokenizeShareRecordByIdResponse = {
+  encode(
+    message: QueryTokenizeShareRecordByIdResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.record !== undefined) {
+      TokenizeShareRecord.encode(message.record, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordByIdResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTokenizeShareRecordByIdResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.record = TokenizeShareRecord.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTokenizeShareRecordByIdResponse {
+    return {
+      record: isSet(object.record) ? TokenizeShareRecord.fromJSON(object.record) : undefined,
+    };
+  },
+  toJSON(message: QueryTokenizeShareRecordByIdResponse): unknown {
+    const obj: any = {};
+    message.record !== undefined &&
+      (obj.record = message.record ? TokenizeShareRecord.toJSON(message.record) : undefined);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordByIdResponse>, I>>(
+    object: I,
+  ): QueryTokenizeShareRecordByIdResponse {
+    const message = createBaseQueryTokenizeShareRecordByIdResponse();
+    message.record =
+      object.record !== undefined && object.record !== null
+        ? TokenizeShareRecord.fromPartial(object.record)
+        : undefined;
+    return message;
+  },
+};
+function createBaseQueryTokenizeShareRecordByDenomRequest(): QueryTokenizeShareRecordByDenomRequest {
+  return {
+    denom: "",
+  };
+}
+export const QueryTokenizeShareRecordByDenomRequest = {
+  encode(
+    message: QueryTokenizeShareRecordByDenomRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.denom !== "") {
+      writer.uint32(10).string(message.denom);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordByDenomRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTokenizeShareRecordByDenomRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.denom = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTokenizeShareRecordByDenomRequest {
+    return {
+      denom: isSet(object.denom) ? String(object.denom) : "",
+    };
+  },
+  toJSON(message: QueryTokenizeShareRecordByDenomRequest): unknown {
+    const obj: any = {};
+    message.denom !== undefined && (obj.denom = message.denom);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordByDenomRequest>, I>>(
+    object: I,
+  ): QueryTokenizeShareRecordByDenomRequest {
+    const message = createBaseQueryTokenizeShareRecordByDenomRequest();
+    message.denom = object.denom ?? "";
+    return message;
+  },
+};
+function createBaseQueryTokenizeShareRecordByDenomResponse(): QueryTokenizeShareRecordByDenomResponse {
+  return {
+    record: undefined,
+  };
+}
+export const QueryTokenizeShareRecordByDenomResponse = {
+  encode(
+    message: QueryTokenizeShareRecordByDenomResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.record !== undefined) {
+      TokenizeShareRecord.encode(message.record, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordByDenomResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTokenizeShareRecordByDenomResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.record = TokenizeShareRecord.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTokenizeShareRecordByDenomResponse {
+    return {
+      record: isSet(object.record) ? TokenizeShareRecord.fromJSON(object.record) : undefined,
+    };
+  },
+  toJSON(message: QueryTokenizeShareRecordByDenomResponse): unknown {
+    const obj: any = {};
+    message.record !== undefined &&
+      (obj.record = message.record ? TokenizeShareRecord.toJSON(message.record) : undefined);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordByDenomResponse>, I>>(
+    object: I,
+  ): QueryTokenizeShareRecordByDenomResponse {
+    const message = createBaseQueryTokenizeShareRecordByDenomResponse();
+    message.record =
+      object.record !== undefined && object.record !== null
+        ? TokenizeShareRecord.fromPartial(object.record)
+        : undefined;
+    return message;
+  },
+};
+function createBaseQueryTokenizeShareRecordsOwnedRequest(): QueryTokenizeShareRecordsOwnedRequest {
+  return {
+    owner: "",
+  };
+}
+export const QueryTokenizeShareRecordsOwnedRequest = {
+  encode(
+    message: QueryTokenizeShareRecordsOwnedRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.owner !== "") {
+      writer.uint32(10).string(message.owner);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordsOwnedRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTokenizeShareRecordsOwnedRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.owner = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTokenizeShareRecordsOwnedRequest {
+    return {
+      owner: isSet(object.owner) ? String(object.owner) : "",
+    };
+  },
+  toJSON(message: QueryTokenizeShareRecordsOwnedRequest): unknown {
+    const obj: any = {};
+    message.owner !== undefined && (obj.owner = message.owner);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordsOwnedRequest>, I>>(
+    object: I,
+  ): QueryTokenizeShareRecordsOwnedRequest {
+    const message = createBaseQueryTokenizeShareRecordsOwnedRequest();
+    message.owner = object.owner ?? "";
+    return message;
+  },
+};
+function createBaseQueryTokenizeShareRecordsOwnedResponse(): QueryTokenizeShareRecordsOwnedResponse {
+  return {
+    records: [],
+  };
+}
+export const QueryTokenizeShareRecordsOwnedResponse = {
+  encode(
+    message: QueryTokenizeShareRecordsOwnedResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    for (const v of message.records) {
+      TokenizeShareRecord.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordsOwnedResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTokenizeShareRecordsOwnedResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.records.push(TokenizeShareRecord.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTokenizeShareRecordsOwnedResponse {
+    return {
+      records: Array.isArray(object?.records)
+        ? object.records.map((e: any) => TokenizeShareRecord.fromJSON(e))
+        : [],
+    };
+  },
+  toJSON(message: QueryTokenizeShareRecordsOwnedResponse): unknown {
+    const obj: any = {};
+    if (message.records) {
+      obj.records = message.records.map((e) => (e ? TokenizeShareRecord.toJSON(e) : undefined));
+    } else {
+      obj.records = [];
+    }
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordsOwnedResponse>, I>>(
+    object: I,
+  ): QueryTokenizeShareRecordsOwnedResponse {
+    const message = createBaseQueryTokenizeShareRecordsOwnedResponse();
+    message.records = object.records?.map((e) => TokenizeShareRecord.fromPartial(e)) || [];
+    return message;
+  },
+};
+function createBaseQueryAllTokenizeShareRecordsRequest(): QueryAllTokenizeShareRecordsRequest {
+  return {};
+}
+export const QueryAllTokenizeShareRecordsRequest = {
+  encode(_: QueryAllTokenizeShareRecordsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllTokenizeShareRecordsRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllTokenizeShareRecordsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): QueryAllTokenizeShareRecordsRequest {
+    return {};
+  },
+  toJSON(_: QueryAllTokenizeShareRecordsRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryAllTokenizeShareRecordsRequest>, I>>(
+    _: I,
+  ): QueryAllTokenizeShareRecordsRequest {
+    const message = createBaseQueryAllTokenizeShareRecordsRequest();
+    return message;
+  },
+};
+function createBaseQueryAllTokenizeShareRecordsResponse(): QueryAllTokenizeShareRecordsResponse {
+  return {
+    records: [],
+  };
+}
+export const QueryAllTokenizeShareRecordsResponse = {
+  encode(
+    message: QueryAllTokenizeShareRecordsResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    for (const v of message.records) {
+      TokenizeShareRecord.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllTokenizeShareRecordsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllTokenizeShareRecordsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.records.push(TokenizeShareRecord.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryAllTokenizeShareRecordsResponse {
+    return {
+      records: Array.isArray(object?.records)
+        ? object.records.map((e: any) => TokenizeShareRecord.fromJSON(e))
+        : [],
+    };
+  },
+  toJSON(message: QueryAllTokenizeShareRecordsResponse): unknown {
+    const obj: any = {};
+    if (message.records) {
+      obj.records = message.records.map((e) => (e ? TokenizeShareRecord.toJSON(e) : undefined));
+    } else {
+      obj.records = [];
+    }
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryAllTokenizeShareRecordsResponse>, I>>(
+    object: I,
+  ): QueryAllTokenizeShareRecordsResponse {
+    const message = createBaseQueryAllTokenizeShareRecordsResponse();
+    message.records = object.records?.map((e) => TokenizeShareRecord.fromPartial(e)) || [];
+    return message;
+  },
+};
+function createBaseQueryLastTokenizeShareRecordIdRequest(): QueryLastTokenizeShareRecordIdRequest {
+  return {};
+}
+export const QueryLastTokenizeShareRecordIdRequest = {
+  encode(_: QueryLastTokenizeShareRecordIdRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryLastTokenizeShareRecordIdRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryLastTokenizeShareRecordIdRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): QueryLastTokenizeShareRecordIdRequest {
+    return {};
+  },
+  toJSON(_: QueryLastTokenizeShareRecordIdRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryLastTokenizeShareRecordIdRequest>, I>>(
+    _: I,
+  ): QueryLastTokenizeShareRecordIdRequest {
+    const message = createBaseQueryLastTokenizeShareRecordIdRequest();
+    return message;
+  },
+};
+function createBaseQueryLastTokenizeShareRecordIdResponse(): QueryLastTokenizeShareRecordIdResponse {
+  return {
+    id: Long.UZERO,
+  };
+}
+export const QueryLastTokenizeShareRecordIdResponse = {
+  encode(
+    message: QueryLastTokenizeShareRecordIdResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (!message.id.isZero()) {
+      writer.uint32(8).uint64(message.id);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryLastTokenizeShareRecordIdResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryLastTokenizeShareRecordIdResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.id = reader.uint64() as Long;
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryLastTokenizeShareRecordIdResponse {
+    return {
+      id: isSet(object.id) ? Long.fromValue(object.id) : Long.UZERO,
+    };
+  },
+  toJSON(message: QueryLastTokenizeShareRecordIdResponse): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryLastTokenizeShareRecordIdResponse>, I>>(
+    object: I,
+  ): QueryLastTokenizeShareRecordIdResponse {
+    const message = createBaseQueryLastTokenizeShareRecordIdResponse();
+    message.id = object.id !== undefined && object.id !== null ? Long.fromValue(object.id) : Long.UZERO;
+    return message;
+  },
+};
+function createBaseQueryTotalTokenizeSharedAssetsRequest(): QueryTotalTokenizeSharedAssetsRequest {
+  return {};
+}
+export const QueryTotalTokenizeSharedAssetsRequest = {
+  encode(_: QueryTotalTokenizeSharedAssetsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalTokenizeSharedAssetsRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTotalTokenizeSharedAssetsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): QueryTotalTokenizeSharedAssetsRequest {
+    return {};
+  },
+  toJSON(_: QueryTotalTokenizeSharedAssetsRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTotalTokenizeSharedAssetsRequest>, I>>(
+    _: I,
+  ): QueryTotalTokenizeSharedAssetsRequest {
+    const message = createBaseQueryTotalTokenizeSharedAssetsRequest();
+    return message;
+  },
+};
+function createBaseQueryTotalTokenizeSharedAssetsResponse(): QueryTotalTokenizeSharedAssetsResponse {
+  return {
+    value: undefined,
+  };
+}
+export const QueryTotalTokenizeSharedAssetsResponse = {
+  encode(
+    message: QueryTotalTokenizeSharedAssetsResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.value !== undefined) {
+      Coin.encode(message.value, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalTokenizeSharedAssetsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTotalTokenizeSharedAssetsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.value = Coin.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTotalTokenizeSharedAssetsResponse {
+    return {
+      value: isSet(object.value) ? Coin.fromJSON(object.value) : undefined,
+    };
+  },
+  toJSON(message: QueryTotalTokenizeSharedAssetsResponse): unknown {
+    const obj: any = {};
+    message.value !== undefined && (obj.value = message.value ? Coin.toJSON(message.value) : undefined);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTotalTokenizeSharedAssetsResponse>, I>>(
+    object: I,
+  ): QueryTotalTokenizeSharedAssetsResponse {
+    const message = createBaseQueryTotalTokenizeSharedAssetsResponse();
+    message.value =
+      object.value !== undefined && object.value !== null ? Coin.fromPartial(object.value) : undefined;
+    return message;
+  },
+};
 /** Query defines the gRPC querier service. */
 export interface Query {
   /**
@@ -1922,6 +2587,54 @@ export interface Query {
   Pool(request?: QueryPoolRequest): Promise<QueryPoolResponse>;
   /** Parameters queries the staking parameters. */
   Params(request?: QueryParamsRequest): Promise<QueryParamsResponse>;
+  /**
+   * Query for individual tokenize share record information by share by id
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  TokenizeShareRecordById(
+    request: QueryTokenizeShareRecordByIdRequest,
+  ): Promise<QueryTokenizeShareRecordByIdResponse>;
+  /**
+   * Query for individual tokenize share record information by share denom
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  TokenizeShareRecordByDenom(
+    request: QueryTokenizeShareRecordByDenomRequest,
+  ): Promise<QueryTokenizeShareRecordByDenomResponse>;
+  /**
+   * Query tokenize share records by address
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  TokenizeShareRecordsOwned(
+    request: QueryTokenizeShareRecordsOwnedRequest,
+  ): Promise<QueryTokenizeShareRecordsOwnedResponse>;
+  /**
+   * Query for all tokenize share records
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  AllTokenizeShareRecords(
+    request?: QueryAllTokenizeShareRecordsRequest,
+  ): Promise<QueryAllTokenizeShareRecordsResponse>;
+  /**
+   * Query for last tokenize share record id
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  LastTokenizeShareRecordId(
+    request?: QueryLastTokenizeShareRecordIdRequest,
+  ): Promise<QueryLastTokenizeShareRecordIdResponse>;
+  /**
+   * Query for total tokenized staked assets
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  TotalTokenizeSharedAssets(
+    request?: QueryTotalTokenizeSharedAssetsRequest,
+  ): Promise<QueryTotalTokenizeSharedAssetsResponse>;
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
@@ -1941,6 +2654,12 @@ export class QueryClientImpl implements Query {
     this.HistoricalInfo = this.HistoricalInfo.bind(this);
     this.Pool = this.Pool.bind(this);
     this.Params = this.Params.bind(this);
+    this.TokenizeShareRecordById = this.TokenizeShareRecordById.bind(this);
+    this.TokenizeShareRecordByDenom = this.TokenizeShareRecordByDenom.bind(this);
+    this.TokenizeShareRecordsOwned = this.TokenizeShareRecordsOwned.bind(this);
+    this.AllTokenizeShareRecords = this.AllTokenizeShareRecords.bind(this);
+    this.LastTokenizeShareRecordId = this.LastTokenizeShareRecordId.bind(this);
+    this.TotalTokenizeSharedAssets = this.TotalTokenizeSharedAssets.bind(this);
   }
   Validators(request: QueryValidatorsRequest): Promise<QueryValidatorsResponse> {
     const data = QueryValidatorsRequest.encode(request).finish();
@@ -2019,5 +2738,47 @@ export class QueryClientImpl implements Query {
     const data = QueryParamsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "Params", data);
     return promise.then((data) => QueryParamsResponse.decode(new _m0.Reader(data)));
+  }
+  TokenizeShareRecordById(
+    request: QueryTokenizeShareRecordByIdRequest,
+  ): Promise<QueryTokenizeShareRecordByIdResponse> {
+    const data = QueryTokenizeShareRecordByIdRequest.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TokenizeShareRecordById", data);
+    return promise.then((data) => QueryTokenizeShareRecordByIdResponse.decode(new _m0.Reader(data)));
+  }
+  TokenizeShareRecordByDenom(
+    request: QueryTokenizeShareRecordByDenomRequest,
+  ): Promise<QueryTokenizeShareRecordByDenomResponse> {
+    const data = QueryTokenizeShareRecordByDenomRequest.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TokenizeShareRecordByDenom", data);
+    return promise.then((data) => QueryTokenizeShareRecordByDenomResponse.decode(new _m0.Reader(data)));
+  }
+  TokenizeShareRecordsOwned(
+    request: QueryTokenizeShareRecordsOwnedRequest,
+  ): Promise<QueryTokenizeShareRecordsOwnedResponse> {
+    const data = QueryTokenizeShareRecordsOwnedRequest.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TokenizeShareRecordsOwned", data);
+    return promise.then((data) => QueryTokenizeShareRecordsOwnedResponse.decode(new _m0.Reader(data)));
+  }
+  AllTokenizeShareRecords(
+    request: QueryAllTokenizeShareRecordsRequest = {},
+  ): Promise<QueryAllTokenizeShareRecordsResponse> {
+    const data = QueryAllTokenizeShareRecordsRequest.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "AllTokenizeShareRecords", data);
+    return promise.then((data) => QueryAllTokenizeShareRecordsResponse.decode(new _m0.Reader(data)));
+  }
+  LastTokenizeShareRecordId(
+    request: QueryLastTokenizeShareRecordIdRequest = {},
+  ): Promise<QueryLastTokenizeShareRecordIdResponse> {
+    const data = QueryLastTokenizeShareRecordIdRequest.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "LastTokenizeShareRecordId", data);
+    return promise.then((data) => QueryLastTokenizeShareRecordIdResponse.decode(new _m0.Reader(data)));
+  }
+  TotalTokenizeSharedAssets(
+    request: QueryTotalTokenizeSharedAssetsRequest = {},
+  ): Promise<QueryTotalTokenizeSharedAssetsResponse> {
+    const data = QueryTotalTokenizeSharedAssetsRequest.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TotalTokenizeSharedAssets", data);
+    return promise.then((data) => QueryTotalTokenizeSharedAssetsResponse.decode(new _m0.Reader(data)));
   }
 }

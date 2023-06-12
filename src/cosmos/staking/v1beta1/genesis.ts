@@ -1,5 +1,12 @@
 /* eslint-disable */
-import { Params, Validator, Delegation, UnbondingDelegation, Redelegation } from "./staking";
+import {
+  Params,
+  Validator,
+  Delegation,
+  UnbondingDelegation,
+  Redelegation,
+  TokenizeShareRecord,
+} from "./staking";
 import { Long, isSet, bytesFromBase64, base64FromBytes, DeepPartial, Exact } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "cosmos.staking.v1beta1";
@@ -26,6 +33,18 @@ export interface GenesisState {
   /** redelegations defines the redelegations active at genesis. */
   redelegations: Redelegation[];
   exported: boolean;
+  /**
+   * store tokenize share records to provide reward to record owners
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  tokenizeShareRecords: TokenizeShareRecord[];
+  /**
+   * last tokenize share record id, used for next share record id calculation
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  lastTokenizeShareRecordId: Long;
 }
 /** LastValidatorPower required for validator set update logic. */
 export interface LastValidatorPower {
@@ -44,6 +63,8 @@ function createBaseGenesisState(): GenesisState {
     unbondingDelegations: [],
     redelegations: [],
     exported: false,
+    tokenizeShareRecords: [],
+    lastTokenizeShareRecordId: Long.UZERO,
   };
 }
 export const GenesisState = {
@@ -71,6 +92,12 @@ export const GenesisState = {
     }
     if (message.exported === true) {
       writer.uint32(64).bool(message.exported);
+    }
+    for (const v of message.tokenizeShareRecords) {
+      TokenizeShareRecord.encode(v!, writer.uint32(74).fork()).ldelim();
+    }
+    if (!message.lastTokenizeShareRecordId.isZero()) {
+      writer.uint32(80).uint64(message.lastTokenizeShareRecordId);
     }
     return writer;
   },
@@ -105,6 +132,12 @@ export const GenesisState = {
         case 8:
           message.exported = reader.bool();
           break;
+        case 9:
+          message.tokenizeShareRecords.push(TokenizeShareRecord.decode(reader, reader.uint32()));
+          break;
+        case 10:
+          message.lastTokenizeShareRecordId = reader.uint64() as Long;
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -134,6 +167,12 @@ export const GenesisState = {
         ? object.redelegations.map((e: any) => Redelegation.fromJSON(e))
         : [],
       exported: isSet(object.exported) ? Boolean(object.exported) : false,
+      tokenizeShareRecords: Array.isArray(object?.tokenizeShareRecords)
+        ? object.tokenizeShareRecords.map((e: any) => TokenizeShareRecord.fromJSON(e))
+        : [],
+      lastTokenizeShareRecordId: isSet(object.lastTokenizeShareRecordId)
+        ? Long.fromValue(object.lastTokenizeShareRecordId)
+        : Long.UZERO,
     };
   },
   toJSON(message: GenesisState): unknown {
@@ -173,6 +212,15 @@ export const GenesisState = {
       obj.redelegations = [];
     }
     message.exported !== undefined && (obj.exported = message.exported);
+    if (message.tokenizeShareRecords) {
+      obj.tokenizeShareRecords = message.tokenizeShareRecords.map((e) =>
+        e ? TokenizeShareRecord.toJSON(e) : undefined,
+      );
+    } else {
+      obj.tokenizeShareRecords = [];
+    }
+    message.lastTokenizeShareRecordId !== undefined &&
+      (obj.lastTokenizeShareRecordId = (message.lastTokenizeShareRecordId || Long.UZERO).toString());
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<GenesisState>, I>>(object: I): GenesisState {
@@ -188,6 +236,12 @@ export const GenesisState = {
       object.unbondingDelegations?.map((e) => UnbondingDelegation.fromPartial(e)) || [];
     message.redelegations = object.redelegations?.map((e) => Redelegation.fromPartial(e)) || [];
     message.exported = object.exported ?? false;
+    message.tokenizeShareRecords =
+      object.tokenizeShareRecords?.map((e) => TokenizeShareRecord.fromPartial(e)) || [];
+    message.lastTokenizeShareRecordId =
+      object.lastTokenizeShareRecordId !== undefined && object.lastTokenizeShareRecordId !== null
+        ? Long.fromValue(object.lastTokenizeShareRecordId)
+        : Long.UZERO;
     return message;
   },
 };

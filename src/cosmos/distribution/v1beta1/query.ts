@@ -6,6 +6,7 @@ import {
   ValidatorAccumulatedCommission,
   ValidatorSlashEvent,
   DelegationDelegatorReward,
+  TokenizeShareRecordReward,
 } from "./distribution";
 import { DecCoin } from "../../base/v1beta1/coin";
 import { Long, DeepPartial, Exact, isSet, Rpc } from "../../../helpers";
@@ -167,6 +168,25 @@ export interface QueryCommunityPoolRequest {}
 export interface QueryCommunityPoolResponse {
   /** pool defines community pool's coins. */
   pool: DecCoin[];
+}
+/**
+ * QueryTokenizeShareRecordRewardRequest
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTokenizeShareRecordRewardRequest {
+  ownerAddress: string;
+}
+/**
+ * QueryTokenizeShareRecordRewardResponse
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTokenizeShareRecordRewardResponse {
+  /** rewards defines all the rewards accrued by a delegator. */
+  rewards: TokenizeShareRecordReward[];
+  /** total defines the sum of all the rewards. */
+  total: DecCoin[];
 }
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
@@ -1245,6 +1265,126 @@ export const QueryCommunityPoolResponse = {
     return message;
   },
 };
+function createBaseQueryTokenizeShareRecordRewardRequest(): QueryTokenizeShareRecordRewardRequest {
+  return {
+    ownerAddress: "",
+  };
+}
+export const QueryTokenizeShareRecordRewardRequest = {
+  encode(
+    message: QueryTokenizeShareRecordRewardRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.ownerAddress !== "") {
+      writer.uint32(10).string(message.ownerAddress);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordRewardRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTokenizeShareRecordRewardRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.ownerAddress = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTokenizeShareRecordRewardRequest {
+    return {
+      ownerAddress: isSet(object.ownerAddress) ? String(object.ownerAddress) : "",
+    };
+  },
+  toJSON(message: QueryTokenizeShareRecordRewardRequest): unknown {
+    const obj: any = {};
+    message.ownerAddress !== undefined && (obj.ownerAddress = message.ownerAddress);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordRewardRequest>, I>>(
+    object: I,
+  ): QueryTokenizeShareRecordRewardRequest {
+    const message = createBaseQueryTokenizeShareRecordRewardRequest();
+    message.ownerAddress = object.ownerAddress ?? "";
+    return message;
+  },
+};
+function createBaseQueryTokenizeShareRecordRewardResponse(): QueryTokenizeShareRecordRewardResponse {
+  return {
+    rewards: [],
+    total: [],
+  };
+}
+export const QueryTokenizeShareRecordRewardResponse = {
+  encode(
+    message: QueryTokenizeShareRecordRewardResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    for (const v of message.rewards) {
+      TokenizeShareRecordReward.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    for (const v of message.total) {
+      DecCoin.encode(v!, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordRewardResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTokenizeShareRecordRewardResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.rewards.push(TokenizeShareRecordReward.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.total.push(DecCoin.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTokenizeShareRecordRewardResponse {
+    return {
+      rewards: Array.isArray(object?.rewards)
+        ? object.rewards.map((e: any) => TokenizeShareRecordReward.fromJSON(e))
+        : [],
+      total: Array.isArray(object?.total) ? object.total.map((e: any) => DecCoin.fromJSON(e)) : [],
+    };
+  },
+  toJSON(message: QueryTokenizeShareRecordRewardResponse): unknown {
+    const obj: any = {};
+    if (message.rewards) {
+      obj.rewards = message.rewards.map((e) => (e ? TokenizeShareRecordReward.toJSON(e) : undefined));
+    } else {
+      obj.rewards = [];
+    }
+    if (message.total) {
+      obj.total = message.total.map((e) => (e ? DecCoin.toJSON(e) : undefined));
+    } else {
+      obj.total = [];
+    }
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordRewardResponse>, I>>(
+    object: I,
+  ): QueryTokenizeShareRecordRewardResponse {
+    const message = createBaseQueryTokenizeShareRecordRewardResponse();
+    message.rewards = object.rewards?.map((e) => TokenizeShareRecordReward.fromPartial(e)) || [];
+    message.total = object.total?.map((e) => DecCoin.fromPartial(e)) || [];
+    return message;
+  },
+};
 /** Query defines the gRPC querier service for distribution module. */
 export interface Query {
   /** Params queries params of the distribution module. */
@@ -1278,6 +1418,14 @@ export interface Query {
   ): Promise<QueryDelegatorWithdrawAddressResponse>;
   /** CommunityPool queries the community pool coins. */
   CommunityPool(request?: QueryCommunityPoolRequest): Promise<QueryCommunityPoolResponse>;
+  /**
+   * TokenizeShareRecordReward queries the tokenize share record rewards
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  TokenizeShareRecordReward(
+    request: QueryTokenizeShareRecordRewardRequest,
+  ): Promise<QueryTokenizeShareRecordRewardResponse>;
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
@@ -1293,6 +1441,7 @@ export class QueryClientImpl implements Query {
     this.DelegatorValidators = this.DelegatorValidators.bind(this);
     this.DelegatorWithdrawAddress = this.DelegatorWithdrawAddress.bind(this);
     this.CommunityPool = this.CommunityPool.bind(this);
+    this.TokenizeShareRecordReward = this.TokenizeShareRecordReward.bind(this);
   }
   Params(request: QueryParamsRequest = {}): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -1355,5 +1504,12 @@ export class QueryClientImpl implements Query {
     const data = QueryCommunityPoolRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.distribution.v1beta1.Query", "CommunityPool", data);
     return promise.then((data) => QueryCommunityPoolResponse.decode(new _m0.Reader(data)));
+  }
+  TokenizeShareRecordReward(
+    request: QueryTokenizeShareRecordRewardRequest,
+  ): Promise<QueryTokenizeShareRecordRewardResponse> {
+    const data = QueryTokenizeShareRecordRewardRequest.encode(request).finish();
+    const promise = this.rpc.request("cosmos.distribution.v1beta1.Query", "TokenizeShareRecordReward", data);
+    return promise.then((data) => QueryTokenizeShareRecordRewardResponse.decode(new _m0.Reader(data)));
   }
 }
