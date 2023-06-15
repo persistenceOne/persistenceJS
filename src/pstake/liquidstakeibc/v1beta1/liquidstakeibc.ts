@@ -317,19 +317,19 @@ export const HostChain = {
       Validator.encode(v!, writer.uint32(74).fork()).ldelim();
     }
     if (message.minimumDeposit !== "") {
-      writer.uint32(90).string(message.minimumDeposit);
+      writer.uint32(82).string(message.minimumDeposit);
     }
     if (message.cValue !== "") {
-      writer.uint32(98).string(message.cValue);
+      writer.uint32(90).string(message.cValue);
     }
     if (message.nextValsetHash.length !== 0) {
-      writer.uint32(106).bytes(message.nextValsetHash);
+      writer.uint32(98).bytes(message.nextValsetHash);
     }
     if (!message.unbondingFactor.isZero()) {
-      writer.uint32(112).int64(message.unbondingFactor);
+      writer.uint32(104).int64(message.unbondingFactor);
     }
     if (message.active === true) {
-      writer.uint32(120).bool(message.active);
+      writer.uint32(112).bool(message.active);
     }
     return writer;
   },
@@ -367,19 +367,19 @@ export const HostChain = {
         case 9:
           message.validators.push(Validator.decode(reader, reader.uint32()));
           break;
-        case 11:
+        case 10:
           message.minimumDeposit = reader.string();
           break;
-        case 12:
+        case 11:
           message.cValue = reader.string();
           break;
-        case 13:
+        case 12:
           message.nextValsetHash = reader.bytes();
           break;
-        case 14:
+        case 13:
           message.unbondingFactor = reader.int64() as Long;
           break;
-        case 15:
+        case 14:
           message.active = reader.bool();
           break;
         default:
