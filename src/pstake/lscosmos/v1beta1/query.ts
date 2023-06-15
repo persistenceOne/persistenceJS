@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { Params } from "./params";
+import { GenesisState } from "./genesis";
 import {
   HostChainParams,
   DelegationState,
@@ -20,6 +21,13 @@ export interface QueryParamsRequest {}
 export interface QueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: Params;
+}
+/** QueryAllStateRequest is request type for the Query/AllState RPC method. */
+export interface QueryAllStateRequest {}
+/** QueryAllStateResponse is response type for the Query/AllState RPC method. */
+export interface QueryAllStateResponse {
+  /** params holds all the parameters of this module. */
+  genesis?: GenesisState;
 }
 /** QueryHostChainParamsRequest is request for the Ouery/HostChainParams methods. */
 export interface QueryHostChainParamsRequest {}
@@ -280,6 +288,88 @@ export const QueryParamsResponse = {
     const message = createBaseQueryParamsResponse();
     message.params =
       object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    return message;
+  },
+};
+function createBaseQueryAllStateRequest(): QueryAllStateRequest {
+  return {};
+}
+export const QueryAllStateRequest = {
+  encode(_: QueryAllStateRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllStateRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllStateRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): QueryAllStateRequest {
+    return {};
+  },
+  toJSON(_: QueryAllStateRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryAllStateRequest>, I>>(_: I): QueryAllStateRequest {
+    const message = createBaseQueryAllStateRequest();
+    return message;
+  },
+};
+function createBaseQueryAllStateResponse(): QueryAllStateResponse {
+  return {
+    genesis: undefined,
+  };
+}
+export const QueryAllStateResponse = {
+  encode(message: QueryAllStateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.genesis !== undefined) {
+      GenesisState.encode(message.genesis, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllStateResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryAllStateResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.genesis = GenesisState.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryAllStateResponse {
+    return {
+      genesis: isSet(object.genesis) ? GenesisState.fromJSON(object.genesis) : undefined,
+    };
+  },
+  toJSON(message: QueryAllStateResponse): unknown {
+    const obj: any = {};
+    message.genesis !== undefined &&
+      (obj.genesis = message.genesis ? GenesisState.toJSON(message.genesis) : undefined);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryAllStateResponse>, I>>(object: I): QueryAllStateResponse {
+    const message = createBaseQueryAllStateResponse();
+    message.genesis =
+      object.genesis !== undefined && object.genesis !== null
+        ? GenesisState.fromPartial(object.genesis)
+        : undefined;
     return message;
   },
 };
@@ -1722,6 +1812,8 @@ export const QueryAllDelegatorUnbondingEpochEntriesResponse = {
 export interface Query {
   /** Parameters queries the parameters of the module. */
   Params(request?: QueryParamsRequest): Promise<QueryParamsResponse>;
+  /** AllState returns all state of module, aka, genesis export. */
+  AllState(request?: QueryAllStateRequest): Promise<QueryAllStateResponse>;
   HostChainParams(request?: QueryHostChainParamsRequest): Promise<QueryHostChainParamsResponse>;
   DelegationState(request?: QueryDelegationStateRequest): Promise<QueryDelegationStateResponse>;
   AllowListedValidators(
@@ -1753,6 +1845,7 @@ export class QueryClientImpl implements Query {
   constructor(rpc: Rpc) {
     this.rpc = rpc;
     this.Params = this.Params.bind(this);
+    this.AllState = this.AllState.bind(this);
     this.HostChainParams = this.HostChainParams.bind(this);
     this.DelegationState = this.DelegationState.bind(this);
     this.AllowListedValidators = this.AllowListedValidators.bind(this);
@@ -1773,6 +1866,11 @@ export class QueryClientImpl implements Query {
     const data = QueryParamsRequest.encode(request).finish();
     const promise = this.rpc.request("pstake.lscosmos.v1beta1.Query", "Params", data);
     return promise.then((data) => QueryParamsResponse.decode(new _m0.Reader(data)));
+  }
+  AllState(request: QueryAllStateRequest = {}): Promise<QueryAllStateResponse> {
+    const data = QueryAllStateRequest.encode(request).finish();
+    const promise = this.rpc.request("pstake.lscosmos.v1beta1.Query", "AllState", data);
+    return promise.then((data) => QueryAllStateResponse.decode(new _m0.Reader(data)));
   }
   HostChainParams(request: QueryHostChainParamsRequest = {}): Promise<QueryHostChainParamsResponse> {
     const data = QueryHostChainParamsRequest.encode(request).finish();
