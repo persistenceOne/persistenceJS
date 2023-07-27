@@ -237,7 +237,8 @@ export interface QueryParamsResponse {
   params?: Params;
 }
 /**
- * QueryTokenizeShareRecordByIdRequest
+ * QueryTokenizeShareRecordByIdRequest is request type for the
+ * Query/QueryTokenizeShareRecordById RPC method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
@@ -245,7 +246,8 @@ export interface QueryTokenizeShareRecordByIdRequest {
   id: Long;
 }
 /**
- * QueryTokenizeShareRecordByIdResponse
+ * QueryTokenizeShareRecordByIdRequest is response type for the
+ * Query/QueryTokenizeShareRecordById RPC method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
@@ -253,7 +255,8 @@ export interface QueryTokenizeShareRecordByIdResponse {
   record?: TokenizeShareRecord;
 }
 /**
- * QueryTokenizeShareRecordByDenomRequest
+ * QueryTokenizeShareRecordByDenomRequest is request type for the
+ * Query/QueryTokenizeShareRecordByDenom RPC method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
@@ -261,7 +264,8 @@ export interface QueryTokenizeShareRecordByDenomRequest {
   denom: string;
 }
 /**
- * QueryTokenizeShareRecordByDenomResponse
+ * QueryTokenizeShareRecordByDenomResponse is response type for the
+ * Query/QueryTokenizeShareRecordByDenom RPC method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
@@ -269,7 +273,8 @@ export interface QueryTokenizeShareRecordByDenomResponse {
   record?: TokenizeShareRecord;
 }
 /**
- * QueryTokenizeShareRecordsOwnedRequest
+ * QueryTokenizeShareRecordsOwnedRequest is request type for the
+ * Query/QueryTokenizeShareRecordsOwned RPC method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
@@ -277,7 +282,8 @@ export interface QueryTokenizeShareRecordsOwnedRequest {
   owner: string;
 }
 /**
- * QueryTokenizeShareRecordsOwnedResponse
+ * QueryTokenizeShareRecordsOwnedResponse is response type for the
+ * Query/QueryTokenizeShareRecordsOwned RPC method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
@@ -285,13 +291,15 @@ export interface QueryTokenizeShareRecordsOwnedResponse {
   records: TokenizeShareRecord[];
 }
 /**
- * QueryAllTokenizeShareRecordsRequest
+ * QueryTotalTokenizeSharedAssetsRequest is request type for the
+ * Query/QueryTotalTokenizeSharedAssets RPC method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryAllTokenizeShareRecordsRequest {}
 /**
- * QueryAllTokenizeShareRecordsResponse
+ * QueryTotalTokenizeSharedAssetsResponse is response type for the
+ * Query/QueryTotalTokenizeSharedAssets RPC method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
@@ -313,18 +321,55 @@ export interface QueryLastTokenizeShareRecordIdResponse {
   id: Long;
 }
 /**
- * QueryTotalTokenizeSharedAssetsRequest
+ * QueryTotalTokenizeSharedAssetsRequest is request type for the
+ * Query/QueryTotalTokenizeSharedAssets RPC method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTotalTokenizeSharedAssetsRequest {}
 /**
- * QueryTotalTokenizeSharedAssetsResponse
+ * QueryTotalTokenizeSharedAssetsResponse is response type for the
+ * Query/QueryTotalTokenizeSharedAssets RPC method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTotalTokenizeSharedAssetsResponse {
   value?: Coin;
+}
+/**
+ * QueryQueryTotalLiquidStakedRequest is request type for the
+ * Query/QueryQueryTotalLiquidStaked RPC method.
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTotalLiquidStaked {}
+/**
+ * QueryQueryTotalLiquidStakedResponse is response type for the
+ * Query/QueryQueryTotalLiquidStaked RPC method.
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTotalLiquidStakedResponse {
+  tokens: string;
+}
+/**
+ * QueryTokenizeShareLockInfo queries the tokenize share lock information
+ * associated with given account.
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTokenizeShareLockInfo {
+  address: string;
+}
+/**
+ * QueryTokenizeShareLockInfoResponse is the response from the
+ * QueryTokenizeShareLockInfo query.
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface QueryTokenizeShareLockInfoResponse {
+  status: string;
+  expirationTime: string;
 }
 function createBaseQueryValidatorsRequest(): QueryValidatorsRequest {
   return {
@@ -2510,6 +2555,190 @@ export const QueryTotalTokenizeSharedAssetsResponse = {
     return message;
   },
 };
+function createBaseQueryTotalLiquidStaked(): QueryTotalLiquidStaked {
+  return {};
+}
+export const QueryTotalLiquidStaked = {
+  encode(_: QueryTotalLiquidStaked, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalLiquidStaked {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTotalLiquidStaked();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): QueryTotalLiquidStaked {
+    return {};
+  },
+  toJSON(_: QueryTotalLiquidStaked): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTotalLiquidStaked>, I>>(_: I): QueryTotalLiquidStaked {
+    const message = createBaseQueryTotalLiquidStaked();
+    return message;
+  },
+};
+function createBaseQueryTotalLiquidStakedResponse(): QueryTotalLiquidStakedResponse {
+  return {
+    tokens: "",
+  };
+}
+export const QueryTotalLiquidStakedResponse = {
+  encode(message: QueryTotalLiquidStakedResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.tokens !== "") {
+      writer.uint32(10).string(message.tokens);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalLiquidStakedResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTotalLiquidStakedResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.tokens = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTotalLiquidStakedResponse {
+    return {
+      tokens: isSet(object.tokens) ? String(object.tokens) : "",
+    };
+  },
+  toJSON(message: QueryTotalLiquidStakedResponse): unknown {
+    const obj: any = {};
+    message.tokens !== undefined && (obj.tokens = message.tokens);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTotalLiquidStakedResponse>, I>>(
+    object: I,
+  ): QueryTotalLiquidStakedResponse {
+    const message = createBaseQueryTotalLiquidStakedResponse();
+    message.tokens = object.tokens ?? "";
+    return message;
+  },
+};
+function createBaseQueryTokenizeShareLockInfo(): QueryTokenizeShareLockInfo {
+  return {
+    address: "",
+  };
+}
+export const QueryTokenizeShareLockInfo = {
+  encode(message: QueryTokenizeShareLockInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.address !== "") {
+      writer.uint32(10).string(message.address);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareLockInfo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTokenizeShareLockInfo();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.address = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTokenizeShareLockInfo {
+    return {
+      address: isSet(object.address) ? String(object.address) : "",
+    };
+  },
+  toJSON(message: QueryTokenizeShareLockInfo): unknown {
+    const obj: any = {};
+    message.address !== undefined && (obj.address = message.address);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareLockInfo>, I>>(
+    object: I,
+  ): QueryTokenizeShareLockInfo {
+    const message = createBaseQueryTokenizeShareLockInfo();
+    message.address = object.address ?? "";
+    return message;
+  },
+};
+function createBaseQueryTokenizeShareLockInfoResponse(): QueryTokenizeShareLockInfoResponse {
+  return {
+    status: "",
+    expirationTime: "",
+  };
+}
+export const QueryTokenizeShareLockInfoResponse = {
+  encode(message: QueryTokenizeShareLockInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.status !== "") {
+      writer.uint32(10).string(message.status);
+    }
+    if (message.expirationTime !== "") {
+      writer.uint32(18).string(message.expirationTime);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareLockInfoResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryTokenizeShareLockInfoResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.status = reader.string();
+          break;
+        case 2:
+          message.expirationTime = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryTokenizeShareLockInfoResponse {
+    return {
+      status: isSet(object.status) ? String(object.status) : "",
+      expirationTime: isSet(object.expirationTime) ? String(object.expirationTime) : "",
+    };
+  },
+  toJSON(message: QueryTokenizeShareLockInfoResponse): unknown {
+    const obj: any = {};
+    message.status !== undefined && (obj.status = message.status);
+    message.expirationTime !== undefined && (obj.expirationTime = message.expirationTime);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareLockInfoResponse>, I>>(
+    object: I,
+  ): QueryTokenizeShareLockInfoResponse {
+    const message = createBaseQueryTokenizeShareLockInfoResponse();
+    message.status = object.status ?? "";
+    message.expirationTime = object.expirationTime ?? "";
+    return message;
+  },
+};
 /** Query defines the gRPC querier service. */
 export interface Query {
   /**
@@ -2588,7 +2817,7 @@ export interface Query {
   /** Parameters queries the staking parameters. */
   Params(request?: QueryParamsRequest): Promise<QueryParamsResponse>;
   /**
-   * Query for individual tokenize share record information by share by id
+   * Query for individual tokenize share record information by share by id.
    *
    * Since: cosmos-sdk 0.47-lsm
    */
@@ -2596,7 +2825,7 @@ export interface Query {
     request: QueryTokenizeShareRecordByIdRequest,
   ): Promise<QueryTokenizeShareRecordByIdResponse>;
   /**
-   * Query for individual tokenize share record information by share denom
+   * Query for individual tokenize share record information by share denom.
    *
    * Since: cosmos-sdk 0.47-lsm
    */
@@ -2604,7 +2833,7 @@ export interface Query {
     request: QueryTokenizeShareRecordByDenomRequest,
   ): Promise<QueryTokenizeShareRecordByDenomResponse>;
   /**
-   * Query tokenize share records by address
+   * Query tokenize share records by address.
    *
    * Since: cosmos-sdk 0.47-lsm
    */
@@ -2612,7 +2841,7 @@ export interface Query {
     request: QueryTokenizeShareRecordsOwnedRequest,
   ): Promise<QueryTokenizeShareRecordsOwnedResponse>;
   /**
-   * Query for all tokenize share records
+   * Query for all tokenize share records.
    *
    * Since: cosmos-sdk 0.47-lsm
    */
@@ -2620,7 +2849,7 @@ export interface Query {
     request?: QueryAllTokenizeShareRecordsRequest,
   ): Promise<QueryAllTokenizeShareRecordsResponse>;
   /**
-   * Query for last tokenize share record id
+   * Query for last tokenize share record id.
    *
    * Since: cosmos-sdk 0.47-lsm
    */
@@ -2628,13 +2857,25 @@ export interface Query {
     request?: QueryLastTokenizeShareRecordIdRequest,
   ): Promise<QueryLastTokenizeShareRecordIdResponse>;
   /**
-   * Query for total tokenized staked assets
+   * Query for total tokenized staked assets.
    *
    * Since: cosmos-sdk 0.47-lsm
    */
   TotalTokenizeSharedAssets(
     request?: QueryTotalTokenizeSharedAssetsRequest,
   ): Promise<QueryTotalTokenizeSharedAssetsResponse>;
+  /**
+   * Query for total liquid staked (including tokenized shares or owned by an liquid staking provider).
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  TotalLiquidStaked(request?: QueryTotalLiquidStaked): Promise<QueryTotalLiquidStakedResponse>;
+  /**
+   * Query tokenize share locks.
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  TokenizeShareLockInfo(request: QueryTokenizeShareLockInfo): Promise<QueryTokenizeShareLockInfoResponse>;
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
@@ -2660,6 +2901,8 @@ export class QueryClientImpl implements Query {
     this.AllTokenizeShareRecords = this.AllTokenizeShareRecords.bind(this);
     this.LastTokenizeShareRecordId = this.LastTokenizeShareRecordId.bind(this);
     this.TotalTokenizeSharedAssets = this.TotalTokenizeSharedAssets.bind(this);
+    this.TotalLiquidStaked = this.TotalLiquidStaked.bind(this);
+    this.TokenizeShareLockInfo = this.TokenizeShareLockInfo.bind(this);
   }
   Validators(request: QueryValidatorsRequest): Promise<QueryValidatorsResponse> {
     const data = QueryValidatorsRequest.encode(request).finish();
@@ -2780,5 +3023,15 @@ export class QueryClientImpl implements Query {
     const data = QueryTotalTokenizeSharedAssetsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TotalTokenizeSharedAssets", data);
     return promise.then((data) => QueryTotalTokenizeSharedAssetsResponse.decode(new _m0.Reader(data)));
+  }
+  TotalLiquidStaked(request: QueryTotalLiquidStaked = {}): Promise<QueryTotalLiquidStakedResponse> {
+    const data = QueryTotalLiquidStaked.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TotalLiquidStaked", data);
+    return promise.then((data) => QueryTotalLiquidStakedResponse.decode(new _m0.Reader(data)));
+  }
+  TokenizeShareLockInfo(request: QueryTokenizeShareLockInfo): Promise<QueryTokenizeShareLockInfoResponse> {
+    const data = QueryTokenizeShareLockInfo.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TokenizeShareLockInfo", data);
+    return promise.then((data) => QueryTokenizeShareLockInfoResponse.decode(new _m0.Reader(data)));
   }
 }

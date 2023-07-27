@@ -96,6 +96,57 @@ export function infractionToJSON(object: Infraction): string {
   }
 }
 /**
+ * TokenizeShareLockStatus represents status of an account's tokenize share lock.
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export enum TokenizeShareLockStatus {
+  /** TOKENIZE_SHARE_LOCK_STATUS_UNSPECIFIED - An empty value is not allowed. */
+  TOKENIZE_SHARE_LOCK_STATUS_UNSPECIFIED = 0,
+  /** TOKENIZE_SHARE_LOCK_STATUS_LOCKED - Status means cannot tokenize shares. */
+  TOKENIZE_SHARE_LOCK_STATUS_LOCKED = 1,
+  /** TOKENIZE_SHARE_LOCK_STATUS_UNLOCKED - Status means cannot tokenize shares. */
+  TOKENIZE_SHARE_LOCK_STATUS_UNLOCKED = 2,
+  /** TOKENIZE_SHARE_LOCK_STATUS_LOCK_EXPIRING - Status when lock is queued for unlocking. */
+  TOKENIZE_SHARE_LOCK_STATUS_LOCK_EXPIRING = 3,
+  UNRECOGNIZED = -1,
+}
+export function tokenizeShareLockStatusFromJSON(object: any): TokenizeShareLockStatus {
+  switch (object) {
+    case 0:
+    case "TOKENIZE_SHARE_LOCK_STATUS_UNSPECIFIED":
+      return TokenizeShareLockStatus.TOKENIZE_SHARE_LOCK_STATUS_UNSPECIFIED;
+    case 1:
+    case "TOKENIZE_SHARE_LOCK_STATUS_LOCKED":
+      return TokenizeShareLockStatus.TOKENIZE_SHARE_LOCK_STATUS_LOCKED;
+    case 2:
+    case "TOKENIZE_SHARE_LOCK_STATUS_UNLOCKED":
+      return TokenizeShareLockStatus.TOKENIZE_SHARE_LOCK_STATUS_UNLOCKED;
+    case 3:
+    case "TOKENIZE_SHARE_LOCK_STATUS_LOCK_EXPIRING":
+      return TokenizeShareLockStatus.TOKENIZE_SHARE_LOCK_STATUS_LOCK_EXPIRING;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return TokenizeShareLockStatus.UNRECOGNIZED;
+  }
+}
+export function tokenizeShareLockStatusToJSON(object: TokenizeShareLockStatus): string {
+  switch (object) {
+    case TokenizeShareLockStatus.TOKENIZE_SHARE_LOCK_STATUS_UNSPECIFIED:
+      return "TOKENIZE_SHARE_LOCK_STATUS_UNSPECIFIED";
+    case TokenizeShareLockStatus.TOKENIZE_SHARE_LOCK_STATUS_LOCKED:
+      return "TOKENIZE_SHARE_LOCK_STATUS_LOCKED";
+    case TokenizeShareLockStatus.TOKENIZE_SHARE_LOCK_STATUS_UNLOCKED:
+      return "TOKENIZE_SHARE_LOCK_STATUS_UNLOCKED";
+    case TokenizeShareLockStatus.TOKENIZE_SHARE_LOCK_STATUS_LOCK_EXPIRING:
+      return "TOKENIZE_SHARE_LOCK_STATUS_LOCK_EXPIRING";
+    case TokenizeShareLockStatus.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+/**
  * HistoricalInfo contains header and validator information for a given block.
  * It is stored as part of staking module's state, which persists the `n` most
  * recent HistoricalInfo
@@ -168,11 +219,8 @@ export interface Validator {
   unbondingTime?: Timestamp;
   /** commission defines the commission parameters. */
   commission?: Commission;
-  /**
-   * min_self_delegation is the validator's self declared minimum self delegation.
-   *
-   * Since: cosmos-sdk 0.46
-   */
+  /** min_self_delegation is the validator's self declared minimum self delegation. */
+  /** @deprecated */
   minSelfDelegation: string;
   /**
    * strictly positive if this validator's unbonding has been stopped by external modules
@@ -187,17 +235,17 @@ export interface Validator {
    */
   unbondingIds: Long[];
   /**
-   * total_validator_bond_shares is the number of shares self bonded from the validator.
+   * validator_bond_shares is the number of shares self bonded from the validator.
    *
    * Since: cosmos-sdk 0.47-lsm
    */
-  totalValidatorBondShares: string;
+  validatorBondShares: string;
   /**
-   * total_liquid_shares is the total number of shares either tokenized or owned by a liquid staking provider.
+   * liquid_shares is the number of shares either tokenized or owned by a liquid staking provider.
    *
    * Since: cosmos-sdk 0.47-lsm
    */
-  totalLiquidShares: string;
+  liquidShares: string;
 }
 /** ValAddresses defines a repeated set of validator addresses. */
 export interface ValAddresses {
@@ -333,10 +381,21 @@ export interface Params {
   bondDenom: string;
   /** min_commission_rate is the chain-wide minimum commission rate that a validator can charge their delegators */
   minCommissionRate: string;
-  /** validator_bond_factor */
+  /**
+   * validator_bond_factor is required as a safety check for tokenizing shares and
+   * delegations from liquid staking providers
+   */
   validatorBondFactor: string;
-  /** global_liquid_staking_cap */
+  /**
+   * global_liquid_staking_cap represents a cap on the portion of stake that
+   * comes from liquid staking providers
+   */
   globalLiquidStakingCap: string;
+  /**
+   * validator_liquid_staking_cap represents a cap on the portion of stake that
+   * comes from liquid staking providers for a specific validator
+   */
+  validatorLiquidStakingCap: string;
 }
 /**
  * DelegationResponse is equivalent to Delegation except that it contains a
@@ -380,7 +439,7 @@ export interface ValidatorUpdates {
   updates: ValidatorUpdate[];
 }
 /**
- * TokenizeShareRecord
+ * TokenizeShareRecord represents a tokenized delegation.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
@@ -390,6 +449,15 @@ export interface TokenizeShareRecord {
   /** module account take the role of delegator */
   moduleAccount: string;
   validator: string;
+}
+/**
+ * PendingTokenizeShareAuthorizations stores a list of addresses that have their
+ * tokenize share enablement in progress.
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface PendingTokenizeShareAuthorizations {
+  addresses: string[];
 }
 function createBaseHistoricalInfo(): HistoricalInfo {
   return {
@@ -682,8 +750,8 @@ function createBaseValidator(): Validator {
     minSelfDelegation: "",
     unbondingOnHoldRefCount: Long.ZERO,
     unbondingIds: [],
-    totalValidatorBondShares: "",
-    totalLiquidShares: "",
+    validatorBondShares: "",
+    liquidShares: "",
   };
 }
 export const Validator = {
@@ -729,11 +797,11 @@ export const Validator = {
       writer.uint64(v);
     }
     writer.ldelim();
-    if (message.totalValidatorBondShares !== "") {
-      writer.uint32(114).string(message.totalValidatorBondShares);
+    if (message.validatorBondShares !== "") {
+      writer.uint32(114).string(message.validatorBondShares);
     }
-    if (message.totalLiquidShares !== "") {
-      writer.uint32(122).string(message.totalLiquidShares);
+    if (message.liquidShares !== "") {
+      writer.uint32(122).string(message.liquidShares);
     }
     return writer;
   },
@@ -791,10 +859,10 @@ export const Validator = {
           }
           break;
         case 14:
-          message.totalValidatorBondShares = reader.string();
+          message.validatorBondShares = reader.string();
           break;
         case 15:
-          message.totalLiquidShares = reader.string();
+          message.liquidShares = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -822,10 +890,8 @@ export const Validator = {
       unbondingIds: Array.isArray(object?.unbondingIds)
         ? object.unbondingIds.map((e: any) => Long.fromValue(e))
         : [],
-      totalValidatorBondShares: isSet(object.totalValidatorBondShares)
-        ? String(object.totalValidatorBondShares)
-        : "",
-      totalLiquidShares: isSet(object.totalLiquidShares) ? String(object.totalLiquidShares) : "",
+      validatorBondShares: isSet(object.validatorBondShares) ? String(object.validatorBondShares) : "",
+      liquidShares: isSet(object.liquidShares) ? String(object.liquidShares) : "",
     };
   },
   toJSON(message: Validator): unknown {
@@ -853,9 +919,8 @@ export const Validator = {
     } else {
       obj.unbondingIds = [];
     }
-    message.totalValidatorBondShares !== undefined &&
-      (obj.totalValidatorBondShares = message.totalValidatorBondShares);
-    message.totalLiquidShares !== undefined && (obj.totalLiquidShares = message.totalLiquidShares);
+    message.validatorBondShares !== undefined && (obj.validatorBondShares = message.validatorBondShares);
+    message.liquidShares !== undefined && (obj.liquidShares = message.liquidShares);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<Validator>, I>>(object: I): Validator {
@@ -891,8 +956,8 @@ export const Validator = {
         ? Long.fromValue(object.unbondingOnHoldRefCount)
         : Long.ZERO;
     message.unbondingIds = object.unbondingIds?.map((e) => Long.fromValue(e)) || [];
-    message.totalValidatorBondShares = object.totalValidatorBondShares ?? "";
-    message.totalLiquidShares = object.totalLiquidShares ?? "";
+    message.validatorBondShares = object.validatorBondShares ?? "";
+    message.liquidShares = object.liquidShares ?? "";
     return message;
   },
 };
@@ -1651,6 +1716,7 @@ function createBaseParams(): Params {
     minCommissionRate: "",
     validatorBondFactor: "",
     globalLiquidStakingCap: "",
+    validatorLiquidStakingCap: "",
   };
 }
 export const Params = {
@@ -1678,6 +1744,9 @@ export const Params = {
     }
     if (message.globalLiquidStakingCap !== "") {
       writer.uint32(66).string(message.globalLiquidStakingCap);
+    }
+    if (message.validatorLiquidStakingCap !== "") {
+      writer.uint32(74).string(message.validatorLiquidStakingCap);
     }
     return writer;
   },
@@ -1712,6 +1781,9 @@ export const Params = {
         case 8:
           message.globalLiquidStakingCap = reader.string();
           break;
+        case 9:
+          message.validatorLiquidStakingCap = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1731,6 +1803,9 @@ export const Params = {
       globalLiquidStakingCap: isSet(object.globalLiquidStakingCap)
         ? String(object.globalLiquidStakingCap)
         : "",
+      validatorLiquidStakingCap: isSet(object.validatorLiquidStakingCap)
+        ? String(object.validatorLiquidStakingCap)
+        : "",
     };
   },
   toJSON(message: Params): unknown {
@@ -1746,6 +1821,8 @@ export const Params = {
     message.validatorBondFactor !== undefined && (obj.validatorBondFactor = message.validatorBondFactor);
     message.globalLiquidStakingCap !== undefined &&
       (obj.globalLiquidStakingCap = message.globalLiquidStakingCap);
+    message.validatorLiquidStakingCap !== undefined &&
+      (obj.validatorLiquidStakingCap = message.validatorLiquidStakingCap);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
@@ -1761,6 +1838,7 @@ export const Params = {
     message.minCommissionRate = object.minCommissionRate ?? "";
     message.validatorBondFactor = object.validatorBondFactor ?? "";
     message.globalLiquidStakingCap = object.globalLiquidStakingCap ?? "";
+    message.validatorLiquidStakingCap = object.validatorLiquidStakingCap ?? "";
     return message;
   },
 };
@@ -2133,6 +2211,57 @@ export const TokenizeShareRecord = {
     message.owner = object.owner ?? "";
     message.moduleAccount = object.moduleAccount ?? "";
     message.validator = object.validator ?? "";
+    return message;
+  },
+};
+function createBasePendingTokenizeShareAuthorizations(): PendingTokenizeShareAuthorizations {
+  return {
+    addresses: [],
+  };
+}
+export const PendingTokenizeShareAuthorizations = {
+  encode(message: PendingTokenizeShareAuthorizations, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    for (const v of message.addresses) {
+      writer.uint32(10).string(v!);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): PendingTokenizeShareAuthorizations {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBasePendingTokenizeShareAuthorizations();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.addresses.push(reader.string());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): PendingTokenizeShareAuthorizations {
+    return {
+      addresses: Array.isArray(object?.addresses) ? object.addresses.map((e: any) => String(e)) : [],
+    };
+  },
+  toJSON(message: PendingTokenizeShareAuthorizations): unknown {
+    const obj: any = {};
+    if (message.addresses) {
+      obj.addresses = message.addresses.map((e) => e);
+    } else {
+      obj.addresses = [];
+    }
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<PendingTokenizeShareAuthorizations>, I>>(
+    object: I,
+  ): PendingTokenizeShareAuthorizations {
+    const message = createBasePendingTokenizeShareAuthorizations();
+    message.addresses = object.addresses?.map((e) => e) || [];
     return message;
   },
 };

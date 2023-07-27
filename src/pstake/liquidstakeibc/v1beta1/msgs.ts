@@ -18,6 +18,7 @@ export interface MsgRegisterHostChain {
   hostDenom: string;
   minimumDeposit: string;
   unbondingFactor: Long;
+  autoCompoundFactor: Long;
 }
 export interface MsgRegisterHostChainResponse {}
 export interface MsgUpdateHostChain {
@@ -60,6 +61,7 @@ function createBaseMsgRegisterHostChain(): MsgRegisterHostChain {
     hostDenom: "",
     minimumDeposit: "",
     unbondingFactor: Long.ZERO,
+    autoCompoundFactor: Long.ZERO,
   };
 }
 export const MsgRegisterHostChain = {
@@ -96,6 +98,9 @@ export const MsgRegisterHostChain = {
     }
     if (!message.unbondingFactor.isZero()) {
       writer.uint32(88).int64(message.unbondingFactor);
+    }
+    if (!message.autoCompoundFactor.isZero()) {
+      writer.uint32(96).int64(message.autoCompoundFactor);
     }
     return writer;
   },
@@ -139,6 +144,9 @@ export const MsgRegisterHostChain = {
         case 11:
           message.unbondingFactor = reader.int64() as Long;
           break;
+        case 12:
+          message.autoCompoundFactor = reader.int64() as Long;
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -159,6 +167,9 @@ export const MsgRegisterHostChain = {
       hostDenom: isSet(object.hostDenom) ? String(object.hostDenom) : "",
       minimumDeposit: isSet(object.minimumDeposit) ? String(object.minimumDeposit) : "",
       unbondingFactor: isSet(object.unbondingFactor) ? Long.fromValue(object.unbondingFactor) : Long.ZERO,
+      autoCompoundFactor: isSet(object.autoCompoundFactor)
+        ? Long.fromValue(object.autoCompoundFactor)
+        : Long.ZERO,
     };
   },
   toJSON(message: MsgRegisterHostChain): unknown {
@@ -175,6 +186,8 @@ export const MsgRegisterHostChain = {
     message.minimumDeposit !== undefined && (obj.minimumDeposit = message.minimumDeposit);
     message.unbondingFactor !== undefined &&
       (obj.unbondingFactor = (message.unbondingFactor || Long.ZERO).toString());
+    message.autoCompoundFactor !== undefined &&
+      (obj.autoCompoundFactor = (message.autoCompoundFactor || Long.ZERO).toString());
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<MsgRegisterHostChain>, I>>(object: I): MsgRegisterHostChain {
@@ -192,6 +205,10 @@ export const MsgRegisterHostChain = {
     message.unbondingFactor =
       object.unbondingFactor !== undefined && object.unbondingFactor !== null
         ? Long.fromValue(object.unbondingFactor)
+        : Long.ZERO;
+    message.autoCompoundFactor =
+      object.autoCompoundFactor !== undefined && object.autoCompoundFactor !== null
+        ? Long.fromValue(object.autoCompoundFactor)
         : Long.ZERO;
     return message;
   },

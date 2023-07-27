@@ -6,11 +6,15 @@ export const protobufPackage = "pstake.liquidstakeibc.v1beta1";
 export interface Params {
   adminAddress: string;
   feeAddress: string;
+  upperCValueLimit: string;
+  lowerCValueLimit: string;
 }
 function createBaseParams(): Params {
   return {
     adminAddress: "",
     feeAddress: "",
+    upperCValueLimit: "",
+    lowerCValueLimit: "",
   };
 }
 export const Params = {
@@ -20,6 +24,12 @@ export const Params = {
     }
     if (message.feeAddress !== "") {
       writer.uint32(18).string(message.feeAddress);
+    }
+    if (message.upperCValueLimit !== "") {
+      writer.uint32(26).string(message.upperCValueLimit);
+    }
+    if (message.lowerCValueLimit !== "") {
+      writer.uint32(34).string(message.lowerCValueLimit);
     }
     return writer;
   },
@@ -36,6 +46,12 @@ export const Params = {
         case 2:
           message.feeAddress = reader.string();
           break;
+        case 3:
+          message.upperCValueLimit = reader.string();
+          break;
+        case 4:
+          message.lowerCValueLimit = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -47,18 +63,24 @@ export const Params = {
     return {
       adminAddress: isSet(object.adminAddress) ? String(object.adminAddress) : "",
       feeAddress: isSet(object.feeAddress) ? String(object.feeAddress) : "",
+      upperCValueLimit: isSet(object.upperCValueLimit) ? String(object.upperCValueLimit) : "",
+      lowerCValueLimit: isSet(object.lowerCValueLimit) ? String(object.lowerCValueLimit) : "",
     };
   },
   toJSON(message: Params): unknown {
     const obj: any = {};
     message.adminAddress !== undefined && (obj.adminAddress = message.adminAddress);
     message.feeAddress !== undefined && (obj.feeAddress = message.feeAddress);
+    message.upperCValueLimit !== undefined && (obj.upperCValueLimit = message.upperCValueLimit);
+    message.lowerCValueLimit !== undefined && (obj.lowerCValueLimit = message.lowerCValueLimit);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
     const message = createBaseParams();
     message.adminAddress = object.adminAddress ?? "";
     message.feeAddress = object.feeAddress ?? "";
+    message.upperCValueLimit = object.upperCValueLimit ?? "";
+    message.lowerCValueLimit = object.lowerCValueLimit ?? "";
     return message;
   },
 };
