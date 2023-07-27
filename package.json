@@ -1,6 +1,6 @@
 {
   "name": "persistenceonejs",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Client side JS libraries for persistenceSDK transaction generation, signing and broadcasting.",
   "main": "main/index.js",
   "module": "module/index.js",
@@ -25,6 +25,7 @@
     "build:ts-proto": "NODE_ENV=development ./scripts/ts-proto-gen.sh && cti create ./src -w",
     "build:telescope": "NODE_ENV=development ts-node ./scripts/telescope.ts && npm run format",
     "prepare-publishing": "./scripts/prepare-publishing.sh",
+    "update-protos": "NODE_ENV=development ./scripts/update-protos.sh",
     "build": "tsc",
     "format": "prettier --write --loglevel warn \"./src/**/*.ts\"",
     "prepare": "husky install"
