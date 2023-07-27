@@ -170,7 +170,8 @@ export interface QueryCommunityPoolResponse {
   pool: DecCoin[];
 }
 /**
- * QueryTokenizeShareRecordRewardRequest
+ * QueryTokenizeShareRecordRewardRequest is the request type for the Query/TokenizeShareRecordReward RPC
+ * method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
@@ -178,7 +179,8 @@ export interface QueryTokenizeShareRecordRewardRequest {
   ownerAddress: string;
 }
 /**
- * QueryTokenizeShareRecordRewardResponse
+ * QueryTokenizeShareRecordRewardResponse is the response type for the Query/TokenizeShareRecordReward
+ * RPC method.
  *
  * Since: cosmos-sdk 0.47-lsm
  */

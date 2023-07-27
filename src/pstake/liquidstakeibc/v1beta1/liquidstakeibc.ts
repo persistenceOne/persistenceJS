@@ -1,16 +1,7 @@
 /* eslint-disable */
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import {
-  Long,
-  isSet,
-  bytesFromBase64,
-  base64FromBytes,
-  DeepPartial,
-  Exact,
-  fromJsonTimestamp,
-  fromTimestamp,
-} from "../../../helpers";
+import { Long, isSet, DeepPartial, Exact, fromJsonTimestamp, fromTimestamp } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "pstake.liquidstakeibc.v1beta1";
 export enum ICAAccount_ChannelState {
@@ -174,12 +165,14 @@ export interface HostChain {
   minimumDeposit: string;
   /** redemption rate */
   cValue: string;
-  /** the hash of the next validator set */
-  nextValsetHash: Uint8Array;
+  /** previous redemption rate */
+  lastCValue: string;
   /** undelegation epoch factor */
   unbondingFactor: Long;
   /** whether the chain is ready to accept delegations or not */
   active: boolean;
+  /** factor limit for auto-compounding, daily periodic rate (APY / 365s) */
+  autoCompoundFactor: string;
 }
 export interface HostChainLSParams {
   depositFee: string;
@@ -205,10 +198,8 @@ export interface Validator {
   weight: string;
   /** amount delegated by the module to the validator */
   delegatedAmount: string;
-  /** total amount delegated to the validator (including amount not delegated by the module) */
-  totalAmount: string;
-  /** total number of shares issued by the validator to its delegators */
-  delegatorShares: string;
+  /** the validator token exchange rate, total bonded tokens divided by total shares issued */
+  exchangeRate: string;
   /** the unbonding epoch number when the validator transitioned into the state */
   unbondingEpoch: Long;
 }
@@ -217,7 +208,7 @@ export interface Deposit {
   chainId: string;
   amount?: Coin;
   /** epoch number of the deposit */
-  epoch: string;
+  epoch: Long;
   /** state */
   state: Deposit_DepositState;
   /** sequence id of the ibc transaction */
@@ -282,9 +273,10 @@ function createBaseHostChain(): HostChain {
     validators: [],
     minimumDeposit: "",
     cValue: "",
-    nextValsetHash: new Uint8Array(),
+    lastCValue: "",
     unbondingFactor: Long.ZERO,
     active: false,
+    autoCompoundFactor: "",
   };
 }
 export const HostChain = {
@@ -317,19 +309,22 @@ export const HostChain = {
       Validator.encode(v!, writer.uint32(74).fork()).ldelim();
     }
     if (message.minimumDeposit !== "") {
-      writer.uint32(90).string(message.minimumDeposit);
+      writer.uint32(82).string(message.minimumDeposit);
     }
     if (message.cValue !== "") {
-      writer.uint32(98).string(message.cValue);
+      writer.uint32(90).string(message.cValue);
     }
-    if (message.nextValsetHash.length !== 0) {
-      writer.uint32(106).bytes(message.nextValsetHash);
+    if (message.lastCValue !== "") {
+      writer.uint32(98).string(message.lastCValue);
     }
     if (!message.unbondingFactor.isZero()) {
-      writer.uint32(112).int64(message.unbondingFactor);
+      writer.uint32(104).int64(message.unbondingFactor);
     }
     if (message.active === true) {
-      writer.uint32(120).bool(message.active);
+      writer.uint32(112).bool(message.active);
+    }
+    if (message.autoCompoundFactor !== "") {
+      writer.uint32(122).string(message.autoCompoundFactor);
     }
     return writer;
   },
@@ -367,20 +362,23 @@ export const HostChain = {
         case 9:
           message.validators.push(Validator.decode(reader, reader.uint32()));
           break;
-        case 11:
+        case 10:
           message.minimumDeposit = reader.string();
           break;
-        case 12:
+        case 11:
           message.cValue = reader.string();
           break;
-        case 13:
-          message.nextValsetHash = reader.bytes();
+        case 12:
+          message.lastCValue = reader.string();
           break;
-        case 14:
+        case 13:
           message.unbondingFactor = reader.int64() as Long;
           break;
-        case 15:
+        case 14:
           message.active = reader.bool();
+          break;
+        case 15:
+          message.autoCompoundFactor = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -406,11 +404,10 @@ export const HostChain = {
         : [],
       minimumDeposit: isSet(object.minimumDeposit) ? String(object.minimumDeposit) : "",
       cValue: isSet(object.cValue) ? String(object.cValue) : "",
-      nextValsetHash: isSet(object.nextValsetHash)
-        ? bytesFromBase64(object.nextValsetHash)
-        : new Uint8Array(),
+      lastCValue: isSet(object.lastCValue) ? String(object.lastCValue) : "",
       unbondingFactor: isSet(object.unbondingFactor) ? Long.fromValue(object.unbondingFactor) : Long.ZERO,
       active: isSet(object.active) ? Boolean(object.active) : false,
+      autoCompoundFactor: isSet(object.autoCompoundFactor) ? String(object.autoCompoundFactor) : "",
     };
   },
   toJSON(message: HostChain): unknown {
@@ -435,13 +432,11 @@ export const HostChain = {
     }
     message.minimumDeposit !== undefined && (obj.minimumDeposit = message.minimumDeposit);
     message.cValue !== undefined && (obj.cValue = message.cValue);
-    message.nextValsetHash !== undefined &&
-      (obj.nextValsetHash = base64FromBytes(
-        message.nextValsetHash !== undefined ? message.nextValsetHash : new Uint8Array(),
-      ));
+    message.lastCValue !== undefined && (obj.lastCValue = message.lastCValue);
     message.unbondingFactor !== undefined &&
       (obj.unbondingFactor = (message.unbondingFactor || Long.ZERO).toString());
     message.active !== undefined && (obj.active = message.active);
+    message.autoCompoundFactor !== undefined && (obj.autoCompoundFactor = message.autoCompoundFactor);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<HostChain>, I>>(object: I): HostChain {
@@ -466,12 +461,13 @@ export const HostChain = {
     message.validators = object.validators?.map((e) => Validator.fromPartial(e)) || [];
     message.minimumDeposit = object.minimumDeposit ?? "";
     message.cValue = object.cValue ?? "";
-    message.nextValsetHash = object.nextValsetHash ?? new Uint8Array();
+    message.lastCValue = object.lastCValue ?? "";
     message.unbondingFactor =
       object.unbondingFactor !== undefined && object.unbondingFactor !== null
         ? Long.fromValue(object.unbondingFactor)
         : Long.ZERO;
     message.active = object.active ?? false;
+    message.autoCompoundFactor = object.autoCompoundFactor ?? "";
     return message;
   },
 };
@@ -634,8 +630,7 @@ function createBaseValidator(): Validator {
     status: "",
     weight: "",
     delegatedAmount: "",
-    totalAmount: "",
-    delegatorShares: "",
+    exchangeRate: "",
     unbondingEpoch: Long.ZERO,
   };
 }
@@ -653,14 +648,11 @@ export const Validator = {
     if (message.delegatedAmount !== "") {
       writer.uint32(34).string(message.delegatedAmount);
     }
-    if (message.totalAmount !== "") {
-      writer.uint32(42).string(message.totalAmount);
-    }
-    if (message.delegatorShares !== "") {
-      writer.uint32(50).string(message.delegatorShares);
+    if (message.exchangeRate !== "") {
+      writer.uint32(42).string(message.exchangeRate);
     }
     if (!message.unbondingEpoch.isZero()) {
-      writer.uint32(56).int64(message.unbondingEpoch);
+      writer.uint32(48).int64(message.unbondingEpoch);
     }
     return writer;
   },
@@ -684,12 +676,9 @@ export const Validator = {
           message.delegatedAmount = reader.string();
           break;
         case 5:
-          message.totalAmount = reader.string();
+          message.exchangeRate = reader.string();
           break;
         case 6:
-          message.delegatorShares = reader.string();
-          break;
-        case 7:
           message.unbondingEpoch = reader.int64() as Long;
           break;
         default:
@@ -705,8 +694,7 @@ export const Validator = {
       status: isSet(object.status) ? String(object.status) : "",
       weight: isSet(object.weight) ? String(object.weight) : "",
       delegatedAmount: isSet(object.delegatedAmount) ? String(object.delegatedAmount) : "",
-      totalAmount: isSet(object.totalAmount) ? String(object.totalAmount) : "",
-      delegatorShares: isSet(object.delegatorShares) ? String(object.delegatorShares) : "",
+      exchangeRate: isSet(object.exchangeRate) ? String(object.exchangeRate) : "",
       unbondingEpoch: isSet(object.unbondingEpoch) ? Long.fromValue(object.unbondingEpoch) : Long.ZERO,
     };
   },
@@ -716,8 +704,7 @@ export const Validator = {
     message.status !== undefined && (obj.status = message.status);
     message.weight !== undefined && (obj.weight = message.weight);
     message.delegatedAmount !== undefined && (obj.delegatedAmount = message.delegatedAmount);
-    message.totalAmount !== undefined && (obj.totalAmount = message.totalAmount);
-    message.delegatorShares !== undefined && (obj.delegatorShares = message.delegatorShares);
+    message.exchangeRate !== undefined && (obj.exchangeRate = message.exchangeRate);
     message.unbondingEpoch !== undefined &&
       (obj.unbondingEpoch = (message.unbondingEpoch || Long.ZERO).toString());
     return obj;
@@ -728,8 +715,7 @@ export const Validator = {
     message.status = object.status ?? "";
     message.weight = object.weight ?? "";
     message.delegatedAmount = object.delegatedAmount ?? "";
-    message.totalAmount = object.totalAmount ?? "";
-    message.delegatorShares = object.delegatorShares ?? "";
+    message.exchangeRate = object.exchangeRate ?? "";
     message.unbondingEpoch =
       object.unbondingEpoch !== undefined && object.unbondingEpoch !== null
         ? Long.fromValue(object.unbondingEpoch)
@@ -741,7 +727,7 @@ function createBaseDeposit(): Deposit {
   return {
     chainId: "",
     amount: undefined,
-    epoch: "",
+    epoch: Long.ZERO,
     state: 0,
     ibcSequenceId: "",
   };
@@ -754,8 +740,8 @@ export const Deposit = {
     if (message.amount !== undefined) {
       Coin.encode(message.amount, writer.uint32(18).fork()).ldelim();
     }
-    if (message.epoch !== "") {
-      writer.uint32(26).string(message.epoch);
+    if (!message.epoch.isZero()) {
+      writer.uint32(24).int64(message.epoch);
     }
     if (message.state !== 0) {
       writer.uint32(32).int32(message.state);
@@ -779,7 +765,7 @@ export const Deposit = {
           message.amount = Coin.decode(reader, reader.uint32());
           break;
         case 3:
-          message.epoch = reader.string();
+          message.epoch = reader.int64() as Long;
           break;
         case 4:
           message.state = reader.int32() as any;
@@ -798,7 +784,7 @@ export const Deposit = {
     return {
       chainId: isSet(object.chainId) ? String(object.chainId) : "",
       amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-      epoch: isSet(object.epoch) ? String(object.epoch) : "",
+      epoch: isSet(object.epoch) ? Long.fromValue(object.epoch) : Long.ZERO,
       state: isSet(object.state) ? deposit_DepositStateFromJSON(object.state) : 0,
       ibcSequenceId: isSet(object.ibcSequenceId) ? String(object.ibcSequenceId) : "",
     };
@@ -807,7 +793,7 @@ export const Deposit = {
     const obj: any = {};
     message.chainId !== undefined && (obj.chainId = message.chainId);
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
-    message.epoch !== undefined && (obj.epoch = message.epoch);
+    message.epoch !== undefined && (obj.epoch = (message.epoch || Long.ZERO).toString());
     message.state !== undefined && (obj.state = deposit_DepositStateToJSON(message.state));
     message.ibcSequenceId !== undefined && (obj.ibcSequenceId = message.ibcSequenceId);
     return obj;
@@ -817,7 +803,8 @@ export const Deposit = {
     message.chainId = object.chainId ?? "";
     message.amount =
       object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
-    message.epoch = object.epoch ?? "";
+    message.epoch =
+      object.epoch !== undefined && object.epoch !== null ? Long.fromValue(object.epoch) : Long.ZERO;
     message.state = object.state ?? 0;
     message.ibcSequenceId = object.ibcSequenceId ?? "";
     return message;

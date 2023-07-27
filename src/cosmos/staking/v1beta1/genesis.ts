@@ -7,7 +7,17 @@ import {
   Redelegation,
   TokenizeShareRecord,
 } from "./staking";
-import { Long, isSet, bytesFromBase64, base64FromBytes, DeepPartial, Exact } from "../../../helpers";
+import { Timestamp } from "../../../google/protobuf/timestamp";
+import {
+  Long,
+  isSet,
+  bytesFromBase64,
+  base64FromBytes,
+  DeepPartial,
+  Exact,
+  fromJsonTimestamp,
+  fromTimestamp,
+} from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "cosmos.staking.v1beta1";
 /** GenesisState defines the staking module's genesis state. */
@@ -34,17 +44,42 @@ export interface GenesisState {
   redelegations: Redelegation[];
   exported: boolean;
   /**
-   * store tokenize share records to provide reward to record owners
+   * store tokenize share records to provide reward to record owners.
    *
    * Since: cosmos-sdk 0.47-lsm
    */
   tokenizeShareRecords: TokenizeShareRecord[];
   /**
-   * last tokenize share record id, used for next share record id calculation
+   * last tokenize share record id, used for next share record id calculation.
    *
    * Since: cosmos-sdk 0.47-lsm
    */
   lastTokenizeShareRecordId: Long;
+  /**
+   * total number of liquid staked tokens at genesis.
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  totalLiquidStakedTokens: Uint8Array;
+  /**
+   * tokenize shares locks at genesis.
+   *
+   * Since: cosmos-sdk 0.47-lsm
+   */
+  tokenizeShareLocks: TokenizeShareLock[];
+}
+/**
+ * TokenizeSharesLock required for specifying account locks at genesis.
+ *
+ * Since: cosmos-sdk 0.47-lsm
+ */
+export interface TokenizeShareLock {
+  /** Address of the account that is locked. */
+  address: string;
+  /** Status of the lock (LOCKED or LOCK_EXPIRING) */
+  status: string;
+  /** Completion time if the lock is expiring. */
+  completionTime?: Timestamp;
 }
 /** LastValidatorPower required for validator set update logic. */
 export interface LastValidatorPower {
@@ -65,6 +100,8 @@ function createBaseGenesisState(): GenesisState {
     exported: false,
     tokenizeShareRecords: [],
     lastTokenizeShareRecordId: Long.UZERO,
+    totalLiquidStakedTokens: new Uint8Array(),
+    tokenizeShareLocks: [],
   };
 }
 export const GenesisState = {
@@ -98,6 +135,12 @@ export const GenesisState = {
     }
     if (!message.lastTokenizeShareRecordId.isZero()) {
       writer.uint32(80).uint64(message.lastTokenizeShareRecordId);
+    }
+    if (message.totalLiquidStakedTokens.length !== 0) {
+      writer.uint32(90).bytes(message.totalLiquidStakedTokens);
+    }
+    for (const v of message.tokenizeShareLocks) {
+      TokenizeShareLock.encode(v!, writer.uint32(98).fork()).ldelim();
     }
     return writer;
   },
@@ -138,6 +181,12 @@ export const GenesisState = {
         case 10:
           message.lastTokenizeShareRecordId = reader.uint64() as Long;
           break;
+        case 11:
+          message.totalLiquidStakedTokens = reader.bytes();
+          break;
+        case 12:
+          message.tokenizeShareLocks.push(TokenizeShareLock.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -173,6 +222,12 @@ export const GenesisState = {
       lastTokenizeShareRecordId: isSet(object.lastTokenizeShareRecordId)
         ? Long.fromValue(object.lastTokenizeShareRecordId)
         : Long.UZERO,
+      totalLiquidStakedTokens: isSet(object.totalLiquidStakedTokens)
+        ? bytesFromBase64(object.totalLiquidStakedTokens)
+        : new Uint8Array(),
+      tokenizeShareLocks: Array.isArray(object?.tokenizeShareLocks)
+        ? object.tokenizeShareLocks.map((e: any) => TokenizeShareLock.fromJSON(e))
+        : [],
     };
   },
   toJSON(message: GenesisState): unknown {
@@ -221,6 +276,17 @@ export const GenesisState = {
     }
     message.lastTokenizeShareRecordId !== undefined &&
       (obj.lastTokenizeShareRecordId = (message.lastTokenizeShareRecordId || Long.UZERO).toString());
+    message.totalLiquidStakedTokens !== undefined &&
+      (obj.totalLiquidStakedTokens = base64FromBytes(
+        message.totalLiquidStakedTokens !== undefined ? message.totalLiquidStakedTokens : new Uint8Array(),
+      ));
+    if (message.tokenizeShareLocks) {
+      obj.tokenizeShareLocks = message.tokenizeShareLocks.map((e) =>
+        e ? TokenizeShareLock.toJSON(e) : undefined,
+      );
+    } else {
+      obj.tokenizeShareLocks = [];
+    }
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<GenesisState>, I>>(object: I): GenesisState {
@@ -242,6 +308,78 @@ export const GenesisState = {
       object.lastTokenizeShareRecordId !== undefined && object.lastTokenizeShareRecordId !== null
         ? Long.fromValue(object.lastTokenizeShareRecordId)
         : Long.UZERO;
+    message.totalLiquidStakedTokens = object.totalLiquidStakedTokens ?? new Uint8Array();
+    message.tokenizeShareLocks =
+      object.tokenizeShareLocks?.map((e) => TokenizeShareLock.fromPartial(e)) || [];
+    return message;
+  },
+};
+function createBaseTokenizeShareLock(): TokenizeShareLock {
+  return {
+    address: "",
+    status: "",
+    completionTime: undefined,
+  };
+}
+export const TokenizeShareLock = {
+  encode(message: TokenizeShareLock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.address !== "") {
+      writer.uint32(10).string(message.address);
+    }
+    if (message.status !== "") {
+      writer.uint32(18).string(message.status);
+    }
+    if (message.completionTime !== undefined) {
+      Timestamp.encode(message.completionTime, writer.uint32(26).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): TokenizeShareLock {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTokenizeShareLock();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.address = reader.string();
+          break;
+        case 2:
+          message.status = reader.string();
+          break;
+        case 3:
+          message.completionTime = Timestamp.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): TokenizeShareLock {
+    return {
+      address: isSet(object.address) ? String(object.address) : "",
+      status: isSet(object.status) ? String(object.status) : "",
+      completionTime: isSet(object.completionTime) ? fromJsonTimestamp(object.completionTime) : undefined,
+    };
+  },
+  toJSON(message: TokenizeShareLock): unknown {
+    const obj: any = {};
+    message.address !== undefined && (obj.address = message.address);
+    message.status !== undefined && (obj.status = message.status);
+    message.completionTime !== undefined &&
+      (obj.completionTime = fromTimestamp(message.completionTime).toISOString());
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<TokenizeShareLock>, I>>(object: I): TokenizeShareLock {
+    const message = createBaseTokenizeShareLock();
+    message.address = object.address ?? "";
+    message.status = object.status ?? "";
+    message.completionTime =
+      object.completionTime !== undefined && object.completionTime !== null
+        ? Timestamp.fromPartial(object.completionTime)
+        : undefined;
     return message;
   },
 };

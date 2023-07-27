@@ -101,7 +101,7 @@ export interface MsgCommunityPoolSpend {
  */
 export interface MsgCommunityPoolSpendResponse {}
 /**
- * MsgWithdrawTokenizeShareRecordReward
+ * MsgWithdrawTokenizeShareRecordReward withdraws tokenize share rewards for a specific record.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
@@ -110,13 +110,14 @@ export interface MsgWithdrawTokenizeShareRecordReward {
   recordId: Long;
 }
 /**
- * MsgWithdrawTokenizeShareRecordRewardResponse
+ * MsgWithdrawTokenizeShareRecordReward defines the Msg/WithdrawTokenizeShareRecordReward response type.
  *
  * Since: cosmos-sdk 0.47-lsm
  */
 export interface MsgWithdrawTokenizeShareRecordRewardResponse {}
 /**
- * MsgWithdrawAllTokenizeShareRecordReward
+ * MsgWithdrawAllTokenizeShareRecordReward withdraws tokenize share rewards or all
+ * records owned by the designated owner
  *
  * Since: cosmos-sdk 0.47-lsm
  */
@@ -124,7 +125,7 @@ export interface MsgWithdrawAllTokenizeShareRecordReward {
   ownerAddress: string;
 }
 /**
- * MsgWithdrawAllTokenizeShareRecordRewardResponse
+ * MsgWithdrawAllTokenizeShareRecordRewardResponse defines the Msg/WithdrawTokenizeShareRecordReward response type.
  *
  * Since: cosmos-sdk 0.47-lsm
  */

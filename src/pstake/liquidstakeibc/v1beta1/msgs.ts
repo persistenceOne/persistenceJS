@@ -18,6 +18,7 @@ export interface MsgRegisterHostChain {
   hostDenom: string;
   minimumDeposit: string;
   unbondingFactor: Long;
+  autoCompoundFactor: Long;
 }
 export interface MsgRegisterHostChainResponse {}
 export interface MsgUpdateHostChain {
@@ -35,13 +36,11 @@ export interface MsgLiquidStakeResponse {}
 export interface MsgLiquidUnstake {
   delegatorAddress: string;
   amount?: Coin;
-  hostDenom: string;
 }
 export interface MsgLiquidUnstakeResponse {}
 export interface MsgRedeem {
   delegatorAddress: string;
   amount?: Coin;
-  hostDenom: string;
 }
 export interface MsgRedeemResponse {}
 export interface MsgUpdateParams {
@@ -62,6 +61,7 @@ function createBaseMsgRegisterHostChain(): MsgRegisterHostChain {
     hostDenom: "",
     minimumDeposit: "",
     unbondingFactor: Long.ZERO,
+    autoCompoundFactor: Long.ZERO,
   };
 }
 export const MsgRegisterHostChain = {
@@ -98,6 +98,9 @@ export const MsgRegisterHostChain = {
     }
     if (!message.unbondingFactor.isZero()) {
       writer.uint32(88).int64(message.unbondingFactor);
+    }
+    if (!message.autoCompoundFactor.isZero()) {
+      writer.uint32(96).int64(message.autoCompoundFactor);
     }
     return writer;
   },
@@ -141,6 +144,9 @@ export const MsgRegisterHostChain = {
         case 11:
           message.unbondingFactor = reader.int64() as Long;
           break;
+        case 12:
+          message.autoCompoundFactor = reader.int64() as Long;
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -161,6 +167,9 @@ export const MsgRegisterHostChain = {
       hostDenom: isSet(object.hostDenom) ? String(object.hostDenom) : "",
       minimumDeposit: isSet(object.minimumDeposit) ? String(object.minimumDeposit) : "",
       unbondingFactor: isSet(object.unbondingFactor) ? Long.fromValue(object.unbondingFactor) : Long.ZERO,
+      autoCompoundFactor: isSet(object.autoCompoundFactor)
+        ? Long.fromValue(object.autoCompoundFactor)
+        : Long.ZERO,
     };
   },
   toJSON(message: MsgRegisterHostChain): unknown {
@@ -177,6 +186,8 @@ export const MsgRegisterHostChain = {
     message.minimumDeposit !== undefined && (obj.minimumDeposit = message.minimumDeposit);
     message.unbondingFactor !== undefined &&
       (obj.unbondingFactor = (message.unbondingFactor || Long.ZERO).toString());
+    message.autoCompoundFactor !== undefined &&
+      (obj.autoCompoundFactor = (message.autoCompoundFactor || Long.ZERO).toString());
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<MsgRegisterHostChain>, I>>(object: I): MsgRegisterHostChain {
@@ -194,6 +205,10 @@ export const MsgRegisterHostChain = {
     message.unbondingFactor =
       object.unbondingFactor !== undefined && object.unbondingFactor !== null
         ? Long.fromValue(object.unbondingFactor)
+        : Long.ZERO;
+    message.autoCompoundFactor =
+      object.autoCompoundFactor !== undefined && object.autoCompoundFactor !== null
+        ? Long.fromValue(object.autoCompoundFactor)
         : Long.ZERO;
     return message;
   },
@@ -428,7 +443,6 @@ function createBaseMsgLiquidUnstake(): MsgLiquidUnstake {
   return {
     delegatorAddress: "",
     amount: undefined,
-    hostDenom: "",
   };
 }
 export const MsgLiquidUnstake = {
@@ -438,9 +452,6 @@ export const MsgLiquidUnstake = {
     }
     if (message.amount !== undefined) {
       Coin.encode(message.amount, writer.uint32(18).fork()).ldelim();
-    }
-    if (message.hostDenom !== "") {
-      writer.uint32(26).string(message.hostDenom);
     }
     return writer;
   },
@@ -457,9 +468,6 @@ export const MsgLiquidUnstake = {
         case 2:
           message.amount = Coin.decode(reader, reader.uint32());
           break;
-        case 3:
-          message.hostDenom = reader.string();
-          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -471,14 +479,12 @@ export const MsgLiquidUnstake = {
     return {
       delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
       amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-      hostDenom: isSet(object.hostDenom) ? String(object.hostDenom) : "",
     };
   },
   toJSON(message: MsgLiquidUnstake): unknown {
     const obj: any = {};
     message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
-    message.hostDenom !== undefined && (obj.hostDenom = message.hostDenom);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<MsgLiquidUnstake>, I>>(object: I): MsgLiquidUnstake {
@@ -486,7 +492,6 @@ export const MsgLiquidUnstake = {
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.amount =
       object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
-    message.hostDenom = object.hostDenom ?? "";
     return message;
   },
 };
@@ -527,7 +532,6 @@ function createBaseMsgRedeem(): MsgRedeem {
   return {
     delegatorAddress: "",
     amount: undefined,
-    hostDenom: "",
   };
 }
 export const MsgRedeem = {
@@ -537,9 +541,6 @@ export const MsgRedeem = {
     }
     if (message.amount !== undefined) {
       Coin.encode(message.amount, writer.uint32(18).fork()).ldelim();
-    }
-    if (message.hostDenom !== "") {
-      writer.uint32(26).string(message.hostDenom);
     }
     return writer;
   },
@@ -556,9 +557,6 @@ export const MsgRedeem = {
         case 2:
           message.amount = Coin.decode(reader, reader.uint32());
           break;
-        case 3:
-          message.hostDenom = reader.string();
-          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -570,14 +568,12 @@ export const MsgRedeem = {
     return {
       delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
       amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-      hostDenom: isSet(object.hostDenom) ? String(object.hostDenom) : "",
     };
   },
   toJSON(message: MsgRedeem): unknown {
     const obj: any = {};
     message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
-    message.hostDenom !== undefined && (obj.hostDenom = message.hostDenom);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<MsgRedeem>, I>>(object: I): MsgRedeem {
@@ -585,7 +581,6 @@ export const MsgRedeem = {
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.amount =
       object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
-    message.hostDenom = object.hostDenom ?? "";
     return message;
   },
 };

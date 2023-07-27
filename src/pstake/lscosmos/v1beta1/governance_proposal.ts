@@ -3,6 +3,7 @@ import { AllowListedValidators } from "./lscosmos";
 import * as _m0 from "protobufjs/minimal";
 import { isSet, DeepPartial, Exact } from "../../../helpers";
 export const protobufPackage = "pstake.lscosmos.v1beta1";
+/** @deprecated */
 export interface MinDepositAndFeeChangeProposal {
   title: string;
   description: string;
@@ -12,11 +13,13 @@ export interface MinDepositAndFeeChangeProposal {
   pstakeUnstakeFee: string;
   pstakeRedemptionFee: string;
 }
+/** @deprecated */
 export interface PstakeFeeAddressChangeProposal {
   title: string;
   description: string;
   pstakeFeeAddress: string;
 }
+/** @deprecated */
 export interface AllowListedValidatorSetChangeProposal {
   title: string;
   description: string;

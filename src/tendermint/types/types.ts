@@ -161,6 +161,7 @@ export interface Vote {
   type: SignedMsgType;
   height: Long;
   round: number;
+  /** zero if vote is nil. */
   blockId?: BlockID;
   timestamp?: Timestamp;
   validatorAddress: Uint8Array;
