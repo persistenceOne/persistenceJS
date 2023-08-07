@@ -1,5 +1,5 @@
 ---
-name: Release
+name: Check build
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  install-build:
     runs-on: ubuntu-latest
 
     strategy:
