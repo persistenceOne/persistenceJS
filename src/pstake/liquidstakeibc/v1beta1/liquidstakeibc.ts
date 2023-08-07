@@ -82,6 +82,52 @@ export function deposit_DepositStateToJSON(object: Deposit_DepositState): string
       return "UNRECOGNIZED";
   }
 }
+export enum LSMDeposit_LSMDepositState {
+  /** DEPOSIT_PENDING - no action has been initiated on the deposit */
+  DEPOSIT_PENDING = 0,
+  /** DEPOSIT_SENT - deposit sent to the host chain delegator address */
+  DEPOSIT_SENT = 1,
+  /** DEPOSIT_RECEIVED - deposit received by the host chain delegator address */
+  DEPOSIT_RECEIVED = 2,
+  /** DEPOSIT_UNTOKENIZING - deposit started the untokenization process */
+  DEPOSIT_UNTOKENIZING = 3,
+  UNRECOGNIZED = -1,
+}
+export function lSMDeposit_LSMDepositStateFromJSON(object: any): LSMDeposit_LSMDepositState {
+  switch (object) {
+    case 0:
+    case "DEPOSIT_PENDING":
+      return LSMDeposit_LSMDepositState.DEPOSIT_PENDING;
+    case 1:
+    case "DEPOSIT_SENT":
+      return LSMDeposit_LSMDepositState.DEPOSIT_SENT;
+    case 2:
+    case "DEPOSIT_RECEIVED":
+      return LSMDeposit_LSMDepositState.DEPOSIT_RECEIVED;
+    case 3:
+    case "DEPOSIT_UNTOKENIZING":
+      return LSMDeposit_LSMDepositState.DEPOSIT_UNTOKENIZING;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return LSMDeposit_LSMDepositState.UNRECOGNIZED;
+  }
+}
+export function lSMDeposit_LSMDepositStateToJSON(object: LSMDeposit_LSMDepositState): string {
+  switch (object) {
+    case LSMDeposit_LSMDepositState.DEPOSIT_PENDING:
+      return "DEPOSIT_PENDING";
+    case LSMDeposit_LSMDepositState.DEPOSIT_SENT:
+      return "DEPOSIT_SENT";
+    case LSMDeposit_LSMDepositState.DEPOSIT_RECEIVED:
+      return "DEPOSIT_RECEIVED";
+    case LSMDeposit_LSMDepositState.DEPOSIT_UNTOKENIZING:
+      return "DEPOSIT_UNTOKENIZING";
+    case LSMDeposit_LSMDepositState.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
 export enum Unbonding_UnbondingState {
   /** UNBONDING_PENDING - no action has been initiated on the unbonding */
   UNBONDING_PENDING = 0,
@@ -173,6 +219,11 @@ export interface HostChain {
   active: boolean;
   /** factor limit for auto-compounding, daily periodic rate (APY / 365s) */
   autoCompoundFactor: string;
+  /** host chain flags */
+  flags?: HostChainFlags;
+}
+export interface HostChainFlags {
+  lsm: boolean;
 }
 export interface HostChainLSParams {
   depositFee: string;
@@ -211,6 +262,27 @@ export interface Deposit {
   epoch: Long;
   /** state */
   state: Deposit_DepositState;
+  /** sequence id of the ibc transaction */
+  ibcSequenceId: string;
+}
+export interface LSMDeposit {
+  /** deposit target chain */
+  chainId: string;
+  /** this is calculated when liquid staking [lsm_shares * validator_exchange_rate] */
+  amount: string;
+  /**
+   * LSM token shares, they are mapped 1:1 with the delegator shares that are tokenized
+   * https://github.com/iqlusioninc/cosmos-sdk/pull/19
+   */
+  shares: string;
+  /** LSM token denom */
+  denom: string;
+  /** LSM token ibc denom */
+  ibcDenom: string;
+  /** address of the delegator */
+  delegatorAddress: string;
+  /** state o the deposit */
+  state: LSMDeposit_LSMDepositState;
   /** sequence id of the ibc transaction */
   ibcSequenceId: string;
 }
@@ -277,6 +349,7 @@ function createBaseHostChain(): HostChain {
     unbondingFactor: Long.ZERO,
     active: false,
     autoCompoundFactor: "",
+    flags: undefined,
   };
 }
 export const HostChain = {
@@ -325,6 +398,9 @@ export const HostChain = {
     }
     if (message.autoCompoundFactor !== "") {
       writer.uint32(122).string(message.autoCompoundFactor);
+    }
+    if (message.flags !== undefined) {
+      HostChainFlags.encode(message.flags, writer.uint32(130).fork()).ldelim();
     }
     return writer;
   },
@@ -380,6 +456,9 @@ export const HostChain = {
         case 15:
           message.autoCompoundFactor = reader.string();
           break;
+        case 16:
+          message.flags = HostChainFlags.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -408,6 +487,7 @@ export const HostChain = {
       unbondingFactor: isSet(object.unbondingFactor) ? Long.fromValue(object.unbondingFactor) : Long.ZERO,
       active: isSet(object.active) ? Boolean(object.active) : false,
       autoCompoundFactor: isSet(object.autoCompoundFactor) ? String(object.autoCompoundFactor) : "",
+      flags: isSet(object.flags) ? HostChainFlags.fromJSON(object.flags) : undefined,
     };
   },
   toJSON(message: HostChain): unknown {
@@ -437,6 +517,8 @@ export const HostChain = {
       (obj.unbondingFactor = (message.unbondingFactor || Long.ZERO).toString());
     message.active !== undefined && (obj.active = message.active);
     message.autoCompoundFactor !== undefined && (obj.autoCompoundFactor = message.autoCompoundFactor);
+    message.flags !== undefined &&
+      (obj.flags = message.flags ? HostChainFlags.toJSON(message.flags) : undefined);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<HostChain>, I>>(object: I): HostChain {
@@ -468,6 +550,55 @@ export const HostChain = {
         : Long.ZERO;
     message.active = object.active ?? false;
     message.autoCompoundFactor = object.autoCompoundFactor ?? "";
+    message.flags =
+      object.flags !== undefined && object.flags !== null
+        ? HostChainFlags.fromPartial(object.flags)
+        : undefined;
+    return message;
+  },
+};
+function createBaseHostChainFlags(): HostChainFlags {
+  return {
+    lsm: false,
+  };
+}
+export const HostChainFlags = {
+  encode(message: HostChainFlags, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.lsm === true) {
+      writer.uint32(8).bool(message.lsm);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): HostChainFlags {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseHostChainFlags();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.lsm = reader.bool();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): HostChainFlags {
+    return {
+      lsm: isSet(object.lsm) ? Boolean(object.lsm) : false,
+    };
+  },
+  toJSON(message: HostChainFlags): unknown {
+    const obj: any = {};
+    message.lsm !== undefined && (obj.lsm = message.lsm);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<HostChainFlags>, I>>(object: I): HostChainFlags {
+    const message = createBaseHostChainFlags();
+    message.lsm = object.lsm ?? false;
     return message;
   },
 };
@@ -805,6 +936,121 @@ export const Deposit = {
       object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
     message.epoch =
       object.epoch !== undefined && object.epoch !== null ? Long.fromValue(object.epoch) : Long.ZERO;
+    message.state = object.state ?? 0;
+    message.ibcSequenceId = object.ibcSequenceId ?? "";
+    return message;
+  },
+};
+function createBaseLSMDeposit(): LSMDeposit {
+  return {
+    chainId: "",
+    amount: "",
+    shares: "",
+    denom: "",
+    ibcDenom: "",
+    delegatorAddress: "",
+    state: 0,
+    ibcSequenceId: "",
+  };
+}
+export const LSMDeposit = {
+  encode(message: LSMDeposit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.chainId !== "") {
+      writer.uint32(10).string(message.chainId);
+    }
+    if (message.amount !== "") {
+      writer.uint32(18).string(message.amount);
+    }
+    if (message.shares !== "") {
+      writer.uint32(26).string(message.shares);
+    }
+    if (message.denom !== "") {
+      writer.uint32(34).string(message.denom);
+    }
+    if (message.ibcDenom !== "") {
+      writer.uint32(42).string(message.ibcDenom);
+    }
+    if (message.delegatorAddress !== "") {
+      writer.uint32(50).string(message.delegatorAddress);
+    }
+    if (message.state !== 0) {
+      writer.uint32(56).int32(message.state);
+    }
+    if (message.ibcSequenceId !== "") {
+      writer.uint32(66).string(message.ibcSequenceId);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): LSMDeposit {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseLSMDeposit();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.chainId = reader.string();
+          break;
+        case 2:
+          message.amount = reader.string();
+          break;
+        case 3:
+          message.shares = reader.string();
+          break;
+        case 4:
+          message.denom = reader.string();
+          break;
+        case 5:
+          message.ibcDenom = reader.string();
+          break;
+        case 6:
+          message.delegatorAddress = reader.string();
+          break;
+        case 7:
+          message.state = reader.int32() as any;
+          break;
+        case 8:
+          message.ibcSequenceId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): LSMDeposit {
+    return {
+      chainId: isSet(object.chainId) ? String(object.chainId) : "",
+      amount: isSet(object.amount) ? String(object.amount) : "",
+      shares: isSet(object.shares) ? String(object.shares) : "",
+      denom: isSet(object.denom) ? String(object.denom) : "",
+      ibcDenom: isSet(object.ibcDenom) ? String(object.ibcDenom) : "",
+      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
+      state: isSet(object.state) ? lSMDeposit_LSMDepositStateFromJSON(object.state) : 0,
+      ibcSequenceId: isSet(object.ibcSequenceId) ? String(object.ibcSequenceId) : "",
+    };
+  },
+  toJSON(message: LSMDeposit): unknown {
+    const obj: any = {};
+    message.chainId !== undefined && (obj.chainId = message.chainId);
+    message.amount !== undefined && (obj.amount = message.amount);
+    message.shares !== undefined && (obj.shares = message.shares);
+    message.denom !== undefined && (obj.denom = message.denom);
+    message.ibcDenom !== undefined && (obj.ibcDenom = message.ibcDenom);
+    message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
+    message.state !== undefined && (obj.state = lSMDeposit_LSMDepositStateToJSON(message.state));
+    message.ibcSequenceId !== undefined && (obj.ibcSequenceId = message.ibcSequenceId);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<LSMDeposit>, I>>(object: I): LSMDeposit {
+    const message = createBaseLSMDeposit();
+    message.chainId = object.chainId ?? "";
+    message.amount = object.amount ?? "";
+    message.shares = object.shares ?? "";
+    message.denom = object.denom ?? "";
+    message.ibcDenom = object.ibcDenom ?? "";
+    message.delegatorAddress = object.delegatorAddress ?? "";
     message.state = object.state ?? 0;
     message.ibcSequenceId = object.ibcSequenceId ?? "";
     return message;

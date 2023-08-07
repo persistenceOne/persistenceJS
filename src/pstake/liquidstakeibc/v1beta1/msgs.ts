@@ -33,6 +33,11 @@ export interface MsgLiquidStake {
   amount?: Coin;
 }
 export interface MsgLiquidStakeResponse {}
+export interface MsgLiquidStakeLSM {
+  delegatorAddress: string;
+  delegations: Coin[];
+}
+export interface MsgLiquidStakeLSMResponse {}
 export interface MsgLiquidUnstake {
   delegatorAddress: string;
   amount?: Coin;
@@ -439,6 +444,100 @@ export const MsgLiquidStakeResponse = {
     return message;
   },
 };
+function createBaseMsgLiquidStakeLSM(): MsgLiquidStakeLSM {
+  return {
+    delegatorAddress: "",
+    delegations: [],
+  };
+}
+export const MsgLiquidStakeLSM = {
+  encode(message: MsgLiquidStakeLSM, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.delegatorAddress !== "") {
+      writer.uint32(10).string(message.delegatorAddress);
+    }
+    for (const v of message.delegations) {
+      Coin.encode(v!, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgLiquidStakeLSM {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgLiquidStakeLSM();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.delegatorAddress = reader.string();
+          break;
+        case 2:
+          message.delegations.push(Coin.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgLiquidStakeLSM {
+    return {
+      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
+      delegations: Array.isArray(object?.delegations)
+        ? object.delegations.map((e: any) => Coin.fromJSON(e))
+        : [],
+    };
+  },
+  toJSON(message: MsgLiquidStakeLSM): unknown {
+    const obj: any = {};
+    message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
+    if (message.delegations) {
+      obj.delegations = message.delegations.map((e) => (e ? Coin.toJSON(e) : undefined));
+    } else {
+      obj.delegations = [];
+    }
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgLiquidStakeLSM>, I>>(object: I): MsgLiquidStakeLSM {
+    const message = createBaseMsgLiquidStakeLSM();
+    message.delegatorAddress = object.delegatorAddress ?? "";
+    message.delegations = object.delegations?.map((e) => Coin.fromPartial(e)) || [];
+    return message;
+  },
+};
+function createBaseMsgLiquidStakeLSMResponse(): MsgLiquidStakeLSMResponse {
+  return {};
+}
+export const MsgLiquidStakeLSMResponse = {
+  encode(_: MsgLiquidStakeLSMResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgLiquidStakeLSMResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgLiquidStakeLSMResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgLiquidStakeLSMResponse {
+    return {};
+  },
+  toJSON(_: MsgLiquidStakeLSMResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<MsgLiquidStakeLSMResponse>, I>>(_: I): MsgLiquidStakeLSMResponse {
+    const message = createBaseMsgLiquidStakeLSMResponse();
+    return message;
+  },
+};
 function createBaseMsgLiquidUnstake(): MsgLiquidUnstake {
   return {
     delegatorAddress: "",
@@ -711,6 +810,7 @@ export interface Msg {
   RegisterHostChain(request: MsgRegisterHostChain): Promise<MsgRegisterHostChainResponse>;
   UpdateHostChain(request: MsgUpdateHostChain): Promise<MsgUpdateHostChainResponse>;
   LiquidStake(request: MsgLiquidStake): Promise<MsgLiquidStakeResponse>;
+  LiquidStakeLSM(request: MsgLiquidStakeLSM): Promise<MsgLiquidStakeLSMResponse>;
   LiquidUnstake(request: MsgLiquidUnstake): Promise<MsgLiquidUnstakeResponse>;
   Redeem(request: MsgRedeem): Promise<MsgRedeemResponse>;
   UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse>;
@@ -722,6 +822,7 @@ export class MsgClientImpl implements Msg {
     this.RegisterHostChain = this.RegisterHostChain.bind(this);
     this.UpdateHostChain = this.UpdateHostChain.bind(this);
     this.LiquidStake = this.LiquidStake.bind(this);
+    this.LiquidStakeLSM = this.LiquidStakeLSM.bind(this);
     this.LiquidUnstake = this.LiquidUnstake.bind(this);
     this.Redeem = this.Redeem.bind(this);
     this.UpdateParams = this.UpdateParams.bind(this);
@@ -740,6 +841,11 @@ export class MsgClientImpl implements Msg {
     const data = MsgLiquidStake.encode(request).finish();
     const promise = this.rpc.request("pstake.liquidstakeibc.v1beta1.Msg", "LiquidStake", data);
     return promise.then((data) => MsgLiquidStakeResponse.decode(new _m0.Reader(data)));
+  }
+  LiquidStakeLSM(request: MsgLiquidStakeLSM): Promise<MsgLiquidStakeLSMResponse> {
+    const data = MsgLiquidStakeLSM.encode(request).finish();
+    const promise = this.rpc.request("pstake.liquidstakeibc.v1beta1.Msg", "LiquidStakeLSM", data);
+    return promise.then((data) => MsgLiquidStakeLSMResponse.decode(new _m0.Reader(data)));
   }
   LiquidUnstake(request: MsgLiquidUnstake): Promise<MsgLiquidUnstakeResponse> {
     const data = MsgLiquidUnstake.encode(request).finish();

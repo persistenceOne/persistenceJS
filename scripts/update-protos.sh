@@ -13,7 +13,7 @@ ibc_git=https://github.com/persistenceOne/ibc-go.git
 ibc_tag=v7.2.0-lsm2
 
 pstake_git=https://github.com/persistenceOne/pstake-native.git
-pstake_tag=v2.2.0
+pstake_tag=main
 
 persistence_sdk_git=https://github.com/persistenceOne/persistence-sdk.git
 persistence_sdk_tag=v2.1.0

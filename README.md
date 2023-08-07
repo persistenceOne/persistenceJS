@@ -17,6 +17,14 @@
 
 ---
 
+## Maintain
+- open file to scripts/update-protos.sh and update the commits/ tags
+- do `npm run update-protos`
+- do `npm run build:telescope`
+- update package.json version
+- commit and open PR
+- tag a release for publishing on npmjs
+
 ## Setup
 
 ```sh
