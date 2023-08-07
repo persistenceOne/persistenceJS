@@ -1,6 +1,13 @@
 /* eslint-disable */
 import { Params } from "./params";
-import { HostChain, Deposit, Unbonding, UserUnbonding, ValidatorUnbonding } from "./liquidstakeibc";
+import {
+  HostChain,
+  Deposit,
+  LSMDeposit,
+  Unbonding,
+  UserUnbonding,
+  ValidatorUnbonding,
+} from "./liquidstakeibc";
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
 import { Long, DeepPartial, Exact, isSet, Rpc } from "../../../helpers";
 import * as _m0 from "protobufjs/minimal";
@@ -24,6 +31,12 @@ export interface QueryDepositsRequest {
 }
 export interface QueryDepositsResponse {
   deposits: Deposit[];
+}
+export interface QueryLSMDepositsRequest {
+  chainId: string;
+}
+export interface QueryLSMDepositsResponse {
+  deposits: LSMDeposit[];
 }
 export interface QueryUnbondingsRequest {
   chainId: string;
@@ -410,6 +423,104 @@ export const QueryDepositsResponse = {
   fromPartial<I extends Exact<DeepPartial<QueryDepositsResponse>, I>>(object: I): QueryDepositsResponse {
     const message = createBaseQueryDepositsResponse();
     message.deposits = object.deposits?.map((e) => Deposit.fromPartial(e)) || [];
+    return message;
+  },
+};
+function createBaseQueryLSMDepositsRequest(): QueryLSMDepositsRequest {
+  return {
+    chainId: "",
+  };
+}
+export const QueryLSMDepositsRequest = {
+  encode(message: QueryLSMDepositsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.chainId !== "") {
+      writer.uint32(10).string(message.chainId);
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryLSMDepositsRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryLSMDepositsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.chainId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryLSMDepositsRequest {
+    return {
+      chainId: isSet(object.chainId) ? String(object.chainId) : "",
+    };
+  },
+  toJSON(message: QueryLSMDepositsRequest): unknown {
+    const obj: any = {};
+    message.chainId !== undefined && (obj.chainId = message.chainId);
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryLSMDepositsRequest>, I>>(object: I): QueryLSMDepositsRequest {
+    const message = createBaseQueryLSMDepositsRequest();
+    message.chainId = object.chainId ?? "";
+    return message;
+  },
+};
+function createBaseQueryLSMDepositsResponse(): QueryLSMDepositsResponse {
+  return {
+    deposits: [],
+  };
+}
+export const QueryLSMDepositsResponse = {
+  encode(message: QueryLSMDepositsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    for (const v of message.deposits) {
+      LSMDeposit.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryLSMDepositsResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryLSMDepositsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.deposits.push(LSMDeposit.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryLSMDepositsResponse {
+    return {
+      deposits: Array.isArray(object?.deposits)
+        ? object.deposits.map((e: any) => LSMDeposit.fromJSON(e))
+        : [],
+    };
+  },
+  toJSON(message: QueryLSMDepositsResponse): unknown {
+    const obj: any = {};
+    if (message.deposits) {
+      obj.deposits = message.deposits.map((e) => (e ? LSMDeposit.toJSON(e) : undefined));
+    } else {
+      obj.deposits = [];
+    }
+    return obj;
+  },
+  fromPartial<I extends Exact<DeepPartial<QueryLSMDepositsResponse>, I>>(
+    object: I,
+  ): QueryLSMDepositsResponse {
+    const message = createBaseQueryLSMDepositsResponse();
+    message.deposits = object.deposits?.map((e) => LSMDeposit.fromPartial(e)) || [];
     return message;
   },
 };
@@ -1017,6 +1128,8 @@ export interface Query {
   HostChains(request?: QueryHostChainsRequest): Promise<QueryHostChainsResponse>;
   /** Queries for all the deposits for a host chain. */
   Deposits(request: QueryDepositsRequest): Promise<QueryDepositsResponse>;
+  /** Queries for all the deposits for a host chain. */
+  LSMDeposits(request: QueryLSMDepositsRequest): Promise<QueryLSMDepositsResponse>;
   /** Queries all unbondings for a host chain. */
   Unbondings(request: QueryUnbondingsRequest): Promise<QueryUnbondingsResponse>;
   /** Queries an unbonding for a host chain. */
@@ -1040,6 +1153,7 @@ export class QueryClientImpl implements Query {
     this.HostChain = this.HostChain.bind(this);
     this.HostChains = this.HostChains.bind(this);
     this.Deposits = this.Deposits.bind(this);
+    this.LSMDeposits = this.LSMDeposits.bind(this);
     this.Unbondings = this.Unbondings.bind(this);
     this.Unbonding = this.Unbonding.bind(this);
     this.UserUnbondings = this.UserUnbondings.bind(this);
@@ -1066,6 +1180,11 @@ export class QueryClientImpl implements Query {
     const data = QueryDepositsRequest.encode(request).finish();
     const promise = this.rpc.request("pstake.liquidstakeibc.v1beta1.Query", "Deposits", data);
     return promise.then((data) => QueryDepositsResponse.decode(new _m0.Reader(data)));
+  }
+  LSMDeposits(request: QueryLSMDepositsRequest): Promise<QueryLSMDepositsResponse> {
+    const data = QueryLSMDepositsRequest.encode(request).finish();
+    const promise = this.rpc.request("pstake.liquidstakeibc.v1beta1.Query", "LSMDeposits", data);
+    return promise.then((data) => QueryLSMDepositsResponse.decode(new _m0.Reader(data)));
   }
   Unbondings(request: QueryUnbondingsRequest): Promise<QueryUnbondingsResponse> {
     const data = QueryUnbondingsRequest.encode(request).finish();
