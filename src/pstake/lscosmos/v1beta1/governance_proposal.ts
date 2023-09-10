@@ -23,7 +23,7 @@ export interface PstakeFeeAddressChangeProposal {
 export interface AllowListedValidatorSetChangeProposal {
   title: string;
   description: string;
-  allowListedValidators?: AllowListedValidators;
+  allowListedValidators: AllowListedValidators;
 }
 function createBaseMinDepositAndFeeChangeProposal(): MinDepositAndFeeChangeProposal {
   return {
@@ -97,15 +97,15 @@ export const MinDepositAndFeeChangeProposal = {
     return message;
   },
   fromJSON(object: any): MinDepositAndFeeChangeProposal {
-    return {
-      title: isSet(object.title) ? String(object.title) : "",
-      description: isSet(object.description) ? String(object.description) : "",
-      minDeposit: isSet(object.minDeposit) ? String(object.minDeposit) : "",
-      pstakeDepositFee: isSet(object.pstakeDepositFee) ? String(object.pstakeDepositFee) : "",
-      pstakeRestakeFee: isSet(object.pstakeRestakeFee) ? String(object.pstakeRestakeFee) : "",
-      pstakeUnstakeFee: isSet(object.pstakeUnstakeFee) ? String(object.pstakeUnstakeFee) : "",
-      pstakeRedemptionFee: isSet(object.pstakeRedemptionFee) ? String(object.pstakeRedemptionFee) : "",
-    };
+    const obj = createBaseMinDepositAndFeeChangeProposal();
+    if (isSet(object.title)) obj.title = String(object.title);
+    if (isSet(object.description)) obj.description = String(object.description);
+    if (isSet(object.minDeposit)) obj.minDeposit = String(object.minDeposit);
+    if (isSet(object.pstakeDepositFee)) obj.pstakeDepositFee = String(object.pstakeDepositFee);
+    if (isSet(object.pstakeRestakeFee)) obj.pstakeRestakeFee = String(object.pstakeRestakeFee);
+    if (isSet(object.pstakeUnstakeFee)) obj.pstakeUnstakeFee = String(object.pstakeUnstakeFee);
+    if (isSet(object.pstakeRedemptionFee)) obj.pstakeRedemptionFee = String(object.pstakeRedemptionFee);
+    return obj;
   },
   toJSON(message: MinDepositAndFeeChangeProposal): unknown {
     const obj: any = {};
@@ -176,11 +176,11 @@ export const PstakeFeeAddressChangeProposal = {
     return message;
   },
   fromJSON(object: any): PstakeFeeAddressChangeProposal {
-    return {
-      title: isSet(object.title) ? String(object.title) : "",
-      description: isSet(object.description) ? String(object.description) : "",
-      pstakeFeeAddress: isSet(object.pstakeFeeAddress) ? String(object.pstakeFeeAddress) : "",
-    };
+    const obj = createBasePstakeFeeAddressChangeProposal();
+    if (isSet(object.title)) obj.title = String(object.title);
+    if (isSet(object.description)) obj.description = String(object.description);
+    if (isSet(object.pstakeFeeAddress)) obj.pstakeFeeAddress = String(object.pstakeFeeAddress);
+    return obj;
   },
   toJSON(message: PstakeFeeAddressChangeProposal): unknown {
     const obj: any = {};
@@ -203,7 +203,7 @@ function createBaseAllowListedValidatorSetChangeProposal(): AllowListedValidator
   return {
     title: "",
     description: "",
-    allowListedValidators: undefined,
+    allowListedValidators: AllowListedValidators.fromPartial({}),
   };
 }
 export const AllowListedValidatorSetChangeProposal = {
@@ -246,13 +246,12 @@ export const AllowListedValidatorSetChangeProposal = {
     return message;
   },
   fromJSON(object: any): AllowListedValidatorSetChangeProposal {
-    return {
-      title: isSet(object.title) ? String(object.title) : "",
-      description: isSet(object.description) ? String(object.description) : "",
-      allowListedValidators: isSet(object.allowListedValidators)
-        ? AllowListedValidators.fromJSON(object.allowListedValidators)
-        : undefined,
-    };
+    const obj = createBaseAllowListedValidatorSetChangeProposal();
+    if (isSet(object.title)) obj.title = String(object.title);
+    if (isSet(object.description)) obj.description = String(object.description);
+    if (isSet(object.allowListedValidators))
+      obj.allowListedValidators = AllowListedValidators.fromJSON(object.allowListedValidators);
+    return obj;
   },
   toJSON(message: AllowListedValidatorSetChangeProposal): unknown {
     const obj: any = {};
@@ -270,10 +269,9 @@ export const AllowListedValidatorSetChangeProposal = {
     const message = createBaseAllowListedValidatorSetChangeProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
-    message.allowListedValidators =
-      object.allowListedValidators !== undefined && object.allowListedValidators !== null
-        ? AllowListedValidators.fromPartial(object.allowListedValidators)
-        : undefined;
+    if (object.allowListedValidators !== undefined && object.allowListedValidators !== null) {
+      message.allowListedValidators = AllowListedValidators.fromPartial(object.allowListedValidators);
+    }
     return message;
   },
 };

@@ -36,7 +36,7 @@ export interface HostChainParams {
   baseDenom: string;
   mintDenom: string;
   minDeposit: string;
-  pstakeParams?: PstakeParams;
+  pstakeParams: PstakeParams;
 }
 /**
  * DelegationState stores module account balance, ica account balance,
@@ -54,17 +54,17 @@ export interface DelegationState {
 }
 export interface HostAccountDelegation {
   validatorAddress: string;
-  amount?: Coin;
+  amount: Coin;
 }
 export interface HostAccountUndelegation {
   epochNumber: Long;
-  totalUndelegationAmount?: Coin;
-  completionTime?: Timestamp;
+  totalUndelegationAmount: Coin;
+  completionTime: Timestamp;
   undelegationEntries: UndelegationEntry[];
 }
 export interface UndelegationEntry {
   validatorAddress: string;
-  amount?: Coin;
+  amount: Coin;
 }
 export interface HostChainRewardAddress {
   address: string;
@@ -73,25 +73,25 @@ export interface IBCAmountTransientStore {
   /** ibc_transfer stores only tokens which have ibc denoms "ibc/HEXHASH" */
   iBCTransfer: Coin[];
   /** ica_delegate stores only token which has staking baseDenom */
-  iCADelegate?: Coin;
+  iCADelegate: Coin;
   undelegatonCompleteIBCTransfer: TransientUndelegationTransfer[];
 }
 export interface TransientUndelegationTransfer {
   epochNumber: Long;
-  amountUnbonded?: Coin;
+  amountUnbonded: Coin;
 }
 export interface UnbondingEpochCValue {
   epochNumber: Long;
   /** c_value = stk_burn.Amount/amount_unbonded.Amount */
-  sTKBurn?: Coin;
-  amountUnbonded?: Coin;
+  sTKBurn: Coin;
+  amountUnbonded: Coin;
   isMatured: boolean;
   isFailed: boolean;
 }
 export interface DelegatorUnbondingEpochEntry {
   delegatorAddress: string;
   epochNumber: Long;
-  amount?: Coin;
+  amount: Coin;
 }
 export interface HostAccounts {
   delegatorAccountOwnerID: string;
@@ -127,11 +127,12 @@ export const AllowListedValidators = {
     return message;
   },
   fromJSON(object: any): AllowListedValidators {
-    return {
-      allowListedValidators: Array.isArray(object?.allowListedValidators)
-        ? object.allowListedValidators.map((e: any) => AllowListedValidator.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseAllowListedValidators();
+    if (Array.isArray(object?.allowListedValidators))
+      obj.allowListedValidators = object.allowListedValidators.map((e: any) =>
+        AllowListedValidator.fromJSON(e),
+      );
+    return obj;
   },
   toJSON(message: AllowListedValidators): unknown {
     const obj: any = {};
@@ -188,10 +189,10 @@ export const AllowListedValidator = {
     return message;
   },
   fromJSON(object: any): AllowListedValidator {
-    return {
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-      targetWeight: isSet(object.targetWeight) ? String(object.targetWeight) : "",
-    };
+    const obj = createBaseAllowListedValidator();
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (isSet(object.targetWeight)) obj.targetWeight = String(object.targetWeight);
+    return obj;
   },
   toJSON(message: AllowListedValidator): unknown {
     const obj: any = {};
@@ -264,13 +265,13 @@ export const PstakeParams = {
     return message;
   },
   fromJSON(object: any): PstakeParams {
-    return {
-      pstakeDepositFee: isSet(object.pstakeDepositFee) ? String(object.pstakeDepositFee) : "",
-      pstakeRestakeFee: isSet(object.pstakeRestakeFee) ? String(object.pstakeRestakeFee) : "",
-      pstakeUnstakeFee: isSet(object.pstakeUnstakeFee) ? String(object.pstakeUnstakeFee) : "",
-      pstakeRedemptionFee: isSet(object.pstakeRedemptionFee) ? String(object.pstakeRedemptionFee) : "",
-      pstakeFeeAddress: isSet(object.pstakeFeeAddress) ? String(object.pstakeFeeAddress) : "",
-    };
+    const obj = createBasePstakeParams();
+    if (isSet(object.pstakeDepositFee)) obj.pstakeDepositFee = String(object.pstakeDepositFee);
+    if (isSet(object.pstakeRestakeFee)) obj.pstakeRestakeFee = String(object.pstakeRestakeFee);
+    if (isSet(object.pstakeUnstakeFee)) obj.pstakeUnstakeFee = String(object.pstakeUnstakeFee);
+    if (isSet(object.pstakeRedemptionFee)) obj.pstakeRedemptionFee = String(object.pstakeRedemptionFee);
+    if (isSet(object.pstakeFeeAddress)) obj.pstakeFeeAddress = String(object.pstakeFeeAddress);
+    return obj;
   },
   toJSON(message: PstakeParams): unknown {
     const obj: any = {};
@@ -300,7 +301,7 @@ function createBaseHostChainParams(): HostChainParams {
     baseDenom: "",
     mintDenom: "",
     minDeposit: "",
-    pstakeParams: undefined,
+    pstakeParams: PstakeParams.fromPartial({}),
   };
 }
 export const HostChainParams = {
@@ -370,16 +371,16 @@ export const HostChainParams = {
     return message;
   },
   fromJSON(object: any): HostChainParams {
-    return {
-      chainID: isSet(object.chainID) ? String(object.chainID) : "",
-      connectionID: isSet(object.connectionID) ? String(object.connectionID) : "",
-      transferChannel: isSet(object.transferChannel) ? String(object.transferChannel) : "",
-      transferPort: isSet(object.transferPort) ? String(object.transferPort) : "",
-      baseDenom: isSet(object.baseDenom) ? String(object.baseDenom) : "",
-      mintDenom: isSet(object.mintDenom) ? String(object.mintDenom) : "",
-      minDeposit: isSet(object.minDeposit) ? String(object.minDeposit) : "",
-      pstakeParams: isSet(object.pstakeParams) ? PstakeParams.fromJSON(object.pstakeParams) : undefined,
-    };
+    const obj = createBaseHostChainParams();
+    if (isSet(object.chainID)) obj.chainID = String(object.chainID);
+    if (isSet(object.connectionID)) obj.connectionID = String(object.connectionID);
+    if (isSet(object.transferChannel)) obj.transferChannel = String(object.transferChannel);
+    if (isSet(object.transferPort)) obj.transferPort = String(object.transferPort);
+    if (isSet(object.baseDenom)) obj.baseDenom = String(object.baseDenom);
+    if (isSet(object.mintDenom)) obj.mintDenom = String(object.mintDenom);
+    if (isSet(object.minDeposit)) obj.minDeposit = String(object.minDeposit);
+    if (isSet(object.pstakeParams)) obj.pstakeParams = PstakeParams.fromJSON(object.pstakeParams);
+    return obj;
   },
   toJSON(message: HostChainParams): unknown {
     const obj: any = {};
@@ -403,10 +404,9 @@ export const HostChainParams = {
     message.baseDenom = object.baseDenom ?? "";
     message.mintDenom = object.mintDenom ?? "";
     message.minDeposit = object.minDeposit ?? "";
-    message.pstakeParams =
-      object.pstakeParams !== undefined && object.pstakeParams !== null
-        ? PstakeParams.fromPartial(object.pstakeParams)
-        : undefined;
+    if (object.pstakeParams !== undefined && object.pstakeParams !== null) {
+      message.pstakeParams = PstakeParams.fromPartial(object.pstakeParams);
+    }
     return message;
   },
 };
@@ -461,20 +461,22 @@ export const DelegationState = {
     return message;
   },
   fromJSON(object: any): DelegationState {
-    return {
-      hostDelegationAccountBalance: Array.isArray(object?.hostDelegationAccountBalance)
-        ? object.hostDelegationAccountBalance.map((e: any) => Coin.fromJSON(e))
-        : [],
-      hostChainDelegationAddress: isSet(object.hostChainDelegationAddress)
-        ? String(object.hostChainDelegationAddress)
-        : "",
-      hostAccountDelegations: Array.isArray(object?.hostAccountDelegations)
-        ? object.hostAccountDelegations.map((e: any) => HostAccountDelegation.fromJSON(e))
-        : [],
-      hostAccountUndelegations: Array.isArray(object?.hostAccountUndelegations)
-        ? object.hostAccountUndelegations.map((e: any) => HostAccountUndelegation.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseDelegationState();
+    if (Array.isArray(object?.hostDelegationAccountBalance))
+      obj.hostDelegationAccountBalance = object.hostDelegationAccountBalance.map((e: any) =>
+        Coin.fromJSON(e),
+      );
+    if (isSet(object.hostChainDelegationAddress))
+      obj.hostChainDelegationAddress = String(object.hostChainDelegationAddress);
+    if (Array.isArray(object?.hostAccountDelegations))
+      obj.hostAccountDelegations = object.hostAccountDelegations.map((e: any) =>
+        HostAccountDelegation.fromJSON(e),
+      );
+    if (Array.isArray(object?.hostAccountUndelegations))
+      obj.hostAccountUndelegations = object.hostAccountUndelegations.map((e: any) =>
+        HostAccountUndelegation.fromJSON(e),
+      );
+    return obj;
   },
   toJSON(message: DelegationState): unknown {
     const obj: any = {};
@@ -518,7 +520,7 @@ export const DelegationState = {
 function createBaseHostAccountDelegation(): HostAccountDelegation {
   return {
     validatorAddress: "",
-    amount: undefined,
+    amount: Coin.fromPartial({}),
   };
 }
 export const HostAccountDelegation = {
@@ -552,10 +554,10 @@ export const HostAccountDelegation = {
     return message;
   },
   fromJSON(object: any): HostAccountDelegation {
-    return {
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-    };
+    const obj = createBaseHostAccountDelegation();
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: HostAccountDelegation): unknown {
     const obj: any = {};
@@ -566,16 +568,17 @@ export const HostAccountDelegation = {
   fromPartial<I extends Exact<DeepPartial<HostAccountDelegation>, I>>(object: I): HostAccountDelegation {
     const message = createBaseHostAccountDelegation();
     message.validatorAddress = object.validatorAddress ?? "";
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
 };
 function createBaseHostAccountUndelegation(): HostAccountUndelegation {
   return {
     epochNumber: Long.ZERO,
-    totalUndelegationAmount: undefined,
-    completionTime: undefined,
+    totalUndelegationAmount: Coin.fromPartial({}),
+    completionTime: Timestamp.fromPartial({}),
     undelegationEntries: [],
   };
 }
@@ -622,16 +625,14 @@ export const HostAccountUndelegation = {
     return message;
   },
   fromJSON(object: any): HostAccountUndelegation {
-    return {
-      epochNumber: isSet(object.epochNumber) ? Long.fromValue(object.epochNumber) : Long.ZERO,
-      totalUndelegationAmount: isSet(object.totalUndelegationAmount)
-        ? Coin.fromJSON(object.totalUndelegationAmount)
-        : undefined,
-      completionTime: isSet(object.completionTime) ? fromJsonTimestamp(object.completionTime) : undefined,
-      undelegationEntries: Array.isArray(object?.undelegationEntries)
-        ? object.undelegationEntries.map((e: any) => UndelegationEntry.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseHostAccountUndelegation();
+    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.totalUndelegationAmount))
+      obj.totalUndelegationAmount = Coin.fromJSON(object.totalUndelegationAmount);
+    if (isSet(object.completionTime)) obj.completionTime = fromJsonTimestamp(object.completionTime);
+    if (Array.isArray(object?.undelegationEntries))
+      obj.undelegationEntries = object.undelegationEntries.map((e: any) => UndelegationEntry.fromJSON(e));
+    return obj;
   },
   toJSON(message: HostAccountUndelegation): unknown {
     const obj: any = {};
@@ -653,18 +654,15 @@ export const HostAccountUndelegation = {
   },
   fromPartial<I extends Exact<DeepPartial<HostAccountUndelegation>, I>>(object: I): HostAccountUndelegation {
     const message = createBaseHostAccountUndelegation();
-    message.epochNumber =
-      object.epochNumber !== undefined && object.epochNumber !== null
-        ? Long.fromValue(object.epochNumber)
-        : Long.ZERO;
-    message.totalUndelegationAmount =
-      object.totalUndelegationAmount !== undefined && object.totalUndelegationAmount !== null
-        ? Coin.fromPartial(object.totalUndelegationAmount)
-        : undefined;
-    message.completionTime =
-      object.completionTime !== undefined && object.completionTime !== null
-        ? Timestamp.fromPartial(object.completionTime)
-        : undefined;
+    if (object.epochNumber !== undefined && object.epochNumber !== null) {
+      message.epochNumber = Long.fromValue(object.epochNumber);
+    }
+    if (object.totalUndelegationAmount !== undefined && object.totalUndelegationAmount !== null) {
+      message.totalUndelegationAmount = Coin.fromPartial(object.totalUndelegationAmount);
+    }
+    if (object.completionTime !== undefined && object.completionTime !== null) {
+      message.completionTime = Timestamp.fromPartial(object.completionTime);
+    }
     message.undelegationEntries =
       object.undelegationEntries?.map((e) => UndelegationEntry.fromPartial(e)) || [];
     return message;
@@ -673,7 +671,7 @@ export const HostAccountUndelegation = {
 function createBaseUndelegationEntry(): UndelegationEntry {
   return {
     validatorAddress: "",
-    amount: undefined,
+    amount: Coin.fromPartial({}),
   };
 }
 export const UndelegationEntry = {
@@ -707,10 +705,10 @@ export const UndelegationEntry = {
     return message;
   },
   fromJSON(object: any): UndelegationEntry {
-    return {
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-    };
+    const obj = createBaseUndelegationEntry();
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: UndelegationEntry): unknown {
     const obj: any = {};
@@ -721,8 +719,9 @@ export const UndelegationEntry = {
   fromPartial<I extends Exact<DeepPartial<UndelegationEntry>, I>>(object: I): UndelegationEntry {
     const message = createBaseUndelegationEntry();
     message.validatorAddress = object.validatorAddress ?? "";
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
 };
@@ -756,9 +755,9 @@ export const HostChainRewardAddress = {
     return message;
   },
   fromJSON(object: any): HostChainRewardAddress {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-    };
+    const obj = createBaseHostChainRewardAddress();
+    if (isSet(object.address)) obj.address = String(object.address);
+    return obj;
   },
   toJSON(message: HostChainRewardAddress): unknown {
     const obj: any = {};
@@ -774,7 +773,7 @@ export const HostChainRewardAddress = {
 function createBaseIBCAmountTransientStore(): IBCAmountTransientStore {
   return {
     iBCTransfer: [],
-    iCADelegate: undefined,
+    iCADelegate: Coin.fromPartial({}),
     undelegatonCompleteIBCTransfer: [],
   };
 }
@@ -817,15 +816,15 @@ export const IBCAmountTransientStore = {
     return message;
   },
   fromJSON(object: any): IBCAmountTransientStore {
-    return {
-      iBCTransfer: Array.isArray(object?.iBCTransfer)
-        ? object.iBCTransfer.map((e: any) => Coin.fromJSON(e))
-        : [],
-      iCADelegate: isSet(object.iCADelegate) ? Coin.fromJSON(object.iCADelegate) : undefined,
-      undelegatonCompleteIBCTransfer: Array.isArray(object?.undelegatonCompleteIBCTransfer)
-        ? object.undelegatonCompleteIBCTransfer.map((e: any) => TransientUndelegationTransfer.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseIBCAmountTransientStore();
+    if (Array.isArray(object?.iBCTransfer))
+      obj.iBCTransfer = object.iBCTransfer.map((e: any) => Coin.fromJSON(e));
+    if (isSet(object.iCADelegate)) obj.iCADelegate = Coin.fromJSON(object.iCADelegate);
+    if (Array.isArray(object?.undelegatonCompleteIBCTransfer))
+      obj.undelegatonCompleteIBCTransfer = object.undelegatonCompleteIBCTransfer.map((e: any) =>
+        TransientUndelegationTransfer.fromJSON(e),
+      );
+    return obj;
   },
   toJSON(message: IBCAmountTransientStore): unknown {
     const obj: any = {};
@@ -848,10 +847,9 @@ export const IBCAmountTransientStore = {
   fromPartial<I extends Exact<DeepPartial<IBCAmountTransientStore>, I>>(object: I): IBCAmountTransientStore {
     const message = createBaseIBCAmountTransientStore();
     message.iBCTransfer = object.iBCTransfer?.map((e) => Coin.fromPartial(e)) || [];
-    message.iCADelegate =
-      object.iCADelegate !== undefined && object.iCADelegate !== null
-        ? Coin.fromPartial(object.iCADelegate)
-        : undefined;
+    if (object.iCADelegate !== undefined && object.iCADelegate !== null) {
+      message.iCADelegate = Coin.fromPartial(object.iCADelegate);
+    }
     message.undelegatonCompleteIBCTransfer =
       object.undelegatonCompleteIBCTransfer?.map((e) => TransientUndelegationTransfer.fromPartial(e)) || [];
     return message;
@@ -860,7 +858,7 @@ export const IBCAmountTransientStore = {
 function createBaseTransientUndelegationTransfer(): TransientUndelegationTransfer {
   return {
     epochNumber: Long.ZERO,
-    amountUnbonded: undefined,
+    amountUnbonded: Coin.fromPartial({}),
   };
 }
 export const TransientUndelegationTransfer = {
@@ -894,10 +892,10 @@ export const TransientUndelegationTransfer = {
     return message;
   },
   fromJSON(object: any): TransientUndelegationTransfer {
-    return {
-      epochNumber: isSet(object.epochNumber) ? Long.fromValue(object.epochNumber) : Long.ZERO,
-      amountUnbonded: isSet(object.amountUnbonded) ? Coin.fromJSON(object.amountUnbonded) : undefined,
-    };
+    const obj = createBaseTransientUndelegationTransfer();
+    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.amountUnbonded)) obj.amountUnbonded = Coin.fromJSON(object.amountUnbonded);
+    return obj;
   },
   toJSON(message: TransientUndelegationTransfer): unknown {
     const obj: any = {};
@@ -910,22 +908,20 @@ export const TransientUndelegationTransfer = {
     object: I,
   ): TransientUndelegationTransfer {
     const message = createBaseTransientUndelegationTransfer();
-    message.epochNumber =
-      object.epochNumber !== undefined && object.epochNumber !== null
-        ? Long.fromValue(object.epochNumber)
-        : Long.ZERO;
-    message.amountUnbonded =
-      object.amountUnbonded !== undefined && object.amountUnbonded !== null
-        ? Coin.fromPartial(object.amountUnbonded)
-        : undefined;
+    if (object.epochNumber !== undefined && object.epochNumber !== null) {
+      message.epochNumber = Long.fromValue(object.epochNumber);
+    }
+    if (object.amountUnbonded !== undefined && object.amountUnbonded !== null) {
+      message.amountUnbonded = Coin.fromPartial(object.amountUnbonded);
+    }
     return message;
   },
 };
 function createBaseUnbondingEpochCValue(): UnbondingEpochCValue {
   return {
     epochNumber: Long.ZERO,
-    sTKBurn: undefined,
-    amountUnbonded: undefined,
+    sTKBurn: Coin.fromPartial({}),
+    amountUnbonded: Coin.fromPartial({}),
     isMatured: false,
     isFailed: false,
   };
@@ -979,13 +975,13 @@ export const UnbondingEpochCValue = {
     return message;
   },
   fromJSON(object: any): UnbondingEpochCValue {
-    return {
-      epochNumber: isSet(object.epochNumber) ? Long.fromValue(object.epochNumber) : Long.ZERO,
-      sTKBurn: isSet(object.sTKBurn) ? Coin.fromJSON(object.sTKBurn) : undefined,
-      amountUnbonded: isSet(object.amountUnbonded) ? Coin.fromJSON(object.amountUnbonded) : undefined,
-      isMatured: isSet(object.isMatured) ? Boolean(object.isMatured) : false,
-      isFailed: isSet(object.isFailed) ? Boolean(object.isFailed) : false,
-    };
+    const obj = createBaseUnbondingEpochCValue();
+    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.sTKBurn)) obj.sTKBurn = Coin.fromJSON(object.sTKBurn);
+    if (isSet(object.amountUnbonded)) obj.amountUnbonded = Coin.fromJSON(object.amountUnbonded);
+    if (isSet(object.isMatured)) obj.isMatured = Boolean(object.isMatured);
+    if (isSet(object.isFailed)) obj.isFailed = Boolean(object.isFailed);
+    return obj;
   },
   toJSON(message: UnbondingEpochCValue): unknown {
     const obj: any = {};
@@ -1000,16 +996,15 @@ export const UnbondingEpochCValue = {
   },
   fromPartial<I extends Exact<DeepPartial<UnbondingEpochCValue>, I>>(object: I): UnbondingEpochCValue {
     const message = createBaseUnbondingEpochCValue();
-    message.epochNumber =
-      object.epochNumber !== undefined && object.epochNumber !== null
-        ? Long.fromValue(object.epochNumber)
-        : Long.ZERO;
-    message.sTKBurn =
-      object.sTKBurn !== undefined && object.sTKBurn !== null ? Coin.fromPartial(object.sTKBurn) : undefined;
-    message.amountUnbonded =
-      object.amountUnbonded !== undefined && object.amountUnbonded !== null
-        ? Coin.fromPartial(object.amountUnbonded)
-        : undefined;
+    if (object.epochNumber !== undefined && object.epochNumber !== null) {
+      message.epochNumber = Long.fromValue(object.epochNumber);
+    }
+    if (object.sTKBurn !== undefined && object.sTKBurn !== null) {
+      message.sTKBurn = Coin.fromPartial(object.sTKBurn);
+    }
+    if (object.amountUnbonded !== undefined && object.amountUnbonded !== null) {
+      message.amountUnbonded = Coin.fromPartial(object.amountUnbonded);
+    }
     message.isMatured = object.isMatured ?? false;
     message.isFailed = object.isFailed ?? false;
     return message;
@@ -1019,7 +1014,7 @@ function createBaseDelegatorUnbondingEpochEntry(): DelegatorUnbondingEpochEntry 
   return {
     delegatorAddress: "",
     epochNumber: Long.ZERO,
-    amount: undefined,
+    amount: Coin.fromPartial({}),
   };
 }
 export const DelegatorUnbondingEpochEntry = {
@@ -1059,11 +1054,11 @@ export const DelegatorUnbondingEpochEntry = {
     return message;
   },
   fromJSON(object: any): DelegatorUnbondingEpochEntry {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      epochNumber: isSet(object.epochNumber) ? Long.fromValue(object.epochNumber) : Long.ZERO,
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-    };
+    const obj = createBaseDelegatorUnbondingEpochEntry();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: DelegatorUnbondingEpochEntry): unknown {
     const obj: any = {};
@@ -1077,12 +1072,12 @@ export const DelegatorUnbondingEpochEntry = {
   ): DelegatorUnbondingEpochEntry {
     const message = createBaseDelegatorUnbondingEpochEntry();
     message.delegatorAddress = object.delegatorAddress ?? "";
-    message.epochNumber =
-      object.epochNumber !== undefined && object.epochNumber !== null
-        ? Long.fromValue(object.epochNumber)
-        : Long.ZERO;
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.epochNumber !== undefined && object.epochNumber !== null) {
+      message.epochNumber = Long.fromValue(object.epochNumber);
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
 };
@@ -1123,12 +1118,11 @@ export const HostAccounts = {
     return message;
   },
   fromJSON(object: any): HostAccounts {
-    return {
-      delegatorAccountOwnerID: isSet(object.delegatorAccountOwnerID)
-        ? String(object.delegatorAccountOwnerID)
-        : "",
-      rewardsAccountOwnerID: isSet(object.rewardsAccountOwnerID) ? String(object.rewardsAccountOwnerID) : "",
-    };
+    const obj = createBaseHostAccounts();
+    if (isSet(object.delegatorAccountOwnerID))
+      obj.delegatorAccountOwnerID = String(object.delegatorAccountOwnerID);
+    if (isSet(object.rewardsAccountOwnerID)) obj.rewardsAccountOwnerID = String(object.rewardsAccountOwnerID);
+    return obj;
   },
   toJSON(message: HostAccounts): unknown {
     const obj: any = {};

@@ -15,30 +15,30 @@ import { isSet, DeepPartial, Exact } from "../../../helpers";
 export const protobufPackage = "pstake.lscosmos.v1beta1";
 /** GenesisState defines the lscosmos module's genesis state. */
 export interface GenesisState {
-  params?: Params;
+  params: Params;
   /** this line is used by starport scaffolding # genesis/proto/state */
   moduleEnabled: boolean;
-  hostChainParams?: HostChainParams;
-  allowListedValidators?: AllowListedValidators;
-  delegationState?: DelegationState;
-  hostChainRewardAddress?: HostChainRewardAddress;
-  iBCAmountTransientStore?: IBCAmountTransientStore;
+  hostChainParams: HostChainParams;
+  allowListedValidators: AllowListedValidators;
+  delegationState: DelegationState;
+  hostChainRewardAddress: HostChainRewardAddress;
+  iBCAmountTransientStore: IBCAmountTransientStore;
   unbondingEpochCValues: UnbondingEpochCValue[];
   delegatorUnbondingEpochEntries: DelegatorUnbondingEpochEntry[];
-  hostAccounts?: HostAccounts;
+  hostAccounts: HostAccounts;
 }
 function createBaseGenesisState(): GenesisState {
   return {
-    params: undefined,
+    params: Params.fromPartial({}),
     moduleEnabled: false,
-    hostChainParams: undefined,
-    allowListedValidators: undefined,
-    delegationState: undefined,
-    hostChainRewardAddress: undefined,
-    iBCAmountTransientStore: undefined,
+    hostChainParams: HostChainParams.fromPartial({}),
+    allowListedValidators: AllowListedValidators.fromPartial({}),
+    delegationState: DelegationState.fromPartial({}),
+    hostChainRewardAddress: HostChainRewardAddress.fromPartial({}),
+    iBCAmountTransientStore: IBCAmountTransientStore.fromPartial({}),
     unbondingEpochCValues: [],
     delegatorUnbondingEpochEntries: [],
-    hostAccounts: undefined,
+    hostAccounts: HostAccounts.fromPartial({}),
   };
 }
 export const GenesisState = {
@@ -122,32 +122,27 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      moduleEnabled: isSet(object.moduleEnabled) ? Boolean(object.moduleEnabled) : false,
-      hostChainParams: isSet(object.hostChainParams)
-        ? HostChainParams.fromJSON(object.hostChainParams)
-        : undefined,
-      allowListedValidators: isSet(object.allowListedValidators)
-        ? AllowListedValidators.fromJSON(object.allowListedValidators)
-        : undefined,
-      delegationState: isSet(object.delegationState)
-        ? DelegationState.fromJSON(object.delegationState)
-        : undefined,
-      hostChainRewardAddress: isSet(object.hostChainRewardAddress)
-        ? HostChainRewardAddress.fromJSON(object.hostChainRewardAddress)
-        : undefined,
-      iBCAmountTransientStore: isSet(object.iBCAmountTransientStore)
-        ? IBCAmountTransientStore.fromJSON(object.iBCAmountTransientStore)
-        : undefined,
-      unbondingEpochCValues: Array.isArray(object?.unbondingEpochCValues)
-        ? object.unbondingEpochCValues.map((e: any) => UnbondingEpochCValue.fromJSON(e))
-        : [],
-      delegatorUnbondingEpochEntries: Array.isArray(object?.delegatorUnbondingEpochEntries)
-        ? object.delegatorUnbondingEpochEntries.map((e: any) => DelegatorUnbondingEpochEntry.fromJSON(e))
-        : [],
-      hostAccounts: isSet(object.hostAccounts) ? HostAccounts.fromJSON(object.hostAccounts) : undefined,
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    if (isSet(object.moduleEnabled)) obj.moduleEnabled = Boolean(object.moduleEnabled);
+    if (isSet(object.hostChainParams)) obj.hostChainParams = HostChainParams.fromJSON(object.hostChainParams);
+    if (isSet(object.allowListedValidators))
+      obj.allowListedValidators = AllowListedValidators.fromJSON(object.allowListedValidators);
+    if (isSet(object.delegationState)) obj.delegationState = DelegationState.fromJSON(object.delegationState);
+    if (isSet(object.hostChainRewardAddress))
+      obj.hostChainRewardAddress = HostChainRewardAddress.fromJSON(object.hostChainRewardAddress);
+    if (isSet(object.iBCAmountTransientStore))
+      obj.iBCAmountTransientStore = IBCAmountTransientStore.fromJSON(object.iBCAmountTransientStore);
+    if (Array.isArray(object?.unbondingEpochCValues))
+      obj.unbondingEpochCValues = object.unbondingEpochCValues.map((e: any) =>
+        UnbondingEpochCValue.fromJSON(e),
+      );
+    if (Array.isArray(object?.delegatorUnbondingEpochEntries))
+      obj.delegatorUnbondingEpochEntries = object.delegatorUnbondingEpochEntries.map((e: any) =>
+        DelegatorUnbondingEpochEntry.fromJSON(e),
+      );
+    if (isSet(object.hostAccounts)) obj.hostAccounts = HostAccounts.fromJSON(object.hostAccounts);
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -193,37 +188,32 @@ export const GenesisState = {
   },
   fromPartial<I extends Exact<DeepPartial<GenesisState>, I>>(object: I): GenesisState {
     const message = createBaseGenesisState();
-    message.params =
-      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     message.moduleEnabled = object.moduleEnabled ?? false;
-    message.hostChainParams =
-      object.hostChainParams !== undefined && object.hostChainParams !== null
-        ? HostChainParams.fromPartial(object.hostChainParams)
-        : undefined;
-    message.allowListedValidators =
-      object.allowListedValidators !== undefined && object.allowListedValidators !== null
-        ? AllowListedValidators.fromPartial(object.allowListedValidators)
-        : undefined;
-    message.delegationState =
-      object.delegationState !== undefined && object.delegationState !== null
-        ? DelegationState.fromPartial(object.delegationState)
-        : undefined;
-    message.hostChainRewardAddress =
-      object.hostChainRewardAddress !== undefined && object.hostChainRewardAddress !== null
-        ? HostChainRewardAddress.fromPartial(object.hostChainRewardAddress)
-        : undefined;
-    message.iBCAmountTransientStore =
-      object.iBCAmountTransientStore !== undefined && object.iBCAmountTransientStore !== null
-        ? IBCAmountTransientStore.fromPartial(object.iBCAmountTransientStore)
-        : undefined;
+    if (object.hostChainParams !== undefined && object.hostChainParams !== null) {
+      message.hostChainParams = HostChainParams.fromPartial(object.hostChainParams);
+    }
+    if (object.allowListedValidators !== undefined && object.allowListedValidators !== null) {
+      message.allowListedValidators = AllowListedValidators.fromPartial(object.allowListedValidators);
+    }
+    if (object.delegationState !== undefined && object.delegationState !== null) {
+      message.delegationState = DelegationState.fromPartial(object.delegationState);
+    }
+    if (object.hostChainRewardAddress !== undefined && object.hostChainRewardAddress !== null) {
+      message.hostChainRewardAddress = HostChainRewardAddress.fromPartial(object.hostChainRewardAddress);
+    }
+    if (object.iBCAmountTransientStore !== undefined && object.iBCAmountTransientStore !== null) {
+      message.iBCAmountTransientStore = IBCAmountTransientStore.fromPartial(object.iBCAmountTransientStore);
+    }
     message.unbondingEpochCValues =
       object.unbondingEpochCValues?.map((e) => UnbondingEpochCValue.fromPartial(e)) || [];
     message.delegatorUnbondingEpochEntries =
       object.delegatorUnbondingEpochEntries?.map((e) => DelegatorUnbondingEpochEntry.fromPartial(e)) || [];
-    message.hostAccounts =
-      object.hostAccounts !== undefined && object.hostAccounts !== null
-        ? HostAccounts.fromPartial(object.hostAccounts)
-        : undefined;
+    if (object.hostAccounts !== undefined && object.hostAccounts !== null) {
+      message.hostAccounts = HostAccounts.fromPartial(object.hostAccounts);
+    }
     return message;
   },
 };

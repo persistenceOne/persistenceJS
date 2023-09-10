@@ -14,13 +14,13 @@ import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "pstake.liquidstakeibc.v1beta1";
 export interface QueryParamsRequest {}
 export interface QueryParamsResponse {
-  params?: Params;
+  params: Params;
 }
 export interface QueryHostChainRequest {
   chainId: string;
 }
 export interface QueryHostChainResponse {
-  hostChain?: HostChain;
+  hostChain: HostChain;
 }
 export interface QueryHostChainsRequest {}
 export interface QueryHostChainsResponse {
@@ -49,7 +49,7 @@ export interface QueryUnbondingRequest {
   epoch: Long;
 }
 export interface QueryUnbondingResponse {
-  unbonding?: Unbonding;
+  unbonding: Unbonding;
 }
 export interface QueryUserUnbondingsRequest {
   address: string;
@@ -67,7 +67,7 @@ export interface QueryDepositAccountBalanceRequest {
   chainId: string;
 }
 export interface QueryDepositAccountBalanceResponse {
-  balance?: Coin;
+  balance: Coin;
 }
 export interface QueryExchangeRateRequest {
   chainId: string;
@@ -97,7 +97,8 @@ export const QueryParamsRequest = {
     return message;
   },
   fromJSON(_: any): QueryParamsRequest {
-    return {};
+    const obj = createBaseQueryParamsRequest();
+    return obj;
   },
   toJSON(_: QueryParamsRequest): unknown {
     const obj: any = {};
@@ -110,7 +111,7 @@ export const QueryParamsRequest = {
 };
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
-    params: undefined,
+    params: Params.fromPartial({}),
   };
 }
 export const QueryParamsResponse = {
@@ -138,9 +139,9 @@ export const QueryParamsResponse = {
     return message;
   },
   fromJSON(object: any): QueryParamsResponse {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-    };
+    const obj = createBaseQueryParamsResponse();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    return obj;
   },
   toJSON(message: QueryParamsResponse): unknown {
     const obj: any = {};
@@ -149,8 +150,9 @@ export const QueryParamsResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryParamsResponse>, I>>(object: I): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
-    message.params =
-      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     return message;
   },
 };
@@ -184,9 +186,9 @@ export const QueryHostChainRequest = {
     return message;
   },
   fromJSON(object: any): QueryHostChainRequest {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-    };
+    const obj = createBaseQueryHostChainRequest();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    return obj;
   },
   toJSON(message: QueryHostChainRequest): unknown {
     const obj: any = {};
@@ -201,7 +203,7 @@ export const QueryHostChainRequest = {
 };
 function createBaseQueryHostChainResponse(): QueryHostChainResponse {
   return {
-    hostChain: undefined,
+    hostChain: HostChain.fromPartial({}),
   };
 }
 export const QueryHostChainResponse = {
@@ -229,9 +231,9 @@ export const QueryHostChainResponse = {
     return message;
   },
   fromJSON(object: any): QueryHostChainResponse {
-    return {
-      hostChain: isSet(object.hostChain) ? HostChain.fromJSON(object.hostChain) : undefined,
-    };
+    const obj = createBaseQueryHostChainResponse();
+    if (isSet(object.hostChain)) obj.hostChain = HostChain.fromJSON(object.hostChain);
+    return obj;
   },
   toJSON(message: QueryHostChainResponse): unknown {
     const obj: any = {};
@@ -241,10 +243,9 @@ export const QueryHostChainResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryHostChainResponse>, I>>(object: I): QueryHostChainResponse {
     const message = createBaseQueryHostChainResponse();
-    message.hostChain =
-      object.hostChain !== undefined && object.hostChain !== null
-        ? HostChain.fromPartial(object.hostChain)
-        : undefined;
+    if (object.hostChain !== undefined && object.hostChain !== null) {
+      message.hostChain = HostChain.fromPartial(object.hostChain);
+    }
     return message;
   },
 };
@@ -270,7 +271,8 @@ export const QueryHostChainsRequest = {
     return message;
   },
   fromJSON(_: any): QueryHostChainsRequest {
-    return {};
+    const obj = createBaseQueryHostChainsRequest();
+    return obj;
   },
   toJSON(_: QueryHostChainsRequest): unknown {
     const obj: any = {};
@@ -311,11 +313,10 @@ export const QueryHostChainsResponse = {
     return message;
   },
   fromJSON(object: any): QueryHostChainsResponse {
-    return {
-      hostChains: Array.isArray(object?.hostChains)
-        ? object.hostChains.map((e: any) => HostChain.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseQueryHostChainsResponse();
+    if (Array.isArray(object?.hostChains))
+      obj.hostChains = object.hostChains.map((e: any) => HostChain.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryHostChainsResponse): unknown {
     const obj: any = {};
@@ -362,9 +363,9 @@ export const QueryDepositsRequest = {
     return message;
   },
   fromJSON(object: any): QueryDepositsRequest {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-    };
+    const obj = createBaseQueryDepositsRequest();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    return obj;
   },
   toJSON(message: QueryDepositsRequest): unknown {
     const obj: any = {};
@@ -407,9 +408,9 @@ export const QueryDepositsResponse = {
     return message;
   },
   fromJSON(object: any): QueryDepositsResponse {
-    return {
-      deposits: Array.isArray(object?.deposits) ? object.deposits.map((e: any) => Deposit.fromJSON(e)) : [],
-    };
+    const obj = createBaseQueryDepositsResponse();
+    if (Array.isArray(object?.deposits)) obj.deposits = object.deposits.map((e: any) => Deposit.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryDepositsResponse): unknown {
     const obj: any = {};
@@ -456,9 +457,9 @@ export const QueryLSMDepositsRequest = {
     return message;
   },
   fromJSON(object: any): QueryLSMDepositsRequest {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-    };
+    const obj = createBaseQueryLSMDepositsRequest();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    return obj;
   },
   toJSON(message: QueryLSMDepositsRequest): unknown {
     const obj: any = {};
@@ -501,11 +502,10 @@ export const QueryLSMDepositsResponse = {
     return message;
   },
   fromJSON(object: any): QueryLSMDepositsResponse {
-    return {
-      deposits: Array.isArray(object?.deposits)
-        ? object.deposits.map((e: any) => LSMDeposit.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseQueryLSMDepositsResponse();
+    if (Array.isArray(object?.deposits))
+      obj.deposits = object.deposits.map((e: any) => LSMDeposit.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryLSMDepositsResponse): unknown {
     const obj: any = {};
@@ -554,9 +554,9 @@ export const QueryUnbondingsRequest = {
     return message;
   },
   fromJSON(object: any): QueryUnbondingsRequest {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-    };
+    const obj = createBaseQueryUnbondingsRequest();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    return obj;
   },
   toJSON(message: QueryUnbondingsRequest): unknown {
     const obj: any = {};
@@ -599,11 +599,10 @@ export const QueryUnbondingsResponse = {
     return message;
   },
   fromJSON(object: any): QueryUnbondingsResponse {
-    return {
-      unbondings: Array.isArray(object?.unbondings)
-        ? object.unbondings.map((e: any) => Unbonding.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseQueryUnbondingsResponse();
+    if (Array.isArray(object?.unbondings))
+      obj.unbondings = object.unbondings.map((e: any) => Unbonding.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryUnbondingsResponse): unknown {
     const obj: any = {};
@@ -657,10 +656,10 @@ export const QueryUnbondingRequest = {
     return message;
   },
   fromJSON(object: any): QueryUnbondingRequest {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-      epoch: isSet(object.epoch) ? Long.fromValue(object.epoch) : Long.ZERO,
-    };
+    const obj = createBaseQueryUnbondingRequest();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    if (isSet(object.epoch)) obj.epoch = Long.fromValue(object.epoch);
+    return obj;
   },
   toJSON(message: QueryUnbondingRequest): unknown {
     const obj: any = {};
@@ -671,14 +670,15 @@ export const QueryUnbondingRequest = {
   fromPartial<I extends Exact<DeepPartial<QueryUnbondingRequest>, I>>(object: I): QueryUnbondingRequest {
     const message = createBaseQueryUnbondingRequest();
     message.chainId = object.chainId ?? "";
-    message.epoch =
-      object.epoch !== undefined && object.epoch !== null ? Long.fromValue(object.epoch) : Long.ZERO;
+    if (object.epoch !== undefined && object.epoch !== null) {
+      message.epoch = Long.fromValue(object.epoch);
+    }
     return message;
   },
 };
 function createBaseQueryUnbondingResponse(): QueryUnbondingResponse {
   return {
-    unbonding: undefined,
+    unbonding: Unbonding.fromPartial({}),
   };
 }
 export const QueryUnbondingResponse = {
@@ -706,9 +706,9 @@ export const QueryUnbondingResponse = {
     return message;
   },
   fromJSON(object: any): QueryUnbondingResponse {
-    return {
-      unbonding: isSet(object.unbonding) ? Unbonding.fromJSON(object.unbonding) : undefined,
-    };
+    const obj = createBaseQueryUnbondingResponse();
+    if (isSet(object.unbonding)) obj.unbonding = Unbonding.fromJSON(object.unbonding);
+    return obj;
   },
   toJSON(message: QueryUnbondingResponse): unknown {
     const obj: any = {};
@@ -718,10 +718,9 @@ export const QueryUnbondingResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryUnbondingResponse>, I>>(object: I): QueryUnbondingResponse {
     const message = createBaseQueryUnbondingResponse();
-    message.unbonding =
-      object.unbonding !== undefined && object.unbonding !== null
-        ? Unbonding.fromPartial(object.unbonding)
-        : undefined;
+    if (object.unbonding !== undefined && object.unbonding !== null) {
+      message.unbonding = Unbonding.fromPartial(object.unbonding);
+    }
     return message;
   },
 };
@@ -755,9 +754,9 @@ export const QueryUserUnbondingsRequest = {
     return message;
   },
   fromJSON(object: any): QueryUserUnbondingsRequest {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-    };
+    const obj = createBaseQueryUserUnbondingsRequest();
+    if (isSet(object.address)) obj.address = String(object.address);
+    return obj;
   },
   toJSON(message: QueryUserUnbondingsRequest): unknown {
     const obj: any = {};
@@ -802,11 +801,10 @@ export const QueryUserUnbondingsResponse = {
     return message;
   },
   fromJSON(object: any): QueryUserUnbondingsResponse {
-    return {
-      userUnbondings: Array.isArray(object?.userUnbondings)
-        ? object.userUnbondings.map((e: any) => UserUnbonding.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseQueryUserUnbondingsResponse();
+    if (Array.isArray(object?.userUnbondings))
+      obj.userUnbondings = object.userUnbondings.map((e: any) => UserUnbonding.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryUserUnbondingsResponse): unknown {
     const obj: any = {};
@@ -855,9 +853,9 @@ export const QueryValidatorUnbondingRequest = {
     return message;
   },
   fromJSON(object: any): QueryValidatorUnbondingRequest {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-    };
+    const obj = createBaseQueryValidatorUnbondingRequest();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    return obj;
   },
   toJSON(message: QueryValidatorUnbondingRequest): unknown {
     const obj: any = {};
@@ -902,11 +900,10 @@ export const QueryValidatorUnbondingResponse = {
     return message;
   },
   fromJSON(object: any): QueryValidatorUnbondingResponse {
-    return {
-      validatorUnbondings: Array.isArray(object?.validatorUnbondings)
-        ? object.validatorUnbondings.map((e: any) => ValidatorUnbonding.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseQueryValidatorUnbondingResponse();
+    if (Array.isArray(object?.validatorUnbondings))
+      obj.validatorUnbondings = object.validatorUnbondings.map((e: any) => ValidatorUnbonding.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryValidatorUnbondingResponse): unknown {
     const obj: any = {};
@@ -958,9 +955,9 @@ export const QueryDepositAccountBalanceRequest = {
     return message;
   },
   fromJSON(object: any): QueryDepositAccountBalanceRequest {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-    };
+    const obj = createBaseQueryDepositAccountBalanceRequest();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    return obj;
   },
   toJSON(message: QueryDepositAccountBalanceRequest): unknown {
     const obj: any = {};
@@ -977,7 +974,7 @@ export const QueryDepositAccountBalanceRequest = {
 };
 function createBaseQueryDepositAccountBalanceResponse(): QueryDepositAccountBalanceResponse {
   return {
-    balance: undefined,
+    balance: Coin.fromPartial({}),
   };
 }
 export const QueryDepositAccountBalanceResponse = {
@@ -1005,9 +1002,9 @@ export const QueryDepositAccountBalanceResponse = {
     return message;
   },
   fromJSON(object: any): QueryDepositAccountBalanceResponse {
-    return {
-      balance: isSet(object.balance) ? Coin.fromJSON(object.balance) : undefined,
-    };
+    const obj = createBaseQueryDepositAccountBalanceResponse();
+    if (isSet(object.balance)) obj.balance = Coin.fromJSON(object.balance);
+    return obj;
   },
   toJSON(message: QueryDepositAccountBalanceResponse): unknown {
     const obj: any = {};
@@ -1019,8 +1016,9 @@ export const QueryDepositAccountBalanceResponse = {
     object: I,
   ): QueryDepositAccountBalanceResponse {
     const message = createBaseQueryDepositAccountBalanceResponse();
-    message.balance =
-      object.balance !== undefined && object.balance !== null ? Coin.fromPartial(object.balance) : undefined;
+    if (object.balance !== undefined && object.balance !== null) {
+      message.balance = Coin.fromPartial(object.balance);
+    }
     return message;
   },
 };
@@ -1054,9 +1052,9 @@ export const QueryExchangeRateRequest = {
     return message;
   },
   fromJSON(object: any): QueryExchangeRateRequest {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-    };
+    const obj = createBaseQueryExchangeRateRequest();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    return obj;
   },
   toJSON(message: QueryExchangeRateRequest): unknown {
     const obj: any = {};
@@ -1101,9 +1099,9 @@ export const QueryExchangeRateResponse = {
     return message;
   },
   fromJSON(object: any): QueryExchangeRateResponse {
-    return {
-      rate: isSet(object.rate) ? String(object.rate) : "",
-    };
+    const obj = createBaseQueryExchangeRateResponse();
+    if (isSet(object.rate)) obj.rate = String(object.rate);
+    return obj;
   },
   toJSON(message: QueryExchangeRateResponse): unknown {
     const obj: any = {};

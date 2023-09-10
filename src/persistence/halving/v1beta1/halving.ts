@@ -37,9 +37,9 @@ export const Params = {
     return message;
   },
   fromJSON(object: any): Params {
-    return {
-      blockHeight: isSet(object.blockHeight) ? Long.fromValue(object.blockHeight) : Long.UZERO,
-    };
+    const obj = createBaseParams();
+    if (isSet(object.blockHeight)) obj.blockHeight = Long.fromValue(object.blockHeight);
+    return obj;
   },
   toJSON(message: Params): unknown {
     const obj: any = {};
@@ -48,10 +48,9 @@ export const Params = {
   },
   fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
     const message = createBaseParams();
-    message.blockHeight =
-      object.blockHeight !== undefined && object.blockHeight !== null
-        ? Long.fromValue(object.blockHeight)
-        : Long.UZERO;
+    if (object.blockHeight !== undefined && object.blockHeight !== null) {
+      message.blockHeight = Long.fromValue(object.blockHeight);
+    }
     return message;
   },
 };

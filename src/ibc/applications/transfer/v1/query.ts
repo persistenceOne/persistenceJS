@@ -19,7 +19,7 @@ export interface QueryDenomTraceRequest {
  */
 export interface QueryDenomTraceResponse {
   /** denom_trace returns the requested denomination trace information. */
-  denomTrace?: DenomTrace;
+  denomTrace: DenomTrace;
 }
 /**
  * QueryConnectionsRequest is the request type for the Query/DenomTraces RPC
@@ -27,7 +27,7 @@ export interface QueryDenomTraceResponse {
  */
 export interface QueryDenomTracesRequest {
   /** pagination defines an optional pagination for the request. */
-  pagination?: PageRequest;
+  pagination: PageRequest;
 }
 /**
  * QueryConnectionsResponse is the response type for the Query/DenomTraces RPC
@@ -37,14 +37,14 @@ export interface QueryDenomTracesResponse {
   /** denom_traces returns all denominations trace information. */
   denomTraces: DenomTrace[];
   /** pagination defines the pagination in the response. */
-  pagination?: PageResponse;
+  pagination: PageResponse;
 }
 /** QueryParamsRequest is the request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {}
 /** QueryParamsResponse is the response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
   /** params defines the parameters of the module. */
-  params?: Params;
+  params: Params;
 }
 /**
  * QueryDenomHashRequest is the request type for the Query/DenomHash RPC
@@ -80,7 +80,7 @@ export interface QueryTotalEscrowForDenomRequest {
 }
 /** QueryTotalEscrowForDenomResponse is the response type for TotalEscrowForDenom RPC method. */
 export interface QueryTotalEscrowForDenomResponse {
-  amount?: Coin;
+  amount: Coin;
 }
 function createBaseQueryDenomTraceRequest(): QueryDenomTraceRequest {
   return {
@@ -112,9 +112,9 @@ export const QueryDenomTraceRequest = {
     return message;
   },
   fromJSON(object: any): QueryDenomTraceRequest {
-    return {
-      hash: isSet(object.hash) ? String(object.hash) : "",
-    };
+    const obj = createBaseQueryDenomTraceRequest();
+    if (isSet(object.hash)) obj.hash = String(object.hash);
+    return obj;
   },
   toJSON(message: QueryDenomTraceRequest): unknown {
     const obj: any = {};
@@ -129,7 +129,7 @@ export const QueryDenomTraceRequest = {
 };
 function createBaseQueryDenomTraceResponse(): QueryDenomTraceResponse {
   return {
-    denomTrace: undefined,
+    denomTrace: DenomTrace.fromPartial({}),
   };
 }
 export const QueryDenomTraceResponse = {
@@ -157,9 +157,9 @@ export const QueryDenomTraceResponse = {
     return message;
   },
   fromJSON(object: any): QueryDenomTraceResponse {
-    return {
-      denomTrace: isSet(object.denomTrace) ? DenomTrace.fromJSON(object.denomTrace) : undefined,
-    };
+    const obj = createBaseQueryDenomTraceResponse();
+    if (isSet(object.denomTrace)) obj.denomTrace = DenomTrace.fromJSON(object.denomTrace);
+    return obj;
   },
   toJSON(message: QueryDenomTraceResponse): unknown {
     const obj: any = {};
@@ -169,16 +169,15 @@ export const QueryDenomTraceResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryDenomTraceResponse>, I>>(object: I): QueryDenomTraceResponse {
     const message = createBaseQueryDenomTraceResponse();
-    message.denomTrace =
-      object.denomTrace !== undefined && object.denomTrace !== null
-        ? DenomTrace.fromPartial(object.denomTrace)
-        : undefined;
+    if (object.denomTrace !== undefined && object.denomTrace !== null) {
+      message.denomTrace = DenomTrace.fromPartial(object.denomTrace);
+    }
     return message;
   },
 };
 function createBaseQueryDenomTracesRequest(): QueryDenomTracesRequest {
   return {
-    pagination: undefined,
+    pagination: PageRequest.fromPartial({}),
   };
 }
 export const QueryDenomTracesRequest = {
@@ -206,9 +205,9 @@ export const QueryDenomTracesRequest = {
     return message;
   },
   fromJSON(object: any): QueryDenomTracesRequest {
-    return {
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
-    };
+    const obj = createBaseQueryDenomTracesRequest();
+    if (isSet(object.pagination)) obj.pagination = PageRequest.fromJSON(object.pagination);
+    return obj;
   },
   toJSON(message: QueryDenomTracesRequest): unknown {
     const obj: any = {};
@@ -218,17 +217,16 @@ export const QueryDenomTracesRequest = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryDenomTracesRequest>, I>>(object: I): QueryDenomTracesRequest {
     const message = createBaseQueryDenomTracesRequest();
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromPartial(object.pagination)
-        : undefined;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    }
     return message;
   },
 };
 function createBaseQueryDenomTracesResponse(): QueryDenomTracesResponse {
   return {
     denomTraces: [],
-    pagination: undefined,
+    pagination: PageResponse.fromPartial({}),
   };
 }
 export const QueryDenomTracesResponse = {
@@ -262,12 +260,11 @@ export const QueryDenomTracesResponse = {
     return message;
   },
   fromJSON(object: any): QueryDenomTracesResponse {
-    return {
-      denomTraces: Array.isArray(object?.denomTraces)
-        ? object.denomTraces.map((e: any) => DenomTrace.fromJSON(e))
-        : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
-    };
+    const obj = createBaseQueryDenomTracesResponse();
+    if (Array.isArray(object?.denomTraces))
+      obj.denomTraces = object.denomTraces.map((e: any) => DenomTrace.fromJSON(e));
+    if (isSet(object.pagination)) obj.pagination = PageResponse.fromJSON(object.pagination);
+    return obj;
   },
   toJSON(message: QueryDenomTracesResponse): unknown {
     const obj: any = {};
@@ -285,10 +282,9 @@ export const QueryDenomTracesResponse = {
   ): QueryDenomTracesResponse {
     const message = createBaseQueryDenomTracesResponse();
     message.denomTraces = object.denomTraces?.map((e) => DenomTrace.fromPartial(e)) || [];
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromPartial(object.pagination)
-        : undefined;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    }
     return message;
   },
 };
@@ -314,7 +310,8 @@ export const QueryParamsRequest = {
     return message;
   },
   fromJSON(_: any): QueryParamsRequest {
-    return {};
+    const obj = createBaseQueryParamsRequest();
+    return obj;
   },
   toJSON(_: QueryParamsRequest): unknown {
     const obj: any = {};
@@ -327,7 +324,7 @@ export const QueryParamsRequest = {
 };
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
-    params: undefined,
+    params: Params.fromPartial({}),
   };
 }
 export const QueryParamsResponse = {
@@ -355,9 +352,9 @@ export const QueryParamsResponse = {
     return message;
   },
   fromJSON(object: any): QueryParamsResponse {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-    };
+    const obj = createBaseQueryParamsResponse();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    return obj;
   },
   toJSON(message: QueryParamsResponse): unknown {
     const obj: any = {};
@@ -366,8 +363,9 @@ export const QueryParamsResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryParamsResponse>, I>>(object: I): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
-    message.params =
-      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     return message;
   },
 };
@@ -401,9 +399,9 @@ export const QueryDenomHashRequest = {
     return message;
   },
   fromJSON(object: any): QueryDenomHashRequest {
-    return {
-      trace: isSet(object.trace) ? String(object.trace) : "",
-    };
+    const obj = createBaseQueryDenomHashRequest();
+    if (isSet(object.trace)) obj.trace = String(object.trace);
+    return obj;
   },
   toJSON(message: QueryDenomHashRequest): unknown {
     const obj: any = {};
@@ -446,9 +444,9 @@ export const QueryDenomHashResponse = {
     return message;
   },
   fromJSON(object: any): QueryDenomHashResponse {
-    return {
-      hash: isSet(object.hash) ? String(object.hash) : "",
-    };
+    const obj = createBaseQueryDenomHashResponse();
+    if (isSet(object.hash)) obj.hash = String(object.hash);
+    return obj;
   },
   toJSON(message: QueryDenomHashResponse): unknown {
     const obj: any = {};
@@ -498,10 +496,10 @@ export const QueryEscrowAddressRequest = {
     return message;
   },
   fromJSON(object: any): QueryEscrowAddressRequest {
-    return {
-      portId: isSet(object.portId) ? String(object.portId) : "",
-      channelId: isSet(object.channelId) ? String(object.channelId) : "",
-    };
+    const obj = createBaseQueryEscrowAddressRequest();
+    if (isSet(object.portId)) obj.portId = String(object.portId);
+    if (isSet(object.channelId)) obj.channelId = String(object.channelId);
+    return obj;
   },
   toJSON(message: QueryEscrowAddressRequest): unknown {
     const obj: any = {};
@@ -548,9 +546,9 @@ export const QueryEscrowAddressResponse = {
     return message;
   },
   fromJSON(object: any): QueryEscrowAddressResponse {
-    return {
-      escrowAddress: isSet(object.escrowAddress) ? String(object.escrowAddress) : "",
-    };
+    const obj = createBaseQueryEscrowAddressResponse();
+    if (isSet(object.escrowAddress)) obj.escrowAddress = String(object.escrowAddress);
+    return obj;
   },
   toJSON(message: QueryEscrowAddressResponse): unknown {
     const obj: any = {};
@@ -595,9 +593,9 @@ export const QueryTotalEscrowForDenomRequest = {
     return message;
   },
   fromJSON(object: any): QueryTotalEscrowForDenomRequest {
-    return {
-      denom: isSet(object.denom) ? String(object.denom) : "",
-    };
+    const obj = createBaseQueryTotalEscrowForDenomRequest();
+    if (isSet(object.denom)) obj.denom = String(object.denom);
+    return obj;
   },
   toJSON(message: QueryTotalEscrowForDenomRequest): unknown {
     const obj: any = {};
@@ -614,7 +612,7 @@ export const QueryTotalEscrowForDenomRequest = {
 };
 function createBaseQueryTotalEscrowForDenomResponse(): QueryTotalEscrowForDenomResponse {
   return {
-    amount: undefined,
+    amount: Coin.fromPartial({}),
   };
 }
 export const QueryTotalEscrowForDenomResponse = {
@@ -642,9 +640,9 @@ export const QueryTotalEscrowForDenomResponse = {
     return message;
   },
   fromJSON(object: any): QueryTotalEscrowForDenomResponse {
-    return {
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-    };
+    const obj = createBaseQueryTotalEscrowForDenomResponse();
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: QueryTotalEscrowForDenomResponse): unknown {
     const obj: any = {};
@@ -655,8 +653,9 @@ export const QueryTotalEscrowForDenomResponse = {
     object: I,
   ): QueryTotalEscrowForDenomResponse {
     const message = createBaseQueryTotalEscrowForDenomResponse();
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
 };
@@ -693,7 +692,7 @@ export class QueryClientImpl implements Query {
   }
   DenomTraces(
     request: QueryDenomTracesRequest = {
-      pagination: undefined,
+      pagination: PageRequest.fromPartial({}),
     },
   ): Promise<QueryDenomTracesResponse> {
     const data = QueryDenomTracesRequest.encode(request).finish();

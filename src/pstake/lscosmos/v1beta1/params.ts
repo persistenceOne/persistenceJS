@@ -26,7 +26,8 @@ export const Params = {
     return message;
   },
   fromJSON(_: any): Params {
-    return {};
+    const obj = createBaseParams();
+    return obj;
   },
   toJSON(_: Params): unknown {
     const obj: any = {};

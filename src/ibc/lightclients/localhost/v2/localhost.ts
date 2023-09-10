@@ -6,11 +6,11 @@ export const protobufPackage = "ibc.lightclients.localhost.v2";
 /** ClientState defines the 09-localhost client state */
 export interface ClientState {
   /** the latest block height */
-  latestHeight?: Height;
+  latestHeight: Height;
 }
 function createBaseClientState(): ClientState {
   return {
-    latestHeight: undefined,
+    latestHeight: Height.fromPartial({}),
   };
 }
 export const ClientState = {
@@ -38,9 +38,9 @@ export const ClientState = {
     return message;
   },
   fromJSON(object: any): ClientState {
-    return {
-      latestHeight: isSet(object.latestHeight) ? Height.fromJSON(object.latestHeight) : undefined,
-    };
+    const obj = createBaseClientState();
+    if (isSet(object.latestHeight)) obj.latestHeight = Height.fromJSON(object.latestHeight);
+    return obj;
   },
   toJSON(message: ClientState): unknown {
     const obj: any = {};
@@ -50,10 +50,9 @@ export const ClientState = {
   },
   fromPartial<I extends Exact<DeepPartial<ClientState>, I>>(object: I): ClientState {
     const message = createBaseClientState();
-    message.latestHeight =
-      object.latestHeight !== undefined && object.latestHeight !== null
-        ? Height.fromPartial(object.latestHeight)
-        : undefined;
+    if (object.latestHeight !== undefined && object.latestHeight !== null) {
+      message.latestHeight = Height.fromPartial(object.latestHeight);
+    }
     return message;
   },
 };

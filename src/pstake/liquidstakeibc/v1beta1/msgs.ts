@@ -30,7 +30,7 @@ export interface MsgUpdateHostChain {
 export interface MsgUpdateHostChainResponse {}
 export interface MsgLiquidStake {
   delegatorAddress: string;
-  amount?: Coin;
+  amount: Coin;
 }
 export interface MsgLiquidStakeResponse {}
 export interface MsgLiquidStakeLSM {
@@ -40,17 +40,17 @@ export interface MsgLiquidStakeLSM {
 export interface MsgLiquidStakeLSMResponse {}
 export interface MsgLiquidUnstake {
   delegatorAddress: string;
-  amount?: Coin;
+  amount: Coin;
 }
 export interface MsgLiquidUnstakeResponse {}
 export interface MsgRedeem {
   delegatorAddress: string;
-  amount?: Coin;
+  amount: Coin;
 }
 export interface MsgRedeemResponse {}
 export interface MsgUpdateParams {
   authority: string;
-  params?: Params;
+  params: Params;
 }
 export interface MsgUpdateParamsResponse {}
 function createBaseMsgRegisterHostChain(): MsgRegisterHostChain {
@@ -160,22 +160,20 @@ export const MsgRegisterHostChain = {
     return message;
   },
   fromJSON(object: any): MsgRegisterHostChain {
-    return {
-      authority: isSet(object.authority) ? String(object.authority) : "",
-      connectionId: isSet(object.connectionId) ? String(object.connectionId) : "",
-      depositFee: isSet(object.depositFee) ? String(object.depositFee) : "",
-      restakeFee: isSet(object.restakeFee) ? String(object.restakeFee) : "",
-      unstakeFee: isSet(object.unstakeFee) ? String(object.unstakeFee) : "",
-      redemptionFee: isSet(object.redemptionFee) ? String(object.redemptionFee) : "",
-      channelId: isSet(object.channelId) ? String(object.channelId) : "",
-      portId: isSet(object.portId) ? String(object.portId) : "",
-      hostDenom: isSet(object.hostDenom) ? String(object.hostDenom) : "",
-      minimumDeposit: isSet(object.minimumDeposit) ? String(object.minimumDeposit) : "",
-      unbondingFactor: isSet(object.unbondingFactor) ? Long.fromValue(object.unbondingFactor) : Long.ZERO,
-      autoCompoundFactor: isSet(object.autoCompoundFactor)
-        ? Long.fromValue(object.autoCompoundFactor)
-        : Long.ZERO,
-    };
+    const obj = createBaseMsgRegisterHostChain();
+    if (isSet(object.authority)) obj.authority = String(object.authority);
+    if (isSet(object.connectionId)) obj.connectionId = String(object.connectionId);
+    if (isSet(object.depositFee)) obj.depositFee = String(object.depositFee);
+    if (isSet(object.restakeFee)) obj.restakeFee = String(object.restakeFee);
+    if (isSet(object.unstakeFee)) obj.unstakeFee = String(object.unstakeFee);
+    if (isSet(object.redemptionFee)) obj.redemptionFee = String(object.redemptionFee);
+    if (isSet(object.channelId)) obj.channelId = String(object.channelId);
+    if (isSet(object.portId)) obj.portId = String(object.portId);
+    if (isSet(object.hostDenom)) obj.hostDenom = String(object.hostDenom);
+    if (isSet(object.minimumDeposit)) obj.minimumDeposit = String(object.minimumDeposit);
+    if (isSet(object.unbondingFactor)) obj.unbondingFactor = Long.fromValue(object.unbondingFactor);
+    if (isSet(object.autoCompoundFactor)) obj.autoCompoundFactor = Long.fromValue(object.autoCompoundFactor);
+    return obj;
   },
   toJSON(message: MsgRegisterHostChain): unknown {
     const obj: any = {};
@@ -207,14 +205,12 @@ export const MsgRegisterHostChain = {
     message.portId = object.portId ?? "";
     message.hostDenom = object.hostDenom ?? "";
     message.minimumDeposit = object.minimumDeposit ?? "";
-    message.unbondingFactor =
-      object.unbondingFactor !== undefined && object.unbondingFactor !== null
-        ? Long.fromValue(object.unbondingFactor)
-        : Long.ZERO;
-    message.autoCompoundFactor =
-      object.autoCompoundFactor !== undefined && object.autoCompoundFactor !== null
-        ? Long.fromValue(object.autoCompoundFactor)
-        : Long.ZERO;
+    if (object.unbondingFactor !== undefined && object.unbondingFactor !== null) {
+      message.unbondingFactor = Long.fromValue(object.unbondingFactor);
+    }
+    if (object.autoCompoundFactor !== undefined && object.autoCompoundFactor !== null) {
+      message.autoCompoundFactor = Long.fromValue(object.autoCompoundFactor);
+    }
     return message;
   },
 };
@@ -240,7 +236,8 @@ export const MsgRegisterHostChainResponse = {
     return message;
   },
   fromJSON(_: any): MsgRegisterHostChainResponse {
-    return {};
+    const obj = createBaseMsgRegisterHostChainResponse();
+    return obj;
   },
   toJSON(_: MsgRegisterHostChainResponse): unknown {
     const obj: any = {};
@@ -297,11 +294,11 @@ export const MsgUpdateHostChain = {
     return message;
   },
   fromJSON(object: any): MsgUpdateHostChain {
-    return {
-      authority: isSet(object.authority) ? String(object.authority) : "",
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-      updates: Array.isArray(object?.updates) ? object.updates.map((e: any) => KVUpdate.fromJSON(e)) : [],
-    };
+    const obj = createBaseMsgUpdateHostChain();
+    if (isSet(object.authority)) obj.authority = String(object.authority);
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    if (Array.isArray(object?.updates)) obj.updates = object.updates.map((e: any) => KVUpdate.fromJSON(e));
+    return obj;
   },
   toJSON(message: MsgUpdateHostChain): unknown {
     const obj: any = {};
@@ -344,7 +341,8 @@ export const MsgUpdateHostChainResponse = {
     return message;
   },
   fromJSON(_: any): MsgUpdateHostChainResponse {
-    return {};
+    const obj = createBaseMsgUpdateHostChainResponse();
+    return obj;
   },
   toJSON(_: MsgUpdateHostChainResponse): unknown {
     const obj: any = {};
@@ -358,7 +356,7 @@ export const MsgUpdateHostChainResponse = {
 function createBaseMsgLiquidStake(): MsgLiquidStake {
   return {
     delegatorAddress: "",
-    amount: undefined,
+    amount: Coin.fromPartial({}),
   };
 }
 export const MsgLiquidStake = {
@@ -392,10 +390,10 @@ export const MsgLiquidStake = {
     return message;
   },
   fromJSON(object: any): MsgLiquidStake {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-    };
+    const obj = createBaseMsgLiquidStake();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: MsgLiquidStake): unknown {
     const obj: any = {};
@@ -406,8 +404,9 @@ export const MsgLiquidStake = {
   fromPartial<I extends Exact<DeepPartial<MsgLiquidStake>, I>>(object: I): MsgLiquidStake {
     const message = createBaseMsgLiquidStake();
     message.delegatorAddress = object.delegatorAddress ?? "";
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
 };
@@ -433,7 +432,8 @@ export const MsgLiquidStakeResponse = {
     return message;
   },
   fromJSON(_: any): MsgLiquidStakeResponse {
-    return {};
+    const obj = createBaseMsgLiquidStakeResponse();
+    return obj;
   },
   toJSON(_: MsgLiquidStakeResponse): unknown {
     const obj: any = {};
@@ -481,12 +481,11 @@ export const MsgLiquidStakeLSM = {
     return message;
   },
   fromJSON(object: any): MsgLiquidStakeLSM {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      delegations: Array.isArray(object?.delegations)
-        ? object.delegations.map((e: any) => Coin.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseMsgLiquidStakeLSM();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (Array.isArray(object?.delegations))
+      obj.delegations = object.delegations.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: MsgLiquidStakeLSM): unknown {
     const obj: any = {};
@@ -527,7 +526,8 @@ export const MsgLiquidStakeLSMResponse = {
     return message;
   },
   fromJSON(_: any): MsgLiquidStakeLSMResponse {
-    return {};
+    const obj = createBaseMsgLiquidStakeLSMResponse();
+    return obj;
   },
   toJSON(_: MsgLiquidStakeLSMResponse): unknown {
     const obj: any = {};
@@ -541,7 +541,7 @@ export const MsgLiquidStakeLSMResponse = {
 function createBaseMsgLiquidUnstake(): MsgLiquidUnstake {
   return {
     delegatorAddress: "",
-    amount: undefined,
+    amount: Coin.fromPartial({}),
   };
 }
 export const MsgLiquidUnstake = {
@@ -575,10 +575,10 @@ export const MsgLiquidUnstake = {
     return message;
   },
   fromJSON(object: any): MsgLiquidUnstake {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-    };
+    const obj = createBaseMsgLiquidUnstake();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: MsgLiquidUnstake): unknown {
     const obj: any = {};
@@ -589,8 +589,9 @@ export const MsgLiquidUnstake = {
   fromPartial<I extends Exact<DeepPartial<MsgLiquidUnstake>, I>>(object: I): MsgLiquidUnstake {
     const message = createBaseMsgLiquidUnstake();
     message.delegatorAddress = object.delegatorAddress ?? "";
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
 };
@@ -616,7 +617,8 @@ export const MsgLiquidUnstakeResponse = {
     return message;
   },
   fromJSON(_: any): MsgLiquidUnstakeResponse {
-    return {};
+    const obj = createBaseMsgLiquidUnstakeResponse();
+    return obj;
   },
   toJSON(_: MsgLiquidUnstakeResponse): unknown {
     const obj: any = {};
@@ -630,7 +632,7 @@ export const MsgLiquidUnstakeResponse = {
 function createBaseMsgRedeem(): MsgRedeem {
   return {
     delegatorAddress: "",
-    amount: undefined,
+    amount: Coin.fromPartial({}),
   };
 }
 export const MsgRedeem = {
@@ -664,10 +666,10 @@ export const MsgRedeem = {
     return message;
   },
   fromJSON(object: any): MsgRedeem {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-    };
+    const obj = createBaseMsgRedeem();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: MsgRedeem): unknown {
     const obj: any = {};
@@ -678,8 +680,9 @@ export const MsgRedeem = {
   fromPartial<I extends Exact<DeepPartial<MsgRedeem>, I>>(object: I): MsgRedeem {
     const message = createBaseMsgRedeem();
     message.delegatorAddress = object.delegatorAddress ?? "";
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
 };
@@ -705,7 +708,8 @@ export const MsgRedeemResponse = {
     return message;
   },
   fromJSON(_: any): MsgRedeemResponse {
-    return {};
+    const obj = createBaseMsgRedeemResponse();
+    return obj;
   },
   toJSON(_: MsgRedeemResponse): unknown {
     const obj: any = {};
@@ -719,7 +723,7 @@ export const MsgRedeemResponse = {
 function createBaseMsgUpdateParams(): MsgUpdateParams {
   return {
     authority: "",
-    params: undefined,
+    params: Params.fromPartial({}),
   };
 }
 export const MsgUpdateParams = {
@@ -753,10 +757,10 @@ export const MsgUpdateParams = {
     return message;
   },
   fromJSON(object: any): MsgUpdateParams {
-    return {
-      authority: isSet(object.authority) ? String(object.authority) : "",
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-    };
+    const obj = createBaseMsgUpdateParams();
+    if (isSet(object.authority)) obj.authority = String(object.authority);
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    return obj;
   },
   toJSON(message: MsgUpdateParams): unknown {
     const obj: any = {};
@@ -767,8 +771,9 @@ export const MsgUpdateParams = {
   fromPartial<I extends Exact<DeepPartial<MsgUpdateParams>, I>>(object: I): MsgUpdateParams {
     const message = createBaseMsgUpdateParams();
     message.authority = object.authority ?? "";
-    message.params =
-      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     return message;
   },
 };
@@ -794,7 +799,8 @@ export const MsgUpdateParamsResponse = {
     return message;
   },
   fromJSON(_: any): MsgUpdateParamsResponse {
-    return {};
+    const obj = createBaseMsgUpdateParamsResponse();
+    return obj;
   },
   toJSON(_: MsgUpdateParamsResponse): unknown {
     const obj: any = {};

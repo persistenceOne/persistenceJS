@@ -60,12 +60,12 @@ export const Params = {
     return message;
   },
   fromJSON(object: any): Params {
-    return {
-      adminAddress: isSet(object.adminAddress) ? String(object.adminAddress) : "",
-      feeAddress: isSet(object.feeAddress) ? String(object.feeAddress) : "",
-      upperCValueLimit: isSet(object.upperCValueLimit) ? String(object.upperCValueLimit) : "",
-      lowerCValueLimit: isSet(object.lowerCValueLimit) ? String(object.lowerCValueLimit) : "",
-    };
+    const obj = createBaseParams();
+    if (isSet(object.adminAddress)) obj.adminAddress = String(object.adminAddress);
+    if (isSet(object.feeAddress)) obj.feeAddress = String(object.feeAddress);
+    if (isSet(object.upperCValueLimit)) obj.upperCValueLimit = String(object.upperCValueLimit);
+    if (isSet(object.lowerCValueLimit)) obj.lowerCValueLimit = String(object.lowerCValueLimit);
+    return obj;
   },
   toJSON(message: Params): unknown {
     const obj: any = {};
