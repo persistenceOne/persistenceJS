@@ -4,22 +4,22 @@ echo "updating amino cosmos tendermint ibc pstake persistence cosmwasm"
 echo $(pwd)
 
 cosmos_git=https://github.com/persistenceOne/cosmos-sdk.git
-cosmos_tag=v0.47.3-lsm3
+cosmos_tag=v0.47.3-lsm4
 
 ics23_git=https://github.com/cosmos/ics23.git
 ics23_tag=v0.10.0
 
 ibc_git=https://github.com/persistenceOne/ibc-go.git
-ibc_tag=v7.2.0-lsm2
+ibc_tag=v7.2.0-lsm3
 
 pstake_git=https://github.com/persistenceOne/pstake-native.git
-pstake_tag=main
+pstake_tag=v2.3.3
 
 persistence_sdk_git=https://github.com/persistenceOne/persistence-sdk.git
 persistence_sdk_tag=v2.1.0
 
 wasmd_git=https://github.com/persistenceOne/wasmd.git
-wasmd_tag=v0.40.2-lsm2
+wasmd_tag=v0.40.2-lsm3
 
 echo "updating amino, cosmos, tendermint from cosmos-sdk"
 git clone $cosmos_git
