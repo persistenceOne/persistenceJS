@@ -20,14 +20,14 @@ export interface QueryParamsRequest {}
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
   /** params holds all the parameters of this module. */
-  params?: Params;
+  params: Params;
 }
 /** QueryAllStateRequest is request type for the Query/AllState RPC method. */
 export interface QueryAllStateRequest {}
 /** QueryAllStateResponse is response type for the Query/AllState RPC method. */
 export interface QueryAllStateResponse {
   /** params holds all the parameters of this module. */
-  genesis?: GenesisState;
+  genesis: GenesisState;
 }
 /** QueryHostChainParamsRequest is request for the Ouery/HostChainParams methods. */
 export interface QueryHostChainParamsRequest {}
@@ -36,7 +36,7 @@ export interface QueryHostChainParamsRequest {}
  * methods.
  */
 export interface QueryHostChainParamsResponse {
-  hostChainParams?: HostChainParams;
+  hostChainParams: HostChainParams;
 }
 /** QueryDelegationStateRequest is request for the Ouery/DelegationState methods. */
 export interface QueryDelegationStateRequest {}
@@ -45,7 +45,7 @@ export interface QueryDelegationStateRequest {}
  * methods.
  */
 export interface QueryDelegationStateResponse {
-  delegationState?: DelegationState;
+  delegationState: DelegationState;
 }
 /**
  * QueryListedValidatorsRequest is a request for the Query/AllowListedValidators
@@ -57,7 +57,7 @@ export interface QueryAllowListedValidatorsRequest {}
  * Query/AllowListedValidators methods.
  */
 export interface QueryAllowListedValidatorsResponse {
-  allowListedValidators?: AllowListedValidators;
+  allowListedValidators: AllowListedValidators;
 }
 /** QueryCValueRequest is a request for the Query/CValue methods. */
 export interface QueryCValueRequest {}
@@ -82,7 +82,7 @@ export interface QueryIBCTransientStoreRequest {}
  * methods.
  */
 export interface QueryIBCTransientStoreResponse {
-  iBCTransientStore?: IBCAmountTransientStore;
+  iBCTransientStore: IBCAmountTransientStore;
 }
 /** QueryUnclaimedRequest is a request for the Query/Unclaimed methods. */
 export interface QueryUnclaimedRequest {
@@ -145,7 +145,7 @@ export interface QueryUnbondingEpochCValueRequest {
  * Query/UnbondingEpochCValue methods.
  */
 export interface QueryUnbondingEpochCValueResponse {
-  unbondingEpochCValue?: UnbondingEpochCValue;
+  unbondingEpochCValue: UnbondingEpochCValue;
 }
 /**
  * QueryHostAccountUndelegationRequest is a request for the
@@ -163,7 +163,7 @@ export interface QueryHostAccountUndelegationRequest {
  * Query/HostAccountUndelegation methods.
  */
 export interface QueryHostAccountUndelegationResponse {
-  hostAccountUndelegation?: HostAccountUndelegation;
+  hostAccountUndelegation: HostAccountUndelegation;
 }
 /**
  * QueryDelegatorUnbondingEpochEntryRequest is a request for the
@@ -178,13 +178,13 @@ export interface QueryDelegatorUnbondingEpochEntryRequest {
  * Query/DelegatorUnbondingEpochEntry methods.
  */
 export interface QueryDelegatorUnbondingEpochEntryResponse {
-  delegatorUnbodingEpochEntry?: DelegatorUnbondingEpochEntry;
+  delegatorUnbodingEpochEntry: DelegatorUnbondingEpochEntry;
 }
 /** QueryHostAccountsRequest is a request for the Query/HostAccounts methods. */
 export interface QueryHostAccountsRequest {}
 /** QueryHostAccountsResponse is a response for the Query/HostAccounts methods. */
 export interface QueryHostAccountsResponse {
-  hostAccounts?: HostAccounts;
+  hostAccounts: HostAccounts;
 }
 /**
  * QueryDepositModuleAccountRequest is a request for the
@@ -196,7 +196,7 @@ export interface QueryDepositModuleAccountRequest {}
  * Query/DepositModuleAccount methods.
  */
 export interface QueryDepositModuleAccountResponse {
-  balance?: Coin;
+  balance: Coin;
 }
 /**
  * QueryAllDelegatorUnbondingEpochEntriesRequest is a request for the
@@ -234,7 +234,8 @@ export const QueryParamsRequest = {
     return message;
   },
   fromJSON(_: any): QueryParamsRequest {
-    return {};
+    const obj = createBaseQueryParamsRequest();
+    return obj;
   },
   toJSON(_: QueryParamsRequest): unknown {
     const obj: any = {};
@@ -247,7 +248,7 @@ export const QueryParamsRequest = {
 };
 function createBaseQueryParamsResponse(): QueryParamsResponse {
   return {
-    params: undefined,
+    params: Params.fromPartial({}),
   };
 }
 export const QueryParamsResponse = {
@@ -275,9 +276,9 @@ export const QueryParamsResponse = {
     return message;
   },
   fromJSON(object: any): QueryParamsResponse {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-    };
+    const obj = createBaseQueryParamsResponse();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    return obj;
   },
   toJSON(message: QueryParamsResponse): unknown {
     const obj: any = {};
@@ -286,8 +287,9 @@ export const QueryParamsResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryParamsResponse>, I>>(object: I): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
-    message.params =
-      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     return message;
   },
 };
@@ -313,7 +315,8 @@ export const QueryAllStateRequest = {
     return message;
   },
   fromJSON(_: any): QueryAllStateRequest {
-    return {};
+    const obj = createBaseQueryAllStateRequest();
+    return obj;
   },
   toJSON(_: QueryAllStateRequest): unknown {
     const obj: any = {};
@@ -326,7 +329,7 @@ export const QueryAllStateRequest = {
 };
 function createBaseQueryAllStateResponse(): QueryAllStateResponse {
   return {
-    genesis: undefined,
+    genesis: GenesisState.fromPartial({}),
   };
 }
 export const QueryAllStateResponse = {
@@ -354,9 +357,9 @@ export const QueryAllStateResponse = {
     return message;
   },
   fromJSON(object: any): QueryAllStateResponse {
-    return {
-      genesis: isSet(object.genesis) ? GenesisState.fromJSON(object.genesis) : undefined,
-    };
+    const obj = createBaseQueryAllStateResponse();
+    if (isSet(object.genesis)) obj.genesis = GenesisState.fromJSON(object.genesis);
+    return obj;
   },
   toJSON(message: QueryAllStateResponse): unknown {
     const obj: any = {};
@@ -366,10 +369,9 @@ export const QueryAllStateResponse = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryAllStateResponse>, I>>(object: I): QueryAllStateResponse {
     const message = createBaseQueryAllStateResponse();
-    message.genesis =
-      object.genesis !== undefined && object.genesis !== null
-        ? GenesisState.fromPartial(object.genesis)
-        : undefined;
+    if (object.genesis !== undefined && object.genesis !== null) {
+      message.genesis = GenesisState.fromPartial(object.genesis);
+    }
     return message;
   },
 };
@@ -395,7 +397,8 @@ export const QueryHostChainParamsRequest = {
     return message;
   },
   fromJSON(_: any): QueryHostChainParamsRequest {
-    return {};
+    const obj = createBaseQueryHostChainParamsRequest();
+    return obj;
   },
   toJSON(_: QueryHostChainParamsRequest): unknown {
     const obj: any = {};
@@ -410,7 +413,7 @@ export const QueryHostChainParamsRequest = {
 };
 function createBaseQueryHostChainParamsResponse(): QueryHostChainParamsResponse {
   return {
-    hostChainParams: undefined,
+    hostChainParams: HostChainParams.fromPartial({}),
   };
 }
 export const QueryHostChainParamsResponse = {
@@ -438,11 +441,9 @@ export const QueryHostChainParamsResponse = {
     return message;
   },
   fromJSON(object: any): QueryHostChainParamsResponse {
-    return {
-      hostChainParams: isSet(object.hostChainParams)
-        ? HostChainParams.fromJSON(object.hostChainParams)
-        : undefined,
-    };
+    const obj = createBaseQueryHostChainParamsResponse();
+    if (isSet(object.hostChainParams)) obj.hostChainParams = HostChainParams.fromJSON(object.hostChainParams);
+    return obj;
   },
   toJSON(message: QueryHostChainParamsResponse): unknown {
     const obj: any = {};
@@ -456,10 +457,9 @@ export const QueryHostChainParamsResponse = {
     object: I,
   ): QueryHostChainParamsResponse {
     const message = createBaseQueryHostChainParamsResponse();
-    message.hostChainParams =
-      object.hostChainParams !== undefined && object.hostChainParams !== null
-        ? HostChainParams.fromPartial(object.hostChainParams)
-        : undefined;
+    if (object.hostChainParams !== undefined && object.hostChainParams !== null) {
+      message.hostChainParams = HostChainParams.fromPartial(object.hostChainParams);
+    }
     return message;
   },
 };
@@ -485,7 +485,8 @@ export const QueryDelegationStateRequest = {
     return message;
   },
   fromJSON(_: any): QueryDelegationStateRequest {
-    return {};
+    const obj = createBaseQueryDelegationStateRequest();
+    return obj;
   },
   toJSON(_: QueryDelegationStateRequest): unknown {
     const obj: any = {};
@@ -500,7 +501,7 @@ export const QueryDelegationStateRequest = {
 };
 function createBaseQueryDelegationStateResponse(): QueryDelegationStateResponse {
   return {
-    delegationState: undefined,
+    delegationState: DelegationState.fromPartial({}),
   };
 }
 export const QueryDelegationStateResponse = {
@@ -528,11 +529,9 @@ export const QueryDelegationStateResponse = {
     return message;
   },
   fromJSON(object: any): QueryDelegationStateResponse {
-    return {
-      delegationState: isSet(object.delegationState)
-        ? DelegationState.fromJSON(object.delegationState)
-        : undefined,
-    };
+    const obj = createBaseQueryDelegationStateResponse();
+    if (isSet(object.delegationState)) obj.delegationState = DelegationState.fromJSON(object.delegationState);
+    return obj;
   },
   toJSON(message: QueryDelegationStateResponse): unknown {
     const obj: any = {};
@@ -546,10 +545,9 @@ export const QueryDelegationStateResponse = {
     object: I,
   ): QueryDelegationStateResponse {
     const message = createBaseQueryDelegationStateResponse();
-    message.delegationState =
-      object.delegationState !== undefined && object.delegationState !== null
-        ? DelegationState.fromPartial(object.delegationState)
-        : undefined;
+    if (object.delegationState !== undefined && object.delegationState !== null) {
+      message.delegationState = DelegationState.fromPartial(object.delegationState);
+    }
     return message;
   },
 };
@@ -575,7 +573,8 @@ export const QueryAllowListedValidatorsRequest = {
     return message;
   },
   fromJSON(_: any): QueryAllowListedValidatorsRequest {
-    return {};
+    const obj = createBaseQueryAllowListedValidatorsRequest();
+    return obj;
   },
   toJSON(_: QueryAllowListedValidatorsRequest): unknown {
     const obj: any = {};
@@ -590,7 +589,7 @@ export const QueryAllowListedValidatorsRequest = {
 };
 function createBaseQueryAllowListedValidatorsResponse(): QueryAllowListedValidatorsResponse {
   return {
-    allowListedValidators: undefined,
+    allowListedValidators: AllowListedValidators.fromPartial({}),
   };
 }
 export const QueryAllowListedValidatorsResponse = {
@@ -618,11 +617,10 @@ export const QueryAllowListedValidatorsResponse = {
     return message;
   },
   fromJSON(object: any): QueryAllowListedValidatorsResponse {
-    return {
-      allowListedValidators: isSet(object.allowListedValidators)
-        ? AllowListedValidators.fromJSON(object.allowListedValidators)
-        : undefined,
-    };
+    const obj = createBaseQueryAllowListedValidatorsResponse();
+    if (isSet(object.allowListedValidators))
+      obj.allowListedValidators = AllowListedValidators.fromJSON(object.allowListedValidators);
+    return obj;
   },
   toJSON(message: QueryAllowListedValidatorsResponse): unknown {
     const obj: any = {};
@@ -636,10 +634,9 @@ export const QueryAllowListedValidatorsResponse = {
     object: I,
   ): QueryAllowListedValidatorsResponse {
     const message = createBaseQueryAllowListedValidatorsResponse();
-    message.allowListedValidators =
-      object.allowListedValidators !== undefined && object.allowListedValidators !== null
-        ? AllowListedValidators.fromPartial(object.allowListedValidators)
-        : undefined;
+    if (object.allowListedValidators !== undefined && object.allowListedValidators !== null) {
+      message.allowListedValidators = AllowListedValidators.fromPartial(object.allowListedValidators);
+    }
     return message;
   },
 };
@@ -665,7 +662,8 @@ export const QueryCValueRequest = {
     return message;
   },
   fromJSON(_: any): QueryCValueRequest {
-    return {};
+    const obj = createBaseQueryCValueRequest();
+    return obj;
   },
   toJSON(_: QueryCValueRequest): unknown {
     const obj: any = {};
@@ -706,9 +704,9 @@ export const QueryCValueResponse = {
     return message;
   },
   fromJSON(object: any): QueryCValueResponse {
-    return {
-      cValue: isSet(object.cValue) ? String(object.cValue) : "",
-    };
+    const obj = createBaseQueryCValueResponse();
+    if (isSet(object.cValue)) obj.cValue = String(object.cValue);
+    return obj;
   },
   toJSON(message: QueryCValueResponse): unknown {
     const obj: any = {};
@@ -743,7 +741,8 @@ export const QueryModuleStateRequest = {
     return message;
   },
   fromJSON(_: any): QueryModuleStateRequest {
-    return {};
+    const obj = createBaseQueryModuleStateRequest();
+    return obj;
   },
   toJSON(_: QueryModuleStateRequest): unknown {
     const obj: any = {};
@@ -784,9 +783,9 @@ export const QueryModuleStateResponse = {
     return message;
   },
   fromJSON(object: any): QueryModuleStateResponse {
-    return {
-      moduleState: isSet(object.moduleState) ? Boolean(object.moduleState) : false,
-    };
+    const obj = createBaseQueryModuleStateResponse();
+    if (isSet(object.moduleState)) obj.moduleState = Boolean(object.moduleState);
+    return obj;
   },
   toJSON(message: QueryModuleStateResponse): unknown {
     const obj: any = {};
@@ -823,7 +822,8 @@ export const QueryIBCTransientStoreRequest = {
     return message;
   },
   fromJSON(_: any): QueryIBCTransientStoreRequest {
-    return {};
+    const obj = createBaseQueryIBCTransientStoreRequest();
+    return obj;
   },
   toJSON(_: QueryIBCTransientStoreRequest): unknown {
     const obj: any = {};
@@ -838,7 +838,7 @@ export const QueryIBCTransientStoreRequest = {
 };
 function createBaseQueryIBCTransientStoreResponse(): QueryIBCTransientStoreResponse {
   return {
-    iBCTransientStore: undefined,
+    iBCTransientStore: IBCAmountTransientStore.fromPartial({}),
   };
 }
 export const QueryIBCTransientStoreResponse = {
@@ -866,11 +866,10 @@ export const QueryIBCTransientStoreResponse = {
     return message;
   },
   fromJSON(object: any): QueryIBCTransientStoreResponse {
-    return {
-      iBCTransientStore: isSet(object.iBCTransientStore)
-        ? IBCAmountTransientStore.fromJSON(object.iBCTransientStore)
-        : undefined,
-    };
+    const obj = createBaseQueryIBCTransientStoreResponse();
+    if (isSet(object.iBCTransientStore))
+      obj.iBCTransientStore = IBCAmountTransientStore.fromJSON(object.iBCTransientStore);
+    return obj;
   },
   toJSON(message: QueryIBCTransientStoreResponse): unknown {
     const obj: any = {};
@@ -884,10 +883,9 @@ export const QueryIBCTransientStoreResponse = {
     object: I,
   ): QueryIBCTransientStoreResponse {
     const message = createBaseQueryIBCTransientStoreResponse();
-    message.iBCTransientStore =
-      object.iBCTransientStore !== undefined && object.iBCTransientStore !== null
-        ? IBCAmountTransientStore.fromPartial(object.iBCTransientStore)
-        : undefined;
+    if (object.iBCTransientStore !== undefined && object.iBCTransientStore !== null) {
+      message.iBCTransientStore = IBCAmountTransientStore.fromPartial(object.iBCTransientStore);
+    }
     return message;
   },
 };
@@ -921,9 +919,9 @@ export const QueryUnclaimedRequest = {
     return message;
   },
   fromJSON(object: any): QueryUnclaimedRequest {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-    };
+    const obj = createBaseQueryUnclaimedRequest();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    return obj;
   },
   toJSON(message: QueryUnclaimedRequest): unknown {
     const obj: any = {};
@@ -966,11 +964,10 @@ export const QueryUnclaimedResponse = {
     return message;
   },
   fromJSON(object: any): QueryUnclaimedResponse {
-    return {
-      unclaimed: Array.isArray(object?.unclaimed)
-        ? object.unclaimed.map((e: any) => UnbondingEpochCValue.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseQueryUnclaimedResponse();
+    if (Array.isArray(object?.unclaimed))
+      obj.unclaimed = object.unclaimed.map((e: any) => UnbondingEpochCValue.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryUnclaimedResponse): unknown {
     const obj: any = {};
@@ -1017,9 +1014,9 @@ export const QueryFailedUnbondingsRequest = {
     return message;
   },
   fromJSON(object: any): QueryFailedUnbondingsRequest {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-    };
+    const obj = createBaseQueryFailedUnbondingsRequest();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    return obj;
   },
   toJSON(message: QueryFailedUnbondingsRequest): unknown {
     const obj: any = {};
@@ -1064,11 +1061,10 @@ export const QueryFailedUnbondingsResponse = {
     return message;
   },
   fromJSON(object: any): QueryFailedUnbondingsResponse {
-    return {
-      failedUnbondings: Array.isArray(object?.failedUnbondings)
-        ? object.failedUnbondings.map((e: any) => UnbondingEpochCValue.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseQueryFailedUnbondingsResponse();
+    if (Array.isArray(object?.failedUnbondings))
+      obj.failedUnbondings = object.failedUnbondings.map((e: any) => UnbondingEpochCValue.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryFailedUnbondingsResponse): unknown {
     const obj: any = {};
@@ -1119,9 +1115,9 @@ export const QueryPendingUnbondingsRequest = {
     return message;
   },
   fromJSON(object: any): QueryPendingUnbondingsRequest {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-    };
+    const obj = createBaseQueryPendingUnbondingsRequest();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    return obj;
   },
   toJSON(message: QueryPendingUnbondingsRequest): unknown {
     const obj: any = {};
@@ -1166,11 +1162,10 @@ export const QueryPendingUnbondingsResponse = {
     return message;
   },
   fromJSON(object: any): QueryPendingUnbondingsResponse {
-    return {
-      pendingUnbondings: Array.isArray(object?.pendingUnbondings)
-        ? object.pendingUnbondings.map((e: any) => UnbondingEpochCValue.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseQueryPendingUnbondingsResponse();
+    if (Array.isArray(object?.pendingUnbondings))
+      obj.pendingUnbondings = object.pendingUnbondings.map((e: any) => UnbondingEpochCValue.fromJSON(e));
+    return obj;
   },
   toJSON(message: QueryPendingUnbondingsResponse): unknown {
     const obj: any = {};
@@ -1222,9 +1217,9 @@ export const QueryUnbondingEpochCValueRequest = {
     return message;
   },
   fromJSON(object: any): QueryUnbondingEpochCValueRequest {
-    return {
-      epochNumber: isSet(object.epochNumber) ? Long.fromValue(object.epochNumber) : Long.ZERO,
-    };
+    const obj = createBaseQueryUnbondingEpochCValueRequest();
+    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    return obj;
   },
   toJSON(message: QueryUnbondingEpochCValueRequest): unknown {
     const obj: any = {};
@@ -1235,16 +1230,15 @@ export const QueryUnbondingEpochCValueRequest = {
     object: I,
   ): QueryUnbondingEpochCValueRequest {
     const message = createBaseQueryUnbondingEpochCValueRequest();
-    message.epochNumber =
-      object.epochNumber !== undefined && object.epochNumber !== null
-        ? Long.fromValue(object.epochNumber)
-        : Long.ZERO;
+    if (object.epochNumber !== undefined && object.epochNumber !== null) {
+      message.epochNumber = Long.fromValue(object.epochNumber);
+    }
     return message;
   },
 };
 function createBaseQueryUnbondingEpochCValueResponse(): QueryUnbondingEpochCValueResponse {
   return {
-    unbondingEpochCValue: undefined,
+    unbondingEpochCValue: UnbondingEpochCValue.fromPartial({}),
   };
 }
 export const QueryUnbondingEpochCValueResponse = {
@@ -1272,11 +1266,10 @@ export const QueryUnbondingEpochCValueResponse = {
     return message;
   },
   fromJSON(object: any): QueryUnbondingEpochCValueResponse {
-    return {
-      unbondingEpochCValue: isSet(object.unbondingEpochCValue)
-        ? UnbondingEpochCValue.fromJSON(object.unbondingEpochCValue)
-        : undefined,
-    };
+    const obj = createBaseQueryUnbondingEpochCValueResponse();
+    if (isSet(object.unbondingEpochCValue))
+      obj.unbondingEpochCValue = UnbondingEpochCValue.fromJSON(object.unbondingEpochCValue);
+    return obj;
   },
   toJSON(message: QueryUnbondingEpochCValueResponse): unknown {
     const obj: any = {};
@@ -1290,10 +1283,9 @@ export const QueryUnbondingEpochCValueResponse = {
     object: I,
   ): QueryUnbondingEpochCValueResponse {
     const message = createBaseQueryUnbondingEpochCValueResponse();
-    message.unbondingEpochCValue =
-      object.unbondingEpochCValue !== undefined && object.unbondingEpochCValue !== null
-        ? UnbondingEpochCValue.fromPartial(object.unbondingEpochCValue)
-        : undefined;
+    if (object.unbondingEpochCValue !== undefined && object.unbondingEpochCValue !== null) {
+      message.unbondingEpochCValue = UnbondingEpochCValue.fromPartial(object.unbondingEpochCValue);
+    }
     return message;
   },
 };
@@ -1327,9 +1319,9 @@ export const QueryHostAccountUndelegationRequest = {
     return message;
   },
   fromJSON(object: any): QueryHostAccountUndelegationRequest {
-    return {
-      epochNumber: isSet(object.epochNumber) ? Long.fromValue(object.epochNumber) : Long.ZERO,
-    };
+    const obj = createBaseQueryHostAccountUndelegationRequest();
+    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    return obj;
   },
   toJSON(message: QueryHostAccountUndelegationRequest): unknown {
     const obj: any = {};
@@ -1340,16 +1332,15 @@ export const QueryHostAccountUndelegationRequest = {
     object: I,
   ): QueryHostAccountUndelegationRequest {
     const message = createBaseQueryHostAccountUndelegationRequest();
-    message.epochNumber =
-      object.epochNumber !== undefined && object.epochNumber !== null
-        ? Long.fromValue(object.epochNumber)
-        : Long.ZERO;
+    if (object.epochNumber !== undefined && object.epochNumber !== null) {
+      message.epochNumber = Long.fromValue(object.epochNumber);
+    }
     return message;
   },
 };
 function createBaseQueryHostAccountUndelegationResponse(): QueryHostAccountUndelegationResponse {
   return {
-    hostAccountUndelegation: undefined,
+    hostAccountUndelegation: HostAccountUndelegation.fromPartial({}),
   };
 }
 export const QueryHostAccountUndelegationResponse = {
@@ -1380,11 +1371,10 @@ export const QueryHostAccountUndelegationResponse = {
     return message;
   },
   fromJSON(object: any): QueryHostAccountUndelegationResponse {
-    return {
-      hostAccountUndelegation: isSet(object.hostAccountUndelegation)
-        ? HostAccountUndelegation.fromJSON(object.hostAccountUndelegation)
-        : undefined,
-    };
+    const obj = createBaseQueryHostAccountUndelegationResponse();
+    if (isSet(object.hostAccountUndelegation))
+      obj.hostAccountUndelegation = HostAccountUndelegation.fromJSON(object.hostAccountUndelegation);
+    return obj;
   },
   toJSON(message: QueryHostAccountUndelegationResponse): unknown {
     const obj: any = {};
@@ -1398,10 +1388,9 @@ export const QueryHostAccountUndelegationResponse = {
     object: I,
   ): QueryHostAccountUndelegationResponse {
     const message = createBaseQueryHostAccountUndelegationResponse();
-    message.hostAccountUndelegation =
-      object.hostAccountUndelegation !== undefined && object.hostAccountUndelegation !== null
-        ? HostAccountUndelegation.fromPartial(object.hostAccountUndelegation)
-        : undefined;
+    if (object.hostAccountUndelegation !== undefined && object.hostAccountUndelegation !== null) {
+      message.hostAccountUndelegation = HostAccountUndelegation.fromPartial(object.hostAccountUndelegation);
+    }
     return message;
   },
 };
@@ -1445,10 +1434,10 @@ export const QueryDelegatorUnbondingEpochEntryRequest = {
     return message;
   },
   fromJSON(object: any): QueryDelegatorUnbondingEpochEntryRequest {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      epochNumber: isSet(object.epochNumber) ? Long.fromValue(object.epochNumber) : Long.ZERO,
-    };
+    const obj = createBaseQueryDelegatorUnbondingEpochEntryRequest();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    return obj;
   },
   toJSON(message: QueryDelegatorUnbondingEpochEntryRequest): unknown {
     const obj: any = {};
@@ -1461,16 +1450,15 @@ export const QueryDelegatorUnbondingEpochEntryRequest = {
   ): QueryDelegatorUnbondingEpochEntryRequest {
     const message = createBaseQueryDelegatorUnbondingEpochEntryRequest();
     message.delegatorAddress = object.delegatorAddress ?? "";
-    message.epochNumber =
-      object.epochNumber !== undefined && object.epochNumber !== null
-        ? Long.fromValue(object.epochNumber)
-        : Long.ZERO;
+    if (object.epochNumber !== undefined && object.epochNumber !== null) {
+      message.epochNumber = Long.fromValue(object.epochNumber);
+    }
     return message;
   },
 };
 function createBaseQueryDelegatorUnbondingEpochEntryResponse(): QueryDelegatorUnbondingEpochEntryResponse {
   return {
-    delegatorUnbodingEpochEntry: undefined,
+    delegatorUnbodingEpochEntry: DelegatorUnbondingEpochEntry.fromPartial({}),
   };
 }
 export const QueryDelegatorUnbondingEpochEntryResponse = {
@@ -1504,11 +1492,12 @@ export const QueryDelegatorUnbondingEpochEntryResponse = {
     return message;
   },
   fromJSON(object: any): QueryDelegatorUnbondingEpochEntryResponse {
-    return {
-      delegatorUnbodingEpochEntry: isSet(object.delegatorUnbodingEpochEntry)
-        ? DelegatorUnbondingEpochEntry.fromJSON(object.delegatorUnbodingEpochEntry)
-        : undefined,
-    };
+    const obj = createBaseQueryDelegatorUnbondingEpochEntryResponse();
+    if (isSet(object.delegatorUnbodingEpochEntry))
+      obj.delegatorUnbodingEpochEntry = DelegatorUnbondingEpochEntry.fromJSON(
+        object.delegatorUnbodingEpochEntry,
+      );
+    return obj;
   },
   toJSON(message: QueryDelegatorUnbondingEpochEntryResponse): unknown {
     const obj: any = {};
@@ -1522,10 +1511,11 @@ export const QueryDelegatorUnbondingEpochEntryResponse = {
     object: I,
   ): QueryDelegatorUnbondingEpochEntryResponse {
     const message = createBaseQueryDelegatorUnbondingEpochEntryResponse();
-    message.delegatorUnbodingEpochEntry =
-      object.delegatorUnbodingEpochEntry !== undefined && object.delegatorUnbodingEpochEntry !== null
-        ? DelegatorUnbondingEpochEntry.fromPartial(object.delegatorUnbodingEpochEntry)
-        : undefined;
+    if (object.delegatorUnbodingEpochEntry !== undefined && object.delegatorUnbodingEpochEntry !== null) {
+      message.delegatorUnbodingEpochEntry = DelegatorUnbondingEpochEntry.fromPartial(
+        object.delegatorUnbodingEpochEntry,
+      );
+    }
     return message;
   },
 };
@@ -1551,7 +1541,8 @@ export const QueryHostAccountsRequest = {
     return message;
   },
   fromJSON(_: any): QueryHostAccountsRequest {
-    return {};
+    const obj = createBaseQueryHostAccountsRequest();
+    return obj;
   },
   toJSON(_: QueryHostAccountsRequest): unknown {
     const obj: any = {};
@@ -1564,7 +1555,7 @@ export const QueryHostAccountsRequest = {
 };
 function createBaseQueryHostAccountsResponse(): QueryHostAccountsResponse {
   return {
-    hostAccounts: undefined,
+    hostAccounts: HostAccounts.fromPartial({}),
   };
 }
 export const QueryHostAccountsResponse = {
@@ -1592,9 +1583,9 @@ export const QueryHostAccountsResponse = {
     return message;
   },
   fromJSON(object: any): QueryHostAccountsResponse {
-    return {
-      hostAccounts: isSet(object.hostAccounts) ? HostAccounts.fromJSON(object.hostAccounts) : undefined,
-    };
+    const obj = createBaseQueryHostAccountsResponse();
+    if (isSet(object.hostAccounts)) obj.hostAccounts = HostAccounts.fromJSON(object.hostAccounts);
+    return obj;
   },
   toJSON(message: QueryHostAccountsResponse): unknown {
     const obj: any = {};
@@ -1606,10 +1597,9 @@ export const QueryHostAccountsResponse = {
     object: I,
   ): QueryHostAccountsResponse {
     const message = createBaseQueryHostAccountsResponse();
-    message.hostAccounts =
-      object.hostAccounts !== undefined && object.hostAccounts !== null
-        ? HostAccounts.fromPartial(object.hostAccounts)
-        : undefined;
+    if (object.hostAccounts !== undefined && object.hostAccounts !== null) {
+      message.hostAccounts = HostAccounts.fromPartial(object.hostAccounts);
+    }
     return message;
   },
 };
@@ -1635,7 +1625,8 @@ export const QueryDepositModuleAccountRequest = {
     return message;
   },
   fromJSON(_: any): QueryDepositModuleAccountRequest {
-    return {};
+    const obj = createBaseQueryDepositModuleAccountRequest();
+    return obj;
   },
   toJSON(_: QueryDepositModuleAccountRequest): unknown {
     const obj: any = {};
@@ -1650,7 +1641,7 @@ export const QueryDepositModuleAccountRequest = {
 };
 function createBaseQueryDepositModuleAccountResponse(): QueryDepositModuleAccountResponse {
   return {
-    balance: undefined,
+    balance: Coin.fromPartial({}),
   };
 }
 export const QueryDepositModuleAccountResponse = {
@@ -1678,9 +1669,9 @@ export const QueryDepositModuleAccountResponse = {
     return message;
   },
   fromJSON(object: any): QueryDepositModuleAccountResponse {
-    return {
-      balance: isSet(object.balance) ? Coin.fromJSON(object.balance) : undefined,
-    };
+    const obj = createBaseQueryDepositModuleAccountResponse();
+    if (isSet(object.balance)) obj.balance = Coin.fromJSON(object.balance);
+    return obj;
   },
   toJSON(message: QueryDepositModuleAccountResponse): unknown {
     const obj: any = {};
@@ -1692,8 +1683,9 @@ export const QueryDepositModuleAccountResponse = {
     object: I,
   ): QueryDepositModuleAccountResponse {
     const message = createBaseQueryDepositModuleAccountResponse();
-    message.balance =
-      object.balance !== undefined && object.balance !== null ? Coin.fromPartial(object.balance) : undefined;
+    if (object.balance !== undefined && object.balance !== null) {
+      message.balance = Coin.fromPartial(object.balance);
+    }
     return message;
   },
 };
@@ -1730,9 +1722,9 @@ export const QueryAllDelegatorUnbondingEpochEntriesRequest = {
     return message;
   },
   fromJSON(object: any): QueryAllDelegatorUnbondingEpochEntriesRequest {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-    };
+    const obj = createBaseQueryAllDelegatorUnbondingEpochEntriesRequest();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    return obj;
   },
   toJSON(message: QueryAllDelegatorUnbondingEpochEntriesRequest): unknown {
     const obj: any = {};
@@ -1782,11 +1774,12 @@ export const QueryAllDelegatorUnbondingEpochEntriesResponse = {
     return message;
   },
   fromJSON(object: any): QueryAllDelegatorUnbondingEpochEntriesResponse {
-    return {
-      delegatorUnbondingEpochEntries: Array.isArray(object?.delegatorUnbondingEpochEntries)
-        ? object.delegatorUnbondingEpochEntries.map((e: any) => DelegatorUnbondingEpochEntry.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseQueryAllDelegatorUnbondingEpochEntriesResponse();
+    if (Array.isArray(object?.delegatorUnbondingEpochEntries))
+      obj.delegatorUnbondingEpochEntries = object.delegatorUnbondingEpochEntries.map((e: any) =>
+        DelegatorUnbondingEpochEntry.fromJSON(e),
+      );
+    return obj;
   },
   toJSON(message: QueryAllDelegatorUnbondingEpochEntriesResponse): unknown {
     const obj: any = {};

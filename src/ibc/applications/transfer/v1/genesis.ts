@@ -8,7 +8,7 @@ export const protobufPackage = "ibc.applications.transfer.v1";
 export interface GenesisState {
   portId: string;
   denomTraces: DenomTrace[];
-  params?: Params;
+  params: Params;
   /**
    * total_escrowed contains the total amount of tokens escrowed
    * by the transfer module
@@ -19,7 +19,7 @@ function createBaseGenesisState(): GenesisState {
   return {
     portId: "",
     denomTraces: [],
-    params: undefined,
+    params: Params.fromPartial({}),
     totalEscrowed: [],
   };
 }
@@ -66,16 +66,14 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      portId: isSet(object.portId) ? String(object.portId) : "",
-      denomTraces: Array.isArray(object?.denomTraces)
-        ? object.denomTraces.map((e: any) => DenomTrace.fromJSON(e))
-        : [],
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      totalEscrowed: Array.isArray(object?.totalEscrowed)
-        ? object.totalEscrowed.map((e: any) => Coin.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.portId)) obj.portId = String(object.portId);
+    if (Array.isArray(object?.denomTraces))
+      obj.denomTraces = object.denomTraces.map((e: any) => DenomTrace.fromJSON(e));
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    if (Array.isArray(object?.totalEscrowed))
+      obj.totalEscrowed = object.totalEscrowed.map((e: any) => Coin.fromJSON(e));
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -97,8 +95,9 @@ export const GenesisState = {
     const message = createBaseGenesisState();
     message.portId = object.portId ?? "";
     message.denomTraces = object.denomTraces?.map((e) => DenomTrace.fromPartial(e)) || [];
-    message.params =
-      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     message.totalEscrowed = object.totalEscrowed?.map((e) => Coin.fromPartial(e)) || [];
     return message;
   },

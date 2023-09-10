@@ -6,17 +6,17 @@ import { isSet, DeepPartial, Exact, Rpc } from "../../../helpers";
 export const protobufPackage = "pstake.lscosmos.v1beta1";
 export interface MsgLiquidStake {
   delegatorAddress: string;
-  amount?: Coin;
+  amount: Coin;
 }
 export interface MsgLiquidStakeResponse {}
 export interface MsgLiquidUnstake {
   delegatorAddress: string;
-  amount?: Coin;
+  amount: Coin;
 }
 export interface MsgLiquidUnstakeResponse {}
 export interface MsgRedeem {
   delegatorAddress: string;
-  amount?: Coin;
+  amount: Coin;
 }
 export interface MsgRedeemResponse {}
 export interface MsgClaim {
@@ -36,9 +36,9 @@ export interface MsgJumpStart {
   baseDenom: string;
   mintDenom: string;
   minDeposit: string;
-  allowListedValidators?: AllowListedValidators;
-  pstakeParams?: PstakeParams;
-  hostAccounts?: HostAccounts;
+  allowListedValidators: AllowListedValidators;
+  pstakeParams: PstakeParams;
+  hostAccounts: HostAccounts;
 }
 export interface MsgJumpStartResponse {}
 export interface MsgChangeModuleState {
@@ -54,7 +54,7 @@ export interface MsgReportSlashingResponse {}
 function createBaseMsgLiquidStake(): MsgLiquidStake {
   return {
     delegatorAddress: "",
-    amount: undefined,
+    amount: Coin.fromPartial({}),
   };
 }
 export const MsgLiquidStake = {
@@ -88,10 +88,10 @@ export const MsgLiquidStake = {
     return message;
   },
   fromJSON(object: any): MsgLiquidStake {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-    };
+    const obj = createBaseMsgLiquidStake();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: MsgLiquidStake): unknown {
     const obj: any = {};
@@ -102,8 +102,9 @@ export const MsgLiquidStake = {
   fromPartial<I extends Exact<DeepPartial<MsgLiquidStake>, I>>(object: I): MsgLiquidStake {
     const message = createBaseMsgLiquidStake();
     message.delegatorAddress = object.delegatorAddress ?? "";
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
 };
@@ -129,7 +130,8 @@ export const MsgLiquidStakeResponse = {
     return message;
   },
   fromJSON(_: any): MsgLiquidStakeResponse {
-    return {};
+    const obj = createBaseMsgLiquidStakeResponse();
+    return obj;
   },
   toJSON(_: MsgLiquidStakeResponse): unknown {
     const obj: any = {};
@@ -143,7 +145,7 @@ export const MsgLiquidStakeResponse = {
 function createBaseMsgLiquidUnstake(): MsgLiquidUnstake {
   return {
     delegatorAddress: "",
-    amount: undefined,
+    amount: Coin.fromPartial({}),
   };
 }
 export const MsgLiquidUnstake = {
@@ -177,10 +179,10 @@ export const MsgLiquidUnstake = {
     return message;
   },
   fromJSON(object: any): MsgLiquidUnstake {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-    };
+    const obj = createBaseMsgLiquidUnstake();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: MsgLiquidUnstake): unknown {
     const obj: any = {};
@@ -191,8 +193,9 @@ export const MsgLiquidUnstake = {
   fromPartial<I extends Exact<DeepPartial<MsgLiquidUnstake>, I>>(object: I): MsgLiquidUnstake {
     const message = createBaseMsgLiquidUnstake();
     message.delegatorAddress = object.delegatorAddress ?? "";
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
 };
@@ -218,7 +221,8 @@ export const MsgLiquidUnstakeResponse = {
     return message;
   },
   fromJSON(_: any): MsgLiquidUnstakeResponse {
-    return {};
+    const obj = createBaseMsgLiquidUnstakeResponse();
+    return obj;
   },
   toJSON(_: MsgLiquidUnstakeResponse): unknown {
     const obj: any = {};
@@ -232,7 +236,7 @@ export const MsgLiquidUnstakeResponse = {
 function createBaseMsgRedeem(): MsgRedeem {
   return {
     delegatorAddress: "",
-    amount: undefined,
+    amount: Coin.fromPartial({}),
   };
 }
 export const MsgRedeem = {
@@ -266,10 +270,10 @@ export const MsgRedeem = {
     return message;
   },
   fromJSON(object: any): MsgRedeem {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-    };
+    const obj = createBaseMsgRedeem();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    return obj;
   },
   toJSON(message: MsgRedeem): unknown {
     const obj: any = {};
@@ -280,8 +284,9 @@ export const MsgRedeem = {
   fromPartial<I extends Exact<DeepPartial<MsgRedeem>, I>>(object: I): MsgRedeem {
     const message = createBaseMsgRedeem();
     message.delegatorAddress = object.delegatorAddress ?? "";
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     return message;
   },
 };
@@ -307,7 +312,8 @@ export const MsgRedeemResponse = {
     return message;
   },
   fromJSON(_: any): MsgRedeemResponse {
-    return {};
+    const obj = createBaseMsgRedeemResponse();
+    return obj;
   },
   toJSON(_: MsgRedeemResponse): unknown {
     const obj: any = {};
@@ -348,9 +354,9 @@ export const MsgClaim = {
     return message;
   },
   fromJSON(object: any): MsgClaim {
-    return {
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-    };
+    const obj = createBaseMsgClaim();
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    return obj;
   },
   toJSON(message: MsgClaim): unknown {
     const obj: any = {};
@@ -385,7 +391,8 @@ export const MsgClaimResponse = {
     return message;
   },
   fromJSON(_: any): MsgClaimResponse {
-    return {};
+    const obj = createBaseMsgClaimResponse();
+    return obj;
   },
   toJSON(_: MsgClaimResponse): unknown {
     const obj: any = {};
@@ -426,9 +433,9 @@ export const MsgRecreateICA = {
     return message;
   },
   fromJSON(object: any): MsgRecreateICA {
-    return {
-      fromAddress: isSet(object.fromAddress) ? String(object.fromAddress) : "",
-    };
+    const obj = createBaseMsgRecreateICA();
+    if (isSet(object.fromAddress)) obj.fromAddress = String(object.fromAddress);
+    return obj;
   },
   toJSON(message: MsgRecreateICA): unknown {
     const obj: any = {};
@@ -463,7 +470,8 @@ export const MsgRecreateICAResponse = {
     return message;
   },
   fromJSON(_: any): MsgRecreateICAResponse {
-    return {};
+    const obj = createBaseMsgRecreateICAResponse();
+    return obj;
   },
   toJSON(_: MsgRecreateICAResponse): unknown {
     const obj: any = {};
@@ -484,9 +492,9 @@ function createBaseMsgJumpStart(): MsgJumpStart {
     baseDenom: "",
     mintDenom: "",
     minDeposit: "",
-    allowListedValidators: undefined,
-    pstakeParams: undefined,
-    hostAccounts: undefined,
+    allowListedValidators: AllowListedValidators.fromPartial({}),
+    pstakeParams: PstakeParams.fromPartial({}),
+    hostAccounts: HostAccounts.fromPartial({}),
   };
 }
 export const MsgJumpStart = {
@@ -574,21 +582,20 @@ export const MsgJumpStart = {
     return message;
   },
   fromJSON(object: any): MsgJumpStart {
-    return {
-      pstakeAddress: isSet(object.pstakeAddress) ? String(object.pstakeAddress) : "",
-      chainID: isSet(object.chainID) ? String(object.chainID) : "",
-      connectionID: isSet(object.connectionID) ? String(object.connectionID) : "",
-      transferChannel: isSet(object.transferChannel) ? String(object.transferChannel) : "",
-      transferPort: isSet(object.transferPort) ? String(object.transferPort) : "",
-      baseDenom: isSet(object.baseDenom) ? String(object.baseDenom) : "",
-      mintDenom: isSet(object.mintDenom) ? String(object.mintDenom) : "",
-      minDeposit: isSet(object.minDeposit) ? String(object.minDeposit) : "",
-      allowListedValidators: isSet(object.allowListedValidators)
-        ? AllowListedValidators.fromJSON(object.allowListedValidators)
-        : undefined,
-      pstakeParams: isSet(object.pstakeParams) ? PstakeParams.fromJSON(object.pstakeParams) : undefined,
-      hostAccounts: isSet(object.hostAccounts) ? HostAccounts.fromJSON(object.hostAccounts) : undefined,
-    };
+    const obj = createBaseMsgJumpStart();
+    if (isSet(object.pstakeAddress)) obj.pstakeAddress = String(object.pstakeAddress);
+    if (isSet(object.chainID)) obj.chainID = String(object.chainID);
+    if (isSet(object.connectionID)) obj.connectionID = String(object.connectionID);
+    if (isSet(object.transferChannel)) obj.transferChannel = String(object.transferChannel);
+    if (isSet(object.transferPort)) obj.transferPort = String(object.transferPort);
+    if (isSet(object.baseDenom)) obj.baseDenom = String(object.baseDenom);
+    if (isSet(object.mintDenom)) obj.mintDenom = String(object.mintDenom);
+    if (isSet(object.minDeposit)) obj.minDeposit = String(object.minDeposit);
+    if (isSet(object.allowListedValidators))
+      obj.allowListedValidators = AllowListedValidators.fromJSON(object.allowListedValidators);
+    if (isSet(object.pstakeParams)) obj.pstakeParams = PstakeParams.fromJSON(object.pstakeParams);
+    if (isSet(object.hostAccounts)) obj.hostAccounts = HostAccounts.fromJSON(object.hostAccounts);
+    return obj;
   },
   toJSON(message: MsgJumpStart): unknown {
     const obj: any = {};
@@ -620,18 +627,15 @@ export const MsgJumpStart = {
     message.baseDenom = object.baseDenom ?? "";
     message.mintDenom = object.mintDenom ?? "";
     message.minDeposit = object.minDeposit ?? "";
-    message.allowListedValidators =
-      object.allowListedValidators !== undefined && object.allowListedValidators !== null
-        ? AllowListedValidators.fromPartial(object.allowListedValidators)
-        : undefined;
-    message.pstakeParams =
-      object.pstakeParams !== undefined && object.pstakeParams !== null
-        ? PstakeParams.fromPartial(object.pstakeParams)
-        : undefined;
-    message.hostAccounts =
-      object.hostAccounts !== undefined && object.hostAccounts !== null
-        ? HostAccounts.fromPartial(object.hostAccounts)
-        : undefined;
+    if (object.allowListedValidators !== undefined && object.allowListedValidators !== null) {
+      message.allowListedValidators = AllowListedValidators.fromPartial(object.allowListedValidators);
+    }
+    if (object.pstakeParams !== undefined && object.pstakeParams !== null) {
+      message.pstakeParams = PstakeParams.fromPartial(object.pstakeParams);
+    }
+    if (object.hostAccounts !== undefined && object.hostAccounts !== null) {
+      message.hostAccounts = HostAccounts.fromPartial(object.hostAccounts);
+    }
     return message;
   },
 };
@@ -657,7 +661,8 @@ export const MsgJumpStartResponse = {
     return message;
   },
   fromJSON(_: any): MsgJumpStartResponse {
-    return {};
+    const obj = createBaseMsgJumpStartResponse();
+    return obj;
   },
   toJSON(_: MsgJumpStartResponse): unknown {
     const obj: any = {};
@@ -705,10 +710,10 @@ export const MsgChangeModuleState = {
     return message;
   },
   fromJSON(object: any): MsgChangeModuleState {
-    return {
-      pstakeAddress: isSet(object.pstakeAddress) ? String(object.pstakeAddress) : "",
-      moduleState: isSet(object.moduleState) ? Boolean(object.moduleState) : false,
-    };
+    const obj = createBaseMsgChangeModuleState();
+    if (isSet(object.pstakeAddress)) obj.pstakeAddress = String(object.pstakeAddress);
+    if (isSet(object.moduleState)) obj.moduleState = Boolean(object.moduleState);
+    return obj;
   },
   toJSON(message: MsgChangeModuleState): unknown {
     const obj: any = {};
@@ -745,7 +750,8 @@ export const MsgChangeModuleStateResponse = {
     return message;
   },
   fromJSON(_: any): MsgChangeModuleStateResponse {
-    return {};
+    const obj = createBaseMsgChangeModuleStateResponse();
+    return obj;
   },
   toJSON(_: MsgChangeModuleStateResponse): unknown {
     const obj: any = {};
@@ -795,10 +801,10 @@ export const MsgReportSlashing = {
     return message;
   },
   fromJSON(object: any): MsgReportSlashing {
-    return {
-      pstakeAddress: isSet(object.pstakeAddress) ? String(object.pstakeAddress) : "",
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-    };
+    const obj = createBaseMsgReportSlashing();
+    if (isSet(object.pstakeAddress)) obj.pstakeAddress = String(object.pstakeAddress);
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    return obj;
   },
   toJSON(message: MsgReportSlashing): unknown {
     const obj: any = {};
@@ -835,7 +841,8 @@ export const MsgReportSlashingResponse = {
     return message;
   },
   fromJSON(_: any): MsgReportSlashingResponse {
-    return {};
+    const obj = createBaseMsgReportSlashingResponse();
+    return obj;
   },
   toJSON(_: MsgReportSlashingResponse): unknown {
     const obj: any = {};

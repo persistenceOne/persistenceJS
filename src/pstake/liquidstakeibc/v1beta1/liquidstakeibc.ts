@@ -194,7 +194,7 @@ export interface HostChain {
   /** ibc connection id */
   connectionId: string;
   /** module params */
-  params?: HostChainLSParams;
+  params: HostChainLSParams;
   /** native token denom */
   hostDenom: string;
   /** ibc connection channel id */
@@ -202,9 +202,9 @@ export interface HostChain {
   /** ibc connection port id */
   portId: string;
   /** delegation host account */
-  delegationAccount?: ICAAccount;
+  delegationAccount: ICAAccount;
   /** reward host account */
-  rewardsAccount?: ICAAccount;
+  rewardsAccount: ICAAccount;
   /** validator set */
   validators: Validator[];
   /** minimum ls amount */
@@ -220,7 +220,7 @@ export interface HostChain {
   /** factor limit for auto-compounding, daily periodic rate (APY / 365s) */
   autoCompoundFactor: string;
   /** host chain flags */
-  flags?: HostChainFlags;
+  flags: HostChainFlags;
 }
 export interface HostChainFlags {
   lsm: boolean;
@@ -230,12 +230,18 @@ export interface HostChainLSParams {
   restakeFee: string;
   unstakeFee: string;
   redemptionFee: string;
+  lsmValidatorCap: string;
+  /**
+   * LSM bond factor
+   *  Should be used only when HostChainFlag.Lsm == true, orelse default
+   */
+  lsmBondFactor: string;
 }
 export interface ICAAccount {
   /** address of the ica on the controller chain */
   address: string;
   /** token balance of the ica */
-  balance?: Coin;
+  balance: Coin;
   /** owner string */
   owner: string;
   channelState: ICAAccount_ChannelState;
@@ -253,11 +259,13 @@ export interface Validator {
   exchangeRate: string;
   /** the unbonding epoch number when the validator transitioned into the state */
   unbondingEpoch: Long;
+  /** whether the validator can accept delegations or not, default true for non-lsm chains */
+  delegable: boolean;
 }
 export interface Deposit {
   /** deposit target chain */
   chainId: string;
-  amount?: Coin;
+  amount: Coin;
   /** epoch number of the deposit */
   epoch: Long;
   /** state */
@@ -292,11 +300,11 @@ export interface Unbonding {
   /** epoch number of the unbonding record */
   epochNumber: Long;
   /** time when the unbonding matures and can be collected */
-  matureTime?: Timestamp;
+  matureTime: Timestamp;
   /** stk token amount that is burned with the unbonding */
-  burnAmount?: Coin;
+  burnAmount: Coin;
   /** host token amount that is being unbonded */
-  unbondAmount?: Coin;
+  unbondAmount: Coin;
   /** sequence id of the ibc transaction */
   ibcSequenceId: string;
   /** state of the unbonding during the process */
@@ -310,9 +318,9 @@ export interface UserUnbonding {
   /** address which requested the unbonding */
   address: string;
   /** stk token amount that is being unbonded */
-  stkAmount?: Coin;
+  stkAmount: Coin;
   /** host token amount that is being unbonded */
-  unbondAmount?: Coin;
+  unbondAmount: Coin;
 }
 export interface ValidatorUnbonding {
   /** unbonding target chain */
@@ -320,11 +328,11 @@ export interface ValidatorUnbonding {
   /** epoch when the unbonding started */
   epochNumber: Long;
   /** time when the unbonding matures and can be collected */
-  matureTime?: Timestamp;
+  matureTime: Timestamp;
   /** address of the validator that is being unbonded */
   validatorAddress: string;
   /** amount unbonded from the validator */
-  amount?: Coin;
+  amount: Coin;
   /** sequence id of the ibc transaction */
   ibcSequenceId: string;
 }
@@ -336,12 +344,12 @@ function createBaseHostChain(): HostChain {
   return {
     chainId: "",
     connectionId: "",
-    params: undefined,
+    params: HostChainLSParams.fromPartial({}),
     hostDenom: "",
     channelId: "",
     portId: "",
-    delegationAccount: undefined,
-    rewardsAccount: undefined,
+    delegationAccount: ICAAccount.fromPartial({}),
+    rewardsAccount: ICAAccount.fromPartial({}),
     validators: [],
     minimumDeposit: "",
     cValue: "",
@@ -349,7 +357,7 @@ function createBaseHostChain(): HostChain {
     unbondingFactor: Long.ZERO,
     active: false,
     autoCompoundFactor: "",
-    flags: undefined,
+    flags: HostChainFlags.fromPartial({}),
   };
 }
 export const HostChain = {
@@ -467,28 +475,26 @@ export const HostChain = {
     return message;
   },
   fromJSON(object: any): HostChain {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-      connectionId: isSet(object.connectionId) ? String(object.connectionId) : "",
-      params: isSet(object.params) ? HostChainLSParams.fromJSON(object.params) : undefined,
-      hostDenom: isSet(object.hostDenom) ? String(object.hostDenom) : "",
-      channelId: isSet(object.channelId) ? String(object.channelId) : "",
-      portId: isSet(object.portId) ? String(object.portId) : "",
-      delegationAccount: isSet(object.delegationAccount)
-        ? ICAAccount.fromJSON(object.delegationAccount)
-        : undefined,
-      rewardsAccount: isSet(object.rewardsAccount) ? ICAAccount.fromJSON(object.rewardsAccount) : undefined,
-      validators: Array.isArray(object?.validators)
-        ? object.validators.map((e: any) => Validator.fromJSON(e))
-        : [],
-      minimumDeposit: isSet(object.minimumDeposit) ? String(object.minimumDeposit) : "",
-      cValue: isSet(object.cValue) ? String(object.cValue) : "",
-      lastCValue: isSet(object.lastCValue) ? String(object.lastCValue) : "",
-      unbondingFactor: isSet(object.unbondingFactor) ? Long.fromValue(object.unbondingFactor) : Long.ZERO,
-      active: isSet(object.active) ? Boolean(object.active) : false,
-      autoCompoundFactor: isSet(object.autoCompoundFactor) ? String(object.autoCompoundFactor) : "",
-      flags: isSet(object.flags) ? HostChainFlags.fromJSON(object.flags) : undefined,
-    };
+    const obj = createBaseHostChain();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    if (isSet(object.connectionId)) obj.connectionId = String(object.connectionId);
+    if (isSet(object.params)) obj.params = HostChainLSParams.fromJSON(object.params);
+    if (isSet(object.hostDenom)) obj.hostDenom = String(object.hostDenom);
+    if (isSet(object.channelId)) obj.channelId = String(object.channelId);
+    if (isSet(object.portId)) obj.portId = String(object.portId);
+    if (isSet(object.delegationAccount))
+      obj.delegationAccount = ICAAccount.fromJSON(object.delegationAccount);
+    if (isSet(object.rewardsAccount)) obj.rewardsAccount = ICAAccount.fromJSON(object.rewardsAccount);
+    if (Array.isArray(object?.validators))
+      obj.validators = object.validators.map((e: any) => Validator.fromJSON(e));
+    if (isSet(object.minimumDeposit)) obj.minimumDeposit = String(object.minimumDeposit);
+    if (isSet(object.cValue)) obj.cValue = String(object.cValue);
+    if (isSet(object.lastCValue)) obj.lastCValue = String(object.lastCValue);
+    if (isSet(object.unbondingFactor)) obj.unbondingFactor = Long.fromValue(object.unbondingFactor);
+    if (isSet(object.active)) obj.active = Boolean(object.active);
+    if (isSet(object.autoCompoundFactor)) obj.autoCompoundFactor = String(object.autoCompoundFactor);
+    if (isSet(object.flags)) obj.flags = HostChainFlags.fromJSON(object.flags);
+    return obj;
   },
   toJSON(message: HostChain): unknown {
     const obj: any = {};
@@ -525,35 +531,30 @@ export const HostChain = {
     const message = createBaseHostChain();
     message.chainId = object.chainId ?? "";
     message.connectionId = object.connectionId ?? "";
-    message.params =
-      object.params !== undefined && object.params !== null
-        ? HostChainLSParams.fromPartial(object.params)
-        : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = HostChainLSParams.fromPartial(object.params);
+    }
     message.hostDenom = object.hostDenom ?? "";
     message.channelId = object.channelId ?? "";
     message.portId = object.portId ?? "";
-    message.delegationAccount =
-      object.delegationAccount !== undefined && object.delegationAccount !== null
-        ? ICAAccount.fromPartial(object.delegationAccount)
-        : undefined;
-    message.rewardsAccount =
-      object.rewardsAccount !== undefined && object.rewardsAccount !== null
-        ? ICAAccount.fromPartial(object.rewardsAccount)
-        : undefined;
+    if (object.delegationAccount !== undefined && object.delegationAccount !== null) {
+      message.delegationAccount = ICAAccount.fromPartial(object.delegationAccount);
+    }
+    if (object.rewardsAccount !== undefined && object.rewardsAccount !== null) {
+      message.rewardsAccount = ICAAccount.fromPartial(object.rewardsAccount);
+    }
     message.validators = object.validators?.map((e) => Validator.fromPartial(e)) || [];
     message.minimumDeposit = object.minimumDeposit ?? "";
     message.cValue = object.cValue ?? "";
     message.lastCValue = object.lastCValue ?? "";
-    message.unbondingFactor =
-      object.unbondingFactor !== undefined && object.unbondingFactor !== null
-        ? Long.fromValue(object.unbondingFactor)
-        : Long.ZERO;
+    if (object.unbondingFactor !== undefined && object.unbondingFactor !== null) {
+      message.unbondingFactor = Long.fromValue(object.unbondingFactor);
+    }
     message.active = object.active ?? false;
     message.autoCompoundFactor = object.autoCompoundFactor ?? "";
-    message.flags =
-      object.flags !== undefined && object.flags !== null
-        ? HostChainFlags.fromPartial(object.flags)
-        : undefined;
+    if (object.flags !== undefined && object.flags !== null) {
+      message.flags = HostChainFlags.fromPartial(object.flags);
+    }
     return message;
   },
 };
@@ -587,9 +588,9 @@ export const HostChainFlags = {
     return message;
   },
   fromJSON(object: any): HostChainFlags {
-    return {
-      lsm: isSet(object.lsm) ? Boolean(object.lsm) : false,
-    };
+    const obj = createBaseHostChainFlags();
+    if (isSet(object.lsm)) obj.lsm = Boolean(object.lsm);
+    return obj;
   },
   toJSON(message: HostChainFlags): unknown {
     const obj: any = {};
@@ -608,6 +609,8 @@ function createBaseHostChainLSParams(): HostChainLSParams {
     restakeFee: "",
     unstakeFee: "",
     redemptionFee: "",
+    lsmValidatorCap: "",
+    lsmBondFactor: "",
   };
 }
 export const HostChainLSParams = {
@@ -623,6 +626,12 @@ export const HostChainLSParams = {
     }
     if (message.redemptionFee !== "") {
       writer.uint32(34).string(message.redemptionFee);
+    }
+    if (message.lsmValidatorCap !== "") {
+      writer.uint32(50).string(message.lsmValidatorCap);
+    }
+    if (message.lsmBondFactor !== "") {
+      writer.uint32(58).string(message.lsmBondFactor);
     }
     return writer;
   },
@@ -645,6 +654,12 @@ export const HostChainLSParams = {
         case 4:
           message.redemptionFee = reader.string();
           break;
+        case 6:
+          message.lsmValidatorCap = reader.string();
+          break;
+        case 7:
+          message.lsmBondFactor = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -653,12 +668,14 @@ export const HostChainLSParams = {
     return message;
   },
   fromJSON(object: any): HostChainLSParams {
-    return {
-      depositFee: isSet(object.depositFee) ? String(object.depositFee) : "",
-      restakeFee: isSet(object.restakeFee) ? String(object.restakeFee) : "",
-      unstakeFee: isSet(object.unstakeFee) ? String(object.unstakeFee) : "",
-      redemptionFee: isSet(object.redemptionFee) ? String(object.redemptionFee) : "",
-    };
+    const obj = createBaseHostChainLSParams();
+    if (isSet(object.depositFee)) obj.depositFee = String(object.depositFee);
+    if (isSet(object.restakeFee)) obj.restakeFee = String(object.restakeFee);
+    if (isSet(object.unstakeFee)) obj.unstakeFee = String(object.unstakeFee);
+    if (isSet(object.redemptionFee)) obj.redemptionFee = String(object.redemptionFee);
+    if (isSet(object.lsmValidatorCap)) obj.lsmValidatorCap = String(object.lsmValidatorCap);
+    if (isSet(object.lsmBondFactor)) obj.lsmBondFactor = String(object.lsmBondFactor);
+    return obj;
   },
   toJSON(message: HostChainLSParams): unknown {
     const obj: any = {};
@@ -666,6 +683,8 @@ export const HostChainLSParams = {
     message.restakeFee !== undefined && (obj.restakeFee = message.restakeFee);
     message.unstakeFee !== undefined && (obj.unstakeFee = message.unstakeFee);
     message.redemptionFee !== undefined && (obj.redemptionFee = message.redemptionFee);
+    message.lsmValidatorCap !== undefined && (obj.lsmValidatorCap = message.lsmValidatorCap);
+    message.lsmBondFactor !== undefined && (obj.lsmBondFactor = message.lsmBondFactor);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<HostChainLSParams>, I>>(object: I): HostChainLSParams {
@@ -674,13 +693,15 @@ export const HostChainLSParams = {
     message.restakeFee = object.restakeFee ?? "";
     message.unstakeFee = object.unstakeFee ?? "";
     message.redemptionFee = object.redemptionFee ?? "";
+    message.lsmValidatorCap = object.lsmValidatorCap ?? "";
+    message.lsmBondFactor = object.lsmBondFactor ?? "";
     return message;
   },
 };
 function createBaseICAAccount(): ICAAccount {
   return {
     address: "",
-    balance: undefined,
+    balance: Coin.fromPartial({}),
     owner: "",
     channelState: 0,
   };
@@ -728,12 +749,12 @@ export const ICAAccount = {
     return message;
   },
   fromJSON(object: any): ICAAccount {
-    return {
-      address: isSet(object.address) ? String(object.address) : "",
-      balance: isSet(object.balance) ? Coin.fromJSON(object.balance) : undefined,
-      owner: isSet(object.owner) ? String(object.owner) : "",
-      channelState: isSet(object.channelState) ? iCAAccount_ChannelStateFromJSON(object.channelState) : 0,
-    };
+    const obj = createBaseICAAccount();
+    if (isSet(object.address)) obj.address = String(object.address);
+    if (isSet(object.balance)) obj.balance = Coin.fromJSON(object.balance);
+    if (isSet(object.owner)) obj.owner = String(object.owner);
+    if (isSet(object.channelState)) obj.channelState = iCAAccount_ChannelStateFromJSON(object.channelState);
+    return obj;
   },
   toJSON(message: ICAAccount): unknown {
     const obj: any = {};
@@ -748,8 +769,9 @@ export const ICAAccount = {
   fromPartial<I extends Exact<DeepPartial<ICAAccount>, I>>(object: I): ICAAccount {
     const message = createBaseICAAccount();
     message.address = object.address ?? "";
-    message.balance =
-      object.balance !== undefined && object.balance !== null ? Coin.fromPartial(object.balance) : undefined;
+    if (object.balance !== undefined && object.balance !== null) {
+      message.balance = Coin.fromPartial(object.balance);
+    }
     message.owner = object.owner ?? "";
     message.channelState = object.channelState ?? 0;
     return message;
@@ -763,6 +785,7 @@ function createBaseValidator(): Validator {
     delegatedAmount: "",
     exchangeRate: "",
     unbondingEpoch: Long.ZERO,
+    delegable: false,
   };
 }
 export const Validator = {
@@ -784,6 +807,9 @@ export const Validator = {
     }
     if (!message.unbondingEpoch.isZero()) {
       writer.uint32(48).int64(message.unbondingEpoch);
+    }
+    if (message.delegable === true) {
+      writer.uint32(56).bool(message.delegable);
     }
     return writer;
   },
@@ -812,6 +838,9 @@ export const Validator = {
         case 6:
           message.unbondingEpoch = reader.int64() as Long;
           break;
+        case 7:
+          message.delegable = reader.bool();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -820,14 +849,15 @@ export const Validator = {
     return message;
   },
   fromJSON(object: any): Validator {
-    return {
-      operatorAddress: isSet(object.operatorAddress) ? String(object.operatorAddress) : "",
-      status: isSet(object.status) ? String(object.status) : "",
-      weight: isSet(object.weight) ? String(object.weight) : "",
-      delegatedAmount: isSet(object.delegatedAmount) ? String(object.delegatedAmount) : "",
-      exchangeRate: isSet(object.exchangeRate) ? String(object.exchangeRate) : "",
-      unbondingEpoch: isSet(object.unbondingEpoch) ? Long.fromValue(object.unbondingEpoch) : Long.ZERO,
-    };
+    const obj = createBaseValidator();
+    if (isSet(object.operatorAddress)) obj.operatorAddress = String(object.operatorAddress);
+    if (isSet(object.status)) obj.status = String(object.status);
+    if (isSet(object.weight)) obj.weight = String(object.weight);
+    if (isSet(object.delegatedAmount)) obj.delegatedAmount = String(object.delegatedAmount);
+    if (isSet(object.exchangeRate)) obj.exchangeRate = String(object.exchangeRate);
+    if (isSet(object.unbondingEpoch)) obj.unbondingEpoch = Long.fromValue(object.unbondingEpoch);
+    if (isSet(object.delegable)) obj.delegable = Boolean(object.delegable);
+    return obj;
   },
   toJSON(message: Validator): unknown {
     const obj: any = {};
@@ -838,6 +868,7 @@ export const Validator = {
     message.exchangeRate !== undefined && (obj.exchangeRate = message.exchangeRate);
     message.unbondingEpoch !== undefined &&
       (obj.unbondingEpoch = (message.unbondingEpoch || Long.ZERO).toString());
+    message.delegable !== undefined && (obj.delegable = message.delegable);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<Validator>, I>>(object: I): Validator {
@@ -847,17 +878,17 @@ export const Validator = {
     message.weight = object.weight ?? "";
     message.delegatedAmount = object.delegatedAmount ?? "";
     message.exchangeRate = object.exchangeRate ?? "";
-    message.unbondingEpoch =
-      object.unbondingEpoch !== undefined && object.unbondingEpoch !== null
-        ? Long.fromValue(object.unbondingEpoch)
-        : Long.ZERO;
+    if (object.unbondingEpoch !== undefined && object.unbondingEpoch !== null) {
+      message.unbondingEpoch = Long.fromValue(object.unbondingEpoch);
+    }
+    message.delegable = object.delegable ?? false;
     return message;
   },
 };
 function createBaseDeposit(): Deposit {
   return {
     chainId: "",
-    amount: undefined,
+    amount: Coin.fromPartial({}),
     epoch: Long.ZERO,
     state: 0,
     ibcSequenceId: "",
@@ -912,13 +943,13 @@ export const Deposit = {
     return message;
   },
   fromJSON(object: any): Deposit {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-      epoch: isSet(object.epoch) ? Long.fromValue(object.epoch) : Long.ZERO,
-      state: isSet(object.state) ? deposit_DepositStateFromJSON(object.state) : 0,
-      ibcSequenceId: isSet(object.ibcSequenceId) ? String(object.ibcSequenceId) : "",
-    };
+    const obj = createBaseDeposit();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    if (isSet(object.epoch)) obj.epoch = Long.fromValue(object.epoch);
+    if (isSet(object.state)) obj.state = deposit_DepositStateFromJSON(object.state);
+    if (isSet(object.ibcSequenceId)) obj.ibcSequenceId = String(object.ibcSequenceId);
+    return obj;
   },
   toJSON(message: Deposit): unknown {
     const obj: any = {};
@@ -932,10 +963,12 @@ export const Deposit = {
   fromPartial<I extends Exact<DeepPartial<Deposit>, I>>(object: I): Deposit {
     const message = createBaseDeposit();
     message.chainId = object.chainId ?? "";
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
-    message.epoch =
-      object.epoch !== undefined && object.epoch !== null ? Long.fromValue(object.epoch) : Long.ZERO;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
+    if (object.epoch !== undefined && object.epoch !== null) {
+      message.epoch = Long.fromValue(object.epoch);
+    }
     message.state = object.state ?? 0;
     message.ibcSequenceId = object.ibcSequenceId ?? "";
     return message;
@@ -1020,16 +1053,16 @@ export const LSMDeposit = {
     return message;
   },
   fromJSON(object: any): LSMDeposit {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-      amount: isSet(object.amount) ? String(object.amount) : "",
-      shares: isSet(object.shares) ? String(object.shares) : "",
-      denom: isSet(object.denom) ? String(object.denom) : "",
-      ibcDenom: isSet(object.ibcDenom) ? String(object.ibcDenom) : "",
-      delegatorAddress: isSet(object.delegatorAddress) ? String(object.delegatorAddress) : "",
-      state: isSet(object.state) ? lSMDeposit_LSMDepositStateFromJSON(object.state) : 0,
-      ibcSequenceId: isSet(object.ibcSequenceId) ? String(object.ibcSequenceId) : "",
-    };
+    const obj = createBaseLSMDeposit();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    if (isSet(object.amount)) obj.amount = String(object.amount);
+    if (isSet(object.shares)) obj.shares = String(object.shares);
+    if (isSet(object.denom)) obj.denom = String(object.denom);
+    if (isSet(object.ibcDenom)) obj.ibcDenom = String(object.ibcDenom);
+    if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
+    if (isSet(object.state)) obj.state = lSMDeposit_LSMDepositStateFromJSON(object.state);
+    if (isSet(object.ibcSequenceId)) obj.ibcSequenceId = String(object.ibcSequenceId);
+    return obj;
   },
   toJSON(message: LSMDeposit): unknown {
     const obj: any = {};
@@ -1060,9 +1093,9 @@ function createBaseUnbonding(): Unbonding {
   return {
     chainId: "",
     epochNumber: Long.ZERO,
-    matureTime: undefined,
-    burnAmount: undefined,
-    unbondAmount: undefined,
+    matureTime: Timestamp.fromPartial({}),
+    burnAmount: Coin.fromPartial({}),
+    unbondAmount: Coin.fromPartial({}),
     ibcSequenceId: "",
     state: 0,
   };
@@ -1128,15 +1161,15 @@ export const Unbonding = {
     return message;
   },
   fromJSON(object: any): Unbonding {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-      epochNumber: isSet(object.epochNumber) ? Long.fromValue(object.epochNumber) : Long.ZERO,
-      matureTime: isSet(object.matureTime) ? fromJsonTimestamp(object.matureTime) : undefined,
-      burnAmount: isSet(object.burnAmount) ? Coin.fromJSON(object.burnAmount) : undefined,
-      unbondAmount: isSet(object.unbondAmount) ? Coin.fromJSON(object.unbondAmount) : undefined,
-      ibcSequenceId: isSet(object.ibcSequenceId) ? String(object.ibcSequenceId) : "",
-      state: isSet(object.state) ? unbonding_UnbondingStateFromJSON(object.state) : 0,
-    };
+    const obj = createBaseUnbonding();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.matureTime)) obj.matureTime = fromJsonTimestamp(object.matureTime);
+    if (isSet(object.burnAmount)) obj.burnAmount = Coin.fromJSON(object.burnAmount);
+    if (isSet(object.unbondAmount)) obj.unbondAmount = Coin.fromJSON(object.unbondAmount);
+    if (isSet(object.ibcSequenceId)) obj.ibcSequenceId = String(object.ibcSequenceId);
+    if (isSet(object.state)) obj.state = unbonding_UnbondingStateFromJSON(object.state);
+    return obj;
   },
   toJSON(message: Unbonding): unknown {
     const obj: any = {};
@@ -1154,22 +1187,18 @@ export const Unbonding = {
   fromPartial<I extends Exact<DeepPartial<Unbonding>, I>>(object: I): Unbonding {
     const message = createBaseUnbonding();
     message.chainId = object.chainId ?? "";
-    message.epochNumber =
-      object.epochNumber !== undefined && object.epochNumber !== null
-        ? Long.fromValue(object.epochNumber)
-        : Long.ZERO;
-    message.matureTime =
-      object.matureTime !== undefined && object.matureTime !== null
-        ? Timestamp.fromPartial(object.matureTime)
-        : undefined;
-    message.burnAmount =
-      object.burnAmount !== undefined && object.burnAmount !== null
-        ? Coin.fromPartial(object.burnAmount)
-        : undefined;
-    message.unbondAmount =
-      object.unbondAmount !== undefined && object.unbondAmount !== null
-        ? Coin.fromPartial(object.unbondAmount)
-        : undefined;
+    if (object.epochNumber !== undefined && object.epochNumber !== null) {
+      message.epochNumber = Long.fromValue(object.epochNumber);
+    }
+    if (object.matureTime !== undefined && object.matureTime !== null) {
+      message.matureTime = Timestamp.fromPartial(object.matureTime);
+    }
+    if (object.burnAmount !== undefined && object.burnAmount !== null) {
+      message.burnAmount = Coin.fromPartial(object.burnAmount);
+    }
+    if (object.unbondAmount !== undefined && object.unbondAmount !== null) {
+      message.unbondAmount = Coin.fromPartial(object.unbondAmount);
+    }
     message.ibcSequenceId = object.ibcSequenceId ?? "";
     message.state = object.state ?? 0;
     return message;
@@ -1180,8 +1209,8 @@ function createBaseUserUnbonding(): UserUnbonding {
     chainId: "",
     epochNumber: Long.ZERO,
     address: "",
-    stkAmount: undefined,
-    unbondAmount: undefined,
+    stkAmount: Coin.fromPartial({}),
+    unbondAmount: Coin.fromPartial({}),
   };
 }
 export const UserUnbonding = {
@@ -1233,13 +1262,13 @@ export const UserUnbonding = {
     return message;
   },
   fromJSON(object: any): UserUnbonding {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-      epochNumber: isSet(object.epochNumber) ? Long.fromValue(object.epochNumber) : Long.ZERO,
-      address: isSet(object.address) ? String(object.address) : "",
-      stkAmount: isSet(object.stkAmount) ? Coin.fromJSON(object.stkAmount) : undefined,
-      unbondAmount: isSet(object.unbondAmount) ? Coin.fromJSON(object.unbondAmount) : undefined,
-    };
+    const obj = createBaseUserUnbonding();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.address)) obj.address = String(object.address);
+    if (isSet(object.stkAmount)) obj.stkAmount = Coin.fromJSON(object.stkAmount);
+    if (isSet(object.unbondAmount)) obj.unbondAmount = Coin.fromJSON(object.unbondAmount);
+    return obj;
   },
   toJSON(message: UserUnbonding): unknown {
     const obj: any = {};
@@ -1255,19 +1284,16 @@ export const UserUnbonding = {
   fromPartial<I extends Exact<DeepPartial<UserUnbonding>, I>>(object: I): UserUnbonding {
     const message = createBaseUserUnbonding();
     message.chainId = object.chainId ?? "";
-    message.epochNumber =
-      object.epochNumber !== undefined && object.epochNumber !== null
-        ? Long.fromValue(object.epochNumber)
-        : Long.ZERO;
+    if (object.epochNumber !== undefined && object.epochNumber !== null) {
+      message.epochNumber = Long.fromValue(object.epochNumber);
+    }
     message.address = object.address ?? "";
-    message.stkAmount =
-      object.stkAmount !== undefined && object.stkAmount !== null
-        ? Coin.fromPartial(object.stkAmount)
-        : undefined;
-    message.unbondAmount =
-      object.unbondAmount !== undefined && object.unbondAmount !== null
-        ? Coin.fromPartial(object.unbondAmount)
-        : undefined;
+    if (object.stkAmount !== undefined && object.stkAmount !== null) {
+      message.stkAmount = Coin.fromPartial(object.stkAmount);
+    }
+    if (object.unbondAmount !== undefined && object.unbondAmount !== null) {
+      message.unbondAmount = Coin.fromPartial(object.unbondAmount);
+    }
     return message;
   },
 };
@@ -1275,9 +1301,9 @@ function createBaseValidatorUnbonding(): ValidatorUnbonding {
   return {
     chainId: "",
     epochNumber: Long.ZERO,
-    matureTime: undefined,
+    matureTime: Timestamp.fromPartial({}),
     validatorAddress: "",
-    amount: undefined,
+    amount: Coin.fromPartial({}),
     ibcSequenceId: "",
   };
 }
@@ -1336,14 +1362,14 @@ export const ValidatorUnbonding = {
     return message;
   },
   fromJSON(object: any): ValidatorUnbonding {
-    return {
-      chainId: isSet(object.chainId) ? String(object.chainId) : "",
-      epochNumber: isSet(object.epochNumber) ? Long.fromValue(object.epochNumber) : Long.ZERO,
-      matureTime: isSet(object.matureTime) ? fromJsonTimestamp(object.matureTime) : undefined,
-      validatorAddress: isSet(object.validatorAddress) ? String(object.validatorAddress) : "",
-      amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined,
-      ibcSequenceId: isSet(object.ibcSequenceId) ? String(object.ibcSequenceId) : "",
-    };
+    const obj = createBaseValidatorUnbonding();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.matureTime)) obj.matureTime = fromJsonTimestamp(object.matureTime);
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
+    if (isSet(object.ibcSequenceId)) obj.ibcSequenceId = String(object.ibcSequenceId);
+    return obj;
   },
   toJSON(message: ValidatorUnbonding): unknown {
     const obj: any = {};
@@ -1358,17 +1384,16 @@ export const ValidatorUnbonding = {
   fromPartial<I extends Exact<DeepPartial<ValidatorUnbonding>, I>>(object: I): ValidatorUnbonding {
     const message = createBaseValidatorUnbonding();
     message.chainId = object.chainId ?? "";
-    message.epochNumber =
-      object.epochNumber !== undefined && object.epochNumber !== null
-        ? Long.fromValue(object.epochNumber)
-        : Long.ZERO;
-    message.matureTime =
-      object.matureTime !== undefined && object.matureTime !== null
-        ? Timestamp.fromPartial(object.matureTime)
-        : undefined;
+    if (object.epochNumber !== undefined && object.epochNumber !== null) {
+      message.epochNumber = Long.fromValue(object.epochNumber);
+    }
+    if (object.matureTime !== undefined && object.matureTime !== null) {
+      message.matureTime = Timestamp.fromPartial(object.matureTime);
+    }
     message.validatorAddress = object.validatorAddress ?? "";
-    message.amount =
-      object.amount !== undefined && object.amount !== null ? Coin.fromPartial(object.amount) : undefined;
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
+    }
     message.ibcSequenceId = object.ibcSequenceId ?? "";
     return message;
   },
@@ -1410,10 +1435,10 @@ export const KVUpdate = {
     return message;
   },
   fromJSON(object: any): KVUpdate {
-    return {
-      key: isSet(object.key) ? String(object.key) : "",
-      value: isSet(object.value) ? String(object.value) : "",
-    };
+    const obj = createBaseKVUpdate();
+    if (isSet(object.key)) obj.key = String(object.key);
+    if (isSet(object.value)) obj.value = String(object.value);
+    return obj;
   },
   toJSON(message: KVUpdate): unknown {
     const obj: any = {};

@@ -6,7 +6,7 @@ import { isSet, DeepPartial, Exact } from "../../../helpers";
 export const protobufPackage = "pstake.liquidstakeibc.v1beta1";
 /** GenesisState defines the liquidstakeibc module's genesis state. */
 export interface GenesisState {
-  params?: Params;
+  params: Params;
   /** initial host chain list */
   hostChains: HostChain[];
   /** initial deposit list */
@@ -20,7 +20,7 @@ export interface GenesisState {
 }
 function createBaseGenesisState(): GenesisState {
   return {
-    params: undefined,
+    params: Params.fromPartial({}),
     hostChains: [],
     deposits: [],
     unbondings: [],
@@ -83,22 +83,18 @@ export const GenesisState = {
     return message;
   },
   fromJSON(object: any): GenesisState {
-    return {
-      params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-      hostChains: Array.isArray(object?.hostChains)
-        ? object.hostChains.map((e: any) => HostChain.fromJSON(e))
-        : [],
-      deposits: Array.isArray(object?.deposits) ? object.deposits.map((e: any) => Deposit.fromJSON(e)) : [],
-      unbondings: Array.isArray(object?.unbondings)
-        ? object.unbondings.map((e: any) => Unbonding.fromJSON(e))
-        : [],
-      userUnbondings: Array.isArray(object?.userUnbondings)
-        ? object.userUnbondings.map((e: any) => UserUnbonding.fromJSON(e))
-        : [],
-      validatorUnbondings: Array.isArray(object?.validatorUnbondings)
-        ? object.validatorUnbondings.map((e: any) => ValidatorUnbonding.fromJSON(e))
-        : [],
-    };
+    const obj = createBaseGenesisState();
+    if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    if (Array.isArray(object?.hostChains))
+      obj.hostChains = object.hostChains.map((e: any) => HostChain.fromJSON(e));
+    if (Array.isArray(object?.deposits)) obj.deposits = object.deposits.map((e: any) => Deposit.fromJSON(e));
+    if (Array.isArray(object?.unbondings))
+      obj.unbondings = object.unbondings.map((e: any) => Unbonding.fromJSON(e));
+    if (Array.isArray(object?.userUnbondings))
+      obj.userUnbondings = object.userUnbondings.map((e: any) => UserUnbonding.fromJSON(e));
+    if (Array.isArray(object?.validatorUnbondings))
+      obj.validatorUnbondings = object.validatorUnbondings.map((e: any) => ValidatorUnbonding.fromJSON(e));
+    return obj;
   },
   toJSON(message: GenesisState): unknown {
     const obj: any = {};
@@ -134,8 +130,9 @@ export const GenesisState = {
   },
   fromPartial<I extends Exact<DeepPartial<GenesisState>, I>>(object: I): GenesisState {
     const message = createBaseGenesisState();
-    message.params =
-      object.params !== undefined && object.params !== null ? Params.fromPartial(object.params) : undefined;
+    if (object.params !== undefined && object.params !== null) {
+      message.params = Params.fromPartial(object.params);
+    }
     message.hostChains = object.hostChains?.map((e) => HostChain.fromPartial(e)) || [];
     message.deposits = object.deposits?.map((e) => Deposit.fromPartial(e)) || [];
     message.unbondings = object.unbondings?.map((e) => Unbonding.fromPartial(e)) || [];

@@ -10,14 +10,15 @@
 </p>
 
 <p align="center">
-    <a href="https://docs.pstake.finance/">Core</a>
-    ·
-    <a href="https://cosmos.github.io/cosmjs/latest/stargate/index.html">Docs</a>
+    <a href="https://docs.persistence.one/">Persistence Docs <img src="https://avatars.githubusercontent.com/u/52166365" width="20" align="center" alt="Persistence Logo"></a>
+    |
+    <a href="https://github.com/persistenceOne/persistenceCore/">PersistenceCore Blockchain Repository</a>
 </p>
 
 ---
 
 ## Maintain
+
 - open file to scripts/update-protos.sh and update the commits/ tags
 - do `npm run update-protos`
 - do `npm run build:telescope`
@@ -30,3 +31,11 @@
 ```sh
 npm install persistenceonejs
 ```
+
+## Compatibility
+
+| PersistenceJS | PersistenceCore |
+|---------------|-----------------|
+| v2.2.x        | v9.x.x          |
+| v2.1.x        | v8.x.x          |
+Rest of the versions are obsolete
