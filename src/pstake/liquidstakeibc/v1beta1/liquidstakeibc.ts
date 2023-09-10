@@ -230,6 +230,12 @@ export interface HostChainLSParams {
   restakeFee: string;
   unstakeFee: string;
   redemptionFee: string;
+  lsmValidatorCap: string;
+  /**
+   * LSM bond factor
+   *  Should be used only when HostChainFlag.Lsm == true, orelse default
+   */
+  lsmBondFactor: string;
 }
 export interface ICAAccount {
   /** address of the ica on the controller chain */
@@ -253,6 +259,8 @@ export interface Validator {
   exchangeRate: string;
   /** the unbonding epoch number when the validator transitioned into the state */
   unbondingEpoch: Long;
+  /** whether the validator can accept delegations or not, default true for non-lsm chains */
+  delegable: boolean;
 }
 export interface Deposit {
   /** deposit target chain */
@@ -608,6 +616,8 @@ function createBaseHostChainLSParams(): HostChainLSParams {
     restakeFee: "",
     unstakeFee: "",
     redemptionFee: "",
+    lsmValidatorCap: "",
+    lsmBondFactor: "",
   };
 }
 export const HostChainLSParams = {
@@ -623,6 +633,12 @@ export const HostChainLSParams = {
     }
     if (message.redemptionFee !== "") {
       writer.uint32(34).string(message.redemptionFee);
+    }
+    if (message.lsmValidatorCap !== "") {
+      writer.uint32(50).string(message.lsmValidatorCap);
+    }
+    if (message.lsmBondFactor !== "") {
+      writer.uint32(58).string(message.lsmBondFactor);
     }
     return writer;
   },
@@ -645,6 +661,12 @@ export const HostChainLSParams = {
         case 4:
           message.redemptionFee = reader.string();
           break;
+        case 6:
+          message.lsmValidatorCap = reader.string();
+          break;
+        case 7:
+          message.lsmBondFactor = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -658,6 +680,8 @@ export const HostChainLSParams = {
       restakeFee: isSet(object.restakeFee) ? String(object.restakeFee) : "",
       unstakeFee: isSet(object.unstakeFee) ? String(object.unstakeFee) : "",
       redemptionFee: isSet(object.redemptionFee) ? String(object.redemptionFee) : "",
+      lsmValidatorCap: isSet(object.lsmValidatorCap) ? String(object.lsmValidatorCap) : "",
+      lsmBondFactor: isSet(object.lsmBondFactor) ? String(object.lsmBondFactor) : "",
     };
   },
   toJSON(message: HostChainLSParams): unknown {
@@ -666,6 +690,8 @@ export const HostChainLSParams = {
     message.restakeFee !== undefined && (obj.restakeFee = message.restakeFee);
     message.unstakeFee !== undefined && (obj.unstakeFee = message.unstakeFee);
     message.redemptionFee !== undefined && (obj.redemptionFee = message.redemptionFee);
+    message.lsmValidatorCap !== undefined && (obj.lsmValidatorCap = message.lsmValidatorCap);
+    message.lsmBondFactor !== undefined && (obj.lsmBondFactor = message.lsmBondFactor);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<HostChainLSParams>, I>>(object: I): HostChainLSParams {
@@ -674,6 +700,8 @@ export const HostChainLSParams = {
     message.restakeFee = object.restakeFee ?? "";
     message.unstakeFee = object.unstakeFee ?? "";
     message.redemptionFee = object.redemptionFee ?? "";
+    message.lsmValidatorCap = object.lsmValidatorCap ?? "";
+    message.lsmBondFactor = object.lsmBondFactor ?? "";
     return message;
   },
 };
@@ -763,6 +791,7 @@ function createBaseValidator(): Validator {
     delegatedAmount: "",
     exchangeRate: "",
     unbondingEpoch: Long.ZERO,
+    delegable: false,
   };
 }
 export const Validator = {
@@ -784,6 +813,9 @@ export const Validator = {
     }
     if (!message.unbondingEpoch.isZero()) {
       writer.uint32(48).int64(message.unbondingEpoch);
+    }
+    if (message.delegable === true) {
+      writer.uint32(56).bool(message.delegable);
     }
     return writer;
   },
@@ -812,6 +844,9 @@ export const Validator = {
         case 6:
           message.unbondingEpoch = reader.int64() as Long;
           break;
+        case 7:
+          message.delegable = reader.bool();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -827,6 +862,7 @@ export const Validator = {
       delegatedAmount: isSet(object.delegatedAmount) ? String(object.delegatedAmount) : "",
       exchangeRate: isSet(object.exchangeRate) ? String(object.exchangeRate) : "",
       unbondingEpoch: isSet(object.unbondingEpoch) ? Long.fromValue(object.unbondingEpoch) : Long.ZERO,
+      delegable: isSet(object.delegable) ? Boolean(object.delegable) : false,
     };
   },
   toJSON(message: Validator): unknown {
@@ -838,6 +874,7 @@ export const Validator = {
     message.exchangeRate !== undefined && (obj.exchangeRate = message.exchangeRate);
     message.unbondingEpoch !== undefined &&
       (obj.unbondingEpoch = (message.unbondingEpoch || Long.ZERO).toString());
+    message.delegable !== undefined && (obj.delegable = message.delegable);
     return obj;
   },
   fromPartial<I extends Exact<DeepPartial<Validator>, I>>(object: I): Validator {
@@ -851,6 +888,7 @@ export const Validator = {
       object.unbondingEpoch !== undefined && object.unbondingEpoch !== null
         ? Long.fromValue(object.unbondingEpoch)
         : Long.ZERO;
+    message.delegable = object.delegable ?? false;
     return message;
   },
 };
