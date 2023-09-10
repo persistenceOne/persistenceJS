@@ -17,6 +17,11 @@
 
 ---
 
+This repository contains protos compiled into typescript/ javascript that can be used to interact with the persistence blockchain.
+
+## Usage
+Use with [cosmjs](https://github.com/cosmos/cosmjs)
+
 ## Maintain
 
 - open file to scripts/update-protos.sh and update the commits/ tags
