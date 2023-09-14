@@ -107,7 +107,7 @@ telescope({
       ]
     },
     stargateClients: {
-      enabled: true,
+      enabled: false,
       includeCosmosDefaultTypes: false
     },
     aminoEncoding: {
