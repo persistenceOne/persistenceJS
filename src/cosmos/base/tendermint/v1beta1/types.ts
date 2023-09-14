@@ -3,17 +3,14 @@ import { Data, Commit, BlockID } from "../../../../tendermint/types/types";
 import { EvidenceList } from "../../../../tendermint/types/evidence";
 import { Consensus } from "../../../../tendermint/version/types";
 import { Timestamp } from "../../../../google/protobuf/timestamp";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 import {
-  Long,
   isSet,
-  DeepPartial,
-  Exact,
   fromJsonTimestamp,
   bytesFromBase64,
   fromTimestamp,
   base64FromBytes,
 } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "cosmos.base.tendermint.v1beta1";
 /**
  * Block is tendermint type Block, with the Header proposer address
@@ -30,7 +27,7 @@ export interface Header {
   /** basic block info */
   version: Consensus;
   chainId: string;
-  height: Long;
+  height: bigint;
   time: Timestamp;
   /** prev block info */
   lastBlockId: BlockID;
@@ -64,7 +61,7 @@ function createBaseBlock(): Block {
   };
 }
 export const Block = {
-  encode(message: Block, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Block, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.header !== undefined) {
       Header.encode(message.header, writer.uint32(10).fork()).ldelim();
     }
@@ -79,8 +76,8 @@ export const Block = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Block {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Block {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBlock();
     while (reader.pos < end) {
@@ -123,7 +120,7 @@ export const Block = {
       (obj.lastCommit = message.lastCommit ? Commit.toJSON(message.lastCommit) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Block>, I>>(object: I): Block {
+  fromPartial(object: Partial<Block>): Block {
     const message = createBaseBlock();
     if (object.header !== undefined && object.header !== null) {
       message.header = Header.fromPartial(object.header);
@@ -144,7 +141,7 @@ function createBaseHeader(): Header {
   return {
     version: Consensus.fromPartial({}),
     chainId: "",
-    height: Long.ZERO,
+    height: BigInt(0),
     time: Timestamp.fromPartial({}),
     lastBlockId: BlockID.fromPartial({}),
     lastCommitHash: new Uint8Array(),
@@ -159,14 +156,14 @@ function createBaseHeader(): Header {
   };
 }
 export const Header = {
-  encode(message: Header, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Header, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.version !== undefined) {
       Consensus.encode(message.version, writer.uint32(10).fork()).ldelim();
     }
     if (message.chainId !== "") {
       writer.uint32(18).string(message.chainId);
     }
-    if (!message.height.isZero()) {
+    if (message.height !== BigInt(0)) {
       writer.uint32(24).int64(message.height);
     }
     if (message.time !== undefined) {
@@ -204,8 +201,8 @@ export const Header = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Header {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Header {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHeader();
     while (reader.pos < end) {
@@ -218,7 +215,7 @@ export const Header = {
           message.chainId = reader.string();
           break;
         case 3:
-          message.height = reader.int64() as Long;
+          message.height = reader.int64();
           break;
         case 4:
           message.time = Timestamp.decode(reader, reader.uint32());
@@ -264,7 +261,7 @@ export const Header = {
     const obj = createBaseHeader();
     if (isSet(object.version)) obj.version = Consensus.fromJSON(object.version);
     if (isSet(object.chainId)) obj.chainId = String(object.chainId);
-    if (isSet(object.height)) obj.height = Long.fromValue(object.height);
+    if (isSet(object.height)) obj.height = BigInt(object.height.toString());
     if (isSet(object.time)) obj.time = fromJsonTimestamp(object.time);
     if (isSet(object.lastBlockId)) obj.lastBlockId = BlockID.fromJSON(object.lastBlockId);
     if (isSet(object.lastCommitHash)) obj.lastCommitHash = bytesFromBase64(object.lastCommitHash);
@@ -283,7 +280,7 @@ export const Header = {
     message.version !== undefined &&
       (obj.version = message.version ? Consensus.toJSON(message.version) : undefined);
     message.chainId !== undefined && (obj.chainId = message.chainId);
-    message.height !== undefined && (obj.height = (message.height || Long.ZERO).toString());
+    message.height !== undefined && (obj.height = (message.height || BigInt(0)).toString());
     message.time !== undefined && (obj.time = fromTimestamp(message.time).toISOString());
     message.lastBlockId !== undefined &&
       (obj.lastBlockId = message.lastBlockId ? BlockID.toJSON(message.lastBlockId) : undefined);
@@ -318,14 +315,14 @@ export const Header = {
     message.proposerAddress !== undefined && (obj.proposerAddress = message.proposerAddress);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Header>, I>>(object: I): Header {
+  fromPartial(object: Partial<Header>): Header {
     const message = createBaseHeader();
     if (object.version !== undefined && object.version !== null) {
       message.version = Consensus.fromPartial(object.version);
     }
     message.chainId = object.chainId ?? "";
     if (object.height !== undefined && object.height !== null) {
-      message.height = Long.fromValue(object.height);
+      message.height = BigInt(object.height.toString());
     }
     if (object.time !== undefined && object.time !== null) {
       message.time = Timestamp.fromPartial(object.time);

@@ -1,6 +1,6 @@
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.params.v1beta1";
 /** ParameterChangeProposal defines a proposal to change one or more parameters. */
 export interface ParameterChangeProposal {
@@ -25,7 +25,7 @@ function createBaseParameterChangeProposal(): ParameterChangeProposal {
   };
 }
 export const ParameterChangeProposal = {
-  encode(message: ParameterChangeProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ParameterChangeProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -37,8 +37,8 @@ export const ParameterChangeProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ParameterChangeProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ParameterChangeProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParameterChangeProposal();
     while (reader.pos < end) {
@@ -78,7 +78,7 @@ export const ParameterChangeProposal = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ParameterChangeProposal>, I>>(object: I): ParameterChangeProposal {
+  fromPartial(object: Partial<ParameterChangeProposal>): ParameterChangeProposal {
     const message = createBaseParameterChangeProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -94,7 +94,7 @@ function createBaseParamChange(): ParamChange {
   };
 }
 export const ParamChange = {
-  encode(message: ParamChange, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ParamChange, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.subspace !== "") {
       writer.uint32(10).string(message.subspace);
     }
@@ -106,8 +106,8 @@ export const ParamChange = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ParamChange {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ParamChange {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParamChange();
     while (reader.pos < end) {
@@ -143,7 +143,7 @@ export const ParamChange = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ParamChange>, I>>(object: I): ParamChange {
+  fromPartial(object: Partial<ParamChange>): ParamChange {
     const message = createBaseParamChange();
     message.subspace = object.subspace ?? "";
     message.key = object.key ?? "";

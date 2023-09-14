@@ -1,6 +1,6 @@
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.app.v1alpha1";
 /** ModuleDescriptor describes an app module. */
 export interface ModuleDescriptor {
@@ -90,7 +90,7 @@ function createBaseModuleDescriptor(): ModuleDescriptor {
   };
 }
 export const ModuleDescriptor = {
-  encode(message: ModuleDescriptor, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ModuleDescriptor, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.goImport !== "") {
       writer.uint32(10).string(message.goImport);
     }
@@ -102,8 +102,8 @@ export const ModuleDescriptor = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ModuleDescriptor {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ModuleDescriptor {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModuleDescriptor();
     while (reader.pos < end) {
@@ -149,7 +149,7 @@ export const ModuleDescriptor = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ModuleDescriptor>, I>>(object: I): ModuleDescriptor {
+  fromPartial(object: Partial<ModuleDescriptor>): ModuleDescriptor {
     const message = createBaseModuleDescriptor();
     message.goImport = object.goImport ?? "";
     message.usePackage = object.usePackage?.map((e) => PackageReference.fromPartial(e)) || [];
@@ -164,7 +164,7 @@ function createBasePackageReference(): PackageReference {
   };
 }
 export const PackageReference = {
-  encode(message: PackageReference, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PackageReference, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -173,8 +173,8 @@ export const PackageReference = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PackageReference {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PackageReference {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePackageReference();
     while (reader.pos < end) {
@@ -205,7 +205,7 @@ export const PackageReference = {
     message.revision !== undefined && (obj.revision = Math.round(message.revision));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<PackageReference>, I>>(object: I): PackageReference {
+  fromPartial(object: Partial<PackageReference>): PackageReference {
     const message = createBasePackageReference();
     message.name = object.name ?? "";
     message.revision = object.revision ?? 0;
@@ -218,14 +218,14 @@ function createBaseMigrateFromInfo(): MigrateFromInfo {
   };
 }
 export const MigrateFromInfo = {
-  encode(message: MigrateFromInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MigrateFromInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.module !== "") {
       writer.uint32(10).string(message.module);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MigrateFromInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MigrateFromInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMigrateFromInfo();
     while (reader.pos < end) {
@@ -251,7 +251,7 @@ export const MigrateFromInfo = {
     message.module !== undefined && (obj.module = message.module);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MigrateFromInfo>, I>>(object: I): MigrateFromInfo {
+  fromPartial(object: Partial<MigrateFromInfo>): MigrateFromInfo {
     const message = createBaseMigrateFromInfo();
     message.module = object.module ?? "";
     return message;

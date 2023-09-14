@@ -1,6 +1,6 @@
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
-import { isSet, bytesFromBase64, base64FromBytes, DeepPartial, Exact } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.applications.fee.v1";
 /** IncentivizedAcknowledgement is the acknowledgement format to be used by applications wrapped in the fee middleware */
 export interface IncentivizedAcknowledgement {
@@ -19,7 +19,7 @@ function createBaseIncentivizedAcknowledgement(): IncentivizedAcknowledgement {
   };
 }
 export const IncentivizedAcknowledgement = {
-  encode(message: IncentivizedAcknowledgement, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: IncentivizedAcknowledgement, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.appAcknowledgement.length !== 0) {
       writer.uint32(10).bytes(message.appAcknowledgement);
     }
@@ -31,8 +31,8 @@ export const IncentivizedAcknowledgement = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): IncentivizedAcknowledgement {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): IncentivizedAcknowledgement {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseIncentivizedAcknowledgement();
     while (reader.pos < end) {
@@ -72,9 +72,7 @@ export const IncentivizedAcknowledgement = {
     message.underlyingAppSuccess !== undefined && (obj.underlyingAppSuccess = message.underlyingAppSuccess);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<IncentivizedAcknowledgement>, I>>(
-    object: I,
-  ): IncentivizedAcknowledgement {
+  fromPartial(object: Partial<IncentivizedAcknowledgement>): IncentivizedAcknowledgement {
     const message = createBaseIncentivizedAcknowledgement();
     message.appAcknowledgement = object.appAcknowledgement ?? new Uint8Array();
     message.forwardRelayerAddress = object.forwardRelayerAddress ?? "";

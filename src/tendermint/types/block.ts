@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { Header, Data, Commit } from "./types";
 import { EvidenceList } from "./evidence";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact } from "../../helpers";
+import { BinaryReader, BinaryWriter } from "../../binary";
+import { isSet } from "../../helpers";
 export const protobufPackage = "tendermint.types";
 export interface Block {
   header: Header;
@@ -19,7 +19,7 @@ function createBaseBlock(): Block {
   };
 }
 export const Block = {
-  encode(message: Block, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Block, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.header !== undefined) {
       Header.encode(message.header, writer.uint32(10).fork()).ldelim();
     }
@@ -34,8 +34,8 @@ export const Block = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Block {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Block {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBlock();
     while (reader.pos < end) {
@@ -78,7 +78,7 @@ export const Block = {
       (obj.lastCommit = message.lastCommit ? Commit.toJSON(message.lastCommit) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Block>, I>>(object: I): Block {
+  fromPartial(object: Partial<Block>): Block {
     const message = createBaseBlock();
     if (object.header !== undefined && object.header !== null) {
       message.header = Header.fromPartial(object.header);

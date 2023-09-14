@@ -8,17 +8,8 @@ import {
   TokenizeShareRecord,
 } from "./staking";
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import {
-  Long,
-  isSet,
-  bytesFromBase64,
-  base64FromBytes,
-  DeepPartial,
-  Exact,
-  fromJsonTimestamp,
-  fromTimestamp,
-} from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes, fromJsonTimestamp, fromTimestamp } from "../../../helpers";
 export const protobufPackage = "cosmos.staking.v1beta1";
 /** GenesisState defines the staking module's genesis state. */
 export interface GenesisState {
@@ -54,7 +45,7 @@ export interface GenesisState {
    *
    * Since: cosmos-sdk 0.47-lsm
    */
-  lastTokenizeShareRecordId: Long;
+  lastTokenizeShareRecordId: bigint;
   /**
    * total number of liquid staked tokens at genesis.
    *
@@ -86,7 +77,7 @@ export interface LastValidatorPower {
   /** address is the address of the validator. */
   address: string;
   /** power defines the power of the validator. */
-  power: Long;
+  power: bigint;
 }
 function createBaseGenesisState(): GenesisState {
   return {
@@ -99,13 +90,13 @@ function createBaseGenesisState(): GenesisState {
     redelegations: [],
     exported: false,
     tokenizeShareRecords: [],
-    lastTokenizeShareRecordId: Long.UZERO,
+    lastTokenizeShareRecordId: BigInt(0),
     totalLiquidStakedTokens: new Uint8Array(),
     tokenizeShareLocks: [],
   };
 }
 export const GenesisState = {
-  encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
@@ -133,7 +124,7 @@ export const GenesisState = {
     for (const v of message.tokenizeShareRecords) {
       TokenizeShareRecord.encode(v!, writer.uint32(74).fork()).ldelim();
     }
-    if (!message.lastTokenizeShareRecordId.isZero()) {
+    if (message.lastTokenizeShareRecordId !== BigInt(0)) {
       writer.uint32(80).uint64(message.lastTokenizeShareRecordId);
     }
     if (message.totalLiquidStakedTokens.length !== 0) {
@@ -144,8 +135,8 @@ export const GenesisState = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GenesisState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState();
     while (reader.pos < end) {
@@ -179,7 +170,7 @@ export const GenesisState = {
           message.tokenizeShareRecords.push(TokenizeShareRecord.decode(reader, reader.uint32()));
           break;
         case 10:
-          message.lastTokenizeShareRecordId = reader.uint64() as Long;
+          message.lastTokenizeShareRecordId = reader.uint64();
           break;
         case 11:
           message.totalLiquidStakedTokens = reader.bytes();
@@ -212,7 +203,7 @@ export const GenesisState = {
     if (Array.isArray(object?.tokenizeShareRecords))
       obj.tokenizeShareRecords = object.tokenizeShareRecords.map((e: any) => TokenizeShareRecord.fromJSON(e));
     if (isSet(object.lastTokenizeShareRecordId))
-      obj.lastTokenizeShareRecordId = Long.fromValue(object.lastTokenizeShareRecordId);
+      obj.lastTokenizeShareRecordId = BigInt(object.lastTokenizeShareRecordId.toString());
     if (isSet(object.totalLiquidStakedTokens))
       obj.totalLiquidStakedTokens = bytesFromBase64(object.totalLiquidStakedTokens);
     if (Array.isArray(object?.tokenizeShareLocks))
@@ -264,7 +255,7 @@ export const GenesisState = {
       obj.tokenizeShareRecords = [];
     }
     message.lastTokenizeShareRecordId !== undefined &&
-      (obj.lastTokenizeShareRecordId = (message.lastTokenizeShareRecordId || Long.UZERO).toString());
+      (obj.lastTokenizeShareRecordId = (message.lastTokenizeShareRecordId || BigInt(0)).toString());
     message.totalLiquidStakedTokens !== undefined &&
       (obj.totalLiquidStakedTokens = base64FromBytes(
         message.totalLiquidStakedTokens !== undefined ? message.totalLiquidStakedTokens : new Uint8Array(),
@@ -278,7 +269,7 @@ export const GenesisState = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<GenesisState>, I>>(object: I): GenesisState {
+  fromPartial(object: Partial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
@@ -295,7 +286,7 @@ export const GenesisState = {
     message.tokenizeShareRecords =
       object.tokenizeShareRecords?.map((e) => TokenizeShareRecord.fromPartial(e)) || [];
     if (object.lastTokenizeShareRecordId !== undefined && object.lastTokenizeShareRecordId !== null) {
-      message.lastTokenizeShareRecordId = Long.fromValue(object.lastTokenizeShareRecordId);
+      message.lastTokenizeShareRecordId = BigInt(object.lastTokenizeShareRecordId.toString());
     }
     message.totalLiquidStakedTokens = object.totalLiquidStakedTokens ?? new Uint8Array();
     message.tokenizeShareLocks =
@@ -311,7 +302,7 @@ function createBaseTokenizeShareLock(): TokenizeShareLock {
   };
 }
 export const TokenizeShareLock = {
-  encode(message: TokenizeShareLock, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TokenizeShareLock, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -323,8 +314,8 @@ export const TokenizeShareLock = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TokenizeShareLock {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TokenizeShareLock {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTokenizeShareLock();
     while (reader.pos < end) {
@@ -361,7 +352,7 @@ export const TokenizeShareLock = {
       (obj.completionTime = fromTimestamp(message.completionTime).toISOString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<TokenizeShareLock>, I>>(object: I): TokenizeShareLock {
+  fromPartial(object: Partial<TokenizeShareLock>): TokenizeShareLock {
     const message = createBaseTokenizeShareLock();
     message.address = object.address ?? "";
     message.status = object.status ?? "";
@@ -374,21 +365,21 @@ export const TokenizeShareLock = {
 function createBaseLastValidatorPower(): LastValidatorPower {
   return {
     address: "",
-    power: Long.ZERO,
+    power: BigInt(0),
   };
 }
 export const LastValidatorPower = {
-  encode(message: LastValidatorPower, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: LastValidatorPower, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
-    if (!message.power.isZero()) {
+    if (message.power !== BigInt(0)) {
       writer.uint32(16).int64(message.power);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): LastValidatorPower {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): LastValidatorPower {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLastValidatorPower();
     while (reader.pos < end) {
@@ -398,7 +389,7 @@ export const LastValidatorPower = {
           message.address = reader.string();
           break;
         case 2:
-          message.power = reader.int64() as Long;
+          message.power = reader.int64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -410,20 +401,20 @@ export const LastValidatorPower = {
   fromJSON(object: any): LastValidatorPower {
     const obj = createBaseLastValidatorPower();
     if (isSet(object.address)) obj.address = String(object.address);
-    if (isSet(object.power)) obj.power = Long.fromValue(object.power);
+    if (isSet(object.power)) obj.power = BigInt(object.power.toString());
     return obj;
   },
   toJSON(message: LastValidatorPower): unknown {
     const obj: any = {};
     message.address !== undefined && (obj.address = message.address);
-    message.power !== undefined && (obj.power = (message.power || Long.ZERO).toString());
+    message.power !== undefined && (obj.power = (message.power || BigInt(0)).toString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<LastValidatorPower>, I>>(object: I): LastValidatorPower {
+  fromPartial(object: Partial<LastValidatorPower>): LastValidatorPower {
     const message = createBaseLastValidatorPower();
     message.address = object.address ?? "";
     if (object.power !== undefined && object.power !== null) {
-      message.power = Long.fromValue(object.power);
+      message.power = BigInt(object.power.toString());
     }
     return message;
   },

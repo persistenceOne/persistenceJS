@@ -2,8 +2,8 @@
 import { PageRequest, PageResponse } from "../../base/query/v1beta1/pagination";
 import { Any } from "../../../google/protobuf/any";
 import { Params, BaseAccount } from "./auth";
-import { Long, isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes, Rpc } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes, Rpc } from "../../../helpers";
 export const protobufPackage = "cosmos.auth.v1beta1";
 /**
  * QueryAccountsRequest is the request type for the Query/Accounts RPC method.
@@ -124,13 +124,13 @@ export interface QueryAccountAddressByIDRequest {
    * updated to uint64 in a future version of the auth query.
    */
   /** @deprecated */
-  id: Long;
+  id: bigint;
   /**
    * account_id is the account number of the address to be queried.
    *
    * Since: cosmos-sdk 0.47
    */
-  accountId: Long;
+  accountId: bigint;
 }
 /**
  * QueryAccountAddressByIDResponse is the response type for AccountAddressByID rpc method
@@ -164,14 +164,14 @@ function createBaseQueryAccountsRequest(): QueryAccountsRequest {
   };
 }
 export const QueryAccountsRequest = {
-  encode(message: QueryAccountsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryAccountsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAccountsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAccountsRequest();
     while (reader.pos < end) {
@@ -198,7 +198,7 @@ export const QueryAccountsRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAccountsRequest>, I>>(object: I): QueryAccountsRequest {
+  fromPartial(object: Partial<QueryAccountsRequest>): QueryAccountsRequest {
     const message = createBaseQueryAccountsRequest();
     if (object.pagination !== undefined && object.pagination !== null) {
       message.pagination = PageRequest.fromPartial(object.pagination);
@@ -213,7 +213,7 @@ function createBaseQueryAccountsResponse(): QueryAccountsResponse {
   };
 }
 export const QueryAccountsResponse = {
-  encode(message: QueryAccountsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryAccountsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.accounts) {
       Any.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -222,8 +222,8 @@ export const QueryAccountsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAccountsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAccountsResponse();
     while (reader.pos < end) {
@@ -259,7 +259,7 @@ export const QueryAccountsResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAccountsResponse>, I>>(object: I): QueryAccountsResponse {
+  fromPartial(object: Partial<QueryAccountsResponse>): QueryAccountsResponse {
     const message = createBaseQueryAccountsResponse();
     message.accounts = object.accounts?.map((e) => Any.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -274,14 +274,14 @@ function createBaseQueryAccountRequest(): QueryAccountRequest {
   };
 }
 export const QueryAccountRequest = {
-  encode(message: QueryAccountRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryAccountRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAccountRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAccountRequest();
     while (reader.pos < end) {
@@ -307,7 +307,7 @@ export const QueryAccountRequest = {
     message.address !== undefined && (obj.address = message.address);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAccountRequest>, I>>(object: I): QueryAccountRequest {
+  fromPartial(object: Partial<QueryAccountRequest>): QueryAccountRequest {
     const message = createBaseQueryAccountRequest();
     message.address = object.address ?? "";
     return message;
@@ -319,14 +319,14 @@ function createBaseQueryAccountResponse(): QueryAccountResponse {
   };
 }
 export const QueryAccountResponse = {
-  encode(message: QueryAccountResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryAccountResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.account !== undefined) {
       Any.encode(message.account, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAccountResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAccountResponse();
     while (reader.pos < end) {
@@ -353,7 +353,7 @@ export const QueryAccountResponse = {
       (obj.account = message.account ? Any.toJSON(message.account) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAccountResponse>, I>>(object: I): QueryAccountResponse {
+  fromPartial(object: Partial<QueryAccountResponse>): QueryAccountResponse {
     const message = createBaseQueryAccountResponse();
     if (object.account !== undefined && object.account !== null) {
       message.account = Any.fromPartial(object.account);
@@ -365,11 +365,11 @@ function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
 export const QueryParamsRequest = {
-  encode(_: QueryParamsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsRequest();
     while (reader.pos < end) {
@@ -390,7 +390,7 @@ export const QueryParamsRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryParamsRequest>, I>>(_: I): QueryParamsRequest {
+  fromPartial(_: Partial<QueryParamsRequest>): QueryParamsRequest {
     const message = createBaseQueryParamsRequest();
     return message;
   },
@@ -401,14 +401,14 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
   };
 }
 export const QueryParamsResponse = {
-  encode(message: QueryParamsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
     while (reader.pos < end) {
@@ -434,7 +434,7 @@ export const QueryParamsResponse = {
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryParamsResponse>, I>>(object: I): QueryParamsResponse {
+  fromPartial(object: Partial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
@@ -446,11 +446,11 @@ function createBaseQueryModuleAccountsRequest(): QueryModuleAccountsRequest {
   return {};
 }
 export const QueryModuleAccountsRequest = {
-  encode(_: QueryModuleAccountsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryModuleAccountsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryModuleAccountsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryModuleAccountsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryModuleAccountsRequest();
     while (reader.pos < end) {
@@ -471,7 +471,7 @@ export const QueryModuleAccountsRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryModuleAccountsRequest>, I>>(_: I): QueryModuleAccountsRequest {
+  fromPartial(_: Partial<QueryModuleAccountsRequest>): QueryModuleAccountsRequest {
     const message = createBaseQueryModuleAccountsRequest();
     return message;
   },
@@ -482,14 +482,14 @@ function createBaseQueryModuleAccountsResponse(): QueryModuleAccountsResponse {
   };
 }
 export const QueryModuleAccountsResponse = {
-  encode(message: QueryModuleAccountsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryModuleAccountsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.accounts) {
       Any.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryModuleAccountsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryModuleAccountsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryModuleAccountsResponse();
     while (reader.pos < end) {
@@ -519,9 +519,7 @@ export const QueryModuleAccountsResponse = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryModuleAccountsResponse>, I>>(
-    object: I,
-  ): QueryModuleAccountsResponse {
+  fromPartial(object: Partial<QueryModuleAccountsResponse>): QueryModuleAccountsResponse {
     const message = createBaseQueryModuleAccountsResponse();
     message.accounts = object.accounts?.map((e) => Any.fromPartial(e)) || [];
     return message;
@@ -533,14 +531,17 @@ function createBaseQueryModuleAccountByNameRequest(): QueryModuleAccountByNameRe
   };
 }
 export const QueryModuleAccountByNameRequest = {
-  encode(message: QueryModuleAccountByNameRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryModuleAccountByNameRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryModuleAccountByNameRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryModuleAccountByNameRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryModuleAccountByNameRequest();
     while (reader.pos < end) {
@@ -566,9 +567,7 @@ export const QueryModuleAccountByNameRequest = {
     message.name !== undefined && (obj.name = message.name);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryModuleAccountByNameRequest>, I>>(
-    object: I,
-  ): QueryModuleAccountByNameRequest {
+  fromPartial(object: Partial<QueryModuleAccountByNameRequest>): QueryModuleAccountByNameRequest {
     const message = createBaseQueryModuleAccountByNameRequest();
     message.name = object.name ?? "";
     return message;
@@ -580,14 +579,17 @@ function createBaseQueryModuleAccountByNameResponse(): QueryModuleAccountByNameR
   };
 }
 export const QueryModuleAccountByNameResponse = {
-  encode(message: QueryModuleAccountByNameResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryModuleAccountByNameResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.account !== undefined) {
       Any.encode(message.account, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryModuleAccountByNameResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryModuleAccountByNameResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryModuleAccountByNameResponse();
     while (reader.pos < end) {
@@ -614,9 +616,7 @@ export const QueryModuleAccountByNameResponse = {
       (obj.account = message.account ? Any.toJSON(message.account) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryModuleAccountByNameResponse>, I>>(
-    object: I,
-  ): QueryModuleAccountByNameResponse {
+  fromPartial(object: Partial<QueryModuleAccountByNameResponse>): QueryModuleAccountByNameResponse {
     const message = createBaseQueryModuleAccountByNameResponse();
     if (object.account !== undefined && object.account !== null) {
       message.account = Any.fromPartial(object.account);
@@ -628,11 +628,11 @@ function createBaseBech32PrefixRequest(): Bech32PrefixRequest {
   return {};
 }
 export const Bech32PrefixRequest = {
-  encode(_: Bech32PrefixRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: Bech32PrefixRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Bech32PrefixRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Bech32PrefixRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBech32PrefixRequest();
     while (reader.pos < end) {
@@ -653,7 +653,7 @@ export const Bech32PrefixRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Bech32PrefixRequest>, I>>(_: I): Bech32PrefixRequest {
+  fromPartial(_: Partial<Bech32PrefixRequest>): Bech32PrefixRequest {
     const message = createBaseBech32PrefixRequest();
     return message;
   },
@@ -664,14 +664,14 @@ function createBaseBech32PrefixResponse(): Bech32PrefixResponse {
   };
 }
 export const Bech32PrefixResponse = {
-  encode(message: Bech32PrefixResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Bech32PrefixResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.bech32Prefix !== "") {
       writer.uint32(10).string(message.bech32Prefix);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Bech32PrefixResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Bech32PrefixResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBech32PrefixResponse();
     while (reader.pos < end) {
@@ -697,7 +697,7 @@ export const Bech32PrefixResponse = {
     message.bech32Prefix !== undefined && (obj.bech32Prefix = message.bech32Prefix);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Bech32PrefixResponse>, I>>(object: I): Bech32PrefixResponse {
+  fromPartial(object: Partial<Bech32PrefixResponse>): Bech32PrefixResponse {
     const message = createBaseBech32PrefixResponse();
     message.bech32Prefix = object.bech32Prefix ?? "";
     return message;
@@ -709,14 +709,14 @@ function createBaseAddressBytesToStringRequest(): AddressBytesToStringRequest {
   };
 }
 export const AddressBytesToStringRequest = {
-  encode(message: AddressBytesToStringRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: AddressBytesToStringRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.addressBytes.length !== 0) {
       writer.uint32(10).bytes(message.addressBytes);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AddressBytesToStringRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AddressBytesToStringRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAddressBytesToStringRequest();
     while (reader.pos < end) {
@@ -745,9 +745,7 @@ export const AddressBytesToStringRequest = {
       ));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<AddressBytesToStringRequest>, I>>(
-    object: I,
-  ): AddressBytesToStringRequest {
+  fromPartial(object: Partial<AddressBytesToStringRequest>): AddressBytesToStringRequest {
     const message = createBaseAddressBytesToStringRequest();
     message.addressBytes = object.addressBytes ?? new Uint8Array();
     return message;
@@ -759,14 +757,14 @@ function createBaseAddressBytesToStringResponse(): AddressBytesToStringResponse 
   };
 }
 export const AddressBytesToStringResponse = {
-  encode(message: AddressBytesToStringResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: AddressBytesToStringResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.addressString !== "") {
       writer.uint32(10).string(message.addressString);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AddressBytesToStringResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AddressBytesToStringResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAddressBytesToStringResponse();
     while (reader.pos < end) {
@@ -792,9 +790,7 @@ export const AddressBytesToStringResponse = {
     message.addressString !== undefined && (obj.addressString = message.addressString);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<AddressBytesToStringResponse>, I>>(
-    object: I,
-  ): AddressBytesToStringResponse {
+  fromPartial(object: Partial<AddressBytesToStringResponse>): AddressBytesToStringResponse {
     const message = createBaseAddressBytesToStringResponse();
     message.addressString = object.addressString ?? "";
     return message;
@@ -806,14 +802,14 @@ function createBaseAddressStringToBytesRequest(): AddressStringToBytesRequest {
   };
 }
 export const AddressStringToBytesRequest = {
-  encode(message: AddressStringToBytesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: AddressStringToBytesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.addressString !== "") {
       writer.uint32(10).string(message.addressString);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AddressStringToBytesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AddressStringToBytesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAddressStringToBytesRequest();
     while (reader.pos < end) {
@@ -839,9 +835,7 @@ export const AddressStringToBytesRequest = {
     message.addressString !== undefined && (obj.addressString = message.addressString);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<AddressStringToBytesRequest>, I>>(
-    object: I,
-  ): AddressStringToBytesRequest {
+  fromPartial(object: Partial<AddressStringToBytesRequest>): AddressStringToBytesRequest {
     const message = createBaseAddressStringToBytesRequest();
     message.addressString = object.addressString ?? "";
     return message;
@@ -853,14 +847,14 @@ function createBaseAddressStringToBytesResponse(): AddressStringToBytesResponse 
   };
 }
 export const AddressStringToBytesResponse = {
-  encode(message: AddressStringToBytesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: AddressStringToBytesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.addressBytes.length !== 0) {
       writer.uint32(10).bytes(message.addressBytes);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AddressStringToBytesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AddressStringToBytesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAddressStringToBytesResponse();
     while (reader.pos < end) {
@@ -889,9 +883,7 @@ export const AddressStringToBytesResponse = {
       ));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<AddressStringToBytesResponse>, I>>(
-    object: I,
-  ): AddressStringToBytesResponse {
+  fromPartial(object: Partial<AddressStringToBytesResponse>): AddressStringToBytesResponse {
     const message = createBaseAddressStringToBytesResponse();
     message.addressBytes = object.addressBytes ?? new Uint8Array();
     return message;
@@ -899,32 +891,35 @@ export const AddressStringToBytesResponse = {
 };
 function createBaseQueryAccountAddressByIDRequest(): QueryAccountAddressByIDRequest {
   return {
-    id: Long.ZERO,
-    accountId: Long.UZERO,
+    id: BigInt(0),
+    accountId: BigInt(0),
   };
 }
 export const QueryAccountAddressByIDRequest = {
-  encode(message: QueryAccountAddressByIDRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.isZero()) {
+  encode(
+    message: QueryAccountAddressByIDRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    if (message.id !== BigInt(0)) {
       writer.uint32(8).int64(message.id);
     }
-    if (!message.accountId.isZero()) {
+    if (message.accountId !== BigInt(0)) {
       writer.uint32(16).uint64(message.accountId);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountAddressByIDRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAccountAddressByIDRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAccountAddressByIDRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = reader.int64() as Long;
+          message.id = reader.int64();
           break;
         case 2:
-          message.accountId = reader.uint64() as Long;
+          message.accountId = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -935,25 +930,23 @@ export const QueryAccountAddressByIDRequest = {
   },
   fromJSON(object: any): QueryAccountAddressByIDRequest {
     const obj = createBaseQueryAccountAddressByIDRequest();
-    if (isSet(object.id)) obj.id = Long.fromValue(object.id);
-    if (isSet(object.accountId)) obj.accountId = Long.fromValue(object.accountId);
+    if (isSet(object.id)) obj.id = BigInt(object.id.toString());
+    if (isSet(object.accountId)) obj.accountId = BigInt(object.accountId.toString());
     return obj;
   },
   toJSON(message: QueryAccountAddressByIDRequest): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || Long.ZERO).toString());
-    message.accountId !== undefined && (obj.accountId = (message.accountId || Long.UZERO).toString());
+    message.id !== undefined && (obj.id = (message.id || BigInt(0)).toString());
+    message.accountId !== undefined && (obj.accountId = (message.accountId || BigInt(0)).toString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAccountAddressByIDRequest>, I>>(
-    object: I,
-  ): QueryAccountAddressByIDRequest {
+  fromPartial(object: Partial<QueryAccountAddressByIDRequest>): QueryAccountAddressByIDRequest {
     const message = createBaseQueryAccountAddressByIDRequest();
     if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromValue(object.id);
+      message.id = BigInt(object.id.toString());
     }
     if (object.accountId !== undefined && object.accountId !== null) {
-      message.accountId = Long.fromValue(object.accountId);
+      message.accountId = BigInt(object.accountId.toString());
     }
     return message;
   },
@@ -964,14 +957,17 @@ function createBaseQueryAccountAddressByIDResponse(): QueryAccountAddressByIDRes
   };
 }
 export const QueryAccountAddressByIDResponse = {
-  encode(message: QueryAccountAddressByIDResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryAccountAddressByIDResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.accountAddress !== "") {
       writer.uint32(10).string(message.accountAddress);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountAddressByIDResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAccountAddressByIDResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAccountAddressByIDResponse();
     while (reader.pos < end) {
@@ -997,9 +993,7 @@ export const QueryAccountAddressByIDResponse = {
     message.accountAddress !== undefined && (obj.accountAddress = message.accountAddress);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAccountAddressByIDResponse>, I>>(
-    object: I,
-  ): QueryAccountAddressByIDResponse {
+  fromPartial(object: Partial<QueryAccountAddressByIDResponse>): QueryAccountAddressByIDResponse {
     const message = createBaseQueryAccountAddressByIDResponse();
     message.accountAddress = object.accountAddress ?? "";
     return message;
@@ -1011,14 +1005,14 @@ function createBaseQueryAccountInfoRequest(): QueryAccountInfoRequest {
   };
 }
 export const QueryAccountInfoRequest = {
-  encode(message: QueryAccountInfoRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryAccountInfoRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountInfoRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAccountInfoRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAccountInfoRequest();
     while (reader.pos < end) {
@@ -1044,7 +1038,7 @@ export const QueryAccountInfoRequest = {
     message.address !== undefined && (obj.address = message.address);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAccountInfoRequest>, I>>(object: I): QueryAccountInfoRequest {
+  fromPartial(object: Partial<QueryAccountInfoRequest>): QueryAccountInfoRequest {
     const message = createBaseQueryAccountInfoRequest();
     message.address = object.address ?? "";
     return message;
@@ -1056,14 +1050,14 @@ function createBaseQueryAccountInfoResponse(): QueryAccountInfoResponse {
   };
 }
 export const QueryAccountInfoResponse = {
-  encode(message: QueryAccountInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryAccountInfoResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.info !== undefined) {
       BaseAccount.encode(message.info, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAccountInfoResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAccountInfoResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAccountInfoResponse();
     while (reader.pos < end) {
@@ -1089,9 +1083,7 @@ export const QueryAccountInfoResponse = {
     message.info !== undefined && (obj.info = message.info ? BaseAccount.toJSON(message.info) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAccountInfoResponse>, I>>(
-    object: I,
-  ): QueryAccountInfoResponse {
+  fromPartial(object: Partial<QueryAccountInfoResponse>): QueryAccountInfoResponse {
     const message = createBaseQueryAccountInfoResponse();
     if (object.info !== undefined && object.info !== null) {
       message.info = BaseAccount.fromPartial(object.info);
@@ -1175,51 +1167,51 @@ export class QueryClientImpl implements Query {
   ): Promise<QueryAccountsResponse> {
     const data = QueryAccountsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "Accounts", data);
-    return promise.then((data) => QueryAccountsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryAccountsResponse.decode(new BinaryReader(data)));
   }
   Account(request: QueryAccountRequest): Promise<QueryAccountResponse> {
     const data = QueryAccountRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "Account", data);
-    return promise.then((data) => QueryAccountResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryAccountResponse.decode(new BinaryReader(data)));
   }
   AccountAddressByID(request: QueryAccountAddressByIDRequest): Promise<QueryAccountAddressByIDResponse> {
     const data = QueryAccountAddressByIDRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "AccountAddressByID", data);
-    return promise.then((data) => QueryAccountAddressByIDResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryAccountAddressByIDResponse.decode(new BinaryReader(data)));
   }
   Params(request: QueryParamsRequest = {}): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "Params", data);
-    return promise.then((data) => QueryParamsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryParamsResponse.decode(new BinaryReader(data)));
   }
   ModuleAccounts(request: QueryModuleAccountsRequest = {}): Promise<QueryModuleAccountsResponse> {
     const data = QueryModuleAccountsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "ModuleAccounts", data);
-    return promise.then((data) => QueryModuleAccountsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryModuleAccountsResponse.decode(new BinaryReader(data)));
   }
   ModuleAccountByName(request: QueryModuleAccountByNameRequest): Promise<QueryModuleAccountByNameResponse> {
     const data = QueryModuleAccountByNameRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "ModuleAccountByName", data);
-    return promise.then((data) => QueryModuleAccountByNameResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryModuleAccountByNameResponse.decode(new BinaryReader(data)));
   }
   Bech32Prefix(request: Bech32PrefixRequest = {}): Promise<Bech32PrefixResponse> {
     const data = Bech32PrefixRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "Bech32Prefix", data);
-    return promise.then((data) => Bech32PrefixResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => Bech32PrefixResponse.decode(new BinaryReader(data)));
   }
   AddressBytesToString(request: AddressBytesToStringRequest): Promise<AddressBytesToStringResponse> {
     const data = AddressBytesToStringRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "AddressBytesToString", data);
-    return promise.then((data) => AddressBytesToStringResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => AddressBytesToStringResponse.decode(new BinaryReader(data)));
   }
   AddressStringToBytes(request: AddressStringToBytesRequest): Promise<AddressStringToBytesResponse> {
     const data = AddressStringToBytesRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "AddressStringToBytes", data);
-    return promise.then((data) => AddressStringToBytesResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => AddressStringToBytesResponse.decode(new BinaryReader(data)));
   }
   AccountInfo(request: QueryAccountInfoRequest): Promise<QueryAccountInfoResponse> {
     const data = QueryAccountInfoRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "AccountInfo", data);
-    return promise.then((data) => QueryAccountInfoResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryAccountInfoResponse.decode(new BinaryReader(data)));
   }
 }

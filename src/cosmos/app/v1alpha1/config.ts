@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Any } from "../../../google/protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, Exact, isSet } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.app.v1alpha1";
 /**
  * Config represents the configuration for a Cosmos SDK ABCI app.
@@ -63,7 +63,7 @@ function createBaseConfig(): Config {
   };
 }
 export const Config = {
-  encode(message: Config, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Config, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.modules) {
       ModuleConfig.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -72,8 +72,8 @@ export const Config = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Config {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Config {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConfig();
     while (reader.pos < end) {
@@ -114,7 +114,7 @@ export const Config = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Config>, I>>(object: I): Config {
+  fromPartial(object: Partial<Config>): Config {
     const message = createBaseConfig();
     message.modules = object.modules?.map((e) => ModuleConfig.fromPartial(e)) || [];
     message.golangBindings = object.golangBindings?.map((e) => GolangBinding.fromPartial(e)) || [];
@@ -129,7 +129,7 @@ function createBaseModuleConfig(): ModuleConfig {
   };
 }
 export const ModuleConfig = {
-  encode(message: ModuleConfig, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ModuleConfig, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -141,8 +141,8 @@ export const ModuleConfig = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ModuleConfig {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ModuleConfig {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModuleConfig();
     while (reader.pos < end) {
@@ -183,7 +183,7 @@ export const ModuleConfig = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ModuleConfig>, I>>(object: I): ModuleConfig {
+  fromPartial(object: Partial<ModuleConfig>): ModuleConfig {
     const message = createBaseModuleConfig();
     message.name = object.name ?? "";
     if (object.config !== undefined && object.config !== null) {
@@ -200,7 +200,7 @@ function createBaseGolangBinding(): GolangBinding {
   };
 }
 export const GolangBinding = {
-  encode(message: GolangBinding, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GolangBinding, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.interfaceType !== "") {
       writer.uint32(10).string(message.interfaceType);
     }
@@ -209,8 +209,8 @@ export const GolangBinding = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GolangBinding {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GolangBinding {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGolangBinding();
     while (reader.pos < end) {
@@ -241,7 +241,7 @@ export const GolangBinding = {
     message.implementation !== undefined && (obj.implementation = message.implementation);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<GolangBinding>, I>>(object: I): GolangBinding {
+  fromPartial(object: Partial<GolangBinding>): GolangBinding {
     const message = createBaseGolangBinding();
     message.interfaceType = object.interfaceType ?? "";
     message.implementation = object.implementation ?? "";

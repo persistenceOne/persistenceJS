@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import { Long, DeepPartial, Exact, isSet, fromJsonTimestamp, fromTimestamp } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, fromJsonTimestamp, fromTimestamp } from "../../../helpers";
 export const protobufPackage = "pstake.lscosmos.v1beta1";
 export interface AllowListedValidators {
   allowListedValidators: AllowListedValidator[];
@@ -57,7 +57,7 @@ export interface HostAccountDelegation {
   amount: Coin;
 }
 export interface HostAccountUndelegation {
-  epochNumber: Long;
+  epochNumber: bigint;
   totalUndelegationAmount: Coin;
   completionTime: Timestamp;
   undelegationEntries: UndelegationEntry[];
@@ -77,11 +77,11 @@ export interface IBCAmountTransientStore {
   undelegatonCompleteIBCTransfer: TransientUndelegationTransfer[];
 }
 export interface TransientUndelegationTransfer {
-  epochNumber: Long;
+  epochNumber: bigint;
   amountUnbonded: Coin;
 }
 export interface UnbondingEpochCValue {
-  epochNumber: Long;
+  epochNumber: bigint;
   /** c_value = stk_burn.Amount/amount_unbonded.Amount */
   sTKBurn: Coin;
   amountUnbonded: Coin;
@@ -90,7 +90,7 @@ export interface UnbondingEpochCValue {
 }
 export interface DelegatorUnbondingEpochEntry {
   delegatorAddress: string;
-  epochNumber: Long;
+  epochNumber: bigint;
   amount: Coin;
 }
 export interface HostAccounts {
@@ -103,14 +103,14 @@ function createBaseAllowListedValidators(): AllowListedValidators {
   };
 }
 export const AllowListedValidators = {
-  encode(message: AllowListedValidators, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: AllowListedValidators, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.allowListedValidators) {
       AllowListedValidator.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AllowListedValidators {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AllowListedValidators {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAllowListedValidators();
     while (reader.pos < end) {
@@ -145,7 +145,7 @@ export const AllowListedValidators = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<AllowListedValidators>, I>>(object: I): AllowListedValidators {
+  fromPartial(object: Partial<AllowListedValidators>): AllowListedValidators {
     const message = createBaseAllowListedValidators();
     message.allowListedValidators =
       object.allowListedValidators?.map((e) => AllowListedValidator.fromPartial(e)) || [];
@@ -159,7 +159,7 @@ function createBaseAllowListedValidator(): AllowListedValidator {
   };
 }
 export const AllowListedValidator = {
-  encode(message: AllowListedValidator, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: AllowListedValidator, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validatorAddress !== "") {
       writer.uint32(10).string(message.validatorAddress);
     }
@@ -168,8 +168,8 @@ export const AllowListedValidator = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AllowListedValidator {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AllowListedValidator {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAllowListedValidator();
     while (reader.pos < end) {
@@ -200,7 +200,7 @@ export const AllowListedValidator = {
     message.targetWeight !== undefined && (obj.targetWeight = message.targetWeight);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<AllowListedValidator>, I>>(object: I): AllowListedValidator {
+  fromPartial(object: Partial<AllowListedValidator>): AllowListedValidator {
     const message = createBaseAllowListedValidator();
     message.validatorAddress = object.validatorAddress ?? "";
     message.targetWeight = object.targetWeight ?? "";
@@ -217,7 +217,7 @@ function createBasePstakeParams(): PstakeParams {
   };
 }
 export const PstakeParams = {
-  encode(message: PstakeParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PstakeParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pstakeDepositFee !== "") {
       writer.uint32(10).string(message.pstakeDepositFee);
     }
@@ -235,8 +235,8 @@ export const PstakeParams = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PstakeParams {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PstakeParams {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePstakeParams();
     while (reader.pos < end) {
@@ -282,7 +282,7 @@ export const PstakeParams = {
     message.pstakeFeeAddress !== undefined && (obj.pstakeFeeAddress = message.pstakeFeeAddress);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<PstakeParams>, I>>(object: I): PstakeParams {
+  fromPartial(object: Partial<PstakeParams>): PstakeParams {
     const message = createBasePstakeParams();
     message.pstakeDepositFee = object.pstakeDepositFee ?? "";
     message.pstakeRestakeFee = object.pstakeRestakeFee ?? "";
@@ -305,7 +305,7 @@ function createBaseHostChainParams(): HostChainParams {
   };
 }
 export const HostChainParams = {
-  encode(message: HostChainParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: HostChainParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.chainID !== "") {
       writer.uint32(10).string(message.chainID);
     }
@@ -332,8 +332,8 @@ export const HostChainParams = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): HostChainParams {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): HostChainParams {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHostChainParams();
     while (reader.pos < end) {
@@ -395,7 +395,7 @@ export const HostChainParams = {
       (obj.pstakeParams = message.pstakeParams ? PstakeParams.toJSON(message.pstakeParams) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<HostChainParams>, I>>(object: I): HostChainParams {
+  fromPartial(object: Partial<HostChainParams>): HostChainParams {
     const message = createBaseHostChainParams();
     message.chainID = object.chainID ?? "";
     message.connectionID = object.connectionID ?? "";
@@ -419,7 +419,7 @@ function createBaseDelegationState(): DelegationState {
   };
 }
 export const DelegationState = {
-  encode(message: DelegationState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DelegationState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.hostDelegationAccountBalance) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -434,8 +434,8 @@ export const DelegationState = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DelegationState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DelegationState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDelegationState();
     while (reader.pos < end) {
@@ -505,7 +505,7 @@ export const DelegationState = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<DelegationState>, I>>(object: I): DelegationState {
+  fromPartial(object: Partial<DelegationState>): DelegationState {
     const message = createBaseDelegationState();
     message.hostDelegationAccountBalance =
       object.hostDelegationAccountBalance?.map((e) => Coin.fromPartial(e)) || [];
@@ -524,7 +524,7 @@ function createBaseHostAccountDelegation(): HostAccountDelegation {
   };
 }
 export const HostAccountDelegation = {
-  encode(message: HostAccountDelegation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: HostAccountDelegation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validatorAddress !== "") {
       writer.uint32(10).string(message.validatorAddress);
     }
@@ -533,8 +533,8 @@ export const HostAccountDelegation = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): HostAccountDelegation {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): HostAccountDelegation {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHostAccountDelegation();
     while (reader.pos < end) {
@@ -565,7 +565,7 @@ export const HostAccountDelegation = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<HostAccountDelegation>, I>>(object: I): HostAccountDelegation {
+  fromPartial(object: Partial<HostAccountDelegation>): HostAccountDelegation {
     const message = createBaseHostAccountDelegation();
     message.validatorAddress = object.validatorAddress ?? "";
     if (object.amount !== undefined && object.amount !== null) {
@@ -576,15 +576,15 @@ export const HostAccountDelegation = {
 };
 function createBaseHostAccountUndelegation(): HostAccountUndelegation {
   return {
-    epochNumber: Long.ZERO,
+    epochNumber: BigInt(0),
     totalUndelegationAmount: Coin.fromPartial({}),
     completionTime: Timestamp.fromPartial({}),
     undelegationEntries: [],
   };
 }
 export const HostAccountUndelegation = {
-  encode(message: HostAccountUndelegation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.epochNumber.isZero()) {
+  encode(message: HostAccountUndelegation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.epochNumber !== BigInt(0)) {
       writer.uint32(8).int64(message.epochNumber);
     }
     if (message.totalUndelegationAmount !== undefined) {
@@ -598,15 +598,15 @@ export const HostAccountUndelegation = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): HostAccountUndelegation {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): HostAccountUndelegation {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHostAccountUndelegation();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.epochNumber = reader.int64() as Long;
+          message.epochNumber = reader.int64();
           break;
         case 2:
           message.totalUndelegationAmount = Coin.decode(reader, reader.uint32());
@@ -626,7 +626,7 @@ export const HostAccountUndelegation = {
   },
   fromJSON(object: any): HostAccountUndelegation {
     const obj = createBaseHostAccountUndelegation();
-    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.epochNumber)) obj.epochNumber = BigInt(object.epochNumber.toString());
     if (isSet(object.totalUndelegationAmount))
       obj.totalUndelegationAmount = Coin.fromJSON(object.totalUndelegationAmount);
     if (isSet(object.completionTime)) obj.completionTime = fromJsonTimestamp(object.completionTime);
@@ -636,7 +636,7 @@ export const HostAccountUndelegation = {
   },
   toJSON(message: HostAccountUndelegation): unknown {
     const obj: any = {};
-    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || Long.ZERO).toString());
+    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || BigInt(0)).toString());
     message.totalUndelegationAmount !== undefined &&
       (obj.totalUndelegationAmount = message.totalUndelegationAmount
         ? Coin.toJSON(message.totalUndelegationAmount)
@@ -652,10 +652,10 @@ export const HostAccountUndelegation = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<HostAccountUndelegation>, I>>(object: I): HostAccountUndelegation {
+  fromPartial(object: Partial<HostAccountUndelegation>): HostAccountUndelegation {
     const message = createBaseHostAccountUndelegation();
     if (object.epochNumber !== undefined && object.epochNumber !== null) {
-      message.epochNumber = Long.fromValue(object.epochNumber);
+      message.epochNumber = BigInt(object.epochNumber.toString());
     }
     if (object.totalUndelegationAmount !== undefined && object.totalUndelegationAmount !== null) {
       message.totalUndelegationAmount = Coin.fromPartial(object.totalUndelegationAmount);
@@ -675,7 +675,7 @@ function createBaseUndelegationEntry(): UndelegationEntry {
   };
 }
 export const UndelegationEntry = {
-  encode(message: UndelegationEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: UndelegationEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validatorAddress !== "") {
       writer.uint32(10).string(message.validatorAddress);
     }
@@ -684,8 +684,8 @@ export const UndelegationEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UndelegationEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UndelegationEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUndelegationEntry();
     while (reader.pos < end) {
@@ -716,7 +716,7 @@ export const UndelegationEntry = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<UndelegationEntry>, I>>(object: I): UndelegationEntry {
+  fromPartial(object: Partial<UndelegationEntry>): UndelegationEntry {
     const message = createBaseUndelegationEntry();
     message.validatorAddress = object.validatorAddress ?? "";
     if (object.amount !== undefined && object.amount !== null) {
@@ -731,14 +731,14 @@ function createBaseHostChainRewardAddress(): HostChainRewardAddress {
   };
 }
 export const HostChainRewardAddress = {
-  encode(message: HostChainRewardAddress, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: HostChainRewardAddress, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): HostChainRewardAddress {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): HostChainRewardAddress {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHostChainRewardAddress();
     while (reader.pos < end) {
@@ -764,7 +764,7 @@ export const HostChainRewardAddress = {
     message.address !== undefined && (obj.address = message.address);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<HostChainRewardAddress>, I>>(object: I): HostChainRewardAddress {
+  fromPartial(object: Partial<HostChainRewardAddress>): HostChainRewardAddress {
     const message = createBaseHostChainRewardAddress();
     message.address = object.address ?? "";
     return message;
@@ -778,7 +778,7 @@ function createBaseIBCAmountTransientStore(): IBCAmountTransientStore {
   };
 }
 export const IBCAmountTransientStore = {
-  encode(message: IBCAmountTransientStore, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: IBCAmountTransientStore, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.iBCTransfer) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -790,8 +790,8 @@ export const IBCAmountTransientStore = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): IBCAmountTransientStore {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): IBCAmountTransientStore {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseIBCAmountTransientStore();
     while (reader.pos < end) {
@@ -844,7 +844,7 @@ export const IBCAmountTransientStore = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<IBCAmountTransientStore>, I>>(object: I): IBCAmountTransientStore {
+  fromPartial(object: Partial<IBCAmountTransientStore>): IBCAmountTransientStore {
     const message = createBaseIBCAmountTransientStore();
     message.iBCTransfer = object.iBCTransfer?.map((e) => Coin.fromPartial(e)) || [];
     if (object.iCADelegate !== undefined && object.iCADelegate !== null) {
@@ -857,13 +857,13 @@ export const IBCAmountTransientStore = {
 };
 function createBaseTransientUndelegationTransfer(): TransientUndelegationTransfer {
   return {
-    epochNumber: Long.ZERO,
+    epochNumber: BigInt(0),
     amountUnbonded: Coin.fromPartial({}),
   };
 }
 export const TransientUndelegationTransfer = {
-  encode(message: TransientUndelegationTransfer, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.epochNumber.isZero()) {
+  encode(message: TransientUndelegationTransfer, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.epochNumber !== BigInt(0)) {
       writer.uint32(8).int64(message.epochNumber);
     }
     if (message.amountUnbonded !== undefined) {
@@ -871,15 +871,15 @@ export const TransientUndelegationTransfer = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TransientUndelegationTransfer {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TransientUndelegationTransfer {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTransientUndelegationTransfer();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.epochNumber = reader.int64() as Long;
+          message.epochNumber = reader.int64();
           break;
         case 2:
           message.amountUnbonded = Coin.decode(reader, reader.uint32());
@@ -893,23 +893,21 @@ export const TransientUndelegationTransfer = {
   },
   fromJSON(object: any): TransientUndelegationTransfer {
     const obj = createBaseTransientUndelegationTransfer();
-    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.epochNumber)) obj.epochNumber = BigInt(object.epochNumber.toString());
     if (isSet(object.amountUnbonded)) obj.amountUnbonded = Coin.fromJSON(object.amountUnbonded);
     return obj;
   },
   toJSON(message: TransientUndelegationTransfer): unknown {
     const obj: any = {};
-    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || Long.ZERO).toString());
+    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || BigInt(0)).toString());
     message.amountUnbonded !== undefined &&
       (obj.amountUnbonded = message.amountUnbonded ? Coin.toJSON(message.amountUnbonded) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<TransientUndelegationTransfer>, I>>(
-    object: I,
-  ): TransientUndelegationTransfer {
+  fromPartial(object: Partial<TransientUndelegationTransfer>): TransientUndelegationTransfer {
     const message = createBaseTransientUndelegationTransfer();
     if (object.epochNumber !== undefined && object.epochNumber !== null) {
-      message.epochNumber = Long.fromValue(object.epochNumber);
+      message.epochNumber = BigInt(object.epochNumber.toString());
     }
     if (object.amountUnbonded !== undefined && object.amountUnbonded !== null) {
       message.amountUnbonded = Coin.fromPartial(object.amountUnbonded);
@@ -919,7 +917,7 @@ export const TransientUndelegationTransfer = {
 };
 function createBaseUnbondingEpochCValue(): UnbondingEpochCValue {
   return {
-    epochNumber: Long.ZERO,
+    epochNumber: BigInt(0),
     sTKBurn: Coin.fromPartial({}),
     amountUnbonded: Coin.fromPartial({}),
     isMatured: false,
@@ -927,8 +925,8 @@ function createBaseUnbondingEpochCValue(): UnbondingEpochCValue {
   };
 }
 export const UnbondingEpochCValue = {
-  encode(message: UnbondingEpochCValue, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.epochNumber.isZero()) {
+  encode(message: UnbondingEpochCValue, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.epochNumber !== BigInt(0)) {
       writer.uint32(8).int64(message.epochNumber);
     }
     if (message.sTKBurn !== undefined) {
@@ -945,15 +943,15 @@ export const UnbondingEpochCValue = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UnbondingEpochCValue {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UnbondingEpochCValue {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUnbondingEpochCValue();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.epochNumber = reader.int64() as Long;
+          message.epochNumber = reader.int64();
           break;
         case 2:
           message.sTKBurn = Coin.decode(reader, reader.uint32());
@@ -976,7 +974,7 @@ export const UnbondingEpochCValue = {
   },
   fromJSON(object: any): UnbondingEpochCValue {
     const obj = createBaseUnbondingEpochCValue();
-    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.epochNumber)) obj.epochNumber = BigInt(object.epochNumber.toString());
     if (isSet(object.sTKBurn)) obj.sTKBurn = Coin.fromJSON(object.sTKBurn);
     if (isSet(object.amountUnbonded)) obj.amountUnbonded = Coin.fromJSON(object.amountUnbonded);
     if (isSet(object.isMatured)) obj.isMatured = Boolean(object.isMatured);
@@ -985,7 +983,7 @@ export const UnbondingEpochCValue = {
   },
   toJSON(message: UnbondingEpochCValue): unknown {
     const obj: any = {};
-    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || Long.ZERO).toString());
+    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || BigInt(0)).toString());
     message.sTKBurn !== undefined &&
       (obj.sTKBurn = message.sTKBurn ? Coin.toJSON(message.sTKBurn) : undefined);
     message.amountUnbonded !== undefined &&
@@ -994,10 +992,10 @@ export const UnbondingEpochCValue = {
     message.isFailed !== undefined && (obj.isFailed = message.isFailed);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<UnbondingEpochCValue>, I>>(object: I): UnbondingEpochCValue {
+  fromPartial(object: Partial<UnbondingEpochCValue>): UnbondingEpochCValue {
     const message = createBaseUnbondingEpochCValue();
     if (object.epochNumber !== undefined && object.epochNumber !== null) {
-      message.epochNumber = Long.fromValue(object.epochNumber);
+      message.epochNumber = BigInt(object.epochNumber.toString());
     }
     if (object.sTKBurn !== undefined && object.sTKBurn !== null) {
       message.sTKBurn = Coin.fromPartial(object.sTKBurn);
@@ -1013,16 +1011,16 @@ export const UnbondingEpochCValue = {
 function createBaseDelegatorUnbondingEpochEntry(): DelegatorUnbondingEpochEntry {
   return {
     delegatorAddress: "",
-    epochNumber: Long.ZERO,
+    epochNumber: BigInt(0),
     amount: Coin.fromPartial({}),
   };
 }
 export const DelegatorUnbondingEpochEntry = {
-  encode(message: DelegatorUnbondingEpochEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DelegatorUnbondingEpochEntry, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
-    if (!message.epochNumber.isZero()) {
+    if (message.epochNumber !== BigInt(0)) {
       writer.uint32(16).int64(message.epochNumber);
     }
     if (message.amount !== undefined) {
@@ -1030,8 +1028,8 @@ export const DelegatorUnbondingEpochEntry = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DelegatorUnbondingEpochEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DelegatorUnbondingEpochEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDelegatorUnbondingEpochEntry();
     while (reader.pos < end) {
@@ -1041,7 +1039,7 @@ export const DelegatorUnbondingEpochEntry = {
           message.delegatorAddress = reader.string();
           break;
         case 2:
-          message.epochNumber = reader.int64() as Long;
+          message.epochNumber = reader.int64();
           break;
         case 3:
           message.amount = Coin.decode(reader, reader.uint32());
@@ -1056,24 +1054,22 @@ export const DelegatorUnbondingEpochEntry = {
   fromJSON(object: any): DelegatorUnbondingEpochEntry {
     const obj = createBaseDelegatorUnbondingEpochEntry();
     if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
-    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.epochNumber)) obj.epochNumber = BigInt(object.epochNumber.toString());
     if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
     return obj;
   },
   toJSON(message: DelegatorUnbondingEpochEntry): unknown {
     const obj: any = {};
     message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
-    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || Long.ZERO).toString());
+    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || BigInt(0)).toString());
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<DelegatorUnbondingEpochEntry>, I>>(
-    object: I,
-  ): DelegatorUnbondingEpochEntry {
+  fromPartial(object: Partial<DelegatorUnbondingEpochEntry>): DelegatorUnbondingEpochEntry {
     const message = createBaseDelegatorUnbondingEpochEntry();
     message.delegatorAddress = object.delegatorAddress ?? "";
     if (object.epochNumber !== undefined && object.epochNumber !== null) {
-      message.epochNumber = Long.fromValue(object.epochNumber);
+      message.epochNumber = BigInt(object.epochNumber.toString());
     }
     if (object.amount !== undefined && object.amount !== null) {
       message.amount = Coin.fromPartial(object.amount);
@@ -1088,7 +1084,7 @@ function createBaseHostAccounts(): HostAccounts {
   };
 }
 export const HostAccounts = {
-  encode(message: HostAccounts, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: HostAccounts, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAccountOwnerID !== "") {
       writer.uint32(10).string(message.delegatorAccountOwnerID);
     }
@@ -1097,8 +1093,8 @@ export const HostAccounts = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): HostAccounts {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): HostAccounts {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHostAccounts();
     while (reader.pos < end) {
@@ -1132,7 +1128,7 @@ export const HostAccounts = {
       (obj.rewardsAccountOwnerID = message.rewardsAccountOwnerID);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<HostAccounts>, I>>(object: I): HostAccounts {
+  fromPartial(object: Partial<HostAccounts>): HostAccounts {
     const message = createBaseHostAccounts();
     message.delegatorAccountOwnerID = object.delegatorAccountOwnerID ?? "";
     message.rewardsAccountOwnerID = object.rewardsAccountOwnerID ?? "";

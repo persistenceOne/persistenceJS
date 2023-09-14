@@ -23,6 +23,9 @@
 /persistence/
 /helpers.*
 /index.*
+/binary.*
+/utf8.*
+/varint.*
 /proofs.*
 
 # misc

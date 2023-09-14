@@ -3,17 +3,8 @@ import { Coin } from "../../base/v1beta1/coin";
 import { Any } from "../../../google/protobuf/any";
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { Duration } from "../../../google/protobuf/duration";
-import {
-  Long,
-  isSet,
-  DeepPartial,
-  Exact,
-  fromJsonTimestamp,
-  fromTimestamp,
-  bytesFromBase64,
-  base64FromBytes,
-} from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, fromJsonTimestamp, fromTimestamp, bytesFromBase64, base64FromBytes } from "../../../helpers";
 export const protobufPackage = "cosmos.gov.v1beta1";
 /** VoteOption enumerates the valid vote options for a given governance proposal. */
 export enum VoteOption {
@@ -172,7 +163,7 @@ export interface TextProposal {
  */
 export interface Deposit {
   /** proposal_id defines the unique id of the proposal. */
-  proposalId: Long;
+  proposalId: bigint;
   /** depositor defines the deposit addresses from the proposals. */
   depositor: string;
   /** amount to be deposited by depositor. */
@@ -181,7 +172,7 @@ export interface Deposit {
 /** Proposal defines the core field members of a governance proposal. */
 export interface Proposal {
   /** proposal_id defines the unique id of the proposal. */
-  proposalId: Long;
+  proposalId: bigint;
   /** content is the proposal's content. */
   content: Any;
   /** status defines the proposal status. */
@@ -220,7 +211,7 @@ export interface TallyResult {
  */
 export interface Vote {
   /** proposal_id defines the unique id of the proposal. */
-  proposalId: Long;
+  proposalId: bigint;
   /** voter is the voter address of the proposal. */
   voter: string;
   /**
@@ -274,7 +265,7 @@ function createBaseWeightedVoteOption(): WeightedVoteOption {
   };
 }
 export const WeightedVoteOption = {
-  encode(message: WeightedVoteOption, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: WeightedVoteOption, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.option !== 0) {
       writer.uint32(8).int32(message.option);
     }
@@ -283,8 +274,8 @@ export const WeightedVoteOption = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): WeightedVoteOption {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): WeightedVoteOption {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseWeightedVoteOption();
     while (reader.pos < end) {
@@ -315,7 +306,7 @@ export const WeightedVoteOption = {
     message.weight !== undefined && (obj.weight = message.weight);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<WeightedVoteOption>, I>>(object: I): WeightedVoteOption {
+  fromPartial(object: Partial<WeightedVoteOption>): WeightedVoteOption {
     const message = createBaseWeightedVoteOption();
     message.option = object.option ?? 0;
     message.weight = object.weight ?? "";
@@ -329,7 +320,7 @@ function createBaseTextProposal(): TextProposal {
   };
 }
 export const TextProposal = {
-  encode(message: TextProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TextProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -338,8 +329,8 @@ export const TextProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TextProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TextProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTextProposal();
     while (reader.pos < end) {
@@ -370,7 +361,7 @@ export const TextProposal = {
     message.description !== undefined && (obj.description = message.description);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<TextProposal>, I>>(object: I): TextProposal {
+  fromPartial(object: Partial<TextProposal>): TextProposal {
     const message = createBaseTextProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -379,14 +370,14 @@ export const TextProposal = {
 };
 function createBaseDeposit(): Deposit {
   return {
-    proposalId: Long.UZERO,
+    proposalId: BigInt(0),
     depositor: "",
     amount: [],
   };
 }
 export const Deposit = {
-  encode(message: Deposit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.proposalId.isZero()) {
+  encode(message: Deposit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.proposalId !== BigInt(0)) {
       writer.uint32(8).uint64(message.proposalId);
     }
     if (message.depositor !== "") {
@@ -397,15 +388,15 @@ export const Deposit = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Deposit {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Deposit {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeposit();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = reader.uint64() as Long;
+          message.proposalId = reader.uint64();
           break;
         case 2:
           message.depositor = reader.string();
@@ -422,14 +413,14 @@ export const Deposit = {
   },
   fromJSON(object: any): Deposit {
     const obj = createBaseDeposit();
-    if (isSet(object.proposalId)) obj.proposalId = Long.fromValue(object.proposalId);
+    if (isSet(object.proposalId)) obj.proposalId = BigInt(object.proposalId.toString());
     if (isSet(object.depositor)) obj.depositor = String(object.depositor);
     if (Array.isArray(object?.amount)) obj.amount = object.amount.map((e: any) => Coin.fromJSON(e));
     return obj;
   },
   toJSON(message: Deposit): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || Long.UZERO).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
     message.depositor !== undefined && (obj.depositor = message.depositor);
     if (message.amount) {
       obj.amount = message.amount.map((e) => (e ? Coin.toJSON(e) : undefined));
@@ -438,10 +429,10 @@ export const Deposit = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Deposit>, I>>(object: I): Deposit {
+  fromPartial(object: Partial<Deposit>): Deposit {
     const message = createBaseDeposit();
     if (object.proposalId !== undefined && object.proposalId !== null) {
-      message.proposalId = Long.fromValue(object.proposalId);
+      message.proposalId = BigInt(object.proposalId.toString());
     }
     message.depositor = object.depositor ?? "";
     message.amount = object.amount?.map((e) => Coin.fromPartial(e)) || [];
@@ -450,7 +441,7 @@ export const Deposit = {
 };
 function createBaseProposal(): Proposal {
   return {
-    proposalId: Long.UZERO,
+    proposalId: BigInt(0),
     content: Any.fromPartial({}),
     status: 0,
     finalTallyResult: TallyResult.fromPartial({}),
@@ -462,8 +453,8 @@ function createBaseProposal(): Proposal {
   };
 }
 export const Proposal = {
-  encode(message: Proposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.proposalId.isZero()) {
+  encode(message: Proposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.proposalId !== BigInt(0)) {
       writer.uint32(8).uint64(message.proposalId);
     }
     if (message.content !== undefined) {
@@ -492,15 +483,15 @@ export const Proposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Proposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Proposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseProposal();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = reader.uint64() as Long;
+          message.proposalId = reader.uint64();
           break;
         case 2:
           message.content = Any.decode(reader, reader.uint32());
@@ -535,7 +526,7 @@ export const Proposal = {
   },
   fromJSON(object: any): Proposal {
     const obj = createBaseProposal();
-    if (isSet(object.proposalId)) obj.proposalId = Long.fromValue(object.proposalId);
+    if (isSet(object.proposalId)) obj.proposalId = BigInt(object.proposalId.toString());
     if (isSet(object.content)) obj.content = Any.fromJSON(object.content);
     if (isSet(object.status)) obj.status = proposalStatusFromJSON(object.status);
     if (isSet(object.finalTallyResult)) obj.finalTallyResult = TallyResult.fromJSON(object.finalTallyResult);
@@ -549,7 +540,7 @@ export const Proposal = {
   },
   toJSON(message: Proposal): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || Long.UZERO).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
     message.content !== undefined &&
       (obj.content = message.content ? Any.toJSON(message.content) : undefined);
     message.status !== undefined && (obj.status = proposalStatusToJSON(message.status));
@@ -571,10 +562,10 @@ export const Proposal = {
       (obj.votingEndTime = fromTimestamp(message.votingEndTime).toISOString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Proposal>, I>>(object: I): Proposal {
+  fromPartial(object: Partial<Proposal>): Proposal {
     const message = createBaseProposal();
     if (object.proposalId !== undefined && object.proposalId !== null) {
-      message.proposalId = Long.fromValue(object.proposalId);
+      message.proposalId = BigInt(object.proposalId.toString());
     }
     if (object.content !== undefined && object.content !== null) {
       message.content = Any.fromPartial(object.content);
@@ -608,7 +599,7 @@ function createBaseTallyResult(): TallyResult {
   };
 }
 export const TallyResult = {
-  encode(message: TallyResult, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TallyResult, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.yes !== "") {
       writer.uint32(10).string(message.yes);
     }
@@ -623,8 +614,8 @@ export const TallyResult = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TallyResult {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TallyResult {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTallyResult();
     while (reader.pos < end) {
@@ -665,7 +656,7 @@ export const TallyResult = {
     message.noWithVeto !== undefined && (obj.noWithVeto = message.noWithVeto);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<TallyResult>, I>>(object: I): TallyResult {
+  fromPartial(object: Partial<TallyResult>): TallyResult {
     const message = createBaseTallyResult();
     message.yes = object.yes ?? "";
     message.abstain = object.abstain ?? "";
@@ -676,15 +667,15 @@ export const TallyResult = {
 };
 function createBaseVote(): Vote {
   return {
-    proposalId: Long.UZERO,
+    proposalId: BigInt(0),
     voter: "",
     option: 0,
     options: [],
   };
 }
 export const Vote = {
-  encode(message: Vote, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.proposalId.isZero()) {
+  encode(message: Vote, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.proposalId !== BigInt(0)) {
       writer.uint32(8).uint64(message.proposalId);
     }
     if (message.voter !== "") {
@@ -698,15 +689,15 @@ export const Vote = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Vote {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Vote {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVote();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.proposalId = reader.uint64() as Long;
+          message.proposalId = reader.uint64();
           break;
         case 2:
           message.voter = reader.string();
@@ -726,7 +717,7 @@ export const Vote = {
   },
   fromJSON(object: any): Vote {
     const obj = createBaseVote();
-    if (isSet(object.proposalId)) obj.proposalId = Long.fromValue(object.proposalId);
+    if (isSet(object.proposalId)) obj.proposalId = BigInt(object.proposalId.toString());
     if (isSet(object.voter)) obj.voter = String(object.voter);
     if (isSet(object.option)) obj.option = voteOptionFromJSON(object.option);
     if (Array.isArray(object?.options))
@@ -735,7 +726,7 @@ export const Vote = {
   },
   toJSON(message: Vote): unknown {
     const obj: any = {};
-    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || Long.UZERO).toString());
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
     message.voter !== undefined && (obj.voter = message.voter);
     message.option !== undefined && (obj.option = voteOptionToJSON(message.option));
     if (message.options) {
@@ -745,10 +736,10 @@ export const Vote = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Vote>, I>>(object: I): Vote {
+  fromPartial(object: Partial<Vote>): Vote {
     const message = createBaseVote();
     if (object.proposalId !== undefined && object.proposalId !== null) {
-      message.proposalId = Long.fromValue(object.proposalId);
+      message.proposalId = BigInt(object.proposalId.toString());
     }
     message.voter = object.voter ?? "";
     message.option = object.option ?? 0;
@@ -763,7 +754,7 @@ function createBaseDepositParams(): DepositParams {
   };
 }
 export const DepositParams = {
-  encode(message: DepositParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DepositParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.minDeposit) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -772,8 +763,8 @@ export const DepositParams = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DepositParams {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DepositParams {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDepositParams();
     while (reader.pos < end) {
@@ -812,7 +803,7 @@ export const DepositParams = {
         : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<DepositParams>, I>>(object: I): DepositParams {
+  fromPartial(object: Partial<DepositParams>): DepositParams {
     const message = createBaseDepositParams();
     message.minDeposit = object.minDeposit?.map((e) => Coin.fromPartial(e)) || [];
     if (object.maxDepositPeriod !== undefined && object.maxDepositPeriod !== null) {
@@ -827,14 +818,14 @@ function createBaseVotingParams(): VotingParams {
   };
 }
 export const VotingParams = {
-  encode(message: VotingParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: VotingParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.votingPeriod !== undefined) {
       Duration.encode(message.votingPeriod, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): VotingParams {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): VotingParams {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVotingParams();
     while (reader.pos < end) {
@@ -861,7 +852,7 @@ export const VotingParams = {
       (obj.votingPeriod = message.votingPeriod ? Duration.toJSON(message.votingPeriod) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<VotingParams>, I>>(object: I): VotingParams {
+  fromPartial(object: Partial<VotingParams>): VotingParams {
     const message = createBaseVotingParams();
     if (object.votingPeriod !== undefined && object.votingPeriod !== null) {
       message.votingPeriod = Duration.fromPartial(object.votingPeriod);
@@ -877,7 +868,7 @@ function createBaseTallyParams(): TallyParams {
   };
 }
 export const TallyParams = {
-  encode(message: TallyParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: TallyParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.quorum.length !== 0) {
       writer.uint32(10).bytes(message.quorum);
     }
@@ -889,8 +880,8 @@ export const TallyParams = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): TallyParams {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): TallyParams {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTallyParams();
     while (reader.pos < end) {
@@ -933,7 +924,7 @@ export const TallyParams = {
       ));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<TallyParams>, I>>(object: I): TallyParams {
+  fromPartial(object: Partial<TallyParams>): TallyParams {
     const message = createBaseTallyParams();
     message.quorum = object.quorum ?? new Uint8Array();
     message.threshold = object.threshold ?? new Uint8Array();

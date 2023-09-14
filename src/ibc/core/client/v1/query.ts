@@ -2,8 +2,8 @@
 import { PageRequest, PageResponse } from "../../../../cosmos/base/query/v1beta1/pagination";
 import { Any } from "../../../../google/protobuf/any";
 import { Height, IdentifiedClientState, ConsensusStateWithHeight, Params } from "./client";
-import { Long, isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes, Rpc } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes, Rpc } from "../../../../helpers";
 export const protobufPackage = "ibc.core.client.v1";
 /**
  * QueryClientStateRequest is the request type for the Query/ClientState RPC
@@ -53,9 +53,9 @@ export interface QueryConsensusStateRequest {
   /** client identifier */
   clientId: string;
   /** consensus state revision number */
-  revisionNumber: Long;
+  revisionNumber: bigint;
   /** consensus state revision height */
-  revisionHeight: Long;
+  revisionHeight: bigint;
   /**
    * latest_height overrrides the height field and queries the latest stored
    * ConsensusState
@@ -174,14 +174,14 @@ function createBaseQueryClientStateRequest(): QueryClientStateRequest {
   };
 }
 export const QueryClientStateRequest = {
-  encode(message: QueryClientStateRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryClientStateRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClientStateRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClientStateRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClientStateRequest();
     while (reader.pos < end) {
@@ -207,7 +207,7 @@ export const QueryClientStateRequest = {
     message.clientId !== undefined && (obj.clientId = message.clientId);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClientStateRequest>, I>>(object: I): QueryClientStateRequest {
+  fromPartial(object: Partial<QueryClientStateRequest>): QueryClientStateRequest {
     const message = createBaseQueryClientStateRequest();
     message.clientId = object.clientId ?? "";
     return message;
@@ -221,7 +221,7 @@ function createBaseQueryClientStateResponse(): QueryClientStateResponse {
   };
 }
 export const QueryClientStateResponse = {
-  encode(message: QueryClientStateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryClientStateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientState !== undefined) {
       Any.encode(message.clientState, writer.uint32(10).fork()).ldelim();
     }
@@ -233,8 +233,8 @@ export const QueryClientStateResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClientStateResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClientStateResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClientStateResponse();
     while (reader.pos < end) {
@@ -273,9 +273,7 @@ export const QueryClientStateResponse = {
       (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClientStateResponse>, I>>(
-    object: I,
-  ): QueryClientStateResponse {
+  fromPartial(object: Partial<QueryClientStateResponse>): QueryClientStateResponse {
     const message = createBaseQueryClientStateResponse();
     if (object.clientState !== undefined && object.clientState !== null) {
       message.clientState = Any.fromPartial(object.clientState);
@@ -293,14 +291,14 @@ function createBaseQueryClientStatesRequest(): QueryClientStatesRequest {
   };
 }
 export const QueryClientStatesRequest = {
-  encode(message: QueryClientStatesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryClientStatesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClientStatesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClientStatesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClientStatesRequest();
     while (reader.pos < end) {
@@ -327,9 +325,7 @@ export const QueryClientStatesRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClientStatesRequest>, I>>(
-    object: I,
-  ): QueryClientStatesRequest {
+  fromPartial(object: Partial<QueryClientStatesRequest>): QueryClientStatesRequest {
     const message = createBaseQueryClientStatesRequest();
     if (object.pagination !== undefined && object.pagination !== null) {
       message.pagination = PageRequest.fromPartial(object.pagination);
@@ -344,7 +340,7 @@ function createBaseQueryClientStatesResponse(): QueryClientStatesResponse {
   };
 }
 export const QueryClientStatesResponse = {
-  encode(message: QueryClientStatesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryClientStatesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.clientStates) {
       IdentifiedClientState.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -353,8 +349,8 @@ export const QueryClientStatesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClientStatesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClientStatesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClientStatesResponse();
     while (reader.pos < end) {
@@ -391,9 +387,7 @@ export const QueryClientStatesResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClientStatesResponse>, I>>(
-    object: I,
-  ): QueryClientStatesResponse {
+  fromPartial(object: Partial<QueryClientStatesResponse>): QueryClientStatesResponse {
     const message = createBaseQueryClientStatesResponse();
     message.clientStates = object.clientStates?.map((e) => IdentifiedClientState.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -405,20 +399,20 @@ export const QueryClientStatesResponse = {
 function createBaseQueryConsensusStateRequest(): QueryConsensusStateRequest {
   return {
     clientId: "",
-    revisionNumber: Long.UZERO,
-    revisionHeight: Long.UZERO,
+    revisionNumber: BigInt(0),
+    revisionHeight: BigInt(0),
     latestHeight: false,
   };
 }
 export const QueryConsensusStateRequest = {
-  encode(message: QueryConsensusStateRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryConsensusStateRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
-    if (!message.revisionNumber.isZero()) {
+    if (message.revisionNumber !== BigInt(0)) {
       writer.uint32(16).uint64(message.revisionNumber);
     }
-    if (!message.revisionHeight.isZero()) {
+    if (message.revisionHeight !== BigInt(0)) {
       writer.uint32(24).uint64(message.revisionHeight);
     }
     if (message.latestHeight === true) {
@@ -426,8 +420,8 @@ export const QueryConsensusStateRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConsensusStateRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryConsensusStateRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConsensusStateRequest();
     while (reader.pos < end) {
@@ -437,10 +431,10 @@ export const QueryConsensusStateRequest = {
           message.clientId = reader.string();
           break;
         case 2:
-          message.revisionNumber = reader.uint64() as Long;
+          message.revisionNumber = reader.uint64();
           break;
         case 3:
-          message.revisionHeight = reader.uint64() as Long;
+          message.revisionHeight = reader.uint64();
           break;
         case 4:
           message.latestHeight = reader.bool();
@@ -455,8 +449,8 @@ export const QueryConsensusStateRequest = {
   fromJSON(object: any): QueryConsensusStateRequest {
     const obj = createBaseQueryConsensusStateRequest();
     if (isSet(object.clientId)) obj.clientId = String(object.clientId);
-    if (isSet(object.revisionNumber)) obj.revisionNumber = Long.fromValue(object.revisionNumber);
-    if (isSet(object.revisionHeight)) obj.revisionHeight = Long.fromValue(object.revisionHeight);
+    if (isSet(object.revisionNumber)) obj.revisionNumber = BigInt(object.revisionNumber.toString());
+    if (isSet(object.revisionHeight)) obj.revisionHeight = BigInt(object.revisionHeight.toString());
     if (isSet(object.latestHeight)) obj.latestHeight = Boolean(object.latestHeight);
     return obj;
   },
@@ -464,22 +458,20 @@ export const QueryConsensusStateRequest = {
     const obj: any = {};
     message.clientId !== undefined && (obj.clientId = message.clientId);
     message.revisionNumber !== undefined &&
-      (obj.revisionNumber = (message.revisionNumber || Long.UZERO).toString());
+      (obj.revisionNumber = (message.revisionNumber || BigInt(0)).toString());
     message.revisionHeight !== undefined &&
-      (obj.revisionHeight = (message.revisionHeight || Long.UZERO).toString());
+      (obj.revisionHeight = (message.revisionHeight || BigInt(0)).toString());
     message.latestHeight !== undefined && (obj.latestHeight = message.latestHeight);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryConsensusStateRequest>, I>>(
-    object: I,
-  ): QueryConsensusStateRequest {
+  fromPartial(object: Partial<QueryConsensusStateRequest>): QueryConsensusStateRequest {
     const message = createBaseQueryConsensusStateRequest();
     message.clientId = object.clientId ?? "";
     if (object.revisionNumber !== undefined && object.revisionNumber !== null) {
-      message.revisionNumber = Long.fromValue(object.revisionNumber);
+      message.revisionNumber = BigInt(object.revisionNumber.toString());
     }
     if (object.revisionHeight !== undefined && object.revisionHeight !== null) {
-      message.revisionHeight = Long.fromValue(object.revisionHeight);
+      message.revisionHeight = BigInt(object.revisionHeight.toString());
     }
     message.latestHeight = object.latestHeight ?? false;
     return message;
@@ -493,7 +485,7 @@ function createBaseQueryConsensusStateResponse(): QueryConsensusStateResponse {
   };
 }
 export const QueryConsensusStateResponse = {
-  encode(message: QueryConsensusStateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryConsensusStateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.consensusState !== undefined) {
       Any.encode(message.consensusState, writer.uint32(10).fork()).ldelim();
     }
@@ -505,8 +497,8 @@ export const QueryConsensusStateResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConsensusStateResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryConsensusStateResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConsensusStateResponse();
     while (reader.pos < end) {
@@ -545,9 +537,7 @@ export const QueryConsensusStateResponse = {
       (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryConsensusStateResponse>, I>>(
-    object: I,
-  ): QueryConsensusStateResponse {
+  fromPartial(object: Partial<QueryConsensusStateResponse>): QueryConsensusStateResponse {
     const message = createBaseQueryConsensusStateResponse();
     if (object.consensusState !== undefined && object.consensusState !== null) {
       message.consensusState = Any.fromPartial(object.consensusState);
@@ -566,7 +556,7 @@ function createBaseQueryConsensusStatesRequest(): QueryConsensusStatesRequest {
   };
 }
 export const QueryConsensusStatesRequest = {
-  encode(message: QueryConsensusStatesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryConsensusStatesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
@@ -575,8 +565,8 @@ export const QueryConsensusStatesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConsensusStatesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryConsensusStatesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConsensusStatesRequest();
     while (reader.pos < end) {
@@ -608,9 +598,7 @@ export const QueryConsensusStatesRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryConsensusStatesRequest>, I>>(
-    object: I,
-  ): QueryConsensusStatesRequest {
+  fromPartial(object: Partial<QueryConsensusStatesRequest>): QueryConsensusStatesRequest {
     const message = createBaseQueryConsensusStatesRequest();
     message.clientId = object.clientId ?? "";
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -626,7 +614,7 @@ function createBaseQueryConsensusStatesResponse(): QueryConsensusStatesResponse 
   };
 }
 export const QueryConsensusStatesResponse = {
-  encode(message: QueryConsensusStatesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryConsensusStatesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.consensusStates) {
       ConsensusStateWithHeight.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -635,8 +623,8 @@ export const QueryConsensusStatesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConsensusStatesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryConsensusStatesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConsensusStatesResponse();
     while (reader.pos < end) {
@@ -675,9 +663,7 @@ export const QueryConsensusStatesResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryConsensusStatesResponse>, I>>(
-    object: I,
-  ): QueryConsensusStatesResponse {
+  fromPartial(object: Partial<QueryConsensusStatesResponse>): QueryConsensusStatesResponse {
     const message = createBaseQueryConsensusStatesResponse();
     message.consensusStates =
       object.consensusStates?.map((e) => ConsensusStateWithHeight.fromPartial(e)) || [];
@@ -694,7 +680,10 @@ function createBaseQueryConsensusStateHeightsRequest(): QueryConsensusStateHeigh
   };
 }
 export const QueryConsensusStateHeightsRequest = {
-  encode(message: QueryConsensusStateHeightsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryConsensusStateHeightsRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
@@ -703,8 +692,8 @@ export const QueryConsensusStateHeightsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConsensusStateHeightsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryConsensusStateHeightsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConsensusStateHeightsRequest();
     while (reader.pos < end) {
@@ -736,9 +725,7 @@ export const QueryConsensusStateHeightsRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryConsensusStateHeightsRequest>, I>>(
-    object: I,
-  ): QueryConsensusStateHeightsRequest {
+  fromPartial(object: Partial<QueryConsensusStateHeightsRequest>): QueryConsensusStateHeightsRequest {
     const message = createBaseQueryConsensusStateHeightsRequest();
     message.clientId = object.clientId ?? "";
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -754,7 +741,10 @@ function createBaseQueryConsensusStateHeightsResponse(): QueryConsensusStateHeig
   };
 }
 export const QueryConsensusStateHeightsResponse = {
-  encode(message: QueryConsensusStateHeightsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryConsensusStateHeightsResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     for (const v of message.consensusStateHeights) {
       Height.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -763,8 +753,8 @@ export const QueryConsensusStateHeightsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryConsensusStateHeightsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryConsensusStateHeightsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryConsensusStateHeightsResponse();
     while (reader.pos < end) {
@@ -803,9 +793,7 @@ export const QueryConsensusStateHeightsResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryConsensusStateHeightsResponse>, I>>(
-    object: I,
-  ): QueryConsensusStateHeightsResponse {
+  fromPartial(object: Partial<QueryConsensusStateHeightsResponse>): QueryConsensusStateHeightsResponse {
     const message = createBaseQueryConsensusStateHeightsResponse();
     message.consensusStateHeights = object.consensusStateHeights?.map((e) => Height.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -820,14 +808,14 @@ function createBaseQueryClientStatusRequest(): QueryClientStatusRequest {
   };
 }
 export const QueryClientStatusRequest = {
-  encode(message: QueryClientStatusRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryClientStatusRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClientStatusRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClientStatusRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClientStatusRequest();
     while (reader.pos < end) {
@@ -853,9 +841,7 @@ export const QueryClientStatusRequest = {
     message.clientId !== undefined && (obj.clientId = message.clientId);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClientStatusRequest>, I>>(
-    object: I,
-  ): QueryClientStatusRequest {
+  fromPartial(object: Partial<QueryClientStatusRequest>): QueryClientStatusRequest {
     const message = createBaseQueryClientStatusRequest();
     message.clientId = object.clientId ?? "";
     return message;
@@ -867,14 +853,14 @@ function createBaseQueryClientStatusResponse(): QueryClientStatusResponse {
   };
 }
 export const QueryClientStatusResponse = {
-  encode(message: QueryClientStatusResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryClientStatusResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.status !== "") {
       writer.uint32(10).string(message.status);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClientStatusResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClientStatusResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClientStatusResponse();
     while (reader.pos < end) {
@@ -900,9 +886,7 @@ export const QueryClientStatusResponse = {
     message.status !== undefined && (obj.status = message.status);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClientStatusResponse>, I>>(
-    object: I,
-  ): QueryClientStatusResponse {
+  fromPartial(object: Partial<QueryClientStatusResponse>): QueryClientStatusResponse {
     const message = createBaseQueryClientStatusResponse();
     message.status = object.status ?? "";
     return message;
@@ -912,11 +896,11 @@ function createBaseQueryClientParamsRequest(): QueryClientParamsRequest {
   return {};
 }
 export const QueryClientParamsRequest = {
-  encode(_: QueryClientParamsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryClientParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClientParamsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClientParamsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClientParamsRequest();
     while (reader.pos < end) {
@@ -937,7 +921,7 @@ export const QueryClientParamsRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClientParamsRequest>, I>>(_: I): QueryClientParamsRequest {
+  fromPartial(_: Partial<QueryClientParamsRequest>): QueryClientParamsRequest {
     const message = createBaseQueryClientParamsRequest();
     return message;
   },
@@ -948,14 +932,14 @@ function createBaseQueryClientParamsResponse(): QueryClientParamsResponse {
   };
 }
 export const QueryClientParamsResponse = {
-  encode(message: QueryClientParamsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryClientParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClientParamsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClientParamsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClientParamsResponse();
     while (reader.pos < end) {
@@ -981,9 +965,7 @@ export const QueryClientParamsResponse = {
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClientParamsResponse>, I>>(
-    object: I,
-  ): QueryClientParamsResponse {
+  fromPartial(object: Partial<QueryClientParamsResponse>): QueryClientParamsResponse {
     const message = createBaseQueryClientParamsResponse();
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
@@ -995,11 +977,11 @@ function createBaseQueryUpgradedClientStateRequest(): QueryUpgradedClientStateRe
   return {};
 }
 export const QueryUpgradedClientStateRequest = {
-  encode(_: QueryUpgradedClientStateRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryUpgradedClientStateRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUpgradedClientStateRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryUpgradedClientStateRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryUpgradedClientStateRequest();
     while (reader.pos < end) {
@@ -1020,9 +1002,7 @@ export const QueryUpgradedClientStateRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryUpgradedClientStateRequest>, I>>(
-    _: I,
-  ): QueryUpgradedClientStateRequest {
+  fromPartial(_: Partial<QueryUpgradedClientStateRequest>): QueryUpgradedClientStateRequest {
     const message = createBaseQueryUpgradedClientStateRequest();
     return message;
   },
@@ -1033,14 +1013,17 @@ function createBaseQueryUpgradedClientStateResponse(): QueryUpgradedClientStateR
   };
 }
 export const QueryUpgradedClientStateResponse = {
-  encode(message: QueryUpgradedClientStateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryUpgradedClientStateResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.upgradedClientState !== undefined) {
       Any.encode(message.upgradedClientState, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUpgradedClientStateResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryUpgradedClientStateResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryUpgradedClientStateResponse();
     while (reader.pos < end) {
@@ -1069,9 +1052,7 @@ export const QueryUpgradedClientStateResponse = {
         : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryUpgradedClientStateResponse>, I>>(
-    object: I,
-  ): QueryUpgradedClientStateResponse {
+  fromPartial(object: Partial<QueryUpgradedClientStateResponse>): QueryUpgradedClientStateResponse {
     const message = createBaseQueryUpgradedClientStateResponse();
     if (object.upgradedClientState !== undefined && object.upgradedClientState !== null) {
       message.upgradedClientState = Any.fromPartial(object.upgradedClientState);
@@ -1083,11 +1064,11 @@ function createBaseQueryUpgradedConsensusStateRequest(): QueryUpgradedConsensusS
   return {};
 }
 export const QueryUpgradedConsensusStateRequest = {
-  encode(_: QueryUpgradedConsensusStateRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryUpgradedConsensusStateRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUpgradedConsensusStateRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryUpgradedConsensusStateRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryUpgradedConsensusStateRequest();
     while (reader.pos < end) {
@@ -1108,9 +1089,7 @@ export const QueryUpgradedConsensusStateRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryUpgradedConsensusStateRequest>, I>>(
-    _: I,
-  ): QueryUpgradedConsensusStateRequest {
+  fromPartial(_: Partial<QueryUpgradedConsensusStateRequest>): QueryUpgradedConsensusStateRequest {
     const message = createBaseQueryUpgradedConsensusStateRequest();
     return message;
   },
@@ -1121,14 +1100,17 @@ function createBaseQueryUpgradedConsensusStateResponse(): QueryUpgradedConsensus
   };
 }
 export const QueryUpgradedConsensusStateResponse = {
-  encode(message: QueryUpgradedConsensusStateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryUpgradedConsensusStateResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.upgradedConsensusState !== undefined) {
       Any.encode(message.upgradedConsensusState, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUpgradedConsensusStateResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryUpgradedConsensusStateResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryUpgradedConsensusStateResponse();
     while (reader.pos < end) {
@@ -1158,9 +1140,7 @@ export const QueryUpgradedConsensusStateResponse = {
         : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryUpgradedConsensusStateResponse>, I>>(
-    object: I,
-  ): QueryUpgradedConsensusStateResponse {
+  fromPartial(object: Partial<QueryUpgradedConsensusStateResponse>): QueryUpgradedConsensusStateResponse {
     const message = createBaseQueryUpgradedConsensusStateResponse();
     if (object.upgradedConsensusState !== undefined && object.upgradedConsensusState !== null) {
       message.upgradedConsensusState = Any.fromPartial(object.upgradedConsensusState);
@@ -1216,7 +1196,7 @@ export class QueryClientImpl implements Query {
   ClientState(request: QueryClientStateRequest): Promise<QueryClientStateResponse> {
     const data = QueryClientStateRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Query", "ClientState", data);
-    return promise.then((data) => QueryClientStateResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryClientStateResponse.decode(new BinaryReader(data)));
   }
   ClientStates(
     request: QueryClientStatesRequest = {
@@ -1225,47 +1205,47 @@ export class QueryClientImpl implements Query {
   ): Promise<QueryClientStatesResponse> {
     const data = QueryClientStatesRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Query", "ClientStates", data);
-    return promise.then((data) => QueryClientStatesResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryClientStatesResponse.decode(new BinaryReader(data)));
   }
   ConsensusState(request: QueryConsensusStateRequest): Promise<QueryConsensusStateResponse> {
     const data = QueryConsensusStateRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Query", "ConsensusState", data);
-    return promise.then((data) => QueryConsensusStateResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryConsensusStateResponse.decode(new BinaryReader(data)));
   }
   ConsensusStates(request: QueryConsensusStatesRequest): Promise<QueryConsensusStatesResponse> {
     const data = QueryConsensusStatesRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Query", "ConsensusStates", data);
-    return promise.then((data) => QueryConsensusStatesResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryConsensusStatesResponse.decode(new BinaryReader(data)));
   }
   ConsensusStateHeights(
     request: QueryConsensusStateHeightsRequest,
   ): Promise<QueryConsensusStateHeightsResponse> {
     const data = QueryConsensusStateHeightsRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Query", "ConsensusStateHeights", data);
-    return promise.then((data) => QueryConsensusStateHeightsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryConsensusStateHeightsResponse.decode(new BinaryReader(data)));
   }
   ClientStatus(request: QueryClientStatusRequest): Promise<QueryClientStatusResponse> {
     const data = QueryClientStatusRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Query", "ClientStatus", data);
-    return promise.then((data) => QueryClientStatusResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryClientStatusResponse.decode(new BinaryReader(data)));
   }
   ClientParams(request: QueryClientParamsRequest = {}): Promise<QueryClientParamsResponse> {
     const data = QueryClientParamsRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Query", "ClientParams", data);
-    return promise.then((data) => QueryClientParamsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryClientParamsResponse.decode(new BinaryReader(data)));
   }
   UpgradedClientState(
     request: QueryUpgradedClientStateRequest = {},
   ): Promise<QueryUpgradedClientStateResponse> {
     const data = QueryUpgradedClientStateRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Query", "UpgradedClientState", data);
-    return promise.then((data) => QueryUpgradedClientStateResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryUpgradedClientStateResponse.decode(new BinaryReader(data)));
   }
   UpgradedConsensusState(
     request: QueryUpgradedConsensusStateRequest = {},
   ): Promise<QueryUpgradedConsensusStateResponse> {
     const data = QueryUpgradedConsensusStateRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.client.v1.Query", "UpgradedConsensusState", data);
-    return promise.then((data) => QueryUpgradedConsensusStateResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryUpgradedConsensusStateResponse.decode(new BinaryReader(data)));
   }
 }

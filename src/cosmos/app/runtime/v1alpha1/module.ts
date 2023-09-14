@@ -1,6 +1,6 @@
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "cosmos.app.runtime.v1alpha1";
 /** Module is the config object for the runtime module. */
 export interface Module {
@@ -57,7 +57,7 @@ function createBaseModule(): Module {
   };
 }
 export const Module = {
-  encode(message: Module, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Module, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.appName !== "") {
       writer.uint32(10).string(message.appName);
     }
@@ -78,8 +78,8 @@ export const Module = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Module {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Module {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModule();
     while (reader.pos < end) {
@@ -155,7 +155,7 @@ export const Module = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Module>, I>>(object: I): Module {
+  fromPartial(object: Partial<Module>): Module {
     const message = createBaseModule();
     message.appName = object.appName ?? "";
     message.beginBlockers = object.beginBlockers?.map((e) => e) || [];
@@ -173,7 +173,7 @@ function createBaseStoreKeyConfig(): StoreKeyConfig {
   };
 }
 export const StoreKeyConfig = {
-  encode(message: StoreKeyConfig, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: StoreKeyConfig, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.moduleName !== "") {
       writer.uint32(10).string(message.moduleName);
     }
@@ -182,8 +182,8 @@ export const StoreKeyConfig = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): StoreKeyConfig {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): StoreKeyConfig {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseStoreKeyConfig();
     while (reader.pos < end) {
@@ -214,7 +214,7 @@ export const StoreKeyConfig = {
     message.kvStoreKey !== undefined && (obj.kvStoreKey = message.kvStoreKey);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<StoreKeyConfig>, I>>(object: I): StoreKeyConfig {
+  fromPartial(object: Partial<StoreKeyConfig>): StoreKeyConfig {
     const message = createBaseStoreKeyConfig();
     message.moduleName = object.moduleName ?? "";
     message.kvStoreKey = object.kvStoreKey ?? "";

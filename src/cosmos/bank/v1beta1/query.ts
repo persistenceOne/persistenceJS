@@ -2,8 +2,8 @@
 import { PageRequest, PageResponse } from "../../base/query/v1beta1/pagination";
 import { Coin } from "../../base/v1beta1/coin";
 import { Params, Metadata, SendEnabled } from "./bank";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact, Rpc } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, Rpc } from "../../../helpers";
 export const protobufPackage = "cosmos.bank.v1beta1";
 /** QueryBalanceRequest is the request type for the Query/Balance RPC method. */
 export interface QueryBalanceRequest {
@@ -218,7 +218,7 @@ function createBaseQueryBalanceRequest(): QueryBalanceRequest {
   };
 }
 export const QueryBalanceRequest = {
-  encode(message: QueryBalanceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryBalanceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -227,8 +227,8 @@ export const QueryBalanceRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryBalanceRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryBalanceRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryBalanceRequest();
     while (reader.pos < end) {
@@ -259,7 +259,7 @@ export const QueryBalanceRequest = {
     message.denom !== undefined && (obj.denom = message.denom);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryBalanceRequest>, I>>(object: I): QueryBalanceRequest {
+  fromPartial(object: Partial<QueryBalanceRequest>): QueryBalanceRequest {
     const message = createBaseQueryBalanceRequest();
     message.address = object.address ?? "";
     message.denom = object.denom ?? "";
@@ -272,14 +272,14 @@ function createBaseQueryBalanceResponse(): QueryBalanceResponse {
   };
 }
 export const QueryBalanceResponse = {
-  encode(message: QueryBalanceResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryBalanceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.balance !== undefined) {
       Coin.encode(message.balance, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryBalanceResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryBalanceResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryBalanceResponse();
     while (reader.pos < end) {
@@ -306,7 +306,7 @@ export const QueryBalanceResponse = {
       (obj.balance = message.balance ? Coin.toJSON(message.balance) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryBalanceResponse>, I>>(object: I): QueryBalanceResponse {
+  fromPartial(object: Partial<QueryBalanceResponse>): QueryBalanceResponse {
     const message = createBaseQueryBalanceResponse();
     if (object.balance !== undefined && object.balance !== null) {
       message.balance = Coin.fromPartial(object.balance);
@@ -321,7 +321,7 @@ function createBaseQueryAllBalancesRequest(): QueryAllBalancesRequest {
   };
 }
 export const QueryAllBalancesRequest = {
-  encode(message: QueryAllBalancesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryAllBalancesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -330,8 +330,8 @@ export const QueryAllBalancesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllBalancesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAllBalancesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAllBalancesRequest();
     while (reader.pos < end) {
@@ -363,7 +363,7 @@ export const QueryAllBalancesRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAllBalancesRequest>, I>>(object: I): QueryAllBalancesRequest {
+  fromPartial(object: Partial<QueryAllBalancesRequest>): QueryAllBalancesRequest {
     const message = createBaseQueryAllBalancesRequest();
     message.address = object.address ?? "";
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -379,7 +379,7 @@ function createBaseQueryAllBalancesResponse(): QueryAllBalancesResponse {
   };
 }
 export const QueryAllBalancesResponse = {
-  encode(message: QueryAllBalancesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryAllBalancesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.balances) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -388,8 +388,8 @@ export const QueryAllBalancesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllBalancesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAllBalancesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAllBalancesResponse();
     while (reader.pos < end) {
@@ -425,9 +425,7 @@ export const QueryAllBalancesResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAllBalancesResponse>, I>>(
-    object: I,
-  ): QueryAllBalancesResponse {
+  fromPartial(object: Partial<QueryAllBalancesResponse>): QueryAllBalancesResponse {
     const message = createBaseQueryAllBalancesResponse();
     message.balances = object.balances?.map((e) => Coin.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -443,7 +441,7 @@ function createBaseQuerySpendableBalancesRequest(): QuerySpendableBalancesReques
   };
 }
 export const QuerySpendableBalancesRequest = {
-  encode(message: QuerySpendableBalancesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QuerySpendableBalancesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -452,8 +450,8 @@ export const QuerySpendableBalancesRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySpendableBalancesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuerySpendableBalancesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySpendableBalancesRequest();
     while (reader.pos < end) {
@@ -485,9 +483,7 @@ export const QuerySpendableBalancesRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QuerySpendableBalancesRequest>, I>>(
-    object: I,
-  ): QuerySpendableBalancesRequest {
+  fromPartial(object: Partial<QuerySpendableBalancesRequest>): QuerySpendableBalancesRequest {
     const message = createBaseQuerySpendableBalancesRequest();
     message.address = object.address ?? "";
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -503,7 +499,10 @@ function createBaseQuerySpendableBalancesResponse(): QuerySpendableBalancesRespo
   };
 }
 export const QuerySpendableBalancesResponse = {
-  encode(message: QuerySpendableBalancesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QuerySpendableBalancesResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     for (const v of message.balances) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -512,8 +511,8 @@ export const QuerySpendableBalancesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySpendableBalancesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuerySpendableBalancesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySpendableBalancesResponse();
     while (reader.pos < end) {
@@ -549,9 +548,7 @@ export const QuerySpendableBalancesResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QuerySpendableBalancesResponse>, I>>(
-    object: I,
-  ): QuerySpendableBalancesResponse {
+  fromPartial(object: Partial<QuerySpendableBalancesResponse>): QuerySpendableBalancesResponse {
     const message = createBaseQuerySpendableBalancesResponse();
     message.balances = object.balances?.map((e) => Coin.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -567,7 +564,10 @@ function createBaseQuerySpendableBalanceByDenomRequest(): QuerySpendableBalanceB
   };
 }
 export const QuerySpendableBalanceByDenomRequest = {
-  encode(message: QuerySpendableBalanceByDenomRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QuerySpendableBalanceByDenomRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -576,8 +576,8 @@ export const QuerySpendableBalanceByDenomRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySpendableBalanceByDenomRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuerySpendableBalanceByDenomRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySpendableBalanceByDenomRequest();
     while (reader.pos < end) {
@@ -608,9 +608,7 @@ export const QuerySpendableBalanceByDenomRequest = {
     message.denom !== undefined && (obj.denom = message.denom);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QuerySpendableBalanceByDenomRequest>, I>>(
-    object: I,
-  ): QuerySpendableBalanceByDenomRequest {
+  fromPartial(object: Partial<QuerySpendableBalanceByDenomRequest>): QuerySpendableBalanceByDenomRequest {
     const message = createBaseQuerySpendableBalanceByDenomRequest();
     message.address = object.address ?? "";
     message.denom = object.denom ?? "";
@@ -625,15 +623,15 @@ function createBaseQuerySpendableBalanceByDenomResponse(): QuerySpendableBalance
 export const QuerySpendableBalanceByDenomResponse = {
   encode(
     message: QuerySpendableBalanceByDenomResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.balance !== undefined) {
       Coin.encode(message.balance, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySpendableBalanceByDenomResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuerySpendableBalanceByDenomResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySpendableBalanceByDenomResponse();
     while (reader.pos < end) {
@@ -660,9 +658,7 @@ export const QuerySpendableBalanceByDenomResponse = {
       (obj.balance = message.balance ? Coin.toJSON(message.balance) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QuerySpendableBalanceByDenomResponse>, I>>(
-    object: I,
-  ): QuerySpendableBalanceByDenomResponse {
+  fromPartial(object: Partial<QuerySpendableBalanceByDenomResponse>): QuerySpendableBalanceByDenomResponse {
     const message = createBaseQuerySpendableBalanceByDenomResponse();
     if (object.balance !== undefined && object.balance !== null) {
       message.balance = Coin.fromPartial(object.balance);
@@ -676,14 +672,14 @@ function createBaseQueryTotalSupplyRequest(): QueryTotalSupplyRequest {
   };
 }
 export const QueryTotalSupplyRequest = {
-  encode(message: QueryTotalSupplyRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryTotalSupplyRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalSupplyRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTotalSupplyRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTotalSupplyRequest();
     while (reader.pos < end) {
@@ -710,7 +706,7 @@ export const QueryTotalSupplyRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTotalSupplyRequest>, I>>(object: I): QueryTotalSupplyRequest {
+  fromPartial(object: Partial<QueryTotalSupplyRequest>): QueryTotalSupplyRequest {
     const message = createBaseQueryTotalSupplyRequest();
     if (object.pagination !== undefined && object.pagination !== null) {
       message.pagination = PageRequest.fromPartial(object.pagination);
@@ -725,7 +721,7 @@ function createBaseQueryTotalSupplyResponse(): QueryTotalSupplyResponse {
   };
 }
 export const QueryTotalSupplyResponse = {
-  encode(message: QueryTotalSupplyResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryTotalSupplyResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.supply) {
       Coin.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -734,8 +730,8 @@ export const QueryTotalSupplyResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalSupplyResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTotalSupplyResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTotalSupplyResponse();
     while (reader.pos < end) {
@@ -771,9 +767,7 @@ export const QueryTotalSupplyResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTotalSupplyResponse>, I>>(
-    object: I,
-  ): QueryTotalSupplyResponse {
+  fromPartial(object: Partial<QueryTotalSupplyResponse>): QueryTotalSupplyResponse {
     const message = createBaseQueryTotalSupplyResponse();
     message.supply = object.supply?.map((e) => Coin.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -788,14 +782,14 @@ function createBaseQuerySupplyOfRequest(): QuerySupplyOfRequest {
   };
 }
 export const QuerySupplyOfRequest = {
-  encode(message: QuerySupplyOfRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QuerySupplyOfRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySupplyOfRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuerySupplyOfRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySupplyOfRequest();
     while (reader.pos < end) {
@@ -821,7 +815,7 @@ export const QuerySupplyOfRequest = {
     message.denom !== undefined && (obj.denom = message.denom);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QuerySupplyOfRequest>, I>>(object: I): QuerySupplyOfRequest {
+  fromPartial(object: Partial<QuerySupplyOfRequest>): QuerySupplyOfRequest {
     const message = createBaseQuerySupplyOfRequest();
     message.denom = object.denom ?? "";
     return message;
@@ -833,14 +827,14 @@ function createBaseQuerySupplyOfResponse(): QuerySupplyOfResponse {
   };
 }
 export const QuerySupplyOfResponse = {
-  encode(message: QuerySupplyOfResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QuerySupplyOfResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.amount !== undefined) {
       Coin.encode(message.amount, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySupplyOfResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuerySupplyOfResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySupplyOfResponse();
     while (reader.pos < end) {
@@ -866,7 +860,7 @@ export const QuerySupplyOfResponse = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QuerySupplyOfResponse>, I>>(object: I): QuerySupplyOfResponse {
+  fromPartial(object: Partial<QuerySupplyOfResponse>): QuerySupplyOfResponse {
     const message = createBaseQuerySupplyOfResponse();
     if (object.amount !== undefined && object.amount !== null) {
       message.amount = Coin.fromPartial(object.amount);
@@ -878,11 +872,11 @@ function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
 export const QueryParamsRequest = {
-  encode(_: QueryParamsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsRequest();
     while (reader.pos < end) {
@@ -903,7 +897,7 @@ export const QueryParamsRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryParamsRequest>, I>>(_: I): QueryParamsRequest {
+  fromPartial(_: Partial<QueryParamsRequest>): QueryParamsRequest {
     const message = createBaseQueryParamsRequest();
     return message;
   },
@@ -914,14 +908,14 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
   };
 }
 export const QueryParamsResponse = {
-  encode(message: QueryParamsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
     while (reader.pos < end) {
@@ -947,7 +941,7 @@ export const QueryParamsResponse = {
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryParamsResponse>, I>>(object: I): QueryParamsResponse {
+  fromPartial(object: Partial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
@@ -961,14 +955,14 @@ function createBaseQueryDenomsMetadataRequest(): QueryDenomsMetadataRequest {
   };
 }
 export const QueryDenomsMetadataRequest = {
-  encode(message: QueryDenomsMetadataRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDenomsMetadataRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomsMetadataRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDenomsMetadataRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDenomsMetadataRequest();
     while (reader.pos < end) {
@@ -995,9 +989,7 @@ export const QueryDenomsMetadataRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDenomsMetadataRequest>, I>>(
-    object: I,
-  ): QueryDenomsMetadataRequest {
+  fromPartial(object: Partial<QueryDenomsMetadataRequest>): QueryDenomsMetadataRequest {
     const message = createBaseQueryDenomsMetadataRequest();
     if (object.pagination !== undefined && object.pagination !== null) {
       message.pagination = PageRequest.fromPartial(object.pagination);
@@ -1012,7 +1004,7 @@ function createBaseQueryDenomsMetadataResponse(): QueryDenomsMetadataResponse {
   };
 }
 export const QueryDenomsMetadataResponse = {
-  encode(message: QueryDenomsMetadataResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDenomsMetadataResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.metadatas) {
       Metadata.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1021,8 +1013,8 @@ export const QueryDenomsMetadataResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomsMetadataResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDenomsMetadataResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDenomsMetadataResponse();
     while (reader.pos < end) {
@@ -1059,9 +1051,7 @@ export const QueryDenomsMetadataResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDenomsMetadataResponse>, I>>(
-    object: I,
-  ): QueryDenomsMetadataResponse {
+  fromPartial(object: Partial<QueryDenomsMetadataResponse>): QueryDenomsMetadataResponse {
     const message = createBaseQueryDenomsMetadataResponse();
     message.metadatas = object.metadatas?.map((e) => Metadata.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -1076,14 +1066,14 @@ function createBaseQueryDenomMetadataRequest(): QueryDenomMetadataRequest {
   };
 }
 export const QueryDenomMetadataRequest = {
-  encode(message: QueryDenomMetadataRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDenomMetadataRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomMetadataRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDenomMetadataRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDenomMetadataRequest();
     while (reader.pos < end) {
@@ -1109,9 +1099,7 @@ export const QueryDenomMetadataRequest = {
     message.denom !== undefined && (obj.denom = message.denom);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDenomMetadataRequest>, I>>(
-    object: I,
-  ): QueryDenomMetadataRequest {
+  fromPartial(object: Partial<QueryDenomMetadataRequest>): QueryDenomMetadataRequest {
     const message = createBaseQueryDenomMetadataRequest();
     message.denom = object.denom ?? "";
     return message;
@@ -1123,14 +1111,14 @@ function createBaseQueryDenomMetadataResponse(): QueryDenomMetadataResponse {
   };
 }
 export const QueryDenomMetadataResponse = {
-  encode(message: QueryDenomMetadataResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDenomMetadataResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.metadata !== undefined) {
       Metadata.encode(message.metadata, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomMetadataResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDenomMetadataResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDenomMetadataResponse();
     while (reader.pos < end) {
@@ -1157,9 +1145,7 @@ export const QueryDenomMetadataResponse = {
       (obj.metadata = message.metadata ? Metadata.toJSON(message.metadata) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDenomMetadataResponse>, I>>(
-    object: I,
-  ): QueryDenomMetadataResponse {
+  fromPartial(object: Partial<QueryDenomMetadataResponse>): QueryDenomMetadataResponse {
     const message = createBaseQueryDenomMetadataResponse();
     if (object.metadata !== undefined && object.metadata !== null) {
       message.metadata = Metadata.fromPartial(object.metadata);
@@ -1174,7 +1160,7 @@ function createBaseQueryDenomOwnersRequest(): QueryDenomOwnersRequest {
   };
 }
 export const QueryDenomOwnersRequest = {
-  encode(message: QueryDenomOwnersRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDenomOwnersRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
     }
@@ -1183,8 +1169,8 @@ export const QueryDenomOwnersRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomOwnersRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDenomOwnersRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDenomOwnersRequest();
     while (reader.pos < end) {
@@ -1216,7 +1202,7 @@ export const QueryDenomOwnersRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDenomOwnersRequest>, I>>(object: I): QueryDenomOwnersRequest {
+  fromPartial(object: Partial<QueryDenomOwnersRequest>): QueryDenomOwnersRequest {
     const message = createBaseQueryDenomOwnersRequest();
     message.denom = object.denom ?? "";
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -1232,7 +1218,7 @@ function createBaseDenomOwner(): DenomOwner {
   };
 }
 export const DenomOwner = {
-  encode(message: DenomOwner, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: DenomOwner, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -1241,8 +1227,8 @@ export const DenomOwner = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): DenomOwner {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): DenomOwner {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDenomOwner();
     while (reader.pos < end) {
@@ -1274,7 +1260,7 @@ export const DenomOwner = {
       (obj.balance = message.balance ? Coin.toJSON(message.balance) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<DenomOwner>, I>>(object: I): DenomOwner {
+  fromPartial(object: Partial<DenomOwner>): DenomOwner {
     const message = createBaseDenomOwner();
     message.address = object.address ?? "";
     if (object.balance !== undefined && object.balance !== null) {
@@ -1290,7 +1276,7 @@ function createBaseQueryDenomOwnersResponse(): QueryDenomOwnersResponse {
   };
 }
 export const QueryDenomOwnersResponse = {
-  encode(message: QueryDenomOwnersResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDenomOwnersResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.denomOwners) {
       DenomOwner.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1299,8 +1285,8 @@ export const QueryDenomOwnersResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDenomOwnersResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDenomOwnersResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDenomOwnersResponse();
     while (reader.pos < end) {
@@ -1337,9 +1323,7 @@ export const QueryDenomOwnersResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDenomOwnersResponse>, I>>(
-    object: I,
-  ): QueryDenomOwnersResponse {
+  fromPartial(object: Partial<QueryDenomOwnersResponse>): QueryDenomOwnersResponse {
     const message = createBaseQueryDenomOwnersResponse();
     message.denomOwners = object.denomOwners?.map((e) => DenomOwner.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -1355,7 +1339,7 @@ function createBaseQuerySendEnabledRequest(): QuerySendEnabledRequest {
   };
 }
 export const QuerySendEnabledRequest = {
-  encode(message: QuerySendEnabledRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QuerySendEnabledRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.denoms) {
       writer.uint32(10).string(v!);
     }
@@ -1364,8 +1348,8 @@ export const QuerySendEnabledRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySendEnabledRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuerySendEnabledRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySendEnabledRequest();
     while (reader.pos < end) {
@@ -1401,7 +1385,7 @@ export const QuerySendEnabledRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QuerySendEnabledRequest>, I>>(object: I): QuerySendEnabledRequest {
+  fromPartial(object: Partial<QuerySendEnabledRequest>): QuerySendEnabledRequest {
     const message = createBaseQuerySendEnabledRequest();
     message.denoms = object.denoms?.map((e) => e) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -1417,7 +1401,7 @@ function createBaseQuerySendEnabledResponse(): QuerySendEnabledResponse {
   };
 }
 export const QuerySendEnabledResponse = {
-  encode(message: QuerySendEnabledResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QuerySendEnabledResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.sendEnabled) {
       SendEnabled.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1426,8 +1410,8 @@ export const QuerySendEnabledResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySendEnabledResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuerySendEnabledResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySendEnabledResponse();
     while (reader.pos < end) {
@@ -1464,9 +1448,7 @@ export const QuerySendEnabledResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QuerySendEnabledResponse>, I>>(
-    object: I,
-  ): QuerySendEnabledResponse {
+  fromPartial(object: Partial<QuerySendEnabledResponse>): QuerySendEnabledResponse {
     const message = createBaseQuerySendEnabledResponse();
     message.sendEnabled = object.sendEnabled?.map((e) => SendEnabled.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -1571,24 +1553,24 @@ export class QueryClientImpl implements Query {
   Balance(request: QueryBalanceRequest): Promise<QueryBalanceResponse> {
     const data = QueryBalanceRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.bank.v1beta1.Query", "Balance", data);
-    return promise.then((data) => QueryBalanceResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryBalanceResponse.decode(new BinaryReader(data)));
   }
   AllBalances(request: QueryAllBalancesRequest): Promise<QueryAllBalancesResponse> {
     const data = QueryAllBalancesRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.bank.v1beta1.Query", "AllBalances", data);
-    return promise.then((data) => QueryAllBalancesResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryAllBalancesResponse.decode(new BinaryReader(data)));
   }
   SpendableBalances(request: QuerySpendableBalancesRequest): Promise<QuerySpendableBalancesResponse> {
     const data = QuerySpendableBalancesRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.bank.v1beta1.Query", "SpendableBalances", data);
-    return promise.then((data) => QuerySpendableBalancesResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QuerySpendableBalancesResponse.decode(new BinaryReader(data)));
   }
   SpendableBalanceByDenom(
     request: QuerySpendableBalanceByDenomRequest,
   ): Promise<QuerySpendableBalanceByDenomResponse> {
     const data = QuerySpendableBalanceByDenomRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.bank.v1beta1.Query", "SpendableBalanceByDenom", data);
-    return promise.then((data) => QuerySpendableBalanceByDenomResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QuerySpendableBalanceByDenomResponse.decode(new BinaryReader(data)));
   }
   TotalSupply(
     request: QueryTotalSupplyRequest = {
@@ -1597,22 +1579,22 @@ export class QueryClientImpl implements Query {
   ): Promise<QueryTotalSupplyResponse> {
     const data = QueryTotalSupplyRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.bank.v1beta1.Query", "TotalSupply", data);
-    return promise.then((data) => QueryTotalSupplyResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryTotalSupplyResponse.decode(new BinaryReader(data)));
   }
   SupplyOf(request: QuerySupplyOfRequest): Promise<QuerySupplyOfResponse> {
     const data = QuerySupplyOfRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.bank.v1beta1.Query", "SupplyOf", data);
-    return promise.then((data) => QuerySupplyOfResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QuerySupplyOfResponse.decode(new BinaryReader(data)));
   }
   Params(request: QueryParamsRequest = {}): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.bank.v1beta1.Query", "Params", data);
-    return promise.then((data) => QueryParamsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryParamsResponse.decode(new BinaryReader(data)));
   }
   DenomMetadata(request: QueryDenomMetadataRequest): Promise<QueryDenomMetadataResponse> {
     const data = QueryDenomMetadataRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.bank.v1beta1.Query", "DenomMetadata", data);
-    return promise.then((data) => QueryDenomMetadataResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryDenomMetadataResponse.decode(new BinaryReader(data)));
   }
   DenomsMetadata(
     request: QueryDenomsMetadataRequest = {
@@ -1621,16 +1603,16 @@ export class QueryClientImpl implements Query {
   ): Promise<QueryDenomsMetadataResponse> {
     const data = QueryDenomsMetadataRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.bank.v1beta1.Query", "DenomsMetadata", data);
-    return promise.then((data) => QueryDenomsMetadataResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryDenomsMetadataResponse.decode(new BinaryReader(data)));
   }
   DenomOwners(request: QueryDenomOwnersRequest): Promise<QueryDenomOwnersResponse> {
     const data = QueryDenomOwnersRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.bank.v1beta1.Query", "DenomOwners", data);
-    return promise.then((data) => QueryDenomOwnersResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryDenomOwnersResponse.decode(new BinaryReader(data)));
   }
   SendEnabled(request: QuerySendEnabledRequest): Promise<QuerySendEnabledResponse> {
     const data = QuerySendEnabledRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.bank.v1beta1.Query", "SendEnabled", data);
-    return promise.then((data) => QuerySendEnabledResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QuerySendEnabledResponse.decode(new BinaryReader(data)));
   }
 }

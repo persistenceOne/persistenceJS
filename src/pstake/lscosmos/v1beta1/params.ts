@@ -1,6 +1,5 @@
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, Exact } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
 export const protobufPackage = "pstake.lscosmos.v1beta1";
 /** Params defines the parameters for the module. */
 export interface Params {}
@@ -8,11 +7,11 @@ function createBaseParams(): Params {
   return {};
 }
 export const Params = {
-  encode(_: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Params {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {
@@ -33,7 +32,7 @@ export const Params = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Params>, I>>(_: I): Params {
+  fromPartial(_: Partial<Params>): Params {
     const message = createBaseParams();
     return message;
   },

@@ -1,6 +1,6 @@
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "ibc.applications.interchain_accounts.v1";
 /**
  * Metadata defines a set of protocol specific data encoded into the ICS27 channel version bytestring
@@ -34,7 +34,7 @@ function createBaseMetadata(): Metadata {
   };
 }
 export const Metadata = {
-  encode(message: Metadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Metadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.version !== "") {
       writer.uint32(10).string(message.version);
     }
@@ -55,8 +55,8 @@ export const Metadata = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Metadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Metadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMetadata();
     while (reader.pos < end) {
@@ -109,7 +109,7 @@ export const Metadata = {
     message.txType !== undefined && (obj.txType = message.txType);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Metadata>, I>>(object: I): Metadata {
+  fromPartial(object: Partial<Metadata>): Metadata {
     const message = createBaseMetadata();
     message.version = object.version ?? "";
     message.controllerConnectionId = object.controllerConnectionId ?? "";

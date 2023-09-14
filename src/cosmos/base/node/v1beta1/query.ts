@@ -1,6 +1,6 @@
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, Exact, isSet, Rpc } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, Rpc } from "../../../../helpers";
 export const protobufPackage = "cosmos.base.node.v1beta1";
 /** ConfigRequest defines the request structure for the Config gRPC query. */
 export interface ConfigRequest {}
@@ -12,11 +12,11 @@ function createBaseConfigRequest(): ConfigRequest {
   return {};
 }
 export const ConfigRequest = {
-  encode(_: ConfigRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: ConfigRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConfigRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConfigRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConfigRequest();
     while (reader.pos < end) {
@@ -37,7 +37,7 @@ export const ConfigRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ConfigRequest>, I>>(_: I): ConfigRequest {
+  fromPartial(_: Partial<ConfigRequest>): ConfigRequest {
     const message = createBaseConfigRequest();
     return message;
   },
@@ -48,14 +48,14 @@ function createBaseConfigResponse(): ConfigResponse {
   };
 }
 export const ConfigResponse = {
-  encode(message: ConfigResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConfigResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.minimumGasPrice !== "") {
       writer.uint32(10).string(message.minimumGasPrice);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConfigResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConfigResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConfigResponse();
     while (reader.pos < end) {
@@ -81,7 +81,7 @@ export const ConfigResponse = {
     message.minimumGasPrice !== undefined && (obj.minimumGasPrice = message.minimumGasPrice);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ConfigResponse>, I>>(object: I): ConfigResponse {
+  fromPartial(object: Partial<ConfigResponse>): ConfigResponse {
     const message = createBaseConfigResponse();
     message.minimumGasPrice = object.minimumGasPrice ?? "";
     return message;
@@ -101,6 +101,6 @@ export class ServiceClientImpl implements Service {
   Config(request: ConfigRequest = {}): Promise<ConfigResponse> {
     const data = ConfigRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.base.node.v1beta1.Service", "Config", data);
-    return promise.then((data) => ConfigResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => ConfigResponse.decode(new BinaryReader(data)));
   }
 }

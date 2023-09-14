@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Any } from "../../../google/protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "cosmos.nft.v1beta1";
 /** Class defines the class of the nft type. */
 export interface Class {
@@ -45,7 +45,7 @@ function createBaseClass(): Class {
   };
 }
 export const Class = {
-  encode(message: Class, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Class, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -69,8 +69,8 @@ export const Class = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Class {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Class {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClass();
     while (reader.pos < end) {
@@ -126,7 +126,7 @@ export const Class = {
     message.data !== undefined && (obj.data = message.data ? Any.toJSON(message.data) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Class>, I>>(object: I): Class {
+  fromPartial(object: Partial<Class>): Class {
     const message = createBaseClass();
     message.id = object.id ?? "";
     message.name = object.name ?? "";
@@ -150,7 +150,7 @@ function createBaseNFT(): NFT {
   };
 }
 export const NFT = {
-  encode(message: NFT, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: NFT, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
@@ -168,8 +168,8 @@ export const NFT = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): NFT {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): NFT {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseNFT();
     while (reader.pos < end) {
@@ -215,7 +215,7 @@ export const NFT = {
     message.data !== undefined && (obj.data = message.data ? Any.toJSON(message.data) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<NFT>, I>>(object: I): NFT {
+  fromPartial(object: Partial<NFT>): NFT {
     const message = createBaseNFT();
     message.classId = object.classId ?? "";
     message.id = object.id ?? "";

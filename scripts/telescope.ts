@@ -12,7 +12,22 @@ telescope({
     logLevel: 0,
     useSDKTypes: false,
     tsDisable: {
-      disableAll: false
+      patterns: ["**/tx.registry.ts", "**/msgs.registry.ts"],
+      files: [
+        "ibc/core/types/v1/genesis.ts",
+        "ibc/applications/interchain_accounts/genesis/v1/genesis.ts",
+        "cosmos/tx/signing/v1beta1/signing.ts",
+        "cosmos/staking/v1beta1/tx.ts",
+        "cosmos/staking/v1beta1/staking.ts",
+
+        "cosmos/authz/v1beta1/tx.amino.ts",
+        "cosmos/staking/v1beta1/tx.amino.ts",
+        "cosmos/slashing/v1beta1/tx.amino.ts",
+        "cosmos/upgrade/v1beta1/tx.amino.ts",
+
+        "cosmos/consensus/v1/tx.amino.ts",
+        "cosmos/gov/v1/tx.amino.ts"
+      ]
     },
     eslintDisable: {
       disableAll: true
@@ -54,13 +69,25 @@ telescope({
         // There are users who need those functions. CosmJS does not need them directly.
         // See https://github.com/cosmos/cosmjs/pull/1329
         fromJSON: true,
-        toJSON: true
+        toJSON: true,
+        fromPartial: true
+
+        // encode: true,
+        // decode: true,
+        // toSDK: true,
+        // fromSDK: true,
+        // toAmino: true,
+        // fromAmino: true,
+        // fromProto: true,
+        // toProto: true
       },
       typingsFormat: {
-        useDeepPartial: true,
-        useExact: true,
+        useDeepPartial: false,
+        useExact: false,
         timestamp: "timestamp",
-        duration: "duration"
+        duration: "duration",
+        num64: "bigint",
+        setDefaultCustomTypesToUndefined: false
       }
     },
     lcdClients: {
@@ -79,8 +106,12 @@ telescope({
         "ABCIApplication"
       ]
     },
+    stargateClients: {
+      enabled: false,
+      includeCosmosDefaultTypes: false
+    },
     aminoEncoding: {
-      enabled: false
+      enabled: true
     }
   }
 }).then(() => {

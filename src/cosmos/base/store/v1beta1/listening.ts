@@ -8,8 +8,8 @@ import {
   ResponseEndBlock,
   ResponseCommit,
 } from "../../../../tendermint/abci/types";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, bytesFromBase64, base64FromBytes, DeepPartial, Exact } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "cosmos.base.store.v1beta1";
 /**
  * StoreKVPair is a KVStore KVPair used for listening to state changes (Sets and Deletes)
@@ -52,7 +52,7 @@ function createBaseStoreKVPair(): StoreKVPair {
   };
 }
 export const StoreKVPair = {
-  encode(message: StoreKVPair, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: StoreKVPair, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.storeKey !== "") {
       writer.uint32(10).string(message.storeKey);
     }
@@ -67,8 +67,8 @@ export const StoreKVPair = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): StoreKVPair {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): StoreKVPair {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseStoreKVPair();
     while (reader.pos < end) {
@@ -111,7 +111,7 @@ export const StoreKVPair = {
       (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<StoreKVPair>, I>>(object: I): StoreKVPair {
+  fromPartial(object: Partial<StoreKVPair>): StoreKVPair {
     const message = createBaseStoreKVPair();
     message.storeKey = object.storeKey ?? "";
     message.delete = object.delete ?? false;
@@ -131,7 +131,7 @@ function createBaseBlockMetadata(): BlockMetadata {
   };
 }
 export const BlockMetadata = {
-  encode(message: BlockMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BlockMetadata, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.requestBeginBlock !== undefined) {
       RequestBeginBlock.encode(message.requestBeginBlock, writer.uint32(10).fork()).ldelim();
     }
@@ -152,8 +152,8 @@ export const BlockMetadata = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BlockMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BlockMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBlockMetadata();
     while (reader.pos < end) {
@@ -227,7 +227,7 @@ export const BlockMetadata = {
         : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<BlockMetadata>, I>>(object: I): BlockMetadata {
+  fromPartial(object: Partial<BlockMetadata>): BlockMetadata {
     const message = createBaseBlockMetadata();
     if (object.requestBeginBlock !== undefined && object.requestBeginBlock !== null) {
       message.requestBeginBlock = RequestBeginBlock.fromPartial(object.requestBeginBlock);
@@ -255,7 +255,7 @@ function createBaseBlockMetadata_DeliverTx(): BlockMetadata_DeliverTx {
   };
 }
 export const BlockMetadata_DeliverTx = {
-  encode(message: BlockMetadata_DeliverTx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: BlockMetadata_DeliverTx, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.request !== undefined) {
       RequestDeliverTx.encode(message.request, writer.uint32(10).fork()).ldelim();
     }
@@ -264,8 +264,8 @@ export const BlockMetadata_DeliverTx = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): BlockMetadata_DeliverTx {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): BlockMetadata_DeliverTx {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBlockMetadata_DeliverTx();
     while (reader.pos < end) {
@@ -298,7 +298,7 @@ export const BlockMetadata_DeliverTx = {
       (obj.response = message.response ? ResponseDeliverTx.toJSON(message.response) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<BlockMetadata_DeliverTx>, I>>(object: I): BlockMetadata_DeliverTx {
+  fromPartial(object: Partial<BlockMetadata_DeliverTx>): BlockMetadata_DeliverTx {
     const message = createBaseBlockMetadata_DeliverTx();
     if (object.request !== undefined && object.request !== null) {
       message.request = RequestDeliverTx.fromPartial(object.request);

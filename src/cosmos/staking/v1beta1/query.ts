@@ -11,8 +11,8 @@ import {
   TokenizeShareRecord,
 } from "./staking";
 import { Coin } from "../../base/v1beta1/coin";
-import { Long, isSet, DeepPartial, Exact, Rpc } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, Rpc } from "../../../helpers";
 export const protobufPackage = "cosmos.staking.v1beta1";
 /** QueryValidatorsRequest is request type for Query/Validators RPC method. */
 export interface QueryValidatorsRequest {
@@ -212,7 +212,7 @@ export interface QueryDelegatorValidatorResponse {
  */
 export interface QueryHistoricalInfoRequest {
   /** height defines at which height to query the historical info. */
-  height: Long;
+  height: bigint;
 }
 /**
  * QueryHistoricalInfoResponse is response type for the Query/HistoricalInfo RPC
@@ -243,7 +243,7 @@ export interface QueryParamsResponse {
  * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTokenizeShareRecordByIdRequest {
-  id: Long;
+  id: bigint;
 }
 /**
  * QueryTokenizeShareRecordByIdRequest is response type for the
@@ -318,7 +318,7 @@ export interface QueryLastTokenizeShareRecordIdRequest {}
  * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryLastTokenizeShareRecordIdResponse {
-  id: Long;
+  id: bigint;
 }
 /**
  * QueryTotalTokenizeSharedAssetsRequest is request type for the
@@ -378,7 +378,7 @@ function createBaseQueryValidatorsRequest(): QueryValidatorsRequest {
   };
 }
 export const QueryValidatorsRequest = {
-  encode(message: QueryValidatorsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.status !== "") {
       writer.uint32(10).string(message.status);
     }
@@ -387,8 +387,8 @@ export const QueryValidatorsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorsRequest();
     while (reader.pos < end) {
@@ -420,7 +420,7 @@ export const QueryValidatorsRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryValidatorsRequest>, I>>(object: I): QueryValidatorsRequest {
+  fromPartial(object: Partial<QueryValidatorsRequest>): QueryValidatorsRequest {
     const message = createBaseQueryValidatorsRequest();
     message.status = object.status ?? "";
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -436,7 +436,7 @@ function createBaseQueryValidatorsResponse(): QueryValidatorsResponse {
   };
 }
 export const QueryValidatorsResponse = {
-  encode(message: QueryValidatorsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.validators) {
       Validator.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -445,8 +445,8 @@ export const QueryValidatorsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorsResponse();
     while (reader.pos < end) {
@@ -483,7 +483,7 @@ export const QueryValidatorsResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryValidatorsResponse>, I>>(object: I): QueryValidatorsResponse {
+  fromPartial(object: Partial<QueryValidatorsResponse>): QueryValidatorsResponse {
     const message = createBaseQueryValidatorsResponse();
     message.validators = object.validators?.map((e) => Validator.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -498,14 +498,14 @@ function createBaseQueryValidatorRequest(): QueryValidatorRequest {
   };
 }
 export const QueryValidatorRequest = {
-  encode(message: QueryValidatorRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validatorAddr !== "") {
       writer.uint32(10).string(message.validatorAddr);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorRequest();
     while (reader.pos < end) {
@@ -531,7 +531,7 @@ export const QueryValidatorRequest = {
     message.validatorAddr !== undefined && (obj.validatorAddr = message.validatorAddr);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryValidatorRequest>, I>>(object: I): QueryValidatorRequest {
+  fromPartial(object: Partial<QueryValidatorRequest>): QueryValidatorRequest {
     const message = createBaseQueryValidatorRequest();
     message.validatorAddr = object.validatorAddr ?? "";
     return message;
@@ -543,14 +543,14 @@ function createBaseQueryValidatorResponse(): QueryValidatorResponse {
   };
 }
 export const QueryValidatorResponse = {
-  encode(message: QueryValidatorResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryValidatorResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validator !== undefined) {
       Validator.encode(message.validator, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorResponse();
     while (reader.pos < end) {
@@ -577,7 +577,7 @@ export const QueryValidatorResponse = {
       (obj.validator = message.validator ? Validator.toJSON(message.validator) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryValidatorResponse>, I>>(object: I): QueryValidatorResponse {
+  fromPartial(object: Partial<QueryValidatorResponse>): QueryValidatorResponse {
     const message = createBaseQueryValidatorResponse();
     if (object.validator !== undefined && object.validator !== null) {
       message.validator = Validator.fromPartial(object.validator);
@@ -592,7 +592,10 @@ function createBaseQueryValidatorDelegationsRequest(): QueryValidatorDelegations
   };
 }
 export const QueryValidatorDelegationsRequest = {
-  encode(message: QueryValidatorDelegationsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryValidatorDelegationsRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.validatorAddr !== "") {
       writer.uint32(10).string(message.validatorAddr);
     }
@@ -601,8 +604,8 @@ export const QueryValidatorDelegationsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorDelegationsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorDelegationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorDelegationsRequest();
     while (reader.pos < end) {
@@ -634,9 +637,7 @@ export const QueryValidatorDelegationsRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryValidatorDelegationsRequest>, I>>(
-    object: I,
-  ): QueryValidatorDelegationsRequest {
+  fromPartial(object: Partial<QueryValidatorDelegationsRequest>): QueryValidatorDelegationsRequest {
     const message = createBaseQueryValidatorDelegationsRequest();
     message.validatorAddr = object.validatorAddr ?? "";
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -652,7 +653,10 @@ function createBaseQueryValidatorDelegationsResponse(): QueryValidatorDelegation
   };
 }
 export const QueryValidatorDelegationsResponse = {
-  encode(message: QueryValidatorDelegationsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryValidatorDelegationsResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     for (const v of message.delegationResponses) {
       DelegationResponse.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -661,8 +665,8 @@ export const QueryValidatorDelegationsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorDelegationsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorDelegationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorDelegationsResponse();
     while (reader.pos < end) {
@@ -701,9 +705,7 @@ export const QueryValidatorDelegationsResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryValidatorDelegationsResponse>, I>>(
-    object: I,
-  ): QueryValidatorDelegationsResponse {
+  fromPartial(object: Partial<QueryValidatorDelegationsResponse>): QueryValidatorDelegationsResponse {
     const message = createBaseQueryValidatorDelegationsResponse();
     message.delegationResponses =
       object.delegationResponses?.map((e) => DelegationResponse.fromPartial(e)) || [];
@@ -722,8 +724,8 @@ function createBaseQueryValidatorUnbondingDelegationsRequest(): QueryValidatorUn
 export const QueryValidatorUnbondingDelegationsRequest = {
   encode(
     message: QueryValidatorUnbondingDelegationsRequest,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.validatorAddr !== "") {
       writer.uint32(10).string(message.validatorAddr);
     }
@@ -732,8 +734,8 @@ export const QueryValidatorUnbondingDelegationsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorUnbondingDelegationsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorUnbondingDelegationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorUnbondingDelegationsRequest();
     while (reader.pos < end) {
@@ -765,8 +767,8 @@ export const QueryValidatorUnbondingDelegationsRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryValidatorUnbondingDelegationsRequest>, I>>(
-    object: I,
+  fromPartial(
+    object: Partial<QueryValidatorUnbondingDelegationsRequest>,
   ): QueryValidatorUnbondingDelegationsRequest {
     const message = createBaseQueryValidatorUnbondingDelegationsRequest();
     message.validatorAddr = object.validatorAddr ?? "";
@@ -785,8 +787,8 @@ function createBaseQueryValidatorUnbondingDelegationsResponse(): QueryValidatorU
 export const QueryValidatorUnbondingDelegationsResponse = {
   encode(
     message: QueryValidatorUnbondingDelegationsResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     for (const v of message.unbondingResponses) {
       UnbondingDelegation.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -795,8 +797,8 @@ export const QueryValidatorUnbondingDelegationsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryValidatorUnbondingDelegationsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryValidatorUnbondingDelegationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryValidatorUnbondingDelegationsResponse();
     while (reader.pos < end) {
@@ -835,8 +837,8 @@ export const QueryValidatorUnbondingDelegationsResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryValidatorUnbondingDelegationsResponse>, I>>(
-    object: I,
+  fromPartial(
+    object: Partial<QueryValidatorUnbondingDelegationsResponse>,
   ): QueryValidatorUnbondingDelegationsResponse {
     const message = createBaseQueryValidatorUnbondingDelegationsResponse();
     message.unbondingResponses =
@@ -854,7 +856,7 @@ function createBaseQueryDelegationRequest(): QueryDelegationRequest {
   };
 }
 export const QueryDelegationRequest = {
-  encode(message: QueryDelegationRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegationRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -863,8 +865,8 @@ export const QueryDelegationRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegationRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegationRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegationRequest();
     while (reader.pos < end) {
@@ -895,7 +897,7 @@ export const QueryDelegationRequest = {
     message.validatorAddr !== undefined && (obj.validatorAddr = message.validatorAddr);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDelegationRequest>, I>>(object: I): QueryDelegationRequest {
+  fromPartial(object: Partial<QueryDelegationRequest>): QueryDelegationRequest {
     const message = createBaseQueryDelegationRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     message.validatorAddr = object.validatorAddr ?? "";
@@ -908,14 +910,14 @@ function createBaseQueryDelegationResponse(): QueryDelegationResponse {
   };
 }
 export const QueryDelegationResponse = {
-  encode(message: QueryDelegationResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryDelegationResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegationResponse !== undefined) {
       DelegationResponse.encode(message.delegationResponse, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegationResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegationResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegationResponse();
     while (reader.pos < end) {
@@ -945,7 +947,7 @@ export const QueryDelegationResponse = {
         : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDelegationResponse>, I>>(object: I): QueryDelegationResponse {
+  fromPartial(object: Partial<QueryDelegationResponse>): QueryDelegationResponse {
     const message = createBaseQueryDelegationResponse();
     if (object.delegationResponse !== undefined && object.delegationResponse !== null) {
       message.delegationResponse = DelegationResponse.fromPartial(object.delegationResponse);
@@ -960,7 +962,10 @@ function createBaseQueryUnbondingDelegationRequest(): QueryUnbondingDelegationRe
   };
 }
 export const QueryUnbondingDelegationRequest = {
-  encode(message: QueryUnbondingDelegationRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryUnbondingDelegationRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -969,8 +974,8 @@ export const QueryUnbondingDelegationRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUnbondingDelegationRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryUnbondingDelegationRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryUnbondingDelegationRequest();
     while (reader.pos < end) {
@@ -1001,9 +1006,7 @@ export const QueryUnbondingDelegationRequest = {
     message.validatorAddr !== undefined && (obj.validatorAddr = message.validatorAddr);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryUnbondingDelegationRequest>, I>>(
-    object: I,
-  ): QueryUnbondingDelegationRequest {
+  fromPartial(object: Partial<QueryUnbondingDelegationRequest>): QueryUnbondingDelegationRequest {
     const message = createBaseQueryUnbondingDelegationRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     message.validatorAddr = object.validatorAddr ?? "";
@@ -1016,14 +1019,17 @@ function createBaseQueryUnbondingDelegationResponse(): QueryUnbondingDelegationR
   };
 }
 export const QueryUnbondingDelegationResponse = {
-  encode(message: QueryUnbondingDelegationResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryUnbondingDelegationResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.unbond !== undefined) {
       UnbondingDelegation.encode(message.unbond, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryUnbondingDelegationResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryUnbondingDelegationResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryUnbondingDelegationResponse();
     while (reader.pos < end) {
@@ -1050,9 +1056,7 @@ export const QueryUnbondingDelegationResponse = {
       (obj.unbond = message.unbond ? UnbondingDelegation.toJSON(message.unbond) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryUnbondingDelegationResponse>, I>>(
-    object: I,
-  ): QueryUnbondingDelegationResponse {
+  fromPartial(object: Partial<QueryUnbondingDelegationResponse>): QueryUnbondingDelegationResponse {
     const message = createBaseQueryUnbondingDelegationResponse();
     if (object.unbond !== undefined && object.unbond !== null) {
       message.unbond = UnbondingDelegation.fromPartial(object.unbond);
@@ -1067,7 +1071,10 @@ function createBaseQueryDelegatorDelegationsRequest(): QueryDelegatorDelegations
   };
 }
 export const QueryDelegatorDelegationsRequest = {
-  encode(message: QueryDelegatorDelegationsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryDelegatorDelegationsRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -1076,8 +1083,8 @@ export const QueryDelegatorDelegationsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorDelegationsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorDelegationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorDelegationsRequest();
     while (reader.pos < end) {
@@ -1109,9 +1116,7 @@ export const QueryDelegatorDelegationsRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDelegatorDelegationsRequest>, I>>(
-    object: I,
-  ): QueryDelegatorDelegationsRequest {
+  fromPartial(object: Partial<QueryDelegatorDelegationsRequest>): QueryDelegatorDelegationsRequest {
     const message = createBaseQueryDelegatorDelegationsRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -1127,7 +1132,10 @@ function createBaseQueryDelegatorDelegationsResponse(): QueryDelegatorDelegation
   };
 }
 export const QueryDelegatorDelegationsResponse = {
-  encode(message: QueryDelegatorDelegationsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryDelegatorDelegationsResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     for (const v of message.delegationResponses) {
       DelegationResponse.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1136,8 +1144,8 @@ export const QueryDelegatorDelegationsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorDelegationsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorDelegationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorDelegationsResponse();
     while (reader.pos < end) {
@@ -1176,9 +1184,7 @@ export const QueryDelegatorDelegationsResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDelegatorDelegationsResponse>, I>>(
-    object: I,
-  ): QueryDelegatorDelegationsResponse {
+  fromPartial(object: Partial<QueryDelegatorDelegationsResponse>): QueryDelegatorDelegationsResponse {
     const message = createBaseQueryDelegatorDelegationsResponse();
     message.delegationResponses =
       object.delegationResponses?.map((e) => DelegationResponse.fromPartial(e)) || [];
@@ -1197,8 +1203,8 @@ function createBaseQueryDelegatorUnbondingDelegationsRequest(): QueryDelegatorUn
 export const QueryDelegatorUnbondingDelegationsRequest = {
   encode(
     message: QueryDelegatorUnbondingDelegationsRequest,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -1207,8 +1213,8 @@ export const QueryDelegatorUnbondingDelegationsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorUnbondingDelegationsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorUnbondingDelegationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorUnbondingDelegationsRequest();
     while (reader.pos < end) {
@@ -1240,8 +1246,8 @@ export const QueryDelegatorUnbondingDelegationsRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDelegatorUnbondingDelegationsRequest>, I>>(
-    object: I,
+  fromPartial(
+    object: Partial<QueryDelegatorUnbondingDelegationsRequest>,
   ): QueryDelegatorUnbondingDelegationsRequest {
     const message = createBaseQueryDelegatorUnbondingDelegationsRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
@@ -1260,8 +1266,8 @@ function createBaseQueryDelegatorUnbondingDelegationsResponse(): QueryDelegatorU
 export const QueryDelegatorUnbondingDelegationsResponse = {
   encode(
     message: QueryDelegatorUnbondingDelegationsResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     for (const v of message.unbondingResponses) {
       UnbondingDelegation.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1270,8 +1276,8 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorUnbondingDelegationsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorUnbondingDelegationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorUnbondingDelegationsResponse();
     while (reader.pos < end) {
@@ -1310,8 +1316,8 @@ export const QueryDelegatorUnbondingDelegationsResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDelegatorUnbondingDelegationsResponse>, I>>(
-    object: I,
+  fromPartial(
+    object: Partial<QueryDelegatorUnbondingDelegationsResponse>,
   ): QueryDelegatorUnbondingDelegationsResponse {
     const message = createBaseQueryDelegatorUnbondingDelegationsResponse();
     message.unbondingResponses =
@@ -1331,7 +1337,7 @@ function createBaseQueryRedelegationsRequest(): QueryRedelegationsRequest {
   };
 }
 export const QueryRedelegationsRequest = {
-  encode(message: QueryRedelegationsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryRedelegationsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -1346,8 +1352,8 @@ export const QueryRedelegationsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryRedelegationsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryRedelegationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryRedelegationsRequest();
     while (reader.pos < end) {
@@ -1389,9 +1395,7 @@ export const QueryRedelegationsRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryRedelegationsRequest>, I>>(
-    object: I,
-  ): QueryRedelegationsRequest {
+  fromPartial(object: Partial<QueryRedelegationsRequest>): QueryRedelegationsRequest {
     const message = createBaseQueryRedelegationsRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     message.srcValidatorAddr = object.srcValidatorAddr ?? "";
@@ -1409,7 +1413,7 @@ function createBaseQueryRedelegationsResponse(): QueryRedelegationsResponse {
   };
 }
 export const QueryRedelegationsResponse = {
-  encode(message: QueryRedelegationsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryRedelegationsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.redelegationResponses) {
       RedelegationResponse.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1418,8 +1422,8 @@ export const QueryRedelegationsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryRedelegationsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryRedelegationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryRedelegationsResponse();
     while (reader.pos < end) {
@@ -1460,9 +1464,7 @@ export const QueryRedelegationsResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryRedelegationsResponse>, I>>(
-    object: I,
-  ): QueryRedelegationsResponse {
+  fromPartial(object: Partial<QueryRedelegationsResponse>): QueryRedelegationsResponse {
     const message = createBaseQueryRedelegationsResponse();
     message.redelegationResponses =
       object.redelegationResponses?.map((e) => RedelegationResponse.fromPartial(e)) || [];
@@ -1479,7 +1481,10 @@ function createBaseQueryDelegatorValidatorsRequest(): QueryDelegatorValidatorsRe
   };
 }
 export const QueryDelegatorValidatorsRequest = {
-  encode(message: QueryDelegatorValidatorsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryDelegatorValidatorsRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -1488,8 +1493,8 @@ export const QueryDelegatorValidatorsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorValidatorsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorValidatorsRequest();
     while (reader.pos < end) {
@@ -1521,9 +1526,7 @@ export const QueryDelegatorValidatorsRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDelegatorValidatorsRequest>, I>>(
-    object: I,
-  ): QueryDelegatorValidatorsRequest {
+  fromPartial(object: Partial<QueryDelegatorValidatorsRequest>): QueryDelegatorValidatorsRequest {
     const message = createBaseQueryDelegatorValidatorsRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -1539,7 +1542,10 @@ function createBaseQueryDelegatorValidatorsResponse(): QueryDelegatorValidatorsR
   };
 }
 export const QueryDelegatorValidatorsResponse = {
-  encode(message: QueryDelegatorValidatorsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryDelegatorValidatorsResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     for (const v of message.validators) {
       Validator.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -1548,8 +1554,8 @@ export const QueryDelegatorValidatorsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorValidatorsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorValidatorsResponse();
     while (reader.pos < end) {
@@ -1586,9 +1592,7 @@ export const QueryDelegatorValidatorsResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDelegatorValidatorsResponse>, I>>(
-    object: I,
-  ): QueryDelegatorValidatorsResponse {
+  fromPartial(object: Partial<QueryDelegatorValidatorsResponse>): QueryDelegatorValidatorsResponse {
     const message = createBaseQueryDelegatorValidatorsResponse();
     message.validators = object.validators?.map((e) => Validator.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -1604,7 +1608,10 @@ function createBaseQueryDelegatorValidatorRequest(): QueryDelegatorValidatorRequ
   };
 }
 export const QueryDelegatorValidatorRequest = {
-  encode(message: QueryDelegatorValidatorRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryDelegatorValidatorRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.delegatorAddr !== "") {
       writer.uint32(10).string(message.delegatorAddr);
     }
@@ -1613,8 +1620,8 @@ export const QueryDelegatorValidatorRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorValidatorRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorValidatorRequest();
     while (reader.pos < end) {
@@ -1645,9 +1652,7 @@ export const QueryDelegatorValidatorRequest = {
     message.validatorAddr !== undefined && (obj.validatorAddr = message.validatorAddr);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDelegatorValidatorRequest>, I>>(
-    object: I,
-  ): QueryDelegatorValidatorRequest {
+  fromPartial(object: Partial<QueryDelegatorValidatorRequest>): QueryDelegatorValidatorRequest {
     const message = createBaseQueryDelegatorValidatorRequest();
     message.delegatorAddr = object.delegatorAddr ?? "";
     message.validatorAddr = object.validatorAddr ?? "";
@@ -1660,14 +1665,17 @@ function createBaseQueryDelegatorValidatorResponse(): QueryDelegatorValidatorRes
   };
 }
 export const QueryDelegatorValidatorResponse = {
-  encode(message: QueryDelegatorValidatorResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryDelegatorValidatorResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.validator !== undefined) {
       Validator.encode(message.validator, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDelegatorValidatorResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryDelegatorValidatorResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDelegatorValidatorResponse();
     while (reader.pos < end) {
@@ -1694,9 +1702,7 @@ export const QueryDelegatorValidatorResponse = {
       (obj.validator = message.validator ? Validator.toJSON(message.validator) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDelegatorValidatorResponse>, I>>(
-    object: I,
-  ): QueryDelegatorValidatorResponse {
+  fromPartial(object: Partial<QueryDelegatorValidatorResponse>): QueryDelegatorValidatorResponse {
     const message = createBaseQueryDelegatorValidatorResponse();
     if (object.validator !== undefined && object.validator !== null) {
       message.validator = Validator.fromPartial(object.validator);
@@ -1706,25 +1712,25 @@ export const QueryDelegatorValidatorResponse = {
 };
 function createBaseQueryHistoricalInfoRequest(): QueryHistoricalInfoRequest {
   return {
-    height: Long.ZERO,
+    height: BigInt(0),
   };
 }
 export const QueryHistoricalInfoRequest = {
-  encode(message: QueryHistoricalInfoRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.height.isZero()) {
+  encode(message: QueryHistoricalInfoRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.height !== BigInt(0)) {
       writer.uint32(8).int64(message.height);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryHistoricalInfoRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryHistoricalInfoRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryHistoricalInfoRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.height = reader.int64() as Long;
+          message.height = reader.int64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -1735,20 +1741,18 @@ export const QueryHistoricalInfoRequest = {
   },
   fromJSON(object: any): QueryHistoricalInfoRequest {
     const obj = createBaseQueryHistoricalInfoRequest();
-    if (isSet(object.height)) obj.height = Long.fromValue(object.height);
+    if (isSet(object.height)) obj.height = BigInt(object.height.toString());
     return obj;
   },
   toJSON(message: QueryHistoricalInfoRequest): unknown {
     const obj: any = {};
-    message.height !== undefined && (obj.height = (message.height || Long.ZERO).toString());
+    message.height !== undefined && (obj.height = (message.height || BigInt(0)).toString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryHistoricalInfoRequest>, I>>(
-    object: I,
-  ): QueryHistoricalInfoRequest {
+  fromPartial(object: Partial<QueryHistoricalInfoRequest>): QueryHistoricalInfoRequest {
     const message = createBaseQueryHistoricalInfoRequest();
     if (object.height !== undefined && object.height !== null) {
-      message.height = Long.fromValue(object.height);
+      message.height = BigInt(object.height.toString());
     }
     return message;
   },
@@ -1759,14 +1763,14 @@ function createBaseQueryHistoricalInfoResponse(): QueryHistoricalInfoResponse {
   };
 }
 export const QueryHistoricalInfoResponse = {
-  encode(message: QueryHistoricalInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryHistoricalInfoResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.hist !== undefined) {
       HistoricalInfo.encode(message.hist, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryHistoricalInfoResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryHistoricalInfoResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryHistoricalInfoResponse();
     while (reader.pos < end) {
@@ -1792,9 +1796,7 @@ export const QueryHistoricalInfoResponse = {
     message.hist !== undefined && (obj.hist = message.hist ? HistoricalInfo.toJSON(message.hist) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryHistoricalInfoResponse>, I>>(
-    object: I,
-  ): QueryHistoricalInfoResponse {
+  fromPartial(object: Partial<QueryHistoricalInfoResponse>): QueryHistoricalInfoResponse {
     const message = createBaseQueryHistoricalInfoResponse();
     if (object.hist !== undefined && object.hist !== null) {
       message.hist = HistoricalInfo.fromPartial(object.hist);
@@ -1806,11 +1808,11 @@ function createBaseQueryPoolRequest(): QueryPoolRequest {
   return {};
 }
 export const QueryPoolRequest = {
-  encode(_: QueryPoolRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryPoolRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryPoolRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryPoolRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryPoolRequest();
     while (reader.pos < end) {
@@ -1831,7 +1833,7 @@ export const QueryPoolRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryPoolRequest>, I>>(_: I): QueryPoolRequest {
+  fromPartial(_: Partial<QueryPoolRequest>): QueryPoolRequest {
     const message = createBaseQueryPoolRequest();
     return message;
   },
@@ -1842,14 +1844,14 @@ function createBaseQueryPoolResponse(): QueryPoolResponse {
   };
 }
 export const QueryPoolResponse = {
-  encode(message: QueryPoolResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryPoolResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pool !== undefined) {
       Pool.encode(message.pool, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryPoolResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryPoolResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryPoolResponse();
     while (reader.pos < end) {
@@ -1875,7 +1877,7 @@ export const QueryPoolResponse = {
     message.pool !== undefined && (obj.pool = message.pool ? Pool.toJSON(message.pool) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryPoolResponse>, I>>(object: I): QueryPoolResponse {
+  fromPartial(object: Partial<QueryPoolResponse>): QueryPoolResponse {
     const message = createBaseQueryPoolResponse();
     if (object.pool !== undefined && object.pool !== null) {
       message.pool = Pool.fromPartial(object.pool);
@@ -1887,11 +1889,11 @@ function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
 }
 export const QueryParamsRequest = {
-  encode(_: QueryParamsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryParamsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsRequest();
     while (reader.pos < end) {
@@ -1912,7 +1914,7 @@ export const QueryParamsRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryParamsRequest>, I>>(_: I): QueryParamsRequest {
+  fromPartial(_: Partial<QueryParamsRequest>): QueryParamsRequest {
     const message = createBaseQueryParamsRequest();
     return message;
   },
@@ -1923,14 +1925,14 @@ function createBaseQueryParamsResponse(): QueryParamsResponse {
   };
 }
 export const QueryParamsResponse = {
-  encode(message: QueryParamsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryParamsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
     while (reader.pos < end) {
@@ -1956,7 +1958,7 @@ export const QueryParamsResponse = {
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryParamsResponse>, I>>(object: I): QueryParamsResponse {
+  fromPartial(object: Partial<QueryParamsResponse>): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
@@ -1966,25 +1968,28 @@ export const QueryParamsResponse = {
 };
 function createBaseQueryTokenizeShareRecordByIdRequest(): QueryTokenizeShareRecordByIdRequest {
   return {
-    id: Long.UZERO,
+    id: BigInt(0),
   };
 }
 export const QueryTokenizeShareRecordByIdRequest = {
-  encode(message: QueryTokenizeShareRecordByIdRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.id.isZero()) {
+  encode(
+    message: QueryTokenizeShareRecordByIdRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordByIdRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTokenizeShareRecordByIdRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTokenizeShareRecordByIdRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = reader.uint64() as Long;
+          message.id = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -1995,20 +2000,18 @@ export const QueryTokenizeShareRecordByIdRequest = {
   },
   fromJSON(object: any): QueryTokenizeShareRecordByIdRequest {
     const obj = createBaseQueryTokenizeShareRecordByIdRequest();
-    if (isSet(object.id)) obj.id = Long.fromValue(object.id);
+    if (isSet(object.id)) obj.id = BigInt(object.id.toString());
     return obj;
   },
   toJSON(message: QueryTokenizeShareRecordByIdRequest): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    message.id !== undefined && (obj.id = (message.id || BigInt(0)).toString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordByIdRequest>, I>>(
-    object: I,
-  ): QueryTokenizeShareRecordByIdRequest {
+  fromPartial(object: Partial<QueryTokenizeShareRecordByIdRequest>): QueryTokenizeShareRecordByIdRequest {
     const message = createBaseQueryTokenizeShareRecordByIdRequest();
     if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromValue(object.id);
+      message.id = BigInt(object.id.toString());
     }
     return message;
   },
@@ -2021,15 +2024,15 @@ function createBaseQueryTokenizeShareRecordByIdResponse(): QueryTokenizeShareRec
 export const QueryTokenizeShareRecordByIdResponse = {
   encode(
     message: QueryTokenizeShareRecordByIdResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.record !== undefined) {
       TokenizeShareRecord.encode(message.record, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordByIdResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTokenizeShareRecordByIdResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTokenizeShareRecordByIdResponse();
     while (reader.pos < end) {
@@ -2056,9 +2059,7 @@ export const QueryTokenizeShareRecordByIdResponse = {
       (obj.record = message.record ? TokenizeShareRecord.toJSON(message.record) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordByIdResponse>, I>>(
-    object: I,
-  ): QueryTokenizeShareRecordByIdResponse {
+  fromPartial(object: Partial<QueryTokenizeShareRecordByIdResponse>): QueryTokenizeShareRecordByIdResponse {
     const message = createBaseQueryTokenizeShareRecordByIdResponse();
     if (object.record !== undefined && object.record !== null) {
       message.record = TokenizeShareRecord.fromPartial(object.record);
@@ -2074,15 +2075,15 @@ function createBaseQueryTokenizeShareRecordByDenomRequest(): QueryTokenizeShareR
 export const QueryTokenizeShareRecordByDenomRequest = {
   encode(
     message: QueryTokenizeShareRecordByDenomRequest,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordByDenomRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTokenizeShareRecordByDenomRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTokenizeShareRecordByDenomRequest();
     while (reader.pos < end) {
@@ -2108,8 +2109,8 @@ export const QueryTokenizeShareRecordByDenomRequest = {
     message.denom !== undefined && (obj.denom = message.denom);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordByDenomRequest>, I>>(
-    object: I,
+  fromPartial(
+    object: Partial<QueryTokenizeShareRecordByDenomRequest>,
   ): QueryTokenizeShareRecordByDenomRequest {
     const message = createBaseQueryTokenizeShareRecordByDenomRequest();
     message.denom = object.denom ?? "";
@@ -2124,15 +2125,15 @@ function createBaseQueryTokenizeShareRecordByDenomResponse(): QueryTokenizeShare
 export const QueryTokenizeShareRecordByDenomResponse = {
   encode(
     message: QueryTokenizeShareRecordByDenomResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.record !== undefined) {
       TokenizeShareRecord.encode(message.record, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordByDenomResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTokenizeShareRecordByDenomResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTokenizeShareRecordByDenomResponse();
     while (reader.pos < end) {
@@ -2159,8 +2160,8 @@ export const QueryTokenizeShareRecordByDenomResponse = {
       (obj.record = message.record ? TokenizeShareRecord.toJSON(message.record) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordByDenomResponse>, I>>(
-    object: I,
+  fromPartial(
+    object: Partial<QueryTokenizeShareRecordByDenomResponse>,
   ): QueryTokenizeShareRecordByDenomResponse {
     const message = createBaseQueryTokenizeShareRecordByDenomResponse();
     if (object.record !== undefined && object.record !== null) {
@@ -2177,15 +2178,15 @@ function createBaseQueryTokenizeShareRecordsOwnedRequest(): QueryTokenizeShareRe
 export const QueryTokenizeShareRecordsOwnedRequest = {
   encode(
     message: QueryTokenizeShareRecordsOwnedRequest,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordsOwnedRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTokenizeShareRecordsOwnedRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTokenizeShareRecordsOwnedRequest();
     while (reader.pos < end) {
@@ -2211,9 +2212,7 @@ export const QueryTokenizeShareRecordsOwnedRequest = {
     message.owner !== undefined && (obj.owner = message.owner);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordsOwnedRequest>, I>>(
-    object: I,
-  ): QueryTokenizeShareRecordsOwnedRequest {
+  fromPartial(object: Partial<QueryTokenizeShareRecordsOwnedRequest>): QueryTokenizeShareRecordsOwnedRequest {
     const message = createBaseQueryTokenizeShareRecordsOwnedRequest();
     message.owner = object.owner ?? "";
     return message;
@@ -2227,15 +2226,15 @@ function createBaseQueryTokenizeShareRecordsOwnedResponse(): QueryTokenizeShareR
 export const QueryTokenizeShareRecordsOwnedResponse = {
   encode(
     message: QueryTokenizeShareRecordsOwnedResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     for (const v of message.records) {
       TokenizeShareRecord.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareRecordsOwnedResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTokenizeShareRecordsOwnedResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTokenizeShareRecordsOwnedResponse();
     while (reader.pos < end) {
@@ -2266,8 +2265,8 @@ export const QueryTokenizeShareRecordsOwnedResponse = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareRecordsOwnedResponse>, I>>(
-    object: I,
+  fromPartial(
+    object: Partial<QueryTokenizeShareRecordsOwnedResponse>,
   ): QueryTokenizeShareRecordsOwnedResponse {
     const message = createBaseQueryTokenizeShareRecordsOwnedResponse();
     message.records = object.records?.map((e) => TokenizeShareRecord.fromPartial(e)) || [];
@@ -2278,11 +2277,11 @@ function createBaseQueryAllTokenizeShareRecordsRequest(): QueryAllTokenizeShareR
   return {};
 }
 export const QueryAllTokenizeShareRecordsRequest = {
-  encode(_: QueryAllTokenizeShareRecordsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryAllTokenizeShareRecordsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllTokenizeShareRecordsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAllTokenizeShareRecordsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAllTokenizeShareRecordsRequest();
     while (reader.pos < end) {
@@ -2303,9 +2302,7 @@ export const QueryAllTokenizeShareRecordsRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAllTokenizeShareRecordsRequest>, I>>(
-    _: I,
-  ): QueryAllTokenizeShareRecordsRequest {
+  fromPartial(_: Partial<QueryAllTokenizeShareRecordsRequest>): QueryAllTokenizeShareRecordsRequest {
     const message = createBaseQueryAllTokenizeShareRecordsRequest();
     return message;
   },
@@ -2318,15 +2315,15 @@ function createBaseQueryAllTokenizeShareRecordsResponse(): QueryAllTokenizeShare
 export const QueryAllTokenizeShareRecordsResponse = {
   encode(
     message: QueryAllTokenizeShareRecordsResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     for (const v of message.records) {
       TokenizeShareRecord.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllTokenizeShareRecordsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryAllTokenizeShareRecordsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryAllTokenizeShareRecordsResponse();
     while (reader.pos < end) {
@@ -2357,9 +2354,7 @@ export const QueryAllTokenizeShareRecordsResponse = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAllTokenizeShareRecordsResponse>, I>>(
-    object: I,
-  ): QueryAllTokenizeShareRecordsResponse {
+  fromPartial(object: Partial<QueryAllTokenizeShareRecordsResponse>): QueryAllTokenizeShareRecordsResponse {
     const message = createBaseQueryAllTokenizeShareRecordsResponse();
     message.records = object.records?.map((e) => TokenizeShareRecord.fromPartial(e)) || [];
     return message;
@@ -2369,11 +2364,14 @@ function createBaseQueryLastTokenizeShareRecordIdRequest(): QueryLastTokenizeSha
   return {};
 }
 export const QueryLastTokenizeShareRecordIdRequest = {
-  encode(_: QueryLastTokenizeShareRecordIdRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    _: QueryLastTokenizeShareRecordIdRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryLastTokenizeShareRecordIdRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryLastTokenizeShareRecordIdRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryLastTokenizeShareRecordIdRequest();
     while (reader.pos < end) {
@@ -2394,37 +2392,35 @@ export const QueryLastTokenizeShareRecordIdRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryLastTokenizeShareRecordIdRequest>, I>>(
-    _: I,
-  ): QueryLastTokenizeShareRecordIdRequest {
+  fromPartial(_: Partial<QueryLastTokenizeShareRecordIdRequest>): QueryLastTokenizeShareRecordIdRequest {
     const message = createBaseQueryLastTokenizeShareRecordIdRequest();
     return message;
   },
 };
 function createBaseQueryLastTokenizeShareRecordIdResponse(): QueryLastTokenizeShareRecordIdResponse {
   return {
-    id: Long.UZERO,
+    id: BigInt(0),
   };
 }
 export const QueryLastTokenizeShareRecordIdResponse = {
   encode(
     message: QueryLastTokenizeShareRecordIdResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
-    if (!message.id.isZero()) {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    if (message.id !== BigInt(0)) {
       writer.uint32(8).uint64(message.id);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryLastTokenizeShareRecordIdResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryLastTokenizeShareRecordIdResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryLastTokenizeShareRecordIdResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.id = reader.uint64() as Long;
+          message.id = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -2435,20 +2431,20 @@ export const QueryLastTokenizeShareRecordIdResponse = {
   },
   fromJSON(object: any): QueryLastTokenizeShareRecordIdResponse {
     const obj = createBaseQueryLastTokenizeShareRecordIdResponse();
-    if (isSet(object.id)) obj.id = Long.fromValue(object.id);
+    if (isSet(object.id)) obj.id = BigInt(object.id.toString());
     return obj;
   },
   toJSON(message: QueryLastTokenizeShareRecordIdResponse): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = (message.id || Long.UZERO).toString());
+    message.id !== undefined && (obj.id = (message.id || BigInt(0)).toString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryLastTokenizeShareRecordIdResponse>, I>>(
-    object: I,
+  fromPartial(
+    object: Partial<QueryLastTokenizeShareRecordIdResponse>,
   ): QueryLastTokenizeShareRecordIdResponse {
     const message = createBaseQueryLastTokenizeShareRecordIdResponse();
     if (object.id !== undefined && object.id !== null) {
-      message.id = Long.fromValue(object.id);
+      message.id = BigInt(object.id.toString());
     }
     return message;
   },
@@ -2457,11 +2453,14 @@ function createBaseQueryTotalTokenizeSharedAssetsRequest(): QueryTotalTokenizeSh
   return {};
 }
 export const QueryTotalTokenizeSharedAssetsRequest = {
-  encode(_: QueryTotalTokenizeSharedAssetsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    _: QueryTotalTokenizeSharedAssetsRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalTokenizeSharedAssetsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTotalTokenizeSharedAssetsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTotalTokenizeSharedAssetsRequest();
     while (reader.pos < end) {
@@ -2482,9 +2481,7 @@ export const QueryTotalTokenizeSharedAssetsRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTotalTokenizeSharedAssetsRequest>, I>>(
-    _: I,
-  ): QueryTotalTokenizeSharedAssetsRequest {
+  fromPartial(_: Partial<QueryTotalTokenizeSharedAssetsRequest>): QueryTotalTokenizeSharedAssetsRequest {
     const message = createBaseQueryTotalTokenizeSharedAssetsRequest();
     return message;
   },
@@ -2497,15 +2494,15 @@ function createBaseQueryTotalTokenizeSharedAssetsResponse(): QueryTotalTokenizeS
 export const QueryTotalTokenizeSharedAssetsResponse = {
   encode(
     message: QueryTotalTokenizeSharedAssetsResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.value !== undefined) {
       Coin.encode(message.value, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalTokenizeSharedAssetsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTotalTokenizeSharedAssetsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTotalTokenizeSharedAssetsResponse();
     while (reader.pos < end) {
@@ -2531,8 +2528,8 @@ export const QueryTotalTokenizeSharedAssetsResponse = {
     message.value !== undefined && (obj.value = message.value ? Coin.toJSON(message.value) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTotalTokenizeSharedAssetsResponse>, I>>(
-    object: I,
+  fromPartial(
+    object: Partial<QueryTotalTokenizeSharedAssetsResponse>,
   ): QueryTotalTokenizeSharedAssetsResponse {
     const message = createBaseQueryTotalTokenizeSharedAssetsResponse();
     if (object.value !== undefined && object.value !== null) {
@@ -2545,11 +2542,11 @@ function createBaseQueryTotalLiquidStaked(): QueryTotalLiquidStaked {
   return {};
 }
 export const QueryTotalLiquidStaked = {
-  encode(_: QueryTotalLiquidStaked, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: QueryTotalLiquidStaked, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalLiquidStaked {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTotalLiquidStaked {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTotalLiquidStaked();
     while (reader.pos < end) {
@@ -2570,7 +2567,7 @@ export const QueryTotalLiquidStaked = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTotalLiquidStaked>, I>>(_: I): QueryTotalLiquidStaked {
+  fromPartial(_: Partial<QueryTotalLiquidStaked>): QueryTotalLiquidStaked {
     const message = createBaseQueryTotalLiquidStaked();
     return message;
   },
@@ -2581,14 +2578,17 @@ function createBaseQueryTotalLiquidStakedResponse(): QueryTotalLiquidStakedRespo
   };
 }
 export const QueryTotalLiquidStakedResponse = {
-  encode(message: QueryTotalLiquidStakedResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryTotalLiquidStakedResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.tokens !== "") {
       writer.uint32(10).string(message.tokens);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTotalLiquidStakedResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTotalLiquidStakedResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTotalLiquidStakedResponse();
     while (reader.pos < end) {
@@ -2614,9 +2614,7 @@ export const QueryTotalLiquidStakedResponse = {
     message.tokens !== undefined && (obj.tokens = message.tokens);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTotalLiquidStakedResponse>, I>>(
-    object: I,
-  ): QueryTotalLiquidStakedResponse {
+  fromPartial(object: Partial<QueryTotalLiquidStakedResponse>): QueryTotalLiquidStakedResponse {
     const message = createBaseQueryTotalLiquidStakedResponse();
     message.tokens = object.tokens ?? "";
     return message;
@@ -2628,14 +2626,14 @@ function createBaseQueryTokenizeShareLockInfo(): QueryTokenizeShareLockInfo {
   };
 }
 export const QueryTokenizeShareLockInfo = {
-  encode(message: QueryTokenizeShareLockInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryTokenizeShareLockInfo, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareLockInfo {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTokenizeShareLockInfo {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTokenizeShareLockInfo();
     while (reader.pos < end) {
@@ -2661,9 +2659,7 @@ export const QueryTokenizeShareLockInfo = {
     message.address !== undefined && (obj.address = message.address);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareLockInfo>, I>>(
-    object: I,
-  ): QueryTokenizeShareLockInfo {
+  fromPartial(object: Partial<QueryTokenizeShareLockInfo>): QueryTokenizeShareLockInfo {
     const message = createBaseQueryTokenizeShareLockInfo();
     message.address = object.address ?? "";
     return message;
@@ -2676,7 +2672,10 @@ function createBaseQueryTokenizeShareLockInfoResponse(): QueryTokenizeShareLockI
   };
 }
 export const QueryTokenizeShareLockInfoResponse = {
-  encode(message: QueryTokenizeShareLockInfoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryTokenizeShareLockInfoResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.status !== "") {
       writer.uint32(10).string(message.status);
     }
@@ -2685,8 +2684,8 @@ export const QueryTokenizeShareLockInfoResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryTokenizeShareLockInfoResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryTokenizeShareLockInfoResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryTokenizeShareLockInfoResponse();
     while (reader.pos < end) {
@@ -2717,9 +2716,7 @@ export const QueryTokenizeShareLockInfoResponse = {
     message.expirationTime !== undefined && (obj.expirationTime = message.expirationTime);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryTokenizeShareLockInfoResponse>, I>>(
-    object: I,
-  ): QueryTokenizeShareLockInfoResponse {
+  fromPartial(object: Partial<QueryTokenizeShareLockInfoResponse>): QueryTokenizeShareLockInfoResponse {
     const message = createBaseQueryTokenizeShareLockInfoResponse();
     message.status = object.status ?? "";
     message.expirationTime = object.expirationTime ?? "";
@@ -2894,131 +2891,131 @@ export class QueryClientImpl implements Query {
   Validators(request: QueryValidatorsRequest): Promise<QueryValidatorsResponse> {
     const data = QueryValidatorsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "Validators", data);
-    return promise.then((data) => QueryValidatorsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryValidatorsResponse.decode(new BinaryReader(data)));
   }
   Validator(request: QueryValidatorRequest): Promise<QueryValidatorResponse> {
     const data = QueryValidatorRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "Validator", data);
-    return promise.then((data) => QueryValidatorResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryValidatorResponse.decode(new BinaryReader(data)));
   }
   ValidatorDelegations(
     request: QueryValidatorDelegationsRequest,
   ): Promise<QueryValidatorDelegationsResponse> {
     const data = QueryValidatorDelegationsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "ValidatorDelegations", data);
-    return promise.then((data) => QueryValidatorDelegationsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryValidatorDelegationsResponse.decode(new BinaryReader(data)));
   }
   ValidatorUnbondingDelegations(
     request: QueryValidatorUnbondingDelegationsRequest,
   ): Promise<QueryValidatorUnbondingDelegationsResponse> {
     const data = QueryValidatorUnbondingDelegationsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "ValidatorUnbondingDelegations", data);
-    return promise.then((data) => QueryValidatorUnbondingDelegationsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryValidatorUnbondingDelegationsResponse.decode(new BinaryReader(data)));
   }
   Delegation(request: QueryDelegationRequest): Promise<QueryDelegationResponse> {
     const data = QueryDelegationRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "Delegation", data);
-    return promise.then((data) => QueryDelegationResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryDelegationResponse.decode(new BinaryReader(data)));
   }
   UnbondingDelegation(request: QueryUnbondingDelegationRequest): Promise<QueryUnbondingDelegationResponse> {
     const data = QueryUnbondingDelegationRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "UnbondingDelegation", data);
-    return promise.then((data) => QueryUnbondingDelegationResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryUnbondingDelegationResponse.decode(new BinaryReader(data)));
   }
   DelegatorDelegations(
     request: QueryDelegatorDelegationsRequest,
   ): Promise<QueryDelegatorDelegationsResponse> {
     const data = QueryDelegatorDelegationsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "DelegatorDelegations", data);
-    return promise.then((data) => QueryDelegatorDelegationsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryDelegatorDelegationsResponse.decode(new BinaryReader(data)));
   }
   DelegatorUnbondingDelegations(
     request: QueryDelegatorUnbondingDelegationsRequest,
   ): Promise<QueryDelegatorUnbondingDelegationsResponse> {
     const data = QueryDelegatorUnbondingDelegationsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "DelegatorUnbondingDelegations", data);
-    return promise.then((data) => QueryDelegatorUnbondingDelegationsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryDelegatorUnbondingDelegationsResponse.decode(new BinaryReader(data)));
   }
   Redelegations(request: QueryRedelegationsRequest): Promise<QueryRedelegationsResponse> {
     const data = QueryRedelegationsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "Redelegations", data);
-    return promise.then((data) => QueryRedelegationsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryRedelegationsResponse.decode(new BinaryReader(data)));
   }
   DelegatorValidators(request: QueryDelegatorValidatorsRequest): Promise<QueryDelegatorValidatorsResponse> {
     const data = QueryDelegatorValidatorsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "DelegatorValidators", data);
-    return promise.then((data) => QueryDelegatorValidatorsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryDelegatorValidatorsResponse.decode(new BinaryReader(data)));
   }
   DelegatorValidator(request: QueryDelegatorValidatorRequest): Promise<QueryDelegatorValidatorResponse> {
     const data = QueryDelegatorValidatorRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "DelegatorValidator", data);
-    return promise.then((data) => QueryDelegatorValidatorResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryDelegatorValidatorResponse.decode(new BinaryReader(data)));
   }
   HistoricalInfo(request: QueryHistoricalInfoRequest): Promise<QueryHistoricalInfoResponse> {
     const data = QueryHistoricalInfoRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "HistoricalInfo", data);
-    return promise.then((data) => QueryHistoricalInfoResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryHistoricalInfoResponse.decode(new BinaryReader(data)));
   }
   Pool(request: QueryPoolRequest = {}): Promise<QueryPoolResponse> {
     const data = QueryPoolRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "Pool", data);
-    return promise.then((data) => QueryPoolResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryPoolResponse.decode(new BinaryReader(data)));
   }
   Params(request: QueryParamsRequest = {}): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "Params", data);
-    return promise.then((data) => QueryParamsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryParamsResponse.decode(new BinaryReader(data)));
   }
   TokenizeShareRecordById(
     request: QueryTokenizeShareRecordByIdRequest,
   ): Promise<QueryTokenizeShareRecordByIdResponse> {
     const data = QueryTokenizeShareRecordByIdRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TokenizeShareRecordById", data);
-    return promise.then((data) => QueryTokenizeShareRecordByIdResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryTokenizeShareRecordByIdResponse.decode(new BinaryReader(data)));
   }
   TokenizeShareRecordByDenom(
     request: QueryTokenizeShareRecordByDenomRequest,
   ): Promise<QueryTokenizeShareRecordByDenomResponse> {
     const data = QueryTokenizeShareRecordByDenomRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TokenizeShareRecordByDenom", data);
-    return promise.then((data) => QueryTokenizeShareRecordByDenomResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryTokenizeShareRecordByDenomResponse.decode(new BinaryReader(data)));
   }
   TokenizeShareRecordsOwned(
     request: QueryTokenizeShareRecordsOwnedRequest,
   ): Promise<QueryTokenizeShareRecordsOwnedResponse> {
     const data = QueryTokenizeShareRecordsOwnedRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TokenizeShareRecordsOwned", data);
-    return promise.then((data) => QueryTokenizeShareRecordsOwnedResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryTokenizeShareRecordsOwnedResponse.decode(new BinaryReader(data)));
   }
   AllTokenizeShareRecords(
     request: QueryAllTokenizeShareRecordsRequest = {},
   ): Promise<QueryAllTokenizeShareRecordsResponse> {
     const data = QueryAllTokenizeShareRecordsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "AllTokenizeShareRecords", data);
-    return promise.then((data) => QueryAllTokenizeShareRecordsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryAllTokenizeShareRecordsResponse.decode(new BinaryReader(data)));
   }
   LastTokenizeShareRecordId(
     request: QueryLastTokenizeShareRecordIdRequest = {},
   ): Promise<QueryLastTokenizeShareRecordIdResponse> {
     const data = QueryLastTokenizeShareRecordIdRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "LastTokenizeShareRecordId", data);
-    return promise.then((data) => QueryLastTokenizeShareRecordIdResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryLastTokenizeShareRecordIdResponse.decode(new BinaryReader(data)));
   }
   TotalTokenizeSharedAssets(
     request: QueryTotalTokenizeSharedAssetsRequest = {},
   ): Promise<QueryTotalTokenizeSharedAssetsResponse> {
     const data = QueryTotalTokenizeSharedAssetsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TotalTokenizeSharedAssets", data);
-    return promise.then((data) => QueryTotalTokenizeSharedAssetsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryTotalTokenizeSharedAssetsResponse.decode(new BinaryReader(data)));
   }
   TotalLiquidStaked(request: QueryTotalLiquidStaked = {}): Promise<QueryTotalLiquidStakedResponse> {
     const data = QueryTotalLiquidStaked.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TotalLiquidStaked", data);
-    return promise.then((data) => QueryTotalLiquidStakedResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryTotalLiquidStakedResponse.decode(new BinaryReader(data)));
   }
   TokenizeShareLockInfo(request: QueryTokenizeShareLockInfo): Promise<QueryTokenizeShareLockInfoResponse> {
     const data = QueryTokenizeShareLockInfo.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TokenizeShareLockInfo", data);
-    return promise.then((data) => QueryTokenizeShareLockInfoResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryTokenizeShareLockInfoResponse.decode(new BinaryReader(data)));
   }
 }

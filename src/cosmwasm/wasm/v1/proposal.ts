@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { AccessConfig } from "./types";
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
-import { Long, isSet, bytesFromBase64, base64FromBytes, DeepPartial, Exact } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../helpers";
 export const protobufPackage = "cosmwasm.wasm.v1";
 /**
  * Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
@@ -54,7 +54,7 @@ export interface InstantiateContractProposal {
   /** Admin is an optional address that can execute migrations */
   admin: string;
   /** CodeID is the reference to the stored WASM code */
-  codeId: Long;
+  codeId: bigint;
   /** Label is optional metadata to be stored with a constract instance. */
   label: string;
   /** Msg json encoded message to be passed to the contract on instantiation */
@@ -79,7 +79,7 @@ export interface InstantiateContract2Proposal {
   /** Admin is an optional address that can execute migrations */
   admin: string;
   /** CodeID is the reference to the stored WASM code */
-  codeId: Long;
+  codeId: bigint;
   /** Label is optional metadata to be stored with a constract instance. */
   label: string;
   /** Msg json encode message to be passed to the contract on instantiation */
@@ -109,7 +109,7 @@ export interface MigrateContractProposal {
   /** Contract is the address of the smart contract */
   contract: string;
   /** CodeID references the new WASM code */
-  codeId: Long;
+  codeId: bigint;
   /** Msg json encoded message to be passed to the contract on migration */
   msg: Uint8Array;
 }
@@ -196,7 +196,7 @@ export interface PinCodesProposal {
   /** Description is a human readable text */
   description: string;
   /** CodeIDs references the new WASM codes */
-  codeIds: Long[];
+  codeIds: bigint[];
 }
 /**
  * Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
@@ -211,7 +211,7 @@ export interface UnpinCodesProposal {
   /** Description is a human readable text */
   description: string;
   /** CodeIDs references the WASM codes */
-  codeIds: Long[];
+  codeIds: bigint[];
 }
 /**
  * AccessConfigUpdate contains the code id and the access config to be
@@ -219,7 +219,7 @@ export interface UnpinCodesProposal {
  */
 export interface AccessConfigUpdate {
   /** CodeID is the reference to the stored WASM code to be updated */
-  codeId: Long;
+  codeId: bigint;
   /** InstantiatePermission to apply to the set of code ids */
   instantiatePermission: AccessConfig;
 }
@@ -296,7 +296,7 @@ function createBaseStoreCodeProposal(): StoreCodeProposal {
   };
 }
 export const StoreCodeProposal = {
-  encode(message: StoreCodeProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: StoreCodeProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -326,8 +326,8 @@ export const StoreCodeProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): StoreCodeProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): StoreCodeProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseStoreCodeProposal();
     while (reader.pos < end) {
@@ -401,7 +401,7 @@ export const StoreCodeProposal = {
       (obj.codeHash = base64FromBytes(message.codeHash !== undefined ? message.codeHash : new Uint8Array()));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<StoreCodeProposal>, I>>(object: I): StoreCodeProposal {
+  fromPartial(object: Partial<StoreCodeProposal>): StoreCodeProposal {
     const message = createBaseStoreCodeProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -423,14 +423,14 @@ function createBaseInstantiateContractProposal(): InstantiateContractProposal {
     description: "",
     runAs: "",
     admin: "",
-    codeId: Long.UZERO,
+    codeId: BigInt(0),
     label: "",
     msg: new Uint8Array(),
     funds: [],
   };
 }
 export const InstantiateContractProposal = {
-  encode(message: InstantiateContractProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: InstantiateContractProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -443,7 +443,7 @@ export const InstantiateContractProposal = {
     if (message.admin !== "") {
       writer.uint32(34).string(message.admin);
     }
-    if (!message.codeId.isZero()) {
+    if (message.codeId !== BigInt(0)) {
       writer.uint32(40).uint64(message.codeId);
     }
     if (message.label !== "") {
@@ -457,8 +457,8 @@ export const InstantiateContractProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): InstantiateContractProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): InstantiateContractProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseInstantiateContractProposal();
     while (reader.pos < end) {
@@ -477,7 +477,7 @@ export const InstantiateContractProposal = {
           message.admin = reader.string();
           break;
         case 5:
-          message.codeId = reader.uint64() as Long;
+          message.codeId = reader.uint64();
           break;
         case 6:
           message.label = reader.string();
@@ -501,7 +501,7 @@ export const InstantiateContractProposal = {
     if (isSet(object.description)) obj.description = String(object.description);
     if (isSet(object.runAs)) obj.runAs = String(object.runAs);
     if (isSet(object.admin)) obj.admin = String(object.admin);
-    if (isSet(object.codeId)) obj.codeId = Long.fromValue(object.codeId);
+    if (isSet(object.codeId)) obj.codeId = BigInt(object.codeId.toString());
     if (isSet(object.label)) obj.label = String(object.label);
     if (isSet(object.msg)) obj.msg = bytesFromBase64(object.msg);
     if (Array.isArray(object?.funds)) obj.funds = object.funds.map((e: any) => Coin.fromJSON(e));
@@ -513,7 +513,7 @@ export const InstantiateContractProposal = {
     message.description !== undefined && (obj.description = message.description);
     message.runAs !== undefined && (obj.runAs = message.runAs);
     message.admin !== undefined && (obj.admin = message.admin);
-    message.codeId !== undefined && (obj.codeId = (message.codeId || Long.UZERO).toString());
+    message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt(0)).toString());
     message.label !== undefined && (obj.label = message.label);
     message.msg !== undefined &&
       (obj.msg = base64FromBytes(message.msg !== undefined ? message.msg : new Uint8Array()));
@@ -524,16 +524,14 @@ export const InstantiateContractProposal = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<InstantiateContractProposal>, I>>(
-    object: I,
-  ): InstantiateContractProposal {
+  fromPartial(object: Partial<InstantiateContractProposal>): InstantiateContractProposal {
     const message = createBaseInstantiateContractProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
     message.runAs = object.runAs ?? "";
     message.admin = object.admin ?? "";
     if (object.codeId !== undefined && object.codeId !== null) {
-      message.codeId = Long.fromValue(object.codeId);
+      message.codeId = BigInt(object.codeId.toString());
     }
     message.label = object.label ?? "";
     message.msg = object.msg ?? new Uint8Array();
@@ -547,7 +545,7 @@ function createBaseInstantiateContract2Proposal(): InstantiateContract2Proposal 
     description: "",
     runAs: "",
     admin: "",
-    codeId: Long.UZERO,
+    codeId: BigInt(0),
     label: "",
     msg: new Uint8Array(),
     funds: [],
@@ -556,7 +554,7 @@ function createBaseInstantiateContract2Proposal(): InstantiateContract2Proposal 
   };
 }
 export const InstantiateContract2Proposal = {
-  encode(message: InstantiateContract2Proposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: InstantiateContract2Proposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -569,7 +567,7 @@ export const InstantiateContract2Proposal = {
     if (message.admin !== "") {
       writer.uint32(34).string(message.admin);
     }
-    if (!message.codeId.isZero()) {
+    if (message.codeId !== BigInt(0)) {
       writer.uint32(40).uint64(message.codeId);
     }
     if (message.label !== "") {
@@ -589,8 +587,8 @@ export const InstantiateContract2Proposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): InstantiateContract2Proposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): InstantiateContract2Proposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseInstantiateContract2Proposal();
     while (reader.pos < end) {
@@ -609,7 +607,7 @@ export const InstantiateContract2Proposal = {
           message.admin = reader.string();
           break;
         case 5:
-          message.codeId = reader.uint64() as Long;
+          message.codeId = reader.uint64();
           break;
         case 6:
           message.label = reader.string();
@@ -639,7 +637,7 @@ export const InstantiateContract2Proposal = {
     if (isSet(object.description)) obj.description = String(object.description);
     if (isSet(object.runAs)) obj.runAs = String(object.runAs);
     if (isSet(object.admin)) obj.admin = String(object.admin);
-    if (isSet(object.codeId)) obj.codeId = Long.fromValue(object.codeId);
+    if (isSet(object.codeId)) obj.codeId = BigInt(object.codeId.toString());
     if (isSet(object.label)) obj.label = String(object.label);
     if (isSet(object.msg)) obj.msg = bytesFromBase64(object.msg);
     if (Array.isArray(object?.funds)) obj.funds = object.funds.map((e: any) => Coin.fromJSON(e));
@@ -653,7 +651,7 @@ export const InstantiateContract2Proposal = {
     message.description !== undefined && (obj.description = message.description);
     message.runAs !== undefined && (obj.runAs = message.runAs);
     message.admin !== undefined && (obj.admin = message.admin);
-    message.codeId !== undefined && (obj.codeId = (message.codeId || Long.UZERO).toString());
+    message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt(0)).toString());
     message.label !== undefined && (obj.label = message.label);
     message.msg !== undefined &&
       (obj.msg = base64FromBytes(message.msg !== undefined ? message.msg : new Uint8Array()));
@@ -667,16 +665,14 @@ export const InstantiateContract2Proposal = {
     message.fixMsg !== undefined && (obj.fixMsg = message.fixMsg);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<InstantiateContract2Proposal>, I>>(
-    object: I,
-  ): InstantiateContract2Proposal {
+  fromPartial(object: Partial<InstantiateContract2Proposal>): InstantiateContract2Proposal {
     const message = createBaseInstantiateContract2Proposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
     message.runAs = object.runAs ?? "";
     message.admin = object.admin ?? "";
     if (object.codeId !== undefined && object.codeId !== null) {
-      message.codeId = Long.fromValue(object.codeId);
+      message.codeId = BigInt(object.codeId.toString());
     }
     message.label = object.label ?? "";
     message.msg = object.msg ?? new Uint8Array();
@@ -691,12 +687,12 @@ function createBaseMigrateContractProposal(): MigrateContractProposal {
     title: "",
     description: "",
     contract: "",
-    codeId: Long.UZERO,
+    codeId: BigInt(0),
     msg: new Uint8Array(),
   };
 }
 export const MigrateContractProposal = {
-  encode(message: MigrateContractProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MigrateContractProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -706,7 +702,7 @@ export const MigrateContractProposal = {
     if (message.contract !== "") {
       writer.uint32(34).string(message.contract);
     }
-    if (!message.codeId.isZero()) {
+    if (message.codeId !== BigInt(0)) {
       writer.uint32(40).uint64(message.codeId);
     }
     if (message.msg.length !== 0) {
@@ -714,8 +710,8 @@ export const MigrateContractProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MigrateContractProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MigrateContractProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMigrateContractProposal();
     while (reader.pos < end) {
@@ -731,7 +727,7 @@ export const MigrateContractProposal = {
           message.contract = reader.string();
           break;
         case 5:
-          message.codeId = reader.uint64() as Long;
+          message.codeId = reader.uint64();
           break;
         case 6:
           message.msg = reader.bytes();
@@ -748,7 +744,7 @@ export const MigrateContractProposal = {
     if (isSet(object.title)) obj.title = String(object.title);
     if (isSet(object.description)) obj.description = String(object.description);
     if (isSet(object.contract)) obj.contract = String(object.contract);
-    if (isSet(object.codeId)) obj.codeId = Long.fromValue(object.codeId);
+    if (isSet(object.codeId)) obj.codeId = BigInt(object.codeId.toString());
     if (isSet(object.msg)) obj.msg = bytesFromBase64(object.msg);
     return obj;
   },
@@ -757,18 +753,18 @@ export const MigrateContractProposal = {
     message.title !== undefined && (obj.title = message.title);
     message.description !== undefined && (obj.description = message.description);
     message.contract !== undefined && (obj.contract = message.contract);
-    message.codeId !== undefined && (obj.codeId = (message.codeId || Long.UZERO).toString());
+    message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt(0)).toString());
     message.msg !== undefined &&
       (obj.msg = base64FromBytes(message.msg !== undefined ? message.msg : new Uint8Array()));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MigrateContractProposal>, I>>(object: I): MigrateContractProposal {
+  fromPartial(object: Partial<MigrateContractProposal>): MigrateContractProposal {
     const message = createBaseMigrateContractProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
     message.contract = object.contract ?? "";
     if (object.codeId !== undefined && object.codeId !== null) {
-      message.codeId = Long.fromValue(object.codeId);
+      message.codeId = BigInt(object.codeId.toString());
     }
     message.msg = object.msg ?? new Uint8Array();
     return message;
@@ -783,7 +779,7 @@ function createBaseSudoContractProposal(): SudoContractProposal {
   };
 }
 export const SudoContractProposal = {
-  encode(message: SudoContractProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: SudoContractProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -798,8 +794,8 @@ export const SudoContractProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): SudoContractProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): SudoContractProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSudoContractProposal();
     while (reader.pos < end) {
@@ -841,7 +837,7 @@ export const SudoContractProposal = {
       (obj.msg = base64FromBytes(message.msg !== undefined ? message.msg : new Uint8Array()));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<SudoContractProposal>, I>>(object: I): SudoContractProposal {
+  fromPartial(object: Partial<SudoContractProposal>): SudoContractProposal {
     const message = createBaseSudoContractProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -861,7 +857,7 @@ function createBaseExecuteContractProposal(): ExecuteContractProposal {
   };
 }
 export const ExecuteContractProposal = {
-  encode(message: ExecuteContractProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ExecuteContractProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -882,8 +878,8 @@ export const ExecuteContractProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ExecuteContractProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ExecuteContractProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseExecuteContractProposal();
     while (reader.pos < end) {
@@ -939,7 +935,7 @@ export const ExecuteContractProposal = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ExecuteContractProposal>, I>>(object: I): ExecuteContractProposal {
+  fromPartial(object: Partial<ExecuteContractProposal>): ExecuteContractProposal {
     const message = createBaseExecuteContractProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -959,7 +955,7 @@ function createBaseUpdateAdminProposal(): UpdateAdminProposal {
   };
 }
 export const UpdateAdminProposal = {
-  encode(message: UpdateAdminProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: UpdateAdminProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -974,8 +970,8 @@ export const UpdateAdminProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UpdateAdminProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateAdminProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUpdateAdminProposal();
     while (reader.pos < end) {
@@ -1016,7 +1012,7 @@ export const UpdateAdminProposal = {
     message.contract !== undefined && (obj.contract = message.contract);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<UpdateAdminProposal>, I>>(object: I): UpdateAdminProposal {
+  fromPartial(object: Partial<UpdateAdminProposal>): UpdateAdminProposal {
     const message = createBaseUpdateAdminProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -1033,7 +1029,7 @@ function createBaseClearAdminProposal(): ClearAdminProposal {
   };
 }
 export const ClearAdminProposal = {
-  encode(message: ClearAdminProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ClearAdminProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -1045,8 +1041,8 @@ export const ClearAdminProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ClearAdminProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ClearAdminProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClearAdminProposal();
     while (reader.pos < end) {
@@ -1082,7 +1078,7 @@ export const ClearAdminProposal = {
     message.contract !== undefined && (obj.contract = message.contract);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ClearAdminProposal>, I>>(object: I): ClearAdminProposal {
+  fromPartial(object: Partial<ClearAdminProposal>): ClearAdminProposal {
     const message = createBaseClearAdminProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -1098,7 +1094,7 @@ function createBasePinCodesProposal(): PinCodesProposal {
   };
 }
 export const PinCodesProposal = {
-  encode(message: PinCodesProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: PinCodesProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -1112,8 +1108,8 @@ export const PinCodesProposal = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PinCodesProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PinCodesProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePinCodesProposal();
     while (reader.pos < end) {
@@ -1129,10 +1125,10 @@ export const PinCodesProposal = {
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.codeIds.push(reader.uint64() as Long);
+              message.codeIds.push(reader.uint64());
             }
           } else {
-            message.codeIds.push(reader.uint64() as Long);
+            message.codeIds.push(reader.uint64());
           }
           break;
         default:
@@ -1146,7 +1142,7 @@ export const PinCodesProposal = {
     const obj = createBasePinCodesProposal();
     if (isSet(object.title)) obj.title = String(object.title);
     if (isSet(object.description)) obj.description = String(object.description);
-    if (Array.isArray(object?.codeIds)) obj.codeIds = object.codeIds.map((e: any) => Long.fromValue(e));
+    if (Array.isArray(object?.codeIds)) obj.codeIds = object.codeIds.map((e: any) => BigInt(e.toString()));
     return obj;
   },
   toJSON(message: PinCodesProposal): unknown {
@@ -1154,17 +1150,17 @@ export const PinCodesProposal = {
     message.title !== undefined && (obj.title = message.title);
     message.description !== undefined && (obj.description = message.description);
     if (message.codeIds) {
-      obj.codeIds = message.codeIds.map((e) => (e || Long.UZERO).toString());
+      obj.codeIds = message.codeIds.map((e) => (e || BigInt(0)).toString());
     } else {
       obj.codeIds = [];
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<PinCodesProposal>, I>>(object: I): PinCodesProposal {
+  fromPartial(object: Partial<PinCodesProposal>): PinCodesProposal {
     const message = createBasePinCodesProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
-    message.codeIds = object.codeIds?.map((e) => Long.fromValue(e)) || [];
+    message.codeIds = object.codeIds?.map((e) => BigInt(e.toString())) || [];
     return message;
   },
 };
@@ -1176,7 +1172,7 @@ function createBaseUnpinCodesProposal(): UnpinCodesProposal {
   };
 }
 export const UnpinCodesProposal = {
-  encode(message: UnpinCodesProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: UnpinCodesProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -1190,8 +1186,8 @@ export const UnpinCodesProposal = {
     writer.ldelim();
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UnpinCodesProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UnpinCodesProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUnpinCodesProposal();
     while (reader.pos < end) {
@@ -1207,10 +1203,10 @@ export const UnpinCodesProposal = {
           if ((tag & 7) === 2) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
-              message.codeIds.push(reader.uint64() as Long);
+              message.codeIds.push(reader.uint64());
             }
           } else {
-            message.codeIds.push(reader.uint64() as Long);
+            message.codeIds.push(reader.uint64());
           }
           break;
         default:
@@ -1224,7 +1220,7 @@ export const UnpinCodesProposal = {
     const obj = createBaseUnpinCodesProposal();
     if (isSet(object.title)) obj.title = String(object.title);
     if (isSet(object.description)) obj.description = String(object.description);
-    if (Array.isArray(object?.codeIds)) obj.codeIds = object.codeIds.map((e: any) => Long.fromValue(e));
+    if (Array.isArray(object?.codeIds)) obj.codeIds = object.codeIds.map((e: any) => BigInt(e.toString()));
     return obj;
   },
   toJSON(message: UnpinCodesProposal): unknown {
@@ -1232,29 +1228,29 @@ export const UnpinCodesProposal = {
     message.title !== undefined && (obj.title = message.title);
     message.description !== undefined && (obj.description = message.description);
     if (message.codeIds) {
-      obj.codeIds = message.codeIds.map((e) => (e || Long.UZERO).toString());
+      obj.codeIds = message.codeIds.map((e) => (e || BigInt(0)).toString());
     } else {
       obj.codeIds = [];
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<UnpinCodesProposal>, I>>(object: I): UnpinCodesProposal {
+  fromPartial(object: Partial<UnpinCodesProposal>): UnpinCodesProposal {
     const message = createBaseUnpinCodesProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
-    message.codeIds = object.codeIds?.map((e) => Long.fromValue(e)) || [];
+    message.codeIds = object.codeIds?.map((e) => BigInt(e.toString())) || [];
     return message;
   },
 };
 function createBaseAccessConfigUpdate(): AccessConfigUpdate {
   return {
-    codeId: Long.UZERO,
+    codeId: BigInt(0),
     instantiatePermission: AccessConfig.fromPartial({}),
   };
 }
 export const AccessConfigUpdate = {
-  encode(message: AccessConfigUpdate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.codeId.isZero()) {
+  encode(message: AccessConfigUpdate, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.codeId !== BigInt(0)) {
       writer.uint32(8).uint64(message.codeId);
     }
     if (message.instantiatePermission !== undefined) {
@@ -1262,15 +1258,15 @@ export const AccessConfigUpdate = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AccessConfigUpdate {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AccessConfigUpdate {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAccessConfigUpdate();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.codeId = reader.uint64() as Long;
+          message.codeId = reader.uint64();
           break;
         case 2:
           message.instantiatePermission = AccessConfig.decode(reader, reader.uint32());
@@ -1284,24 +1280,24 @@ export const AccessConfigUpdate = {
   },
   fromJSON(object: any): AccessConfigUpdate {
     const obj = createBaseAccessConfigUpdate();
-    if (isSet(object.codeId)) obj.codeId = Long.fromValue(object.codeId);
+    if (isSet(object.codeId)) obj.codeId = BigInt(object.codeId.toString());
     if (isSet(object.instantiatePermission))
       obj.instantiatePermission = AccessConfig.fromJSON(object.instantiatePermission);
     return obj;
   },
   toJSON(message: AccessConfigUpdate): unknown {
     const obj: any = {};
-    message.codeId !== undefined && (obj.codeId = (message.codeId || Long.UZERO).toString());
+    message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt(0)).toString());
     message.instantiatePermission !== undefined &&
       (obj.instantiatePermission = message.instantiatePermission
         ? AccessConfig.toJSON(message.instantiatePermission)
         : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<AccessConfigUpdate>, I>>(object: I): AccessConfigUpdate {
+  fromPartial(object: Partial<AccessConfigUpdate>): AccessConfigUpdate {
     const message = createBaseAccessConfigUpdate();
     if (object.codeId !== undefined && object.codeId !== null) {
-      message.codeId = Long.fromValue(object.codeId);
+      message.codeId = BigInt(object.codeId.toString());
     }
     if (object.instantiatePermission !== undefined && object.instantiatePermission !== null) {
       message.instantiatePermission = AccessConfig.fromPartial(object.instantiatePermission);
@@ -1317,7 +1313,10 @@ function createBaseUpdateInstantiateConfigProposal(): UpdateInstantiateConfigPro
   };
 }
 export const UpdateInstantiateConfigProposal = {
-  encode(message: UpdateInstantiateConfigProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: UpdateInstantiateConfigProposal,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -1329,8 +1328,8 @@ export const UpdateInstantiateConfigProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UpdateInstantiateConfigProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UpdateInstantiateConfigProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUpdateInstantiateConfigProposal();
     while (reader.pos < end) {
@@ -1373,9 +1372,7 @@ export const UpdateInstantiateConfigProposal = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<UpdateInstantiateConfigProposal>, I>>(
-    object: I,
-  ): UpdateInstantiateConfigProposal {
+  fromPartial(object: Partial<UpdateInstantiateConfigProposal>): UpdateInstantiateConfigProposal {
     const message = createBaseUpdateInstantiateConfigProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -1402,7 +1399,10 @@ function createBaseStoreAndInstantiateContractProposal(): StoreAndInstantiateCon
   };
 }
 export const StoreAndInstantiateContractProposal = {
-  encode(message: StoreAndInstantiateContractProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: StoreAndInstantiateContractProposal,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -1444,8 +1444,8 @@ export const StoreAndInstantiateContractProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): StoreAndInstantiateContractProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): StoreAndInstantiateContractProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseStoreAndInstantiateContractProposal();
     while (reader.pos < end) {
@@ -1544,9 +1544,7 @@ export const StoreAndInstantiateContractProposal = {
       (obj.codeHash = base64FromBytes(message.codeHash !== undefined ? message.codeHash : new Uint8Array()));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<StoreAndInstantiateContractProposal>, I>>(
-    object: I,
-  ): StoreAndInstantiateContractProposal {
+  fromPartial(object: Partial<StoreAndInstantiateContractProposal>): StoreAndInstantiateContractProposal {
     const message = createBaseStoreAndInstantiateContractProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";

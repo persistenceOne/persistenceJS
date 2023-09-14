@@ -1,6 +1,6 @@
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact } from "../../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../../binary";
+import { isSet } from "../../../../../helpers";
 export const protobufPackage = "ibc.applications.interchain_accounts.controller.v1";
 /**
  * Params defines the set of on-chain interchain accounts parameters.
@@ -16,14 +16,14 @@ function createBaseParams(): Params {
   };
 }
 export const Params = {
-  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.controllerEnabled === true) {
       writer.uint32(8).bool(message.controllerEnabled);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Params {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {
@@ -49,7 +49,7 @@ export const Params = {
     message.controllerEnabled !== undefined && (obj.controllerEnabled = message.controllerEnabled);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
+  fromPartial(object: Partial<Params>): Params {
     const message = createBaseParams();
     message.controllerEnabled = object.controllerEnabled ?? false;
     return message;

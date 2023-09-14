@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Any } from "../../../../google/protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, bytesFromBase64, base64FromBytes, DeepPartial, Exact } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.applications.interchain_accounts.v1";
 /**
  * Type defines a classification of message issued from a controller chain to its associated interchain accounts
@@ -57,7 +57,7 @@ function createBaseInterchainAccountPacketData(): InterchainAccountPacketData {
   };
 }
 export const InterchainAccountPacketData = {
-  encode(message: InterchainAccountPacketData, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: InterchainAccountPacketData, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.type !== 0) {
       writer.uint32(8).int32(message.type);
     }
@@ -69,8 +69,8 @@ export const InterchainAccountPacketData = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): InterchainAccountPacketData {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): InterchainAccountPacketData {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseInterchainAccountPacketData();
     while (reader.pos < end) {
@@ -107,9 +107,7 @@ export const InterchainAccountPacketData = {
     message.memo !== undefined && (obj.memo = message.memo);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<InterchainAccountPacketData>, I>>(
-    object: I,
-  ): InterchainAccountPacketData {
+  fromPartial(object: Partial<InterchainAccountPacketData>): InterchainAccountPacketData {
     const message = createBaseInterchainAccountPacketData();
     message.type = object.type ?? 0;
     message.data = object.data ?? new Uint8Array();
@@ -123,14 +121,14 @@ function createBaseCosmosTx(): CosmosTx {
   };
 }
 export const CosmosTx = {
-  encode(message: CosmosTx, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: CosmosTx, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.messages) {
       Any.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): CosmosTx {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): CosmosTx {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCosmosTx();
     while (reader.pos < end) {
@@ -160,7 +158,7 @@ export const CosmosTx = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<CosmosTx>, I>>(object: I): CosmosTx {
+  fromPartial(object: Partial<CosmosTx>): CosmosTx {
     const message = createBaseCosmosTx();
     message.messages = object.messages?.map((e) => Any.fromPartial(e)) || [];
     return message;

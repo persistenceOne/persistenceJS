@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Any } from "../../../google/protobuf/any";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact, bytesFromBase64, base64FromBytes, Rpc } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes, Rpc } from "../../../helpers";
 export const protobufPackage = "cosmos.evidence.v1beta1";
 /**
  * MsgSubmitEvidence represents a message that supports submitting arbitrary
@@ -25,7 +25,7 @@ function createBaseMsgSubmitEvidence(): MsgSubmitEvidence {
   };
 }
 export const MsgSubmitEvidence = {
-  encode(message: MsgSubmitEvidence, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgSubmitEvidence, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.submitter !== "") {
       writer.uint32(10).string(message.submitter);
     }
@@ -34,8 +34,8 @@ export const MsgSubmitEvidence = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSubmitEvidence {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgSubmitEvidence {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSubmitEvidence();
     while (reader.pos < end) {
@@ -67,7 +67,7 @@ export const MsgSubmitEvidence = {
       (obj.evidence = message.evidence ? Any.toJSON(message.evidence) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgSubmitEvidence>, I>>(object: I): MsgSubmitEvidence {
+  fromPartial(object: Partial<MsgSubmitEvidence>): MsgSubmitEvidence {
     const message = createBaseMsgSubmitEvidence();
     message.submitter = object.submitter ?? "";
     if (object.evidence !== undefined && object.evidence !== null) {
@@ -82,14 +82,14 @@ function createBaseMsgSubmitEvidenceResponse(): MsgSubmitEvidenceResponse {
   };
 }
 export const MsgSubmitEvidenceResponse = {
-  encode(message: MsgSubmitEvidenceResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgSubmitEvidenceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.hash.length !== 0) {
       writer.uint32(34).bytes(message.hash);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSubmitEvidenceResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgSubmitEvidenceResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSubmitEvidenceResponse();
     while (reader.pos < end) {
@@ -116,9 +116,7 @@ export const MsgSubmitEvidenceResponse = {
       (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgSubmitEvidenceResponse>, I>>(
-    object: I,
-  ): MsgSubmitEvidenceResponse {
+  fromPartial(object: Partial<MsgSubmitEvidenceResponse>): MsgSubmitEvidenceResponse {
     const message = createBaseMsgSubmitEvidenceResponse();
     message.hash = object.hash ?? new Uint8Array();
     return message;
@@ -141,6 +139,6 @@ export class MsgClientImpl implements Msg {
   SubmitEvidence(request: MsgSubmitEvidence): Promise<MsgSubmitEvidenceResponse> {
     const data = MsgSubmitEvidence.encode(request).finish();
     const promise = this.rpc.request("cosmos.evidence.v1beta1.Msg", "SubmitEvidence", data);
-    return promise.then((data) => MsgSubmitEvidenceResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgSubmitEvidenceResponse.decode(new BinaryReader(data)));
   }
 }
