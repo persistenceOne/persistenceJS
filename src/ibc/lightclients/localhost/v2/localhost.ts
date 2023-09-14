@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Height } from "../../../core/client/v1/client";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "ibc.lightclients.localhost.v2";
 /** ClientState defines the 09-localhost client state */
 export interface ClientState {
@@ -14,14 +14,14 @@ function createBaseClientState(): ClientState {
   };
 }
 export const ClientState = {
-  encode(message: ClientState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ClientState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.latestHeight !== undefined) {
       Height.encode(message.latestHeight, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ClientState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ClientState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClientState();
     while (reader.pos < end) {
@@ -48,7 +48,7 @@ export const ClientState = {
       (obj.latestHeight = message.latestHeight ? Height.toJSON(message.latestHeight) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ClientState>, I>>(object: I): ClientState {
+  fromPartial(object: Partial<ClientState>): ClientState {
     const message = createBaseClientState();
     if (object.latestHeight !== undefined && object.latestHeight !== null) {
       message.latestHeight = Height.fromPartial(object.latestHeight);

@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { IdentifiedPacketFees } from "./fee";
 import { PacketId } from "../../../core/channel/v1/channel";
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, Exact, isSet } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "ibc.applications.fee.v1";
 /** GenesisState defines the ICS29 fee middleware genesis state */
 export interface GenesisState {
@@ -62,7 +62,7 @@ function createBaseGenesisState(): GenesisState {
   };
 }
 export const GenesisState = {
-  encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: GenesisState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.identifiedFees) {
       IdentifiedPacketFees.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -80,8 +80,8 @@ export const GenesisState = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): GenesisState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState();
     while (reader.pos < end) {
@@ -164,7 +164,7 @@ export const GenesisState = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<GenesisState>, I>>(object: I): GenesisState {
+  fromPartial(object: Partial<GenesisState>): GenesisState {
     const message = createBaseGenesisState();
     message.identifiedFees = object.identifiedFees?.map((e) => IdentifiedPacketFees.fromPartial(e)) || [];
     message.feeEnabledChannels =
@@ -183,7 +183,7 @@ function createBaseFeeEnabledChannel(): FeeEnabledChannel {
   };
 }
 export const FeeEnabledChannel = {
-  encode(message: FeeEnabledChannel, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: FeeEnabledChannel, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.portId !== "") {
       writer.uint32(10).string(message.portId);
     }
@@ -192,8 +192,8 @@ export const FeeEnabledChannel = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): FeeEnabledChannel {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): FeeEnabledChannel {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseFeeEnabledChannel();
     while (reader.pos < end) {
@@ -224,7 +224,7 @@ export const FeeEnabledChannel = {
     message.channelId !== undefined && (obj.channelId = message.channelId);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<FeeEnabledChannel>, I>>(object: I): FeeEnabledChannel {
+  fromPartial(object: Partial<FeeEnabledChannel>): FeeEnabledChannel {
     const message = createBaseFeeEnabledChannel();
     message.portId = object.portId ?? "";
     message.channelId = object.channelId ?? "";
@@ -239,7 +239,7 @@ function createBaseRegisteredPayee(): RegisteredPayee {
   };
 }
 export const RegisteredPayee = {
-  encode(message: RegisteredPayee, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: RegisteredPayee, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.channelId !== "") {
       writer.uint32(10).string(message.channelId);
     }
@@ -251,8 +251,8 @@ export const RegisteredPayee = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): RegisteredPayee {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): RegisteredPayee {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRegisteredPayee();
     while (reader.pos < end) {
@@ -288,7 +288,7 @@ export const RegisteredPayee = {
     message.payee !== undefined && (obj.payee = message.payee);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<RegisteredPayee>, I>>(object: I): RegisteredPayee {
+  fromPartial(object: Partial<RegisteredPayee>): RegisteredPayee {
     const message = createBaseRegisteredPayee();
     message.channelId = object.channelId ?? "";
     message.relayer = object.relayer ?? "";
@@ -304,7 +304,7 @@ function createBaseRegisteredCounterpartyPayee(): RegisteredCounterpartyPayee {
   };
 }
 export const RegisteredCounterpartyPayee = {
-  encode(message: RegisteredCounterpartyPayee, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: RegisteredCounterpartyPayee, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.channelId !== "") {
       writer.uint32(10).string(message.channelId);
     }
@@ -316,8 +316,8 @@ export const RegisteredCounterpartyPayee = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): RegisteredCounterpartyPayee {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): RegisteredCounterpartyPayee {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRegisteredCounterpartyPayee();
     while (reader.pos < end) {
@@ -353,9 +353,7 @@ export const RegisteredCounterpartyPayee = {
     message.counterpartyPayee !== undefined && (obj.counterpartyPayee = message.counterpartyPayee);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<RegisteredCounterpartyPayee>, I>>(
-    object: I,
-  ): RegisteredCounterpartyPayee {
+  fromPartial(object: Partial<RegisteredCounterpartyPayee>): RegisteredCounterpartyPayee {
     const message = createBaseRegisteredCounterpartyPayee();
     message.channelId = object.channelId ?? "";
     message.relayer = object.relayer ?? "";
@@ -370,7 +368,7 @@ function createBaseForwardRelayerAddress(): ForwardRelayerAddress {
   };
 }
 export const ForwardRelayerAddress = {
-  encode(message: ForwardRelayerAddress, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ForwardRelayerAddress, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -379,8 +377,8 @@ export const ForwardRelayerAddress = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ForwardRelayerAddress {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ForwardRelayerAddress {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseForwardRelayerAddress();
     while (reader.pos < end) {
@@ -412,7 +410,7 @@ export const ForwardRelayerAddress = {
       (obj.packetId = message.packetId ? PacketId.toJSON(message.packetId) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ForwardRelayerAddress>, I>>(object: I): ForwardRelayerAddress {
+  fromPartial(object: Partial<ForwardRelayerAddress>): ForwardRelayerAddress {
     const message = createBaseForwardRelayerAddress();
     message.address = object.address ?? "";
     if (object.packetId !== undefined && object.packetId !== null) {

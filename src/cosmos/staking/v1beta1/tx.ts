@@ -1,10 +1,11 @@
+//@ts-nocheck
 /* eslint-disable */
 import { Description, CommissionRates, Params } from "./staking";
 import { Any } from "../../../google/protobuf/any";
 import { Coin } from "../../base/v1beta1/coin";
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import { Long, isSet, DeepPartial, Exact, fromJsonTimestamp, fromTimestamp, Rpc } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, fromJsonTimestamp, fromTimestamp, Rpc } from "../../../helpers";
 export const protobufPackage = "cosmos.staking.v1beta1";
 /** MsgCreateValidator defines a SDK message for creating a new validator. */
 export interface MsgCreateValidator {
@@ -84,7 +85,7 @@ export interface MsgCancelUnbondingDelegation {
   /** amount is always less than or equal to unbonding delegation entry balance */
   amount: Coin;
   /** creation_height is the height which the unbonding took place. */
-  creationHeight: Long;
+  creationHeight: bigint;
 }
 /**
  * MsgCancelUnbondingDelegationResponse
@@ -171,7 +172,7 @@ export interface MsgRedeemTokensForSharesResponse {
  * Since: cosmos-sdk 0.47-lsm
  */
 export interface MsgTransferTokenizeShareRecord {
-  tokenizeShareRecordId: Long;
+  tokenizeShareRecordId: bigint;
   sender: string;
   newOwner: string;
 }
@@ -239,7 +240,7 @@ function createBaseMsgCreateValidator(): MsgCreateValidator {
   };
 }
 export const MsgCreateValidator = {
-  encode(message: MsgCreateValidator, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgCreateValidator, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.description !== undefined) {
       Description.encode(message.description, writer.uint32(10).fork()).ldelim();
     }
@@ -263,8 +264,8 @@ export const MsgCreateValidator = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateValidator {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgCreateValidator {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgCreateValidator();
     while (reader.pos < end) {
@@ -322,7 +323,7 @@ export const MsgCreateValidator = {
     message.value !== undefined && (obj.value = message.value ? Coin.toJSON(message.value) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateValidator>, I>>(object: I): MsgCreateValidator {
+  fromPartial(object: Partial<MsgCreateValidator>): MsgCreateValidator {
     const message = createBaseMsgCreateValidator();
     if (object.description !== undefined && object.description !== null) {
       message.description = Description.fromPartial(object.description);
@@ -346,11 +347,11 @@ function createBaseMsgCreateValidatorResponse(): MsgCreateValidatorResponse {
   return {};
 }
 export const MsgCreateValidatorResponse = {
-  encode(_: MsgCreateValidatorResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgCreateValidatorResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateValidatorResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgCreateValidatorResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgCreateValidatorResponse();
     while (reader.pos < end) {
@@ -371,7 +372,7 @@ export const MsgCreateValidatorResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateValidatorResponse>, I>>(_: I): MsgCreateValidatorResponse {
+  fromPartial(_: Partial<MsgCreateValidatorResponse>): MsgCreateValidatorResponse {
     const message = createBaseMsgCreateValidatorResponse();
     return message;
   },
@@ -385,7 +386,7 @@ function createBaseMsgEditValidator(): MsgEditValidator {
   };
 }
 export const MsgEditValidator = {
-  encode(message: MsgEditValidator, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgEditValidator, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.description !== undefined) {
       Description.encode(message.description, writer.uint32(10).fork()).ldelim();
     }
@@ -400,8 +401,8 @@ export const MsgEditValidator = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEditValidator {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgEditValidator {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgEditValidator();
     while (reader.pos < end) {
@@ -443,7 +444,7 @@ export const MsgEditValidator = {
     message.minSelfDelegation !== undefined && (obj.minSelfDelegation = message.minSelfDelegation);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgEditValidator>, I>>(object: I): MsgEditValidator {
+  fromPartial(object: Partial<MsgEditValidator>): MsgEditValidator {
     const message = createBaseMsgEditValidator();
     if (object.description !== undefined && object.description !== null) {
       message.description = Description.fromPartial(object.description);
@@ -458,11 +459,11 @@ function createBaseMsgEditValidatorResponse(): MsgEditValidatorResponse {
   return {};
 }
 export const MsgEditValidatorResponse = {
-  encode(_: MsgEditValidatorResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgEditValidatorResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEditValidatorResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgEditValidatorResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgEditValidatorResponse();
     while (reader.pos < end) {
@@ -483,7 +484,7 @@ export const MsgEditValidatorResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgEditValidatorResponse>, I>>(_: I): MsgEditValidatorResponse {
+  fromPartial(_: Partial<MsgEditValidatorResponse>): MsgEditValidatorResponse {
     const message = createBaseMsgEditValidatorResponse();
     return message;
   },
@@ -496,7 +497,7 @@ function createBaseMsgDelegate(): MsgDelegate {
   };
 }
 export const MsgDelegate = {
-  encode(message: MsgDelegate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgDelegate, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
@@ -508,8 +509,8 @@ export const MsgDelegate = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDelegate {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgDelegate {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgDelegate();
     while (reader.pos < end) {
@@ -545,7 +546,7 @@ export const MsgDelegate = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgDelegate>, I>>(object: I): MsgDelegate {
+  fromPartial(object: Partial<MsgDelegate>): MsgDelegate {
     const message = createBaseMsgDelegate();
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.validatorAddress = object.validatorAddress ?? "";
@@ -559,11 +560,11 @@ function createBaseMsgDelegateResponse(): MsgDelegateResponse {
   return {};
 }
 export const MsgDelegateResponse = {
-  encode(_: MsgDelegateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgDelegateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDelegateResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgDelegateResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgDelegateResponse();
     while (reader.pos < end) {
@@ -584,7 +585,7 @@ export const MsgDelegateResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgDelegateResponse>, I>>(_: I): MsgDelegateResponse {
+  fromPartial(_: Partial<MsgDelegateResponse>): MsgDelegateResponse {
     const message = createBaseMsgDelegateResponse();
     return message;
   },
@@ -598,7 +599,7 @@ function createBaseMsgBeginRedelegate(): MsgBeginRedelegate {
   };
 }
 export const MsgBeginRedelegate = {
-  encode(message: MsgBeginRedelegate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgBeginRedelegate, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
@@ -613,8 +614,8 @@ export const MsgBeginRedelegate = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgBeginRedelegate {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgBeginRedelegate {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgBeginRedelegate();
     while (reader.pos < end) {
@@ -655,7 +656,7 @@ export const MsgBeginRedelegate = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgBeginRedelegate>, I>>(object: I): MsgBeginRedelegate {
+  fromPartial(object: Partial<MsgBeginRedelegate>): MsgBeginRedelegate {
     const message = createBaseMsgBeginRedelegate();
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.validatorSrcAddress = object.validatorSrcAddress ?? "";
@@ -672,14 +673,14 @@ function createBaseMsgBeginRedelegateResponse(): MsgBeginRedelegateResponse {
   };
 }
 export const MsgBeginRedelegateResponse = {
-  encode(message: MsgBeginRedelegateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgBeginRedelegateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.completionTime !== undefined) {
       Timestamp.encode(message.completionTime, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgBeginRedelegateResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgBeginRedelegateResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgBeginRedelegateResponse();
     while (reader.pos < end) {
@@ -706,9 +707,7 @@ export const MsgBeginRedelegateResponse = {
       (obj.completionTime = fromTimestamp(message.completionTime).toISOString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgBeginRedelegateResponse>, I>>(
-    object: I,
-  ): MsgBeginRedelegateResponse {
+  fromPartial(object: Partial<MsgBeginRedelegateResponse>): MsgBeginRedelegateResponse {
     const message = createBaseMsgBeginRedelegateResponse();
     if (object.completionTime !== undefined && object.completionTime !== null) {
       message.completionTime = Timestamp.fromPartial(object.completionTime);
@@ -724,7 +723,7 @@ function createBaseMsgUndelegate(): MsgUndelegate {
   };
 }
 export const MsgUndelegate = {
-  encode(message: MsgUndelegate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgUndelegate, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
@@ -736,8 +735,8 @@ export const MsgUndelegate = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUndelegate {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUndelegate {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUndelegate();
     while (reader.pos < end) {
@@ -773,7 +772,7 @@ export const MsgUndelegate = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUndelegate>, I>>(object: I): MsgUndelegate {
+  fromPartial(object: Partial<MsgUndelegate>): MsgUndelegate {
     const message = createBaseMsgUndelegate();
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.validatorAddress = object.validatorAddress ?? "";
@@ -789,14 +788,14 @@ function createBaseMsgUndelegateResponse(): MsgUndelegateResponse {
   };
 }
 export const MsgUndelegateResponse = {
-  encode(message: MsgUndelegateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgUndelegateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.completionTime !== undefined) {
       Timestamp.encode(message.completionTime, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUndelegateResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUndelegateResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUndelegateResponse();
     while (reader.pos < end) {
@@ -823,7 +822,7 @@ export const MsgUndelegateResponse = {
       (obj.completionTime = fromTimestamp(message.completionTime).toISOString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUndelegateResponse>, I>>(object: I): MsgUndelegateResponse {
+  fromPartial(object: Partial<MsgUndelegateResponse>): MsgUndelegateResponse {
     const message = createBaseMsgUndelegateResponse();
     if (object.completionTime !== undefined && object.completionTime !== null) {
       message.completionTime = Timestamp.fromPartial(object.completionTime);
@@ -836,11 +835,11 @@ function createBaseMsgCancelUnbondingDelegation(): MsgCancelUnbondingDelegation 
     delegatorAddress: "",
     validatorAddress: "",
     amount: Coin.fromPartial({}),
-    creationHeight: Long.ZERO,
+    creationHeight: BigInt(0),
   };
 }
 export const MsgCancelUnbondingDelegation = {
-  encode(message: MsgCancelUnbondingDelegation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgCancelUnbondingDelegation, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
@@ -850,13 +849,13 @@ export const MsgCancelUnbondingDelegation = {
     if (message.amount !== undefined) {
       Coin.encode(message.amount, writer.uint32(26).fork()).ldelim();
     }
-    if (!message.creationHeight.isZero()) {
+    if (message.creationHeight !== BigInt(0)) {
       writer.uint32(32).int64(message.creationHeight);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCancelUnbondingDelegation {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgCancelUnbondingDelegation {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgCancelUnbondingDelegation();
     while (reader.pos < end) {
@@ -872,7 +871,7 @@ export const MsgCancelUnbondingDelegation = {
           message.amount = Coin.decode(reader, reader.uint32());
           break;
         case 4:
-          message.creationHeight = reader.int64() as Long;
+          message.creationHeight = reader.int64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -886,7 +885,7 @@ export const MsgCancelUnbondingDelegation = {
     if (isSet(object.delegatorAddress)) obj.delegatorAddress = String(object.delegatorAddress);
     if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
     if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
-    if (isSet(object.creationHeight)) obj.creationHeight = Long.fromValue(object.creationHeight);
+    if (isSet(object.creationHeight)) obj.creationHeight = BigInt(object.creationHeight.toString());
     return obj;
   },
   toJSON(message: MsgCancelUnbondingDelegation): unknown {
@@ -895,12 +894,10 @@ export const MsgCancelUnbondingDelegation = {
     message.validatorAddress !== undefined && (obj.validatorAddress = message.validatorAddress);
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     message.creationHeight !== undefined &&
-      (obj.creationHeight = (message.creationHeight || Long.ZERO).toString());
+      (obj.creationHeight = (message.creationHeight || BigInt(0)).toString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCancelUnbondingDelegation>, I>>(
-    object: I,
-  ): MsgCancelUnbondingDelegation {
+  fromPartial(object: Partial<MsgCancelUnbondingDelegation>): MsgCancelUnbondingDelegation {
     const message = createBaseMsgCancelUnbondingDelegation();
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.validatorAddress = object.validatorAddress ?? "";
@@ -908,7 +905,7 @@ export const MsgCancelUnbondingDelegation = {
       message.amount = Coin.fromPartial(object.amount);
     }
     if (object.creationHeight !== undefined && object.creationHeight !== null) {
-      message.creationHeight = Long.fromValue(object.creationHeight);
+      message.creationHeight = BigInt(object.creationHeight.toString());
     }
     return message;
   },
@@ -917,11 +914,14 @@ function createBaseMsgCancelUnbondingDelegationResponse(): MsgCancelUnbondingDel
   return {};
 }
 export const MsgCancelUnbondingDelegationResponse = {
-  encode(_: MsgCancelUnbondingDelegationResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    _: MsgCancelUnbondingDelegationResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCancelUnbondingDelegationResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgCancelUnbondingDelegationResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgCancelUnbondingDelegationResponse();
     while (reader.pos < end) {
@@ -942,9 +942,7 @@ export const MsgCancelUnbondingDelegationResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCancelUnbondingDelegationResponse>, I>>(
-    _: I,
-  ): MsgCancelUnbondingDelegationResponse {
+  fromPartial(_: Partial<MsgCancelUnbondingDelegationResponse>): MsgCancelUnbondingDelegationResponse {
     const message = createBaseMsgCancelUnbondingDelegationResponse();
     return message;
   },
@@ -956,7 +954,7 @@ function createBaseMsgUpdateParams(): MsgUpdateParams {
   };
 }
 export const MsgUpdateParams = {
-  encode(message: MsgUpdateParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgUpdateParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.authority !== "") {
       writer.uint32(10).string(message.authority);
     }
@@ -965,8 +963,8 @@ export const MsgUpdateParams = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateParams {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUpdateParams {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpdateParams();
     while (reader.pos < end) {
@@ -997,7 +995,7 @@ export const MsgUpdateParams = {
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateParams>, I>>(object: I): MsgUpdateParams {
+  fromPartial(object: Partial<MsgUpdateParams>): MsgUpdateParams {
     const message = createBaseMsgUpdateParams();
     message.authority = object.authority ?? "";
     if (object.params !== undefined && object.params !== null) {
@@ -1010,11 +1008,11 @@ function createBaseMsgUpdateParamsResponse(): MsgUpdateParamsResponse {
   return {};
 }
 export const MsgUpdateParamsResponse = {
-  encode(_: MsgUpdateParamsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgUpdateParamsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUpdateParamsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUpdateParamsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUpdateParamsResponse();
     while (reader.pos < end) {
@@ -1035,7 +1033,7 @@ export const MsgUpdateParamsResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateParamsResponse>, I>>(_: I): MsgUpdateParamsResponse {
+  fromPartial(_: Partial<MsgUpdateParamsResponse>): MsgUpdateParamsResponse {
     const message = createBaseMsgUpdateParamsResponse();
     return message;
   },
@@ -1046,14 +1044,14 @@ function createBaseMsgUnbondValidator(): MsgUnbondValidator {
   };
 }
 export const MsgUnbondValidator = {
-  encode(message: MsgUnbondValidator, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgUnbondValidator, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.validatorAddress !== "") {
       writer.uint32(10).string(message.validatorAddress);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUnbondValidator {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUnbondValidator {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUnbondValidator();
     while (reader.pos < end) {
@@ -1079,7 +1077,7 @@ export const MsgUnbondValidator = {
     message.validatorAddress !== undefined && (obj.validatorAddress = message.validatorAddress);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUnbondValidator>, I>>(object: I): MsgUnbondValidator {
+  fromPartial(object: Partial<MsgUnbondValidator>): MsgUnbondValidator {
     const message = createBaseMsgUnbondValidator();
     message.validatorAddress = object.validatorAddress ?? "";
     return message;
@@ -1089,11 +1087,11 @@ function createBaseMsgUnbondValidatorResponse(): MsgUnbondValidatorResponse {
   return {};
 }
 export const MsgUnbondValidatorResponse = {
-  encode(_: MsgUnbondValidatorResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgUnbondValidatorResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgUnbondValidatorResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUnbondValidatorResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgUnbondValidatorResponse();
     while (reader.pos < end) {
@@ -1114,7 +1112,7 @@ export const MsgUnbondValidatorResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUnbondValidatorResponse>, I>>(_: I): MsgUnbondValidatorResponse {
+  fromPartial(_: Partial<MsgUnbondValidatorResponse>): MsgUnbondValidatorResponse {
     const message = createBaseMsgUnbondValidatorResponse();
     return message;
   },
@@ -1128,7 +1126,7 @@ function createBaseMsgTokenizeShares(): MsgTokenizeShares {
   };
 }
 export const MsgTokenizeShares = {
-  encode(message: MsgTokenizeShares, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgTokenizeShares, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
@@ -1143,8 +1141,8 @@ export const MsgTokenizeShares = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTokenizeShares {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgTokenizeShares {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTokenizeShares();
     while (reader.pos < end) {
@@ -1185,7 +1183,7 @@ export const MsgTokenizeShares = {
     message.tokenizedShareOwner !== undefined && (obj.tokenizedShareOwner = message.tokenizedShareOwner);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgTokenizeShares>, I>>(object: I): MsgTokenizeShares {
+  fromPartial(object: Partial<MsgTokenizeShares>): MsgTokenizeShares {
     const message = createBaseMsgTokenizeShares();
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.validatorAddress = object.validatorAddress ?? "";
@@ -1202,14 +1200,14 @@ function createBaseMsgTokenizeSharesResponse(): MsgTokenizeSharesResponse {
   };
 }
 export const MsgTokenizeSharesResponse = {
-  encode(message: MsgTokenizeSharesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgTokenizeSharesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.amount !== undefined) {
       Coin.encode(message.amount, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTokenizeSharesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgTokenizeSharesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTokenizeSharesResponse();
     while (reader.pos < end) {
@@ -1235,9 +1233,7 @@ export const MsgTokenizeSharesResponse = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgTokenizeSharesResponse>, I>>(
-    object: I,
-  ): MsgTokenizeSharesResponse {
+  fromPartial(object: Partial<MsgTokenizeSharesResponse>): MsgTokenizeSharesResponse {
     const message = createBaseMsgTokenizeSharesResponse();
     if (object.amount !== undefined && object.amount !== null) {
       message.amount = Coin.fromPartial(object.amount);
@@ -1252,7 +1248,7 @@ function createBaseMsgRedeemTokensForShares(): MsgRedeemTokensForShares {
   };
 }
 export const MsgRedeemTokensForShares = {
-  encode(message: MsgRedeemTokensForShares, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgRedeemTokensForShares, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
@@ -1261,8 +1257,8 @@ export const MsgRedeemTokensForShares = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgRedeemTokensForShares {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgRedeemTokensForShares {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgRedeemTokensForShares();
     while (reader.pos < end) {
@@ -1293,9 +1289,7 @@ export const MsgRedeemTokensForShares = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgRedeemTokensForShares>, I>>(
-    object: I,
-  ): MsgRedeemTokensForShares {
+  fromPartial(object: Partial<MsgRedeemTokensForShares>): MsgRedeemTokensForShares {
     const message = createBaseMsgRedeemTokensForShares();
     message.delegatorAddress = object.delegatorAddress ?? "";
     if (object.amount !== undefined && object.amount !== null) {
@@ -1310,14 +1304,17 @@ function createBaseMsgRedeemTokensForSharesResponse(): MsgRedeemTokensForSharesR
   };
 }
 export const MsgRedeemTokensForSharesResponse = {
-  encode(message: MsgRedeemTokensForSharesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: MsgRedeemTokensForSharesResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.amount !== undefined) {
       Coin.encode(message.amount, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgRedeemTokensForSharesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgRedeemTokensForSharesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgRedeemTokensForSharesResponse();
     while (reader.pos < end) {
@@ -1343,9 +1340,7 @@ export const MsgRedeemTokensForSharesResponse = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgRedeemTokensForSharesResponse>, I>>(
-    object: I,
-  ): MsgRedeemTokensForSharesResponse {
+  fromPartial(object: Partial<MsgRedeemTokensForSharesResponse>): MsgRedeemTokensForSharesResponse {
     const message = createBaseMsgRedeemTokensForSharesResponse();
     if (object.amount !== undefined && object.amount !== null) {
       message.amount = Coin.fromPartial(object.amount);
@@ -1355,14 +1350,17 @@ export const MsgRedeemTokensForSharesResponse = {
 };
 function createBaseMsgTransferTokenizeShareRecord(): MsgTransferTokenizeShareRecord {
   return {
-    tokenizeShareRecordId: Long.UZERO,
+    tokenizeShareRecordId: BigInt(0),
     sender: "",
     newOwner: "",
   };
 }
 export const MsgTransferTokenizeShareRecord = {
-  encode(message: MsgTransferTokenizeShareRecord, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.tokenizeShareRecordId.isZero()) {
+  encode(
+    message: MsgTransferTokenizeShareRecord,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    if (message.tokenizeShareRecordId !== BigInt(0)) {
       writer.uint32(8).uint64(message.tokenizeShareRecordId);
     }
     if (message.sender !== "") {
@@ -1373,15 +1371,15 @@ export const MsgTransferTokenizeShareRecord = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransferTokenizeShareRecord {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgTransferTokenizeShareRecord {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTransferTokenizeShareRecord();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.tokenizeShareRecordId = reader.uint64() as Long;
+          message.tokenizeShareRecordId = reader.uint64();
           break;
         case 2:
           message.sender = reader.string();
@@ -1399,7 +1397,7 @@ export const MsgTransferTokenizeShareRecord = {
   fromJSON(object: any): MsgTransferTokenizeShareRecord {
     const obj = createBaseMsgTransferTokenizeShareRecord();
     if (isSet(object.tokenizeShareRecordId))
-      obj.tokenizeShareRecordId = Long.fromValue(object.tokenizeShareRecordId);
+      obj.tokenizeShareRecordId = BigInt(object.tokenizeShareRecordId.toString());
     if (isSet(object.sender)) obj.sender = String(object.sender);
     if (isSet(object.newOwner)) obj.newOwner = String(object.newOwner);
     return obj;
@@ -1407,17 +1405,15 @@ export const MsgTransferTokenizeShareRecord = {
   toJSON(message: MsgTransferTokenizeShareRecord): unknown {
     const obj: any = {};
     message.tokenizeShareRecordId !== undefined &&
-      (obj.tokenizeShareRecordId = (message.tokenizeShareRecordId || Long.UZERO).toString());
+      (obj.tokenizeShareRecordId = (message.tokenizeShareRecordId || BigInt(0)).toString());
     message.sender !== undefined && (obj.sender = message.sender);
     message.newOwner !== undefined && (obj.newOwner = message.newOwner);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgTransferTokenizeShareRecord>, I>>(
-    object: I,
-  ): MsgTransferTokenizeShareRecord {
+  fromPartial(object: Partial<MsgTransferTokenizeShareRecord>): MsgTransferTokenizeShareRecord {
     const message = createBaseMsgTransferTokenizeShareRecord();
     if (object.tokenizeShareRecordId !== undefined && object.tokenizeShareRecordId !== null) {
-      message.tokenizeShareRecordId = Long.fromValue(object.tokenizeShareRecordId);
+      message.tokenizeShareRecordId = BigInt(object.tokenizeShareRecordId.toString());
     }
     message.sender = object.sender ?? "";
     message.newOwner = object.newOwner ?? "";
@@ -1428,11 +1424,14 @@ function createBaseMsgTransferTokenizeShareRecordResponse(): MsgTransferTokenize
   return {};
 }
 export const MsgTransferTokenizeShareRecordResponse = {
-  encode(_: MsgTransferTokenizeShareRecordResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    _: MsgTransferTokenizeShareRecordResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgTransferTokenizeShareRecordResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgTransferTokenizeShareRecordResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgTransferTokenizeShareRecordResponse();
     while (reader.pos < end) {
@@ -1453,9 +1452,7 @@ export const MsgTransferTokenizeShareRecordResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgTransferTokenizeShareRecordResponse>, I>>(
-    _: I,
-  ): MsgTransferTokenizeShareRecordResponse {
+  fromPartial(_: Partial<MsgTransferTokenizeShareRecordResponse>): MsgTransferTokenizeShareRecordResponse {
     const message = createBaseMsgTransferTokenizeShareRecordResponse();
     return message;
   },
@@ -1466,14 +1463,14 @@ function createBaseMsgDisableTokenizeShares(): MsgDisableTokenizeShares {
   };
 }
 export const MsgDisableTokenizeShares = {
-  encode(message: MsgDisableTokenizeShares, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgDisableTokenizeShares, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDisableTokenizeShares {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgDisableTokenizeShares {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgDisableTokenizeShares();
     while (reader.pos < end) {
@@ -1499,9 +1496,7 @@ export const MsgDisableTokenizeShares = {
     message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgDisableTokenizeShares>, I>>(
-    object: I,
-  ): MsgDisableTokenizeShares {
+  fromPartial(object: Partial<MsgDisableTokenizeShares>): MsgDisableTokenizeShares {
     const message = createBaseMsgDisableTokenizeShares();
     message.delegatorAddress = object.delegatorAddress ?? "";
     return message;
@@ -1511,11 +1506,11 @@ function createBaseMsgDisableTokenizeSharesResponse(): MsgDisableTokenizeSharesR
   return {};
 }
 export const MsgDisableTokenizeSharesResponse = {
-  encode(_: MsgDisableTokenizeSharesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgDisableTokenizeSharesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDisableTokenizeSharesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgDisableTokenizeSharesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgDisableTokenizeSharesResponse();
     while (reader.pos < end) {
@@ -1536,9 +1531,7 @@ export const MsgDisableTokenizeSharesResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgDisableTokenizeSharesResponse>, I>>(
-    _: I,
-  ): MsgDisableTokenizeSharesResponse {
+  fromPartial(_: Partial<MsgDisableTokenizeSharesResponse>): MsgDisableTokenizeSharesResponse {
     const message = createBaseMsgDisableTokenizeSharesResponse();
     return message;
   },
@@ -1549,14 +1542,14 @@ function createBaseMsgEnableTokenizeShares(): MsgEnableTokenizeShares {
   };
 }
 export const MsgEnableTokenizeShares = {
-  encode(message: MsgEnableTokenizeShares, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgEnableTokenizeShares, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEnableTokenizeShares {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgEnableTokenizeShares {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgEnableTokenizeShares();
     while (reader.pos < end) {
@@ -1582,7 +1575,7 @@ export const MsgEnableTokenizeShares = {
     message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgEnableTokenizeShares>, I>>(object: I): MsgEnableTokenizeShares {
+  fromPartial(object: Partial<MsgEnableTokenizeShares>): MsgEnableTokenizeShares {
     const message = createBaseMsgEnableTokenizeShares();
     message.delegatorAddress = object.delegatorAddress ?? "";
     return message;
@@ -1594,14 +1587,17 @@ function createBaseMsgEnableTokenizeSharesResponse(): MsgEnableTokenizeSharesRes
   };
 }
 export const MsgEnableTokenizeSharesResponse = {
-  encode(message: MsgEnableTokenizeSharesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: MsgEnableTokenizeSharesResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.completionTime !== undefined) {
       Timestamp.encode(message.completionTime, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEnableTokenizeSharesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgEnableTokenizeSharesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgEnableTokenizeSharesResponse();
     while (reader.pos < end) {
@@ -1628,9 +1624,7 @@ export const MsgEnableTokenizeSharesResponse = {
       (obj.completionTime = fromTimestamp(message.completionTime).toISOString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgEnableTokenizeSharesResponse>, I>>(
-    object: I,
-  ): MsgEnableTokenizeSharesResponse {
+  fromPartial(object: Partial<MsgEnableTokenizeSharesResponse>): MsgEnableTokenizeSharesResponse {
     const message = createBaseMsgEnableTokenizeSharesResponse();
     if (object.completionTime !== undefined && object.completionTime !== null) {
       message.completionTime = Timestamp.fromPartial(object.completionTime);
@@ -1645,7 +1639,7 @@ function createBaseMsgValidatorBond(): MsgValidatorBond {
   };
 }
 export const MsgValidatorBond = {
-  encode(message: MsgValidatorBond, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgValidatorBond, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
@@ -1654,8 +1648,8 @@ export const MsgValidatorBond = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgValidatorBond {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgValidatorBond {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgValidatorBond();
     while (reader.pos < end) {
@@ -1686,7 +1680,7 @@ export const MsgValidatorBond = {
     message.validatorAddress !== undefined && (obj.validatorAddress = message.validatorAddress);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgValidatorBond>, I>>(object: I): MsgValidatorBond {
+  fromPartial(object: Partial<MsgValidatorBond>): MsgValidatorBond {
     const message = createBaseMsgValidatorBond();
     message.delegatorAddress = object.delegatorAddress ?? "";
     message.validatorAddress = object.validatorAddress ?? "";
@@ -1697,11 +1691,11 @@ function createBaseMsgValidatorBondResponse(): MsgValidatorBondResponse {
   return {};
 }
 export const MsgValidatorBondResponse = {
-  encode(_: MsgValidatorBondResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgValidatorBondResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgValidatorBondResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgValidatorBondResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgValidatorBondResponse();
     while (reader.pos < end) {
@@ -1722,7 +1716,7 @@ export const MsgValidatorBondResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgValidatorBondResponse>, I>>(_: I): MsgValidatorBondResponse {
+  fromPartial(_: Partial<MsgValidatorBondResponse>): MsgValidatorBondResponse {
     const message = createBaseMsgValidatorBondResponse();
     return message;
   },
@@ -1842,75 +1836,75 @@ export class MsgClientImpl implements Msg {
   CreateValidator(request: MsgCreateValidator): Promise<MsgCreateValidatorResponse> {
     const data = MsgCreateValidator.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "CreateValidator", data);
-    return promise.then((data) => MsgCreateValidatorResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgCreateValidatorResponse.decode(new BinaryReader(data)));
   }
   EditValidator(request: MsgEditValidator): Promise<MsgEditValidatorResponse> {
     const data = MsgEditValidator.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "EditValidator", data);
-    return promise.then((data) => MsgEditValidatorResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgEditValidatorResponse.decode(new BinaryReader(data)));
   }
   Delegate(request: MsgDelegate): Promise<MsgDelegateResponse> {
     const data = MsgDelegate.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "Delegate", data);
-    return promise.then((data) => MsgDelegateResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgDelegateResponse.decode(new BinaryReader(data)));
   }
   BeginRedelegate(request: MsgBeginRedelegate): Promise<MsgBeginRedelegateResponse> {
     const data = MsgBeginRedelegate.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "BeginRedelegate", data);
-    return promise.then((data) => MsgBeginRedelegateResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgBeginRedelegateResponse.decode(new BinaryReader(data)));
   }
   Undelegate(request: MsgUndelegate): Promise<MsgUndelegateResponse> {
     const data = MsgUndelegate.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "Undelegate", data);
-    return promise.then((data) => MsgUndelegateResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgUndelegateResponse.decode(new BinaryReader(data)));
   }
   CancelUnbondingDelegation(
     request: MsgCancelUnbondingDelegation,
   ): Promise<MsgCancelUnbondingDelegationResponse> {
     const data = MsgCancelUnbondingDelegation.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "CancelUnbondingDelegation", data);
-    return promise.then((data) => MsgCancelUnbondingDelegationResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgCancelUnbondingDelegationResponse.decode(new BinaryReader(data)));
   }
   UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse> {
     const data = MsgUpdateParams.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "UpdateParams", data);
-    return promise.then((data) => MsgUpdateParamsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgUpdateParamsResponse.decode(new BinaryReader(data)));
   }
   UnbondValidator(request: MsgUnbondValidator): Promise<MsgUnbondValidatorResponse> {
     const data = MsgUnbondValidator.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "UnbondValidator", data);
-    return promise.then((data) => MsgUnbondValidatorResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgUnbondValidatorResponse.decode(new BinaryReader(data)));
   }
   TokenizeShares(request: MsgTokenizeShares): Promise<MsgTokenizeSharesResponse> {
     const data = MsgTokenizeShares.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "TokenizeShares", data);
-    return promise.then((data) => MsgTokenizeSharesResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgTokenizeSharesResponse.decode(new BinaryReader(data)));
   }
   RedeemTokensForShares(request: MsgRedeemTokensForShares): Promise<MsgRedeemTokensForSharesResponse> {
     const data = MsgRedeemTokensForShares.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "RedeemTokensForShares", data);
-    return promise.then((data) => MsgRedeemTokensForSharesResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgRedeemTokensForSharesResponse.decode(new BinaryReader(data)));
   }
   TransferTokenizeShareRecord(
     request: MsgTransferTokenizeShareRecord,
   ): Promise<MsgTransferTokenizeShareRecordResponse> {
     const data = MsgTransferTokenizeShareRecord.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "TransferTokenizeShareRecord", data);
-    return promise.then((data) => MsgTransferTokenizeShareRecordResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgTransferTokenizeShareRecordResponse.decode(new BinaryReader(data)));
   }
   DisableTokenizeShares(request: MsgDisableTokenizeShares): Promise<MsgDisableTokenizeSharesResponse> {
     const data = MsgDisableTokenizeShares.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "DisableTokenizeShares", data);
-    return promise.then((data) => MsgDisableTokenizeSharesResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgDisableTokenizeSharesResponse.decode(new BinaryReader(data)));
   }
   EnableTokenizeShares(request: MsgEnableTokenizeShares): Promise<MsgEnableTokenizeSharesResponse> {
     const data = MsgEnableTokenizeShares.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "EnableTokenizeShares", data);
-    return promise.then((data) => MsgEnableTokenizeSharesResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgEnableTokenizeSharesResponse.decode(new BinaryReader(data)));
   }
   ValidatorBond(request: MsgValidatorBond): Promise<MsgValidatorBondResponse> {
     const data = MsgValidatorBond.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Msg", "ValidatorBond", data);
-    return promise.then((data) => MsgValidatorBondResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgValidatorBondResponse.decode(new BinaryReader(data)));
   }
 }

@@ -1,6 +1,5 @@
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, Exact } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 export const protobufPackage = "cosmos.nft.module.v1";
 /** Module is the config object of the nft module. */
 export interface Module {}
@@ -8,11 +7,11 @@ function createBaseModule(): Module {
   return {};
 }
 export const Module = {
-  encode(_: Module, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: Module, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Module {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Module {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseModule();
     while (reader.pos < end) {
@@ -33,7 +32,7 @@ export const Module = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Module>, I>>(_: I): Module {
+  fromPartial(_: Partial<Module>): Module {
     const message = createBaseModule();
     return message;
   },

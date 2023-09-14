@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { AllowListedValidators } from "./lscosmos";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "pstake.lscosmos.v1beta1";
 /** @deprecated */
 export interface MinDepositAndFeeChangeProposal {
@@ -37,7 +37,10 @@ function createBaseMinDepositAndFeeChangeProposal(): MinDepositAndFeeChangePropo
   };
 }
 export const MinDepositAndFeeChangeProposal = {
-  encode(message: MinDepositAndFeeChangeProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: MinDepositAndFeeChangeProposal,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -61,8 +64,8 @@ export const MinDepositAndFeeChangeProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MinDepositAndFeeChangeProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MinDepositAndFeeChangeProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMinDepositAndFeeChangeProposal();
     while (reader.pos < end) {
@@ -118,9 +121,7 @@ export const MinDepositAndFeeChangeProposal = {
     message.pstakeRedemptionFee !== undefined && (obj.pstakeRedemptionFee = message.pstakeRedemptionFee);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MinDepositAndFeeChangeProposal>, I>>(
-    object: I,
-  ): MinDepositAndFeeChangeProposal {
+  fromPartial(object: Partial<MinDepositAndFeeChangeProposal>): MinDepositAndFeeChangeProposal {
     const message = createBaseMinDepositAndFeeChangeProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -140,7 +141,10 @@ function createBasePstakeFeeAddressChangeProposal(): PstakeFeeAddressChangePropo
   };
 }
 export const PstakeFeeAddressChangeProposal = {
-  encode(message: PstakeFeeAddressChangeProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: PstakeFeeAddressChangeProposal,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -152,8 +156,8 @@ export const PstakeFeeAddressChangeProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): PstakeFeeAddressChangeProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): PstakeFeeAddressChangeProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePstakeFeeAddressChangeProposal();
     while (reader.pos < end) {
@@ -189,9 +193,7 @@ export const PstakeFeeAddressChangeProposal = {
     message.pstakeFeeAddress !== undefined && (obj.pstakeFeeAddress = message.pstakeFeeAddress);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<PstakeFeeAddressChangeProposal>, I>>(
-    object: I,
-  ): PstakeFeeAddressChangeProposal {
+  fromPartial(object: Partial<PstakeFeeAddressChangeProposal>): PstakeFeeAddressChangeProposal {
     const message = createBasePstakeFeeAddressChangeProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -209,8 +211,8 @@ function createBaseAllowListedValidatorSetChangeProposal(): AllowListedValidator
 export const AllowListedValidatorSetChangeProposal = {
   encode(
     message: AllowListedValidatorSetChangeProposal,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -222,8 +224,8 @@ export const AllowListedValidatorSetChangeProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): AllowListedValidatorSetChangeProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): AllowListedValidatorSetChangeProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAllowListedValidatorSetChangeProposal();
     while (reader.pos < end) {
@@ -263,9 +265,7 @@ export const AllowListedValidatorSetChangeProposal = {
         : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<AllowListedValidatorSetChangeProposal>, I>>(
-    object: I,
-  ): AllowListedValidatorSetChangeProposal {
+  fromPartial(object: Partial<AllowListedValidatorSetChangeProposal>): AllowListedValidatorSetChangeProposal {
     const message = createBaseAllowListedValidatorSetChangeProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { FileDescriptorProto } from "../../../google/protobuf/descriptor";
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, Exact, Rpc } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { Rpc } from "../../../helpers";
 export const protobufPackage = "cosmos.reflection.v1";
 /** FileDescriptorsRequest is the Query/FileDescriptors request type. */
 export interface FileDescriptorsRequest {}
@@ -14,11 +14,11 @@ function createBaseFileDescriptorsRequest(): FileDescriptorsRequest {
   return {};
 }
 export const FileDescriptorsRequest = {
-  encode(_: FileDescriptorsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: FileDescriptorsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): FileDescriptorsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): FileDescriptorsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseFileDescriptorsRequest();
     while (reader.pos < end) {
@@ -39,7 +39,7 @@ export const FileDescriptorsRequest = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<FileDescriptorsRequest>, I>>(_: I): FileDescriptorsRequest {
+  fromPartial(_: Partial<FileDescriptorsRequest>): FileDescriptorsRequest {
     const message = createBaseFileDescriptorsRequest();
     return message;
   },
@@ -50,14 +50,14 @@ function createBaseFileDescriptorsResponse(): FileDescriptorsResponse {
   };
 }
 export const FileDescriptorsResponse = {
-  encode(message: FileDescriptorsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: FileDescriptorsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.files) {
       FileDescriptorProto.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): FileDescriptorsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): FileDescriptorsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseFileDescriptorsResponse();
     while (reader.pos < end) {
@@ -88,7 +88,7 @@ export const FileDescriptorsResponse = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<FileDescriptorsResponse>, I>>(object: I): FileDescriptorsResponse {
+  fromPartial(object: Partial<FileDescriptorsResponse>): FileDescriptorsResponse {
     const message = createBaseFileDescriptorsResponse();
     message.files = object.files?.map((e) => FileDescriptorProto.fromPartial(e)) || [];
     return message;
@@ -112,6 +112,6 @@ export class ReflectionServiceClientImpl implements ReflectionService {
   FileDescriptors(request: FileDescriptorsRequest = {}): Promise<FileDescriptorsResponse> {
     const data = FileDescriptorsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.reflection.v1.ReflectionService", "FileDescriptors", data);
-    return promise.then((data) => FileDescriptorsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => FileDescriptorsResponse.decode(new BinaryReader(data)));
   }
 }

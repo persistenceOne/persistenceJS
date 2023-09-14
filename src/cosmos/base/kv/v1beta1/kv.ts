@@ -1,6 +1,6 @@
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
-import { DeepPartial, Exact, isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "cosmos.base.kv.v1beta1";
 /** Pairs defines a repeated slice of Pair objects. */
 export interface Pairs {
@@ -17,14 +17,14 @@ function createBasePairs(): Pairs {
   };
 }
 export const Pairs = {
-  encode(message: Pairs, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Pairs, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.pairs) {
       Pair.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Pairs {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Pairs {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePairs();
     while (reader.pos < end) {
@@ -54,7 +54,7 @@ export const Pairs = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Pairs>, I>>(object: I): Pairs {
+  fromPartial(object: Partial<Pairs>): Pairs {
     const message = createBasePairs();
     message.pairs = object.pairs?.map((e) => Pair.fromPartial(e)) || [];
     return message;
@@ -67,7 +67,7 @@ function createBasePair(): Pair {
   };
 }
 export const Pair = {
-  encode(message: Pair, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Pair, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
     }
@@ -76,8 +76,8 @@ export const Pair = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Pair {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Pair {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePair();
     while (reader.pos < end) {
@@ -110,7 +110,7 @@ export const Pair = {
       (obj.value = base64FromBytes(message.value !== undefined ? message.value : new Uint8Array()));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Pair>, I>>(object: I): Pair {
+  fromPartial(object: Partial<Pair>): Pair {
     const message = createBasePair();
     message.key = object.key ?? new Uint8Array();
     message.value = object.value ?? new Uint8Array();

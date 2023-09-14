@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { Any } from "../../../../google/protobuf/any";
 import { BIP44Params } from "../../hd/v1/hd";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "cosmos.crypto.keyring.v1";
 /** Record is used for representing a key in the keyring. */
 export interface Record {
@@ -45,7 +45,7 @@ function createBaseRecord(): Record {
   };
 }
 export const Record = {
-  encode(message: Record, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Record, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -66,8 +66,8 @@ export const Record = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Record {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Record {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRecord();
     while (reader.pos < end) {
@@ -122,7 +122,7 @@ export const Record = {
       (obj.offline = message.offline ? Record_Offline.toJSON(message.offline) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Record>, I>>(object: I): Record {
+  fromPartial(object: Partial<Record>): Record {
     const message = createBaseRecord();
     message.name = object.name ?? "";
     if (object.pubKey !== undefined && object.pubKey !== null) {
@@ -149,14 +149,14 @@ function createBaseRecord_Local(): Record_Local {
   };
 }
 export const Record_Local = {
-  encode(message: Record_Local, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Record_Local, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.privKey !== undefined) {
       Any.encode(message.privKey, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Record_Local {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Record_Local {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRecord_Local();
     while (reader.pos < end) {
@@ -183,7 +183,7 @@ export const Record_Local = {
       (obj.privKey = message.privKey ? Any.toJSON(message.privKey) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Record_Local>, I>>(object: I): Record_Local {
+  fromPartial(object: Partial<Record_Local>): Record_Local {
     const message = createBaseRecord_Local();
     if (object.privKey !== undefined && object.privKey !== null) {
       message.privKey = Any.fromPartial(object.privKey);
@@ -197,14 +197,14 @@ function createBaseRecord_Ledger(): Record_Ledger {
   };
 }
 export const Record_Ledger = {
-  encode(message: Record_Ledger, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Record_Ledger, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.path !== undefined) {
       BIP44Params.encode(message.path, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Record_Ledger {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Record_Ledger {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRecord_Ledger();
     while (reader.pos < end) {
@@ -230,7 +230,7 @@ export const Record_Ledger = {
     message.path !== undefined && (obj.path = message.path ? BIP44Params.toJSON(message.path) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Record_Ledger>, I>>(object: I): Record_Ledger {
+  fromPartial(object: Partial<Record_Ledger>): Record_Ledger {
     const message = createBaseRecord_Ledger();
     if (object.path !== undefined && object.path !== null) {
       message.path = BIP44Params.fromPartial(object.path);
@@ -242,11 +242,11 @@ function createBaseRecord_Multi(): Record_Multi {
   return {};
 }
 export const Record_Multi = {
-  encode(_: Record_Multi, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: Record_Multi, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Record_Multi {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Record_Multi {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRecord_Multi();
     while (reader.pos < end) {
@@ -267,7 +267,7 @@ export const Record_Multi = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Record_Multi>, I>>(_: I): Record_Multi {
+  fromPartial(_: Partial<Record_Multi>): Record_Multi {
     const message = createBaseRecord_Multi();
     return message;
   },
@@ -276,11 +276,11 @@ function createBaseRecord_Offline(): Record_Offline {
   return {};
 }
 export const Record_Offline = {
-  encode(_: Record_Offline, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: Record_Offline, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Record_Offline {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Record_Offline {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRecord_Offline();
     while (reader.pos < end) {
@@ -301,7 +301,7 @@ export const Record_Offline = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Record_Offline>, I>>(_: I): Record_Offline {
+  fromPartial(_: Partial<Record_Offline>): Record_Offline {
     const message = createBaseRecord_Offline();
     return message;
   },

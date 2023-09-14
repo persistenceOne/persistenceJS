@@ -6,17 +6,14 @@ import { Timestamp } from "../../../../google/protobuf/timestamp";
 import { MerkleRoot } from "../../../core/commitment/v1/commitment";
 import { SignedHeader } from "../../../../tendermint/types/types";
 import { ValidatorSet } from "../../../../tendermint/types/validator";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
 import {
-  Long,
   isSet,
-  DeepPartial,
-  Exact,
   fromJsonTimestamp,
   bytesFromBase64,
   fromTimestamp,
   base64FromBytes,
 } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
 export const protobufPackage = "ibc.lightclients.tendermint.v1";
 /**
  * ClientState from Tendermint tracks the current validator set, latest height,
@@ -104,8 +101,8 @@ export interface Header {
  * supports positive values.
  */
 export interface Fraction {
-  numerator: Long;
-  denominator: Long;
+  numerator: bigint;
+  denominator: bigint;
 }
 function createBaseClientState(): ClientState {
   return {
@@ -123,7 +120,7 @@ function createBaseClientState(): ClientState {
   };
 }
 export const ClientState = {
-  encode(message: ClientState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ClientState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.chainId !== "") {
       writer.uint32(10).string(message.chainId);
     }
@@ -159,8 +156,8 @@ export const ClientState = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ClientState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ClientState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClientState();
     while (reader.pos < end) {
@@ -255,7 +252,7 @@ export const ClientState = {
       (obj.allowUpdateAfterMisbehaviour = message.allowUpdateAfterMisbehaviour);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ClientState>, I>>(object: I): ClientState {
+  fromPartial(object: Partial<ClientState>): ClientState {
     const message = createBaseClientState();
     message.chainId = object.chainId ?? "";
     if (object.trustLevel !== undefined && object.trustLevel !== null) {
@@ -291,7 +288,7 @@ function createBaseConsensusState(): ConsensusState {
   };
 }
 export const ConsensusState = {
-  encode(message: ConsensusState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConsensusState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.timestamp !== undefined) {
       Timestamp.encode(message.timestamp, writer.uint32(10).fork()).ldelim();
     }
@@ -303,8 +300,8 @@ export const ConsensusState = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConsensusState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConsensusState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConsensusState();
     while (reader.pos < end) {
@@ -343,7 +340,7 @@ export const ConsensusState = {
       ));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ConsensusState>, I>>(object: I): ConsensusState {
+  fromPartial(object: Partial<ConsensusState>): ConsensusState {
     const message = createBaseConsensusState();
     if (object.timestamp !== undefined && object.timestamp !== null) {
       message.timestamp = Timestamp.fromPartial(object.timestamp);
@@ -363,7 +360,7 @@ function createBaseMisbehaviour(): Misbehaviour {
   };
 }
 export const Misbehaviour = {
-  encode(message: Misbehaviour, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Misbehaviour, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
@@ -375,8 +372,8 @@ export const Misbehaviour = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Misbehaviour {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Misbehaviour {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMisbehaviour();
     while (reader.pos < end) {
@@ -414,7 +411,7 @@ export const Misbehaviour = {
       (obj.header2 = message.header2 ? Header.toJSON(message.header2) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Misbehaviour>, I>>(object: I): Misbehaviour {
+  fromPartial(object: Partial<Misbehaviour>): Misbehaviour {
     const message = createBaseMisbehaviour();
     message.clientId = object.clientId ?? "";
     if (object.header1 !== undefined && object.header1 !== null) {
@@ -435,7 +432,7 @@ function createBaseHeader(): Header {
   };
 }
 export const Header = {
-  encode(message: Header, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Header, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.signedHeader !== undefined) {
       SignedHeader.encode(message.signedHeader, writer.uint32(10).fork()).ldelim();
     }
@@ -450,8 +447,8 @@ export const Header = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Header {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Header {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHeader();
     while (reader.pos < end) {
@@ -499,7 +496,7 @@ export const Header = {
         : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Header>, I>>(object: I): Header {
+  fromPartial(object: Partial<Header>): Header {
     const message = createBaseHeader();
     if (object.signedHeader !== undefined && object.signedHeader !== null) {
       message.signedHeader = SignedHeader.fromPartial(object.signedHeader);
@@ -518,32 +515,32 @@ export const Header = {
 };
 function createBaseFraction(): Fraction {
   return {
-    numerator: Long.UZERO,
-    denominator: Long.UZERO,
+    numerator: BigInt(0),
+    denominator: BigInt(0),
   };
 }
 export const Fraction = {
-  encode(message: Fraction, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.numerator.isZero()) {
+  encode(message: Fraction, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.numerator !== BigInt(0)) {
       writer.uint32(8).uint64(message.numerator);
     }
-    if (!message.denominator.isZero()) {
+    if (message.denominator !== BigInt(0)) {
       writer.uint32(16).uint64(message.denominator);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Fraction {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Fraction {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseFraction();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.numerator = reader.uint64() as Long;
+          message.numerator = reader.uint64();
           break;
         case 2:
-          message.denominator = reader.uint64() as Long;
+          message.denominator = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -554,23 +551,23 @@ export const Fraction = {
   },
   fromJSON(object: any): Fraction {
     const obj = createBaseFraction();
-    if (isSet(object.numerator)) obj.numerator = Long.fromValue(object.numerator);
-    if (isSet(object.denominator)) obj.denominator = Long.fromValue(object.denominator);
+    if (isSet(object.numerator)) obj.numerator = BigInt(object.numerator.toString());
+    if (isSet(object.denominator)) obj.denominator = BigInt(object.denominator.toString());
     return obj;
   },
   toJSON(message: Fraction): unknown {
     const obj: any = {};
-    message.numerator !== undefined && (obj.numerator = (message.numerator || Long.UZERO).toString());
-    message.denominator !== undefined && (obj.denominator = (message.denominator || Long.UZERO).toString());
+    message.numerator !== undefined && (obj.numerator = (message.numerator || BigInt(0)).toString());
+    message.denominator !== undefined && (obj.denominator = (message.denominator || BigInt(0)).toString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Fraction>, I>>(object: I): Fraction {
+  fromPartial(object: Partial<Fraction>): Fraction {
     const message = createBaseFraction();
     if (object.numerator !== undefined && object.numerator !== null) {
-      message.numerator = Long.fromValue(object.numerator);
+      message.numerator = BigInt(object.numerator.toString());
     }
     if (object.denominator !== undefined && object.denominator !== null) {
-      message.denominator = Long.fromValue(object.denominator);
+      message.denominator = BigInt(object.denominator.toString());
     }
     return message;
   },

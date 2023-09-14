@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
 import { AllowListedValidators, PstakeParams, HostAccounts } from "./lscosmos";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, DeepPartial, Exact, Rpc } from "../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, Rpc } from "../../../helpers";
 export const protobufPackage = "pstake.lscosmos.v1beta1";
 export interface MsgLiquidStake {
   delegatorAddress: string;
@@ -58,7 +58,7 @@ function createBaseMsgLiquidStake(): MsgLiquidStake {
   };
 }
 export const MsgLiquidStake = {
-  encode(message: MsgLiquidStake, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgLiquidStake, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
@@ -67,8 +67,8 @@ export const MsgLiquidStake = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgLiquidStake {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgLiquidStake {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgLiquidStake();
     while (reader.pos < end) {
@@ -99,7 +99,7 @@ export const MsgLiquidStake = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgLiquidStake>, I>>(object: I): MsgLiquidStake {
+  fromPartial(object: Partial<MsgLiquidStake>): MsgLiquidStake {
     const message = createBaseMsgLiquidStake();
     message.delegatorAddress = object.delegatorAddress ?? "";
     if (object.amount !== undefined && object.amount !== null) {
@@ -112,11 +112,11 @@ function createBaseMsgLiquidStakeResponse(): MsgLiquidStakeResponse {
   return {};
 }
 export const MsgLiquidStakeResponse = {
-  encode(_: MsgLiquidStakeResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgLiquidStakeResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgLiquidStakeResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgLiquidStakeResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgLiquidStakeResponse();
     while (reader.pos < end) {
@@ -137,7 +137,7 @@ export const MsgLiquidStakeResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgLiquidStakeResponse>, I>>(_: I): MsgLiquidStakeResponse {
+  fromPartial(_: Partial<MsgLiquidStakeResponse>): MsgLiquidStakeResponse {
     const message = createBaseMsgLiquidStakeResponse();
     return message;
   },
@@ -149,7 +149,7 @@ function createBaseMsgLiquidUnstake(): MsgLiquidUnstake {
   };
 }
 export const MsgLiquidUnstake = {
-  encode(message: MsgLiquidUnstake, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgLiquidUnstake, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
@@ -158,8 +158,8 @@ export const MsgLiquidUnstake = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgLiquidUnstake {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgLiquidUnstake {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgLiquidUnstake();
     while (reader.pos < end) {
@@ -190,7 +190,7 @@ export const MsgLiquidUnstake = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgLiquidUnstake>, I>>(object: I): MsgLiquidUnstake {
+  fromPartial(object: Partial<MsgLiquidUnstake>): MsgLiquidUnstake {
     const message = createBaseMsgLiquidUnstake();
     message.delegatorAddress = object.delegatorAddress ?? "";
     if (object.amount !== undefined && object.amount !== null) {
@@ -203,11 +203,11 @@ function createBaseMsgLiquidUnstakeResponse(): MsgLiquidUnstakeResponse {
   return {};
 }
 export const MsgLiquidUnstakeResponse = {
-  encode(_: MsgLiquidUnstakeResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgLiquidUnstakeResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgLiquidUnstakeResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgLiquidUnstakeResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgLiquidUnstakeResponse();
     while (reader.pos < end) {
@@ -228,7 +228,7 @@ export const MsgLiquidUnstakeResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgLiquidUnstakeResponse>, I>>(_: I): MsgLiquidUnstakeResponse {
+  fromPartial(_: Partial<MsgLiquidUnstakeResponse>): MsgLiquidUnstakeResponse {
     const message = createBaseMsgLiquidUnstakeResponse();
     return message;
   },
@@ -240,7 +240,7 @@ function createBaseMsgRedeem(): MsgRedeem {
   };
 }
 export const MsgRedeem = {
-  encode(message: MsgRedeem, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgRedeem, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
@@ -249,8 +249,8 @@ export const MsgRedeem = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgRedeem {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgRedeem {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgRedeem();
     while (reader.pos < end) {
@@ -281,7 +281,7 @@ export const MsgRedeem = {
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgRedeem>, I>>(object: I): MsgRedeem {
+  fromPartial(object: Partial<MsgRedeem>): MsgRedeem {
     const message = createBaseMsgRedeem();
     message.delegatorAddress = object.delegatorAddress ?? "";
     if (object.amount !== undefined && object.amount !== null) {
@@ -294,11 +294,11 @@ function createBaseMsgRedeemResponse(): MsgRedeemResponse {
   return {};
 }
 export const MsgRedeemResponse = {
-  encode(_: MsgRedeemResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgRedeemResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgRedeemResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgRedeemResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgRedeemResponse();
     while (reader.pos < end) {
@@ -319,7 +319,7 @@ export const MsgRedeemResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgRedeemResponse>, I>>(_: I): MsgRedeemResponse {
+  fromPartial(_: Partial<MsgRedeemResponse>): MsgRedeemResponse {
     const message = createBaseMsgRedeemResponse();
     return message;
   },
@@ -330,14 +330,14 @@ function createBaseMsgClaim(): MsgClaim {
   };
 }
 export const MsgClaim = {
-  encode(message: MsgClaim, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgClaim, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.delegatorAddress !== "") {
       writer.uint32(10).string(message.delegatorAddress);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgClaim {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgClaim {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgClaim();
     while (reader.pos < end) {
@@ -363,7 +363,7 @@ export const MsgClaim = {
     message.delegatorAddress !== undefined && (obj.delegatorAddress = message.delegatorAddress);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgClaim>, I>>(object: I): MsgClaim {
+  fromPartial(object: Partial<MsgClaim>): MsgClaim {
     const message = createBaseMsgClaim();
     message.delegatorAddress = object.delegatorAddress ?? "";
     return message;
@@ -373,11 +373,11 @@ function createBaseMsgClaimResponse(): MsgClaimResponse {
   return {};
 }
 export const MsgClaimResponse = {
-  encode(_: MsgClaimResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgClaimResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgClaimResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgClaimResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgClaimResponse();
     while (reader.pos < end) {
@@ -398,7 +398,7 @@ export const MsgClaimResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgClaimResponse>, I>>(_: I): MsgClaimResponse {
+  fromPartial(_: Partial<MsgClaimResponse>): MsgClaimResponse {
     const message = createBaseMsgClaimResponse();
     return message;
   },
@@ -409,14 +409,14 @@ function createBaseMsgRecreateICA(): MsgRecreateICA {
   };
 }
 export const MsgRecreateICA = {
-  encode(message: MsgRecreateICA, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgRecreateICA, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.fromAddress !== "") {
       writer.uint32(10).string(message.fromAddress);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgRecreateICA {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgRecreateICA {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgRecreateICA();
     while (reader.pos < end) {
@@ -442,7 +442,7 @@ export const MsgRecreateICA = {
     message.fromAddress !== undefined && (obj.fromAddress = message.fromAddress);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgRecreateICA>, I>>(object: I): MsgRecreateICA {
+  fromPartial(object: Partial<MsgRecreateICA>): MsgRecreateICA {
     const message = createBaseMsgRecreateICA();
     message.fromAddress = object.fromAddress ?? "";
     return message;
@@ -452,11 +452,11 @@ function createBaseMsgRecreateICAResponse(): MsgRecreateICAResponse {
   return {};
 }
 export const MsgRecreateICAResponse = {
-  encode(_: MsgRecreateICAResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgRecreateICAResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgRecreateICAResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgRecreateICAResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgRecreateICAResponse();
     while (reader.pos < end) {
@@ -477,7 +477,7 @@ export const MsgRecreateICAResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgRecreateICAResponse>, I>>(_: I): MsgRecreateICAResponse {
+  fromPartial(_: Partial<MsgRecreateICAResponse>): MsgRecreateICAResponse {
     const message = createBaseMsgRecreateICAResponse();
     return message;
   },
@@ -498,7 +498,7 @@ function createBaseMsgJumpStart(): MsgJumpStart {
   };
 }
 export const MsgJumpStart = {
-  encode(message: MsgJumpStart, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgJumpStart, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pstakeAddress !== "") {
       writer.uint32(10).string(message.pstakeAddress);
     }
@@ -534,8 +534,8 @@ export const MsgJumpStart = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgJumpStart {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgJumpStart {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgJumpStart();
     while (reader.pos < end) {
@@ -617,7 +617,7 @@ export const MsgJumpStart = {
       (obj.hostAccounts = message.hostAccounts ? HostAccounts.toJSON(message.hostAccounts) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgJumpStart>, I>>(object: I): MsgJumpStart {
+  fromPartial(object: Partial<MsgJumpStart>): MsgJumpStart {
     const message = createBaseMsgJumpStart();
     message.pstakeAddress = object.pstakeAddress ?? "";
     message.chainID = object.chainID ?? "";
@@ -643,11 +643,11 @@ function createBaseMsgJumpStartResponse(): MsgJumpStartResponse {
   return {};
 }
 export const MsgJumpStartResponse = {
-  encode(_: MsgJumpStartResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgJumpStartResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgJumpStartResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgJumpStartResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgJumpStartResponse();
     while (reader.pos < end) {
@@ -668,7 +668,7 @@ export const MsgJumpStartResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgJumpStartResponse>, I>>(_: I): MsgJumpStartResponse {
+  fromPartial(_: Partial<MsgJumpStartResponse>): MsgJumpStartResponse {
     const message = createBaseMsgJumpStartResponse();
     return message;
   },
@@ -680,7 +680,7 @@ function createBaseMsgChangeModuleState(): MsgChangeModuleState {
   };
 }
 export const MsgChangeModuleState = {
-  encode(message: MsgChangeModuleState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgChangeModuleState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pstakeAddress !== "") {
       writer.uint32(10).string(message.pstakeAddress);
     }
@@ -689,8 +689,8 @@ export const MsgChangeModuleState = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChangeModuleState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChangeModuleState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChangeModuleState();
     while (reader.pos < end) {
@@ -721,7 +721,7 @@ export const MsgChangeModuleState = {
     message.moduleState !== undefined && (obj.moduleState = message.moduleState);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgChangeModuleState>, I>>(object: I): MsgChangeModuleState {
+  fromPartial(object: Partial<MsgChangeModuleState>): MsgChangeModuleState {
     const message = createBaseMsgChangeModuleState();
     message.pstakeAddress = object.pstakeAddress ?? "";
     message.moduleState = object.moduleState ?? false;
@@ -732,11 +732,11 @@ function createBaseMsgChangeModuleStateResponse(): MsgChangeModuleStateResponse 
   return {};
 }
 export const MsgChangeModuleStateResponse = {
-  encode(_: MsgChangeModuleStateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgChangeModuleStateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChangeModuleStateResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgChangeModuleStateResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgChangeModuleStateResponse();
     while (reader.pos < end) {
@@ -757,9 +757,7 @@ export const MsgChangeModuleStateResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgChangeModuleStateResponse>, I>>(
-    _: I,
-  ): MsgChangeModuleStateResponse {
+  fromPartial(_: Partial<MsgChangeModuleStateResponse>): MsgChangeModuleStateResponse {
     const message = createBaseMsgChangeModuleStateResponse();
     return message;
   },
@@ -771,7 +769,7 @@ function createBaseMsgReportSlashing(): MsgReportSlashing {
   };
 }
 export const MsgReportSlashing = {
-  encode(message: MsgReportSlashing, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MsgReportSlashing, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pstakeAddress !== "") {
       writer.uint32(10).string(message.pstakeAddress);
     }
@@ -780,8 +778,8 @@ export const MsgReportSlashing = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgReportSlashing {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgReportSlashing {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgReportSlashing();
     while (reader.pos < end) {
@@ -812,7 +810,7 @@ export const MsgReportSlashing = {
     message.validatorAddress !== undefined && (obj.validatorAddress = message.validatorAddress);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgReportSlashing>, I>>(object: I): MsgReportSlashing {
+  fromPartial(object: Partial<MsgReportSlashing>): MsgReportSlashing {
     const message = createBaseMsgReportSlashing();
     message.pstakeAddress = object.pstakeAddress ?? "";
     message.validatorAddress = object.validatorAddress ?? "";
@@ -823,11 +821,11 @@ function createBaseMsgReportSlashingResponse(): MsgReportSlashingResponse {
   return {};
 }
 export const MsgReportSlashingResponse = {
-  encode(_: MsgReportSlashingResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(_: MsgReportSlashingResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgReportSlashingResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgReportSlashingResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgReportSlashingResponse();
     while (reader.pos < end) {
@@ -848,7 +846,7 @@ export const MsgReportSlashingResponse = {
     const obj: any = {};
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MsgReportSlashingResponse>, I>>(_: I): MsgReportSlashingResponse {
+  fromPartial(_: Partial<MsgReportSlashingResponse>): MsgReportSlashingResponse {
     const message = createBaseMsgReportSlashingResponse();
     return message;
   },
@@ -880,41 +878,41 @@ export class MsgClientImpl implements Msg {
   LiquidStake(request: MsgLiquidStake): Promise<MsgLiquidStakeResponse> {
     const data = MsgLiquidStake.encode(request).finish();
     const promise = this.rpc.request("pstake.lscosmos.v1beta1.Msg", "LiquidStake", data);
-    return promise.then((data) => MsgLiquidStakeResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgLiquidStakeResponse.decode(new BinaryReader(data)));
   }
   LiquidUnstake(request: MsgLiquidUnstake): Promise<MsgLiquidUnstakeResponse> {
     const data = MsgLiquidUnstake.encode(request).finish();
     const promise = this.rpc.request("pstake.lscosmos.v1beta1.Msg", "LiquidUnstake", data);
-    return promise.then((data) => MsgLiquidUnstakeResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgLiquidUnstakeResponse.decode(new BinaryReader(data)));
   }
   Redeem(request: MsgRedeem): Promise<MsgRedeemResponse> {
     const data = MsgRedeem.encode(request).finish();
     const promise = this.rpc.request("pstake.lscosmos.v1beta1.Msg", "Redeem", data);
-    return promise.then((data) => MsgRedeemResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgRedeemResponse.decode(new BinaryReader(data)));
   }
   Claim(request: MsgClaim): Promise<MsgClaimResponse> {
     const data = MsgClaim.encode(request).finish();
     const promise = this.rpc.request("pstake.lscosmos.v1beta1.Msg", "Claim", data);
-    return promise.then((data) => MsgClaimResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgClaimResponse.decode(new BinaryReader(data)));
   }
   RecreateICA(request: MsgRecreateICA): Promise<MsgRecreateICAResponse> {
     const data = MsgRecreateICA.encode(request).finish();
     const promise = this.rpc.request("pstake.lscosmos.v1beta1.Msg", "RecreateICA", data);
-    return promise.then((data) => MsgRecreateICAResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgRecreateICAResponse.decode(new BinaryReader(data)));
   }
   JumpStart(request: MsgJumpStart): Promise<MsgJumpStartResponse> {
     const data = MsgJumpStart.encode(request).finish();
     const promise = this.rpc.request("pstake.lscosmos.v1beta1.Msg", "JumpStart", data);
-    return promise.then((data) => MsgJumpStartResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgJumpStartResponse.decode(new BinaryReader(data)));
   }
   ChangeModuleState(request: MsgChangeModuleState): Promise<MsgChangeModuleStateResponse> {
     const data = MsgChangeModuleState.encode(request).finish();
     const promise = this.rpc.request("pstake.lscosmos.v1beta1.Msg", "ChangeModuleState", data);
-    return promise.then((data) => MsgChangeModuleStateResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgChangeModuleStateResponse.decode(new BinaryReader(data)));
   }
   ReportSlashing(request: MsgReportSlashing): Promise<MsgReportSlashingResponse> {
     const data = MsgReportSlashing.encode(request).finish();
     const promise = this.rpc.request("pstake.lscosmos.v1beta1.Msg", "ReportSlashing", data);
-    return promise.then((data) => MsgReportSlashingResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => MsgReportSlashingResponse.decode(new BinaryReader(data)));
   }
 }

@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { PageRequest, PageResponse } from "../../base/query/v1beta1/pagination";
 import { NFT, Class } from "./nft";
-import { Long, isSet, DeepPartial, Exact, Rpc } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, Rpc } from "../../../helpers";
 export const protobufPackage = "cosmos.nft.v1beta1";
 /** QueryBalanceRequest is the request type for the Query/Balance RPC method */
 export interface QueryBalanceRequest {
@@ -14,7 +14,7 @@ export interface QueryBalanceRequest {
 /** QueryBalanceResponse is the response type for the Query/Balance RPC method */
 export interface QueryBalanceResponse {
   /** amount is the number of all NFTs of a given class owned by the owner */
-  amount: Long;
+  amount: bigint;
 }
 /** QueryOwnerRequest is the request type for the Query/Owner RPC method */
 export interface QueryOwnerRequest {
@@ -36,7 +36,7 @@ export interface QuerySupplyRequest {
 /** QuerySupplyResponse is the response type for the Query/Supply RPC method */
 export interface QuerySupplyResponse {
   /** amount is the number of all NFTs from the given class */
-  amount: Long;
+  amount: bigint;
 }
 /** QueryNFTstRequest is the request type for the Query/NFTs RPC method */
 export interface QueryNFTsRequest {
@@ -95,7 +95,7 @@ function createBaseQueryBalanceRequest(): QueryBalanceRequest {
   };
 }
 export const QueryBalanceRequest = {
-  encode(message: QueryBalanceRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryBalanceRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
@@ -104,8 +104,8 @@ export const QueryBalanceRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryBalanceRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryBalanceRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryBalanceRequest();
     while (reader.pos < end) {
@@ -136,7 +136,7 @@ export const QueryBalanceRequest = {
     message.owner !== undefined && (obj.owner = message.owner);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryBalanceRequest>, I>>(object: I): QueryBalanceRequest {
+  fromPartial(object: Partial<QueryBalanceRequest>): QueryBalanceRequest {
     const message = createBaseQueryBalanceRequest();
     message.classId = object.classId ?? "";
     message.owner = object.owner ?? "";
@@ -145,25 +145,25 @@ export const QueryBalanceRequest = {
 };
 function createBaseQueryBalanceResponse(): QueryBalanceResponse {
   return {
-    amount: Long.UZERO,
+    amount: BigInt(0),
   };
 }
 export const QueryBalanceResponse = {
-  encode(message: QueryBalanceResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.amount.isZero()) {
+  encode(message: QueryBalanceResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.amount !== BigInt(0)) {
       writer.uint32(8).uint64(message.amount);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryBalanceResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryBalanceResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryBalanceResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.amount = reader.uint64() as Long;
+          message.amount = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -174,18 +174,18 @@ export const QueryBalanceResponse = {
   },
   fromJSON(object: any): QueryBalanceResponse {
     const obj = createBaseQueryBalanceResponse();
-    if (isSet(object.amount)) obj.amount = Long.fromValue(object.amount);
+    if (isSet(object.amount)) obj.amount = BigInt(object.amount.toString());
     return obj;
   },
   toJSON(message: QueryBalanceResponse): unknown {
     const obj: any = {};
-    message.amount !== undefined && (obj.amount = (message.amount || Long.UZERO).toString());
+    message.amount !== undefined && (obj.amount = (message.amount || BigInt(0)).toString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryBalanceResponse>, I>>(object: I): QueryBalanceResponse {
+  fromPartial(object: Partial<QueryBalanceResponse>): QueryBalanceResponse {
     const message = createBaseQueryBalanceResponse();
     if (object.amount !== undefined && object.amount !== null) {
-      message.amount = Long.fromValue(object.amount);
+      message.amount = BigInt(object.amount.toString());
     }
     return message;
   },
@@ -197,7 +197,7 @@ function createBaseQueryOwnerRequest(): QueryOwnerRequest {
   };
 }
 export const QueryOwnerRequest = {
-  encode(message: QueryOwnerRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryOwnerRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
@@ -206,8 +206,8 @@ export const QueryOwnerRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryOwnerRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryOwnerRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryOwnerRequest();
     while (reader.pos < end) {
@@ -238,7 +238,7 @@ export const QueryOwnerRequest = {
     message.id !== undefined && (obj.id = message.id);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryOwnerRequest>, I>>(object: I): QueryOwnerRequest {
+  fromPartial(object: Partial<QueryOwnerRequest>): QueryOwnerRequest {
     const message = createBaseQueryOwnerRequest();
     message.classId = object.classId ?? "";
     message.id = object.id ?? "";
@@ -251,14 +251,14 @@ function createBaseQueryOwnerResponse(): QueryOwnerResponse {
   };
 }
 export const QueryOwnerResponse = {
-  encode(message: QueryOwnerResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryOwnerResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryOwnerResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryOwnerResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryOwnerResponse();
     while (reader.pos < end) {
@@ -284,7 +284,7 @@ export const QueryOwnerResponse = {
     message.owner !== undefined && (obj.owner = message.owner);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryOwnerResponse>, I>>(object: I): QueryOwnerResponse {
+  fromPartial(object: Partial<QueryOwnerResponse>): QueryOwnerResponse {
     const message = createBaseQueryOwnerResponse();
     message.owner = object.owner ?? "";
     return message;
@@ -296,14 +296,14 @@ function createBaseQuerySupplyRequest(): QuerySupplyRequest {
   };
 }
 export const QuerySupplyRequest = {
-  encode(message: QuerySupplyRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QuerySupplyRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySupplyRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuerySupplyRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySupplyRequest();
     while (reader.pos < end) {
@@ -329,7 +329,7 @@ export const QuerySupplyRequest = {
     message.classId !== undefined && (obj.classId = message.classId);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QuerySupplyRequest>, I>>(object: I): QuerySupplyRequest {
+  fromPartial(object: Partial<QuerySupplyRequest>): QuerySupplyRequest {
     const message = createBaseQuerySupplyRequest();
     message.classId = object.classId ?? "";
     return message;
@@ -337,25 +337,25 @@ export const QuerySupplyRequest = {
 };
 function createBaseQuerySupplyResponse(): QuerySupplyResponse {
   return {
-    amount: Long.UZERO,
+    amount: BigInt(0),
   };
 }
 export const QuerySupplyResponse = {
-  encode(message: QuerySupplyResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.amount.isZero()) {
+  encode(message: QuerySupplyResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.amount !== BigInt(0)) {
       writer.uint32(8).uint64(message.amount);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuerySupplyResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QuerySupplyResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQuerySupplyResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.amount = reader.uint64() as Long;
+          message.amount = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -366,18 +366,18 @@ export const QuerySupplyResponse = {
   },
   fromJSON(object: any): QuerySupplyResponse {
     const obj = createBaseQuerySupplyResponse();
-    if (isSet(object.amount)) obj.amount = Long.fromValue(object.amount);
+    if (isSet(object.amount)) obj.amount = BigInt(object.amount.toString());
     return obj;
   },
   toJSON(message: QuerySupplyResponse): unknown {
     const obj: any = {};
-    message.amount !== undefined && (obj.amount = (message.amount || Long.UZERO).toString());
+    message.amount !== undefined && (obj.amount = (message.amount || BigInt(0)).toString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QuerySupplyResponse>, I>>(object: I): QuerySupplyResponse {
+  fromPartial(object: Partial<QuerySupplyResponse>): QuerySupplyResponse {
     const message = createBaseQuerySupplyResponse();
     if (object.amount !== undefined && object.amount !== null) {
-      message.amount = Long.fromValue(object.amount);
+      message.amount = BigInt(object.amount.toString());
     }
     return message;
   },
@@ -390,7 +390,7 @@ function createBaseQueryNFTsRequest(): QueryNFTsRequest {
   };
 }
 export const QueryNFTsRequest = {
-  encode(message: QueryNFTsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryNFTsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
@@ -402,8 +402,8 @@ export const QueryNFTsRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryNFTsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryNFTsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryNFTsRequest();
     while (reader.pos < end) {
@@ -440,7 +440,7 @@ export const QueryNFTsRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryNFTsRequest>, I>>(object: I): QueryNFTsRequest {
+  fromPartial(object: Partial<QueryNFTsRequest>): QueryNFTsRequest {
     const message = createBaseQueryNFTsRequest();
     message.classId = object.classId ?? "";
     message.owner = object.owner ?? "";
@@ -457,7 +457,7 @@ function createBaseQueryNFTsResponse(): QueryNFTsResponse {
   };
 }
 export const QueryNFTsResponse = {
-  encode(message: QueryNFTsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryNFTsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.nfts) {
       NFT.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -466,8 +466,8 @@ export const QueryNFTsResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryNFTsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryNFTsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryNFTsResponse();
     while (reader.pos < end) {
@@ -503,7 +503,7 @@ export const QueryNFTsResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryNFTsResponse>, I>>(object: I): QueryNFTsResponse {
+  fromPartial(object: Partial<QueryNFTsResponse>): QueryNFTsResponse {
     const message = createBaseQueryNFTsResponse();
     message.nfts = object.nfts?.map((e) => NFT.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -519,7 +519,7 @@ function createBaseQueryNFTRequest(): QueryNFTRequest {
   };
 }
 export const QueryNFTRequest = {
-  encode(message: QueryNFTRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryNFTRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
@@ -528,8 +528,8 @@ export const QueryNFTRequest = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryNFTRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryNFTRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryNFTRequest();
     while (reader.pos < end) {
@@ -560,7 +560,7 @@ export const QueryNFTRequest = {
     message.id !== undefined && (obj.id = message.id);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryNFTRequest>, I>>(object: I): QueryNFTRequest {
+  fromPartial(object: Partial<QueryNFTRequest>): QueryNFTRequest {
     const message = createBaseQueryNFTRequest();
     message.classId = object.classId ?? "";
     message.id = object.id ?? "";
@@ -573,14 +573,14 @@ function createBaseQueryNFTResponse(): QueryNFTResponse {
   };
 }
 export const QueryNFTResponse = {
-  encode(message: QueryNFTResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryNFTResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.nft !== undefined) {
       NFT.encode(message.nft, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryNFTResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryNFTResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryNFTResponse();
     while (reader.pos < end) {
@@ -606,7 +606,7 @@ export const QueryNFTResponse = {
     message.nft !== undefined && (obj.nft = message.nft ? NFT.toJSON(message.nft) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryNFTResponse>, I>>(object: I): QueryNFTResponse {
+  fromPartial(object: Partial<QueryNFTResponse>): QueryNFTResponse {
     const message = createBaseQueryNFTResponse();
     if (object.nft !== undefined && object.nft !== null) {
       message.nft = NFT.fromPartial(object.nft);
@@ -620,14 +620,14 @@ function createBaseQueryClassRequest(): QueryClassRequest {
   };
 }
 export const QueryClassRequest = {
-  encode(message: QueryClassRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryClassRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.classId !== "") {
       writer.uint32(10).string(message.classId);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClassRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClassRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClassRequest();
     while (reader.pos < end) {
@@ -653,7 +653,7 @@ export const QueryClassRequest = {
     message.classId !== undefined && (obj.classId = message.classId);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClassRequest>, I>>(object: I): QueryClassRequest {
+  fromPartial(object: Partial<QueryClassRequest>): QueryClassRequest {
     const message = createBaseQueryClassRequest();
     message.classId = object.classId ?? "";
     return message;
@@ -665,14 +665,14 @@ function createBaseQueryClassResponse(): QueryClassResponse {
   };
 }
 export const QueryClassResponse = {
-  encode(message: QueryClassResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryClassResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.class !== undefined) {
       Class.encode(message.class, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClassResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClassResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClassResponse();
     while (reader.pos < end) {
@@ -698,7 +698,7 @@ export const QueryClassResponse = {
     message.class !== undefined && (obj.class = message.class ? Class.toJSON(message.class) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClassResponse>, I>>(object: I): QueryClassResponse {
+  fromPartial(object: Partial<QueryClassResponse>): QueryClassResponse {
     const message = createBaseQueryClassResponse();
     if (object.class !== undefined && object.class !== null) {
       message.class = Class.fromPartial(object.class);
@@ -712,14 +712,14 @@ function createBaseQueryClassesRequest(): QueryClassesRequest {
   };
 }
 export const QueryClassesRequest = {
-  encode(message: QueryClassesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryClassesRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClassesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClassesRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClassesRequest();
     while (reader.pos < end) {
@@ -746,7 +746,7 @@ export const QueryClassesRequest = {
       (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClassesRequest>, I>>(object: I): QueryClassesRequest {
+  fromPartial(object: Partial<QueryClassesRequest>): QueryClassesRequest {
     const message = createBaseQueryClassesRequest();
     if (object.pagination !== undefined && object.pagination !== null) {
       message.pagination = PageRequest.fromPartial(object.pagination);
@@ -761,7 +761,7 @@ function createBaseQueryClassesResponse(): QueryClassesResponse {
   };
 }
 export const QueryClassesResponse = {
-  encode(message: QueryClassesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: QueryClassesResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.classes) {
       Class.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -770,8 +770,8 @@ export const QueryClassesResponse = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryClassesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryClassesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryClassesResponse();
     while (reader.pos < end) {
@@ -807,7 +807,7 @@ export const QueryClassesResponse = {
       (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<QueryClassesResponse>, I>>(object: I): QueryClassesResponse {
+  fromPartial(object: Partial<QueryClassesResponse>): QueryClassesResponse {
     const message = createBaseQueryClassesResponse();
     message.classes = object.classes?.map((e) => Class.fromPartial(e)) || [];
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -851,32 +851,32 @@ export class QueryClientImpl implements Query {
   Balance(request: QueryBalanceRequest): Promise<QueryBalanceResponse> {
     const data = QueryBalanceRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.nft.v1beta1.Query", "Balance", data);
-    return promise.then((data) => QueryBalanceResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryBalanceResponse.decode(new BinaryReader(data)));
   }
   Owner(request: QueryOwnerRequest): Promise<QueryOwnerResponse> {
     const data = QueryOwnerRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.nft.v1beta1.Query", "Owner", data);
-    return promise.then((data) => QueryOwnerResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryOwnerResponse.decode(new BinaryReader(data)));
   }
   Supply(request: QuerySupplyRequest): Promise<QuerySupplyResponse> {
     const data = QuerySupplyRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.nft.v1beta1.Query", "Supply", data);
-    return promise.then((data) => QuerySupplyResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QuerySupplyResponse.decode(new BinaryReader(data)));
   }
   NFTs(request: QueryNFTsRequest): Promise<QueryNFTsResponse> {
     const data = QueryNFTsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.nft.v1beta1.Query", "NFTs", data);
-    return promise.then((data) => QueryNFTsResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryNFTsResponse.decode(new BinaryReader(data)));
   }
   NFT(request: QueryNFTRequest): Promise<QueryNFTResponse> {
     const data = QueryNFTRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.nft.v1beta1.Query", "NFT", data);
-    return promise.then((data) => QueryNFTResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryNFTResponse.decode(new BinaryReader(data)));
   }
   Class(request: QueryClassRequest): Promise<QueryClassResponse> {
     const data = QueryClassRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.nft.v1beta1.Query", "Class", data);
-    return promise.then((data) => QueryClassResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryClassResponse.decode(new BinaryReader(data)));
   }
   Classes(
     request: QueryClassesRequest = {
@@ -885,6 +885,6 @@ export class QueryClientImpl implements Query {
   ): Promise<QueryClassesResponse> {
     const data = QueryClassesRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.nft.v1beta1.Query", "Classes", data);
-    return promise.then((data) => QueryClassesResponse.decode(new _m0.Reader(data)));
+    return promise.then((data) => QueryClassesResponse.decode(new BinaryReader(data)));
   }
 }

@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
 import { Timestamp } from "../../../google/protobuf/timestamp";
-import { Long, isSet, DeepPartial, Exact, fromJsonTimestamp, fromTimestamp } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet, fromJsonTimestamp, fromTimestamp } from "../../../helpers";
 export const protobufPackage = "pstake.liquidstakeibc.v1beta1";
 export enum ICAAccount_ChannelState {
   /** ICA_CHANNEL_CREATING - ICA channel is being created */
@@ -214,7 +214,7 @@ export interface HostChain {
   /** previous redemption rate */
   lastCValue: string;
   /** undelegation epoch factor */
-  unbondingFactor: Long;
+  unbondingFactor: bigint;
   /** whether the chain is ready to accept delegations or not */
   active: boolean;
   /** factor limit for auto-compounding, daily periodic rate (APY / 365s) */
@@ -258,7 +258,7 @@ export interface Validator {
   /** the validator token exchange rate, total bonded tokens divided by total shares issued */
   exchangeRate: string;
   /** the unbonding epoch number when the validator transitioned into the state */
-  unbondingEpoch: Long;
+  unbondingEpoch: bigint;
   /** whether the validator can accept delegations or not, default true for non-lsm chains */
   delegable: boolean;
 }
@@ -267,7 +267,7 @@ export interface Deposit {
   chainId: string;
   amount: Coin;
   /** epoch number of the deposit */
-  epoch: Long;
+  epoch: bigint;
   /** state */
   state: Deposit_DepositState;
   /** sequence id of the ibc transaction */
@@ -298,7 +298,7 @@ export interface Unbonding {
   /** unbonding target chain */
   chainId: string;
   /** epoch number of the unbonding record */
-  epochNumber: Long;
+  epochNumber: bigint;
   /** time when the unbonding matures and can be collected */
   matureTime: Timestamp;
   /** stk token amount that is burned with the unbonding */
@@ -314,7 +314,7 @@ export interface UserUnbonding {
   /** unbonding target chain */
   chainId: string;
   /** epoch when the unbonding started */
-  epochNumber: Long;
+  epochNumber: bigint;
   /** address which requested the unbonding */
   address: string;
   /** stk token amount that is being unbonded */
@@ -326,7 +326,7 @@ export interface ValidatorUnbonding {
   /** unbonding target chain */
   chainId: string;
   /** epoch when the unbonding started */
-  epochNumber: Long;
+  epochNumber: bigint;
   /** time when the unbonding matures and can be collected */
   matureTime: Timestamp;
   /** address of the validator that is being unbonded */
@@ -354,14 +354,14 @@ function createBaseHostChain(): HostChain {
     minimumDeposit: "",
     cValue: "",
     lastCValue: "",
-    unbondingFactor: Long.ZERO,
+    unbondingFactor: BigInt(0),
     active: false,
     autoCompoundFactor: "",
     flags: HostChainFlags.fromPartial({}),
   };
 }
 export const HostChain = {
-  encode(message: HostChain, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: HostChain, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.chainId !== "") {
       writer.uint32(10).string(message.chainId);
     }
@@ -398,7 +398,7 @@ export const HostChain = {
     if (message.lastCValue !== "") {
       writer.uint32(98).string(message.lastCValue);
     }
-    if (!message.unbondingFactor.isZero()) {
+    if (message.unbondingFactor !== BigInt(0)) {
       writer.uint32(104).int64(message.unbondingFactor);
     }
     if (message.active === true) {
@@ -412,8 +412,8 @@ export const HostChain = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): HostChain {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): HostChain {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHostChain();
     while (reader.pos < end) {
@@ -456,7 +456,7 @@ export const HostChain = {
           message.lastCValue = reader.string();
           break;
         case 13:
-          message.unbondingFactor = reader.int64() as Long;
+          message.unbondingFactor = reader.int64();
           break;
         case 14:
           message.active = reader.bool();
@@ -490,7 +490,7 @@ export const HostChain = {
     if (isSet(object.minimumDeposit)) obj.minimumDeposit = String(object.minimumDeposit);
     if (isSet(object.cValue)) obj.cValue = String(object.cValue);
     if (isSet(object.lastCValue)) obj.lastCValue = String(object.lastCValue);
-    if (isSet(object.unbondingFactor)) obj.unbondingFactor = Long.fromValue(object.unbondingFactor);
+    if (isSet(object.unbondingFactor)) obj.unbondingFactor = BigInt(object.unbondingFactor.toString());
     if (isSet(object.active)) obj.active = Boolean(object.active);
     if (isSet(object.autoCompoundFactor)) obj.autoCompoundFactor = String(object.autoCompoundFactor);
     if (isSet(object.flags)) obj.flags = HostChainFlags.fromJSON(object.flags);
@@ -520,14 +520,14 @@ export const HostChain = {
     message.cValue !== undefined && (obj.cValue = message.cValue);
     message.lastCValue !== undefined && (obj.lastCValue = message.lastCValue);
     message.unbondingFactor !== undefined &&
-      (obj.unbondingFactor = (message.unbondingFactor || Long.ZERO).toString());
+      (obj.unbondingFactor = (message.unbondingFactor || BigInt(0)).toString());
     message.active !== undefined && (obj.active = message.active);
     message.autoCompoundFactor !== undefined && (obj.autoCompoundFactor = message.autoCompoundFactor);
     message.flags !== undefined &&
       (obj.flags = message.flags ? HostChainFlags.toJSON(message.flags) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<HostChain>, I>>(object: I): HostChain {
+  fromPartial(object: Partial<HostChain>): HostChain {
     const message = createBaseHostChain();
     message.chainId = object.chainId ?? "";
     message.connectionId = object.connectionId ?? "";
@@ -548,7 +548,7 @@ export const HostChain = {
     message.cValue = object.cValue ?? "";
     message.lastCValue = object.lastCValue ?? "";
     if (object.unbondingFactor !== undefined && object.unbondingFactor !== null) {
-      message.unbondingFactor = Long.fromValue(object.unbondingFactor);
+      message.unbondingFactor = BigInt(object.unbondingFactor.toString());
     }
     message.active = object.active ?? false;
     message.autoCompoundFactor = object.autoCompoundFactor ?? "";
@@ -564,14 +564,14 @@ function createBaseHostChainFlags(): HostChainFlags {
   };
 }
 export const HostChainFlags = {
-  encode(message: HostChainFlags, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: HostChainFlags, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.lsm === true) {
       writer.uint32(8).bool(message.lsm);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): HostChainFlags {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): HostChainFlags {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHostChainFlags();
     while (reader.pos < end) {
@@ -597,7 +597,7 @@ export const HostChainFlags = {
     message.lsm !== undefined && (obj.lsm = message.lsm);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<HostChainFlags>, I>>(object: I): HostChainFlags {
+  fromPartial(object: Partial<HostChainFlags>): HostChainFlags {
     const message = createBaseHostChainFlags();
     message.lsm = object.lsm ?? false;
     return message;
@@ -614,7 +614,7 @@ function createBaseHostChainLSParams(): HostChainLSParams {
   };
 }
 export const HostChainLSParams = {
-  encode(message: HostChainLSParams, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: HostChainLSParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.depositFee !== "") {
       writer.uint32(10).string(message.depositFee);
     }
@@ -635,8 +635,8 @@ export const HostChainLSParams = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): HostChainLSParams {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): HostChainLSParams {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHostChainLSParams();
     while (reader.pos < end) {
@@ -687,7 +687,7 @@ export const HostChainLSParams = {
     message.lsmBondFactor !== undefined && (obj.lsmBondFactor = message.lsmBondFactor);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<HostChainLSParams>, I>>(object: I): HostChainLSParams {
+  fromPartial(object: Partial<HostChainLSParams>): HostChainLSParams {
     const message = createBaseHostChainLSParams();
     message.depositFee = object.depositFee ?? "";
     message.restakeFee = object.restakeFee ?? "";
@@ -707,7 +707,7 @@ function createBaseICAAccount(): ICAAccount {
   };
 }
 export const ICAAccount = {
-  encode(message: ICAAccount, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ICAAccount, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.address !== "") {
       writer.uint32(10).string(message.address);
     }
@@ -722,8 +722,8 @@ export const ICAAccount = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ICAAccount {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ICAAccount {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseICAAccount();
     while (reader.pos < end) {
@@ -766,7 +766,7 @@ export const ICAAccount = {
       (obj.channelState = iCAAccount_ChannelStateToJSON(message.channelState));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ICAAccount>, I>>(object: I): ICAAccount {
+  fromPartial(object: Partial<ICAAccount>): ICAAccount {
     const message = createBaseICAAccount();
     message.address = object.address ?? "";
     if (object.balance !== undefined && object.balance !== null) {
@@ -784,12 +784,12 @@ function createBaseValidator(): Validator {
     weight: "",
     delegatedAmount: "",
     exchangeRate: "",
-    unbondingEpoch: Long.ZERO,
+    unbondingEpoch: BigInt(0),
     delegable: false,
   };
 }
 export const Validator = {
-  encode(message: Validator, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Validator, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.operatorAddress !== "") {
       writer.uint32(10).string(message.operatorAddress);
     }
@@ -805,7 +805,7 @@ export const Validator = {
     if (message.exchangeRate !== "") {
       writer.uint32(42).string(message.exchangeRate);
     }
-    if (!message.unbondingEpoch.isZero()) {
+    if (message.unbondingEpoch !== BigInt(0)) {
       writer.uint32(48).int64(message.unbondingEpoch);
     }
     if (message.delegable === true) {
@@ -813,8 +813,8 @@ export const Validator = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Validator {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Validator {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseValidator();
     while (reader.pos < end) {
@@ -836,7 +836,7 @@ export const Validator = {
           message.exchangeRate = reader.string();
           break;
         case 6:
-          message.unbondingEpoch = reader.int64() as Long;
+          message.unbondingEpoch = reader.int64();
           break;
         case 7:
           message.delegable = reader.bool();
@@ -855,7 +855,7 @@ export const Validator = {
     if (isSet(object.weight)) obj.weight = String(object.weight);
     if (isSet(object.delegatedAmount)) obj.delegatedAmount = String(object.delegatedAmount);
     if (isSet(object.exchangeRate)) obj.exchangeRate = String(object.exchangeRate);
-    if (isSet(object.unbondingEpoch)) obj.unbondingEpoch = Long.fromValue(object.unbondingEpoch);
+    if (isSet(object.unbondingEpoch)) obj.unbondingEpoch = BigInt(object.unbondingEpoch.toString());
     if (isSet(object.delegable)) obj.delegable = Boolean(object.delegable);
     return obj;
   },
@@ -867,11 +867,11 @@ export const Validator = {
     message.delegatedAmount !== undefined && (obj.delegatedAmount = message.delegatedAmount);
     message.exchangeRate !== undefined && (obj.exchangeRate = message.exchangeRate);
     message.unbondingEpoch !== undefined &&
-      (obj.unbondingEpoch = (message.unbondingEpoch || Long.ZERO).toString());
+      (obj.unbondingEpoch = (message.unbondingEpoch || BigInt(0)).toString());
     message.delegable !== undefined && (obj.delegable = message.delegable);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Validator>, I>>(object: I): Validator {
+  fromPartial(object: Partial<Validator>): Validator {
     const message = createBaseValidator();
     message.operatorAddress = object.operatorAddress ?? "";
     message.status = object.status ?? "";
@@ -879,7 +879,7 @@ export const Validator = {
     message.delegatedAmount = object.delegatedAmount ?? "";
     message.exchangeRate = object.exchangeRate ?? "";
     if (object.unbondingEpoch !== undefined && object.unbondingEpoch !== null) {
-      message.unbondingEpoch = Long.fromValue(object.unbondingEpoch);
+      message.unbondingEpoch = BigInt(object.unbondingEpoch.toString());
     }
     message.delegable = object.delegable ?? false;
     return message;
@@ -889,20 +889,20 @@ function createBaseDeposit(): Deposit {
   return {
     chainId: "",
     amount: Coin.fromPartial({}),
-    epoch: Long.ZERO,
+    epoch: BigInt(0),
     state: 0,
     ibcSequenceId: "",
   };
 }
 export const Deposit = {
-  encode(message: Deposit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Deposit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.chainId !== "") {
       writer.uint32(10).string(message.chainId);
     }
     if (message.amount !== undefined) {
       Coin.encode(message.amount, writer.uint32(18).fork()).ldelim();
     }
-    if (!message.epoch.isZero()) {
+    if (message.epoch !== BigInt(0)) {
       writer.uint32(24).int64(message.epoch);
     }
     if (message.state !== 0) {
@@ -913,8 +913,8 @@ export const Deposit = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Deposit {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Deposit {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseDeposit();
     while (reader.pos < end) {
@@ -927,7 +927,7 @@ export const Deposit = {
           message.amount = Coin.decode(reader, reader.uint32());
           break;
         case 3:
-          message.epoch = reader.int64() as Long;
+          message.epoch = reader.int64();
           break;
         case 4:
           message.state = reader.int32() as any;
@@ -946,7 +946,7 @@ export const Deposit = {
     const obj = createBaseDeposit();
     if (isSet(object.chainId)) obj.chainId = String(object.chainId);
     if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
-    if (isSet(object.epoch)) obj.epoch = Long.fromValue(object.epoch);
+    if (isSet(object.epoch)) obj.epoch = BigInt(object.epoch.toString());
     if (isSet(object.state)) obj.state = deposit_DepositStateFromJSON(object.state);
     if (isSet(object.ibcSequenceId)) obj.ibcSequenceId = String(object.ibcSequenceId);
     return obj;
@@ -955,19 +955,19 @@ export const Deposit = {
     const obj: any = {};
     message.chainId !== undefined && (obj.chainId = message.chainId);
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
-    message.epoch !== undefined && (obj.epoch = (message.epoch || Long.ZERO).toString());
+    message.epoch !== undefined && (obj.epoch = (message.epoch || BigInt(0)).toString());
     message.state !== undefined && (obj.state = deposit_DepositStateToJSON(message.state));
     message.ibcSequenceId !== undefined && (obj.ibcSequenceId = message.ibcSequenceId);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Deposit>, I>>(object: I): Deposit {
+  fromPartial(object: Partial<Deposit>): Deposit {
     const message = createBaseDeposit();
     message.chainId = object.chainId ?? "";
     if (object.amount !== undefined && object.amount !== null) {
       message.amount = Coin.fromPartial(object.amount);
     }
     if (object.epoch !== undefined && object.epoch !== null) {
-      message.epoch = Long.fromValue(object.epoch);
+      message.epoch = BigInt(object.epoch.toString());
     }
     message.state = object.state ?? 0;
     message.ibcSequenceId = object.ibcSequenceId ?? "";
@@ -987,7 +987,7 @@ function createBaseLSMDeposit(): LSMDeposit {
   };
 }
 export const LSMDeposit = {
-  encode(message: LSMDeposit, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: LSMDeposit, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.chainId !== "") {
       writer.uint32(10).string(message.chainId);
     }
@@ -1014,8 +1014,8 @@ export const LSMDeposit = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): LSMDeposit {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): LSMDeposit {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseLSMDeposit();
     while (reader.pos < end) {
@@ -1076,7 +1076,7 @@ export const LSMDeposit = {
     message.ibcSequenceId !== undefined && (obj.ibcSequenceId = message.ibcSequenceId);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<LSMDeposit>, I>>(object: I): LSMDeposit {
+  fromPartial(object: Partial<LSMDeposit>): LSMDeposit {
     const message = createBaseLSMDeposit();
     message.chainId = object.chainId ?? "";
     message.amount = object.amount ?? "";
@@ -1092,7 +1092,7 @@ export const LSMDeposit = {
 function createBaseUnbonding(): Unbonding {
   return {
     chainId: "",
-    epochNumber: Long.ZERO,
+    epochNumber: BigInt(0),
     matureTime: Timestamp.fromPartial({}),
     burnAmount: Coin.fromPartial({}),
     unbondAmount: Coin.fromPartial({}),
@@ -1101,11 +1101,11 @@ function createBaseUnbonding(): Unbonding {
   };
 }
 export const Unbonding = {
-  encode(message: Unbonding, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Unbonding, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.chainId !== "") {
       writer.uint32(10).string(message.chainId);
     }
-    if (!message.epochNumber.isZero()) {
+    if (message.epochNumber !== BigInt(0)) {
       writer.uint32(16).int64(message.epochNumber);
     }
     if (message.matureTime !== undefined) {
@@ -1125,8 +1125,8 @@ export const Unbonding = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Unbonding {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Unbonding {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUnbonding();
     while (reader.pos < end) {
@@ -1136,7 +1136,7 @@ export const Unbonding = {
           message.chainId = reader.string();
           break;
         case 2:
-          message.epochNumber = reader.int64() as Long;
+          message.epochNumber = reader.int64();
           break;
         case 3:
           message.matureTime = Timestamp.decode(reader, reader.uint32());
@@ -1163,7 +1163,7 @@ export const Unbonding = {
   fromJSON(object: any): Unbonding {
     const obj = createBaseUnbonding();
     if (isSet(object.chainId)) obj.chainId = String(object.chainId);
-    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.epochNumber)) obj.epochNumber = BigInt(object.epochNumber.toString());
     if (isSet(object.matureTime)) obj.matureTime = fromJsonTimestamp(object.matureTime);
     if (isSet(object.burnAmount)) obj.burnAmount = Coin.fromJSON(object.burnAmount);
     if (isSet(object.unbondAmount)) obj.unbondAmount = Coin.fromJSON(object.unbondAmount);
@@ -1174,7 +1174,7 @@ export const Unbonding = {
   toJSON(message: Unbonding): unknown {
     const obj: any = {};
     message.chainId !== undefined && (obj.chainId = message.chainId);
-    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || Long.ZERO).toString());
+    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || BigInt(0)).toString());
     message.matureTime !== undefined && (obj.matureTime = fromTimestamp(message.matureTime).toISOString());
     message.burnAmount !== undefined &&
       (obj.burnAmount = message.burnAmount ? Coin.toJSON(message.burnAmount) : undefined);
@@ -1184,11 +1184,11 @@ export const Unbonding = {
     message.state !== undefined && (obj.state = unbonding_UnbondingStateToJSON(message.state));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Unbonding>, I>>(object: I): Unbonding {
+  fromPartial(object: Partial<Unbonding>): Unbonding {
     const message = createBaseUnbonding();
     message.chainId = object.chainId ?? "";
     if (object.epochNumber !== undefined && object.epochNumber !== null) {
-      message.epochNumber = Long.fromValue(object.epochNumber);
+      message.epochNumber = BigInt(object.epochNumber.toString());
     }
     if (object.matureTime !== undefined && object.matureTime !== null) {
       message.matureTime = Timestamp.fromPartial(object.matureTime);
@@ -1207,18 +1207,18 @@ export const Unbonding = {
 function createBaseUserUnbonding(): UserUnbonding {
   return {
     chainId: "",
-    epochNumber: Long.ZERO,
+    epochNumber: BigInt(0),
     address: "",
     stkAmount: Coin.fromPartial({}),
     unbondAmount: Coin.fromPartial({}),
   };
 }
 export const UserUnbonding = {
-  encode(message: UserUnbonding, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: UserUnbonding, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.chainId !== "") {
       writer.uint32(10).string(message.chainId);
     }
-    if (!message.epochNumber.isZero()) {
+    if (message.epochNumber !== BigInt(0)) {
       writer.uint32(16).int64(message.epochNumber);
     }
     if (message.address !== "") {
@@ -1232,8 +1232,8 @@ export const UserUnbonding = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UserUnbonding {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UserUnbonding {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUserUnbonding();
     while (reader.pos < end) {
@@ -1243,7 +1243,7 @@ export const UserUnbonding = {
           message.chainId = reader.string();
           break;
         case 2:
-          message.epochNumber = reader.int64() as Long;
+          message.epochNumber = reader.int64();
           break;
         case 3:
           message.address = reader.string();
@@ -1264,7 +1264,7 @@ export const UserUnbonding = {
   fromJSON(object: any): UserUnbonding {
     const obj = createBaseUserUnbonding();
     if (isSet(object.chainId)) obj.chainId = String(object.chainId);
-    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.epochNumber)) obj.epochNumber = BigInt(object.epochNumber.toString());
     if (isSet(object.address)) obj.address = String(object.address);
     if (isSet(object.stkAmount)) obj.stkAmount = Coin.fromJSON(object.stkAmount);
     if (isSet(object.unbondAmount)) obj.unbondAmount = Coin.fromJSON(object.unbondAmount);
@@ -1273,7 +1273,7 @@ export const UserUnbonding = {
   toJSON(message: UserUnbonding): unknown {
     const obj: any = {};
     message.chainId !== undefined && (obj.chainId = message.chainId);
-    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || Long.ZERO).toString());
+    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || BigInt(0)).toString());
     message.address !== undefined && (obj.address = message.address);
     message.stkAmount !== undefined &&
       (obj.stkAmount = message.stkAmount ? Coin.toJSON(message.stkAmount) : undefined);
@@ -1281,11 +1281,11 @@ export const UserUnbonding = {
       (obj.unbondAmount = message.unbondAmount ? Coin.toJSON(message.unbondAmount) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<UserUnbonding>, I>>(object: I): UserUnbonding {
+  fromPartial(object: Partial<UserUnbonding>): UserUnbonding {
     const message = createBaseUserUnbonding();
     message.chainId = object.chainId ?? "";
     if (object.epochNumber !== undefined && object.epochNumber !== null) {
-      message.epochNumber = Long.fromValue(object.epochNumber);
+      message.epochNumber = BigInt(object.epochNumber.toString());
     }
     message.address = object.address ?? "";
     if (object.stkAmount !== undefined && object.stkAmount !== null) {
@@ -1300,7 +1300,7 @@ export const UserUnbonding = {
 function createBaseValidatorUnbonding(): ValidatorUnbonding {
   return {
     chainId: "",
-    epochNumber: Long.ZERO,
+    epochNumber: BigInt(0),
     matureTime: Timestamp.fromPartial({}),
     validatorAddress: "",
     amount: Coin.fromPartial({}),
@@ -1308,11 +1308,11 @@ function createBaseValidatorUnbonding(): ValidatorUnbonding {
   };
 }
 export const ValidatorUnbonding = {
-  encode(message: ValidatorUnbonding, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ValidatorUnbonding, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.chainId !== "") {
       writer.uint32(10).string(message.chainId);
     }
-    if (!message.epochNumber.isZero()) {
+    if (message.epochNumber !== BigInt(0)) {
       writer.uint32(16).int64(message.epochNumber);
     }
     if (message.matureTime !== undefined) {
@@ -1329,8 +1329,8 @@ export const ValidatorUnbonding = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ValidatorUnbonding {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ValidatorUnbonding {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseValidatorUnbonding();
     while (reader.pos < end) {
@@ -1340,7 +1340,7 @@ export const ValidatorUnbonding = {
           message.chainId = reader.string();
           break;
         case 2:
-          message.epochNumber = reader.int64() as Long;
+          message.epochNumber = reader.int64();
           break;
         case 3:
           message.matureTime = Timestamp.decode(reader, reader.uint32());
@@ -1364,7 +1364,7 @@ export const ValidatorUnbonding = {
   fromJSON(object: any): ValidatorUnbonding {
     const obj = createBaseValidatorUnbonding();
     if (isSet(object.chainId)) obj.chainId = String(object.chainId);
-    if (isSet(object.epochNumber)) obj.epochNumber = Long.fromValue(object.epochNumber);
+    if (isSet(object.epochNumber)) obj.epochNumber = BigInt(object.epochNumber.toString());
     if (isSet(object.matureTime)) obj.matureTime = fromJsonTimestamp(object.matureTime);
     if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
     if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
@@ -1374,18 +1374,18 @@ export const ValidatorUnbonding = {
   toJSON(message: ValidatorUnbonding): unknown {
     const obj: any = {};
     message.chainId !== undefined && (obj.chainId = message.chainId);
-    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || Long.ZERO).toString());
+    message.epochNumber !== undefined && (obj.epochNumber = (message.epochNumber || BigInt(0)).toString());
     message.matureTime !== undefined && (obj.matureTime = fromTimestamp(message.matureTime).toISOString());
     message.validatorAddress !== undefined && (obj.validatorAddress = message.validatorAddress);
     message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     message.ibcSequenceId !== undefined && (obj.ibcSequenceId = message.ibcSequenceId);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ValidatorUnbonding>, I>>(object: I): ValidatorUnbonding {
+  fromPartial(object: Partial<ValidatorUnbonding>): ValidatorUnbonding {
     const message = createBaseValidatorUnbonding();
     message.chainId = object.chainId ?? "";
     if (object.epochNumber !== undefined && object.epochNumber !== null) {
-      message.epochNumber = Long.fromValue(object.epochNumber);
+      message.epochNumber = BigInt(object.epochNumber.toString());
     }
     if (object.matureTime !== undefined && object.matureTime !== null) {
       message.matureTime = Timestamp.fromPartial(object.matureTime);
@@ -1405,7 +1405,7 @@ function createBaseKVUpdate(): KVUpdate {
   };
 }
 export const KVUpdate = {
-  encode(message: KVUpdate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: KVUpdate, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -1414,8 +1414,8 @@ export const KVUpdate = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): KVUpdate {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): KVUpdate {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseKVUpdate();
     while (reader.pos < end) {
@@ -1446,7 +1446,7 @@ export const KVUpdate = {
     message.value !== undefined && (obj.value = message.value);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<KVUpdate>, I>>(object: I): KVUpdate {
+  fromPartial(object: Partial<KVUpdate>): KVUpdate {
     const message = createBaseKVUpdate();
     message.key = object.key ?? "";
     message.value = object.value ?? "";

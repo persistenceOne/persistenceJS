@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { Any } from "../../../../google/protobuf/any";
 import { Plan } from "../../../../cosmos/upgrade/v1beta1/upgrade";
-import { Long, isSet, DeepPartial, Exact } from "../../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet } from "../../../../helpers";
 export const protobufPackage = "ibc.core.client.v1";
 /**
  * IdentifiedClientState defines a client state with an additional client
@@ -85,9 +85,9 @@ export interface UpgradeProposal {
  */
 export interface Height {
   /** the revision that the client is currently on */
-  revisionNumber: Long;
+  revisionNumber: bigint;
   /** the height within the given revision */
-  revisionHeight: Long;
+  revisionHeight: bigint;
 }
 /** Params defines the set of IBC light client parameters. */
 export interface Params {
@@ -105,7 +105,7 @@ function createBaseIdentifiedClientState(): IdentifiedClientState {
   };
 }
 export const IdentifiedClientState = {
-  encode(message: IdentifiedClientState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: IdentifiedClientState, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
@@ -114,8 +114,8 @@ export const IdentifiedClientState = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): IdentifiedClientState {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): IdentifiedClientState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseIdentifiedClientState();
     while (reader.pos < end) {
@@ -147,7 +147,7 @@ export const IdentifiedClientState = {
       (obj.clientState = message.clientState ? Any.toJSON(message.clientState) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<IdentifiedClientState>, I>>(object: I): IdentifiedClientState {
+  fromPartial(object: Partial<IdentifiedClientState>): IdentifiedClientState {
     const message = createBaseIdentifiedClientState();
     message.clientId = object.clientId ?? "";
     if (object.clientState !== undefined && object.clientState !== null) {
@@ -163,7 +163,7 @@ function createBaseConsensusStateWithHeight(): ConsensusStateWithHeight {
   };
 }
 export const ConsensusStateWithHeight = {
-  encode(message: ConsensusStateWithHeight, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ConsensusStateWithHeight, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.height !== undefined) {
       Height.encode(message.height, writer.uint32(10).fork()).ldelim();
     }
@@ -172,8 +172,8 @@ export const ConsensusStateWithHeight = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ConsensusStateWithHeight {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ConsensusStateWithHeight {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseConsensusStateWithHeight();
     while (reader.pos < end) {
@@ -205,9 +205,7 @@ export const ConsensusStateWithHeight = {
       (obj.consensusState = message.consensusState ? Any.toJSON(message.consensusState) : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ConsensusStateWithHeight>, I>>(
-    object: I,
-  ): ConsensusStateWithHeight {
+  fromPartial(object: Partial<ConsensusStateWithHeight>): ConsensusStateWithHeight {
     const message = createBaseConsensusStateWithHeight();
     if (object.height !== undefined && object.height !== null) {
       message.height = Height.fromPartial(object.height);
@@ -225,7 +223,7 @@ function createBaseClientConsensusStates(): ClientConsensusStates {
   };
 }
 export const ClientConsensusStates = {
-  encode(message: ClientConsensusStates, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ClientConsensusStates, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.clientId !== "") {
       writer.uint32(10).string(message.clientId);
     }
@@ -234,8 +232,8 @@ export const ClientConsensusStates = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ClientConsensusStates {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ClientConsensusStates {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClientConsensusStates();
     while (reader.pos < end) {
@@ -273,7 +271,7 @@ export const ClientConsensusStates = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ClientConsensusStates>, I>>(object: I): ClientConsensusStates {
+  fromPartial(object: Partial<ClientConsensusStates>): ClientConsensusStates {
     const message = createBaseClientConsensusStates();
     message.clientId = object.clientId ?? "";
     message.consensusStates =
@@ -290,7 +288,7 @@ function createBaseClientUpdateProposal(): ClientUpdateProposal {
   };
 }
 export const ClientUpdateProposal = {
-  encode(message: ClientUpdateProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: ClientUpdateProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -305,8 +303,8 @@ export const ClientUpdateProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): ClientUpdateProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): ClientUpdateProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseClientUpdateProposal();
     while (reader.pos < end) {
@@ -347,7 +345,7 @@ export const ClientUpdateProposal = {
     message.substituteClientId !== undefined && (obj.substituteClientId = message.substituteClientId);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<ClientUpdateProposal>, I>>(object: I): ClientUpdateProposal {
+  fromPartial(object: Partial<ClientUpdateProposal>): ClientUpdateProposal {
     const message = createBaseClientUpdateProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -365,7 +363,7 @@ function createBaseUpgradeProposal(): UpgradeProposal {
   };
 }
 export const UpgradeProposal = {
-  encode(message: UpgradeProposal, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: UpgradeProposal, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.title !== "") {
       writer.uint32(10).string(message.title);
     }
@@ -380,8 +378,8 @@ export const UpgradeProposal = {
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): UpgradeProposal {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): UpgradeProposal {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUpgradeProposal();
     while (reader.pos < end) {
@@ -425,7 +423,7 @@ export const UpgradeProposal = {
         : undefined);
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<UpgradeProposal>, I>>(object: I): UpgradeProposal {
+  fromPartial(object: Partial<UpgradeProposal>): UpgradeProposal {
     const message = createBaseUpgradeProposal();
     message.title = object.title ?? "";
     message.description = object.description ?? "";
@@ -440,32 +438,32 @@ export const UpgradeProposal = {
 };
 function createBaseHeight(): Height {
   return {
-    revisionNumber: Long.UZERO,
-    revisionHeight: Long.UZERO,
+    revisionNumber: BigInt(0),
+    revisionHeight: BigInt(0),
   };
 }
 export const Height = {
-  encode(message: Height, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.revisionNumber.isZero()) {
+  encode(message: Height, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.revisionNumber !== BigInt(0)) {
       writer.uint32(8).uint64(message.revisionNumber);
     }
-    if (!message.revisionHeight.isZero()) {
+    if (message.revisionHeight !== BigInt(0)) {
       writer.uint32(16).uint64(message.revisionHeight);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Height {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Height {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseHeight();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.revisionNumber = reader.uint64() as Long;
+          message.revisionNumber = reader.uint64();
           break;
         case 2:
-          message.revisionHeight = reader.uint64() as Long;
+          message.revisionHeight = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -476,25 +474,25 @@ export const Height = {
   },
   fromJSON(object: any): Height {
     const obj = createBaseHeight();
-    if (isSet(object.revisionNumber)) obj.revisionNumber = Long.fromValue(object.revisionNumber);
-    if (isSet(object.revisionHeight)) obj.revisionHeight = Long.fromValue(object.revisionHeight);
+    if (isSet(object.revisionNumber)) obj.revisionNumber = BigInt(object.revisionNumber.toString());
+    if (isSet(object.revisionHeight)) obj.revisionHeight = BigInt(object.revisionHeight.toString());
     return obj;
   },
   toJSON(message: Height): unknown {
     const obj: any = {};
     message.revisionNumber !== undefined &&
-      (obj.revisionNumber = (message.revisionNumber || Long.UZERO).toString());
+      (obj.revisionNumber = (message.revisionNumber || BigInt(0)).toString());
     message.revisionHeight !== undefined &&
-      (obj.revisionHeight = (message.revisionHeight || Long.UZERO).toString());
+      (obj.revisionHeight = (message.revisionHeight || BigInt(0)).toString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Height>, I>>(object: I): Height {
+  fromPartial(object: Partial<Height>): Height {
     const message = createBaseHeight();
     if (object.revisionNumber !== undefined && object.revisionNumber !== null) {
-      message.revisionNumber = Long.fromValue(object.revisionNumber);
+      message.revisionNumber = BigInt(object.revisionNumber.toString());
     }
     if (object.revisionHeight !== undefined && object.revisionHeight !== null) {
-      message.revisionHeight = Long.fromValue(object.revisionHeight);
+      message.revisionHeight = BigInt(object.revisionHeight.toString());
     }
     return message;
   },
@@ -505,14 +503,14 @@ function createBaseParams(): Params {
   };
 }
 export const Params = {
-  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.allowedClients) {
       writer.uint32(10).string(v!);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Params {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {
@@ -543,7 +541,7 @@ export const Params = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
+  fromPartial(object: Partial<Params>): Params {
     const message = createBaseParams();
     message.allowedClients = object.allowedClients?.map((e) => e) || [];
     return message;

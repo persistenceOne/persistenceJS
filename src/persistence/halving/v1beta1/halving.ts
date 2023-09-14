@@ -1,33 +1,33 @@
 /* eslint-disable */
-import { Long, isSet, DeepPartial, Exact } from "../../../helpers";
-import * as _m0 from "protobufjs/minimal";
+import { BinaryReader, BinaryWriter } from "../../../binary";
+import { isSet } from "../../../helpers";
 export const protobufPackage = "persistence.halving.v1beta1";
 /** Params holds parameters for the halving module. */
 export interface Params {
   /** periodic height at which inflation decreases */
-  blockHeight: Long;
+  blockHeight: bigint;
 }
 function createBaseParams(): Params {
   return {
-    blockHeight: Long.UZERO,
+    blockHeight: BigInt(0),
   };
 }
 export const Params = {
-  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (!message.blockHeight.isZero()) {
+  encode(message: Params, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.blockHeight !== BigInt(0)) {
       writer.uint32(8).uint64(message.blockHeight);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): Params {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.blockHeight = reader.uint64() as Long;
+          message.blockHeight = reader.uint64();
           break;
         default:
           reader.skipType(tag & 7);
@@ -38,18 +38,18 @@ export const Params = {
   },
   fromJSON(object: any): Params {
     const obj = createBaseParams();
-    if (isSet(object.blockHeight)) obj.blockHeight = Long.fromValue(object.blockHeight);
+    if (isSet(object.blockHeight)) obj.blockHeight = BigInt(object.blockHeight.toString());
     return obj;
   },
   toJSON(message: Params): unknown {
     const obj: any = {};
-    message.blockHeight !== undefined && (obj.blockHeight = (message.blockHeight || Long.UZERO).toString());
+    message.blockHeight !== undefined && (obj.blockHeight = (message.blockHeight || BigInt(0)).toString());
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
+  fromPartial(object: Partial<Params>): Params {
     const message = createBaseParams();
     if (object.blockHeight !== undefined && object.blockHeight !== null) {
-      message.blockHeight = Long.fromValue(object.blockHeight);
+      message.blockHeight = BigInt(object.blockHeight.toString());
     }
     return message;
   },

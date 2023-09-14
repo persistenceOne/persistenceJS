@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { CommitmentProof } from "../../../../cosmos/ics23/v1/proofs";
-import * as _m0 from "protobufjs/minimal";
-import { isSet, bytesFromBase64, base64FromBytes, DeepPartial, Exact } from "../../../../helpers";
+import { BinaryReader, BinaryWriter } from "../../../../binary";
+import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.core.commitment.v1";
 /**
  * MerkleRoot defines a merkle root hash.
@@ -42,14 +42,14 @@ function createBaseMerkleRoot(): MerkleRoot {
   };
 }
 export const MerkleRoot = {
-  encode(message: MerkleRoot, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MerkleRoot, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.hash.length !== 0) {
       writer.uint32(10).bytes(message.hash);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MerkleRoot {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MerkleRoot {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMerkleRoot();
     while (reader.pos < end) {
@@ -76,7 +76,7 @@ export const MerkleRoot = {
       (obj.hash = base64FromBytes(message.hash !== undefined ? message.hash : new Uint8Array()));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MerkleRoot>, I>>(object: I): MerkleRoot {
+  fromPartial(object: Partial<MerkleRoot>): MerkleRoot {
     const message = createBaseMerkleRoot();
     message.hash = object.hash ?? new Uint8Array();
     return message;
@@ -88,14 +88,14 @@ function createBaseMerklePrefix(): MerklePrefix {
   };
 }
 export const MerklePrefix = {
-  encode(message: MerklePrefix, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MerklePrefix, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.keyPrefix.length !== 0) {
       writer.uint32(10).bytes(message.keyPrefix);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MerklePrefix {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MerklePrefix {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMerklePrefix();
     while (reader.pos < end) {
@@ -124,7 +124,7 @@ export const MerklePrefix = {
       ));
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MerklePrefix>, I>>(object: I): MerklePrefix {
+  fromPartial(object: Partial<MerklePrefix>): MerklePrefix {
     const message = createBaseMerklePrefix();
     message.keyPrefix = object.keyPrefix ?? new Uint8Array();
     return message;
@@ -136,14 +136,14 @@ function createBaseMerklePath(): MerklePath {
   };
 }
 export const MerklePath = {
-  encode(message: MerklePath, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MerklePath, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.keyPath) {
       writer.uint32(10).string(v!);
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MerklePath {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MerklePath {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMerklePath();
     while (reader.pos < end) {
@@ -173,7 +173,7 @@ export const MerklePath = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MerklePath>, I>>(object: I): MerklePath {
+  fromPartial(object: Partial<MerklePath>): MerklePath {
     const message = createBaseMerklePath();
     message.keyPath = object.keyPath?.map((e) => e) || [];
     return message;
@@ -185,14 +185,14 @@ function createBaseMerkleProof(): MerkleProof {
   };
 }
 export const MerkleProof = {
-  encode(message: MerkleProof, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(message: MerkleProof, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     for (const v of message.proofs) {
       CommitmentProof.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
-  decode(input: _m0.Reader | Uint8Array, length?: number): MerkleProof {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+  decode(input: BinaryReader | Uint8Array, length?: number): MerkleProof {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMerkleProof();
     while (reader.pos < end) {
@@ -223,7 +223,7 @@ export const MerkleProof = {
     }
     return obj;
   },
-  fromPartial<I extends Exact<DeepPartial<MerkleProof>, I>>(object: I): MerkleProof {
+  fromPartial(object: Partial<MerkleProof>): MerkleProof {
     const message = createBaseMerkleProof();
     message.proofs = object.proofs?.map((e) => CommitmentProof.fromPartial(e)) || [];
     return message;
