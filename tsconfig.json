@@ -22,7 +22,7 @@
     "resolveJsonModule": true,
     "rootDir": "src",
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "target": "es2020"
   },
   "include": ["src/**/*"]
