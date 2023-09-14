@@ -5,6 +5,7 @@
   "main": "main/index.js",
   "module": "module/index.js",
   "files": [
+    "amino/",
     "confio/",
     "cosmos/",
     "cosmos_proto/",
@@ -17,6 +18,9 @@
     "persistence/",
     "/helpers.*",
     "/index.*",
+    "/binary.*",
+    "/utf8.*",
+    "/varint.*",
     "*.md"
   ],
   "scripts": {
