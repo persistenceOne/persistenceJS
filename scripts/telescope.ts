@@ -111,7 +111,18 @@ telescope({
       includeCosmosDefaultTypes: false
     },
     aminoEncoding: {
-      enabled: true
+      enabled: true,
+      exceptions: {
+        "/cosmos.staking.v1beta1.MsgTransferTokenizeShareRecord": {
+          aminoType: "cosmos-sdk/MsgTransferTokenizeRecord"
+        },
+        "/cosmos.distribution.v1beta1.MsgWithdrawTokenizeShareRecordReward": {
+          aminoType: "cosmos-sdk/MsgWithdrawTokenizeReward"
+        },
+        "/cosmos.distribution.v1beta1.MsgWithdrawAllTokenizeShareRecordReward": {
+          aminoType: "cosmos-sdk/MsgWithdrawAllTokenizeReward"
+        }
+      }
     }
   }
 }).then(() => {
