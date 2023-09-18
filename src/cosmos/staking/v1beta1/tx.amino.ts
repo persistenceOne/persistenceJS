@@ -153,7 +153,7 @@ export interface MsgRedeemTokensForSharesAminoType extends AminoMsg {
   };
 }
 export interface MsgTransferTokenizeShareRecordAminoType extends AminoMsg {
-  type: "cosmos-sdk/MsgTransferTokenizeShareRecord";
+  type: "cosmos-sdk/MsgTransferTokenizeRecord";
   value: {
     tokenize_share_record_id: string;
     sender: string;
@@ -530,7 +530,7 @@ export const AminoConverter = {
     },
   },
   "/cosmos.staking.v1beta1.MsgTransferTokenizeShareRecord": {
-    aminoType: "cosmos-sdk/MsgTransferTokenizeShareRecord",
+    aminoType: "cosmos-sdk/MsgTransferTokenizeRecord",
     toAmino: ({
       tokenizeShareRecordId,
       sender,

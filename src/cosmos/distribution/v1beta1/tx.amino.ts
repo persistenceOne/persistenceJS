@@ -64,14 +64,14 @@ export interface MsgCommunityPoolSpendAminoType extends AminoMsg {
   };
 }
 export interface MsgWithdrawTokenizeShareRecordRewardAminoType extends AminoMsg {
-  type: "cosmos-sdk/MsgWithdrawTokenizeShareRecordReward";
+  type: "cosmos-sdk/MsgWithdrawTokenizeReward";
   value: {
     owner_address: string;
     record_id: string;
   };
 }
 export interface MsgWithdrawAllTokenizeShareRecordRewardAminoType extends AminoMsg {
-  type: "cosmos-sdk/MsgWithdrawAllTokenizeShareRecordReward";
+  type: "cosmos-sdk/MsgWithdrawAllTokenizeReward";
   value: {
     owner_address: string;
   };
@@ -214,7 +214,7 @@ export const AminoConverter = {
     },
   },
   "/cosmos.distribution.v1beta1.MsgWithdrawTokenizeShareRecordReward": {
-    aminoType: "cosmos-sdk/MsgWithdrawTokenizeShareRecordReward",
+    aminoType: "cosmos-sdk/MsgWithdrawTokenizeReward",
     toAmino: ({
       ownerAddress,
       recordId,
@@ -235,7 +235,7 @@ export const AminoConverter = {
     },
   },
   "/cosmos.distribution.v1beta1.MsgWithdrawAllTokenizeShareRecordReward": {
-    aminoType: "cosmos-sdk/MsgWithdrawAllTokenizeShareRecordReward",
+    aminoType: "cosmos-sdk/MsgWithdrawAllTokenizeReward",
     toAmino: ({
       ownerAddress,
     }: MsgWithdrawAllTokenizeShareRecordReward): MsgWithdrawAllTokenizeShareRecordRewardAminoType["value"] => {
