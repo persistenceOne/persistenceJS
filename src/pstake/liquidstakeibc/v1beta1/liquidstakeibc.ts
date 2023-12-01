@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
 import { Timestamp } from "../../../google/protobuf/timestamp";
+import { Redelegation } from "../../../cosmos/staking/v1beta1/staking";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, fromJsonTimestamp, fromTimestamp } from "../../../helpers";
 export const protobufPackage = "pstake.liquidstakeibc.v1beta1";
@@ -188,6 +189,38 @@ export function unbonding_UnbondingStateToJSON(object: Unbonding_UnbondingState)
       return "UNRECOGNIZED";
   }
 }
+export enum RedelegateTx_RedelegateTxState {
+  /** REDELEGATE_SENT - redelegate txn sent */
+  REDELEGATE_SENT = 0,
+  /** REDELEGATE_ACKED - redelegate txn acked */
+  REDELEGATE_ACKED = 1,
+  UNRECOGNIZED = -1,
+}
+export function redelegateTx_RedelegateTxStateFromJSON(object: any): RedelegateTx_RedelegateTxState {
+  switch (object) {
+    case 0:
+    case "REDELEGATE_SENT":
+      return RedelegateTx_RedelegateTxState.REDELEGATE_SENT;
+    case 1:
+    case "REDELEGATE_ACKED":
+      return RedelegateTx_RedelegateTxState.REDELEGATE_ACKED;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return RedelegateTx_RedelegateTxState.UNRECOGNIZED;
+  }
+}
+export function redelegateTx_RedelegateTxStateToJSON(object: RedelegateTx_RedelegateTxState): string {
+  switch (object) {
+    case RedelegateTx_RedelegateTxState.REDELEGATE_SENT:
+      return "REDELEGATE_SENT";
+    case RedelegateTx_RedelegateTxState.REDELEGATE_ACKED:
+      return "REDELEGATE_ACKED";
+    case RedelegateTx_RedelegateTxState.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
 export interface HostChain {
   /** host chain id */
   chainId: string;
@@ -236,6 +269,10 @@ export interface HostChainLSParams {
    *  Should be used only when HostChainFlag.Lsm == true, orelse default
    */
   lsmBondFactor: string;
+  /** UndelegateEntries */
+  maxEntries: number;
+  /** amount skew that is acceptable before redelegating */
+  redelegationAcceptableDelta: string;
 }
 export interface ICAAccount {
   /** address of the ica on the controller chain */
@@ -255,11 +292,17 @@ export interface Validator {
   weight: string;
   /** amount delegated by the module to the validator */
   delegatedAmount: string;
-  /** the validator token exchange rate, total bonded tokens divided by total shares issued */
+  /**
+   * the validator token exchange rate, total bonded tokens divided by total
+   * shares issued
+   */
   exchangeRate: string;
   /** the unbonding epoch number when the validator transitioned into the state */
   unbondingEpoch: bigint;
-  /** whether the validator can accept delegations or not, default true for non-lsm chains */
+  /**
+   * whether the validator can accept delegations or not, default true for
+   * non-lsm chains
+   */
   delegable: boolean;
 }
 export interface Deposit {
@@ -276,11 +319,14 @@ export interface Deposit {
 export interface LSMDeposit {
   /** deposit target chain */
   chainId: string;
-  /** this is calculated when liquid staking [lsm_shares * validator_exchange_rate] */
+  /**
+   * this is calculated when liquid staking [lsm_shares *
+   * validator_exchange_rate]
+   */
   amount: string;
   /**
-   * LSM token shares, they are mapped 1:1 with the delegator shares that are tokenized
-   * https://github.com/iqlusioninc/cosmos-sdk/pull/19
+   * LSM token shares, they are mapped 1:1 with the delegator shares that are
+   * tokenized https://github.com/iqlusioninc/cosmos-sdk/pull/19
    */
   shares: string;
   /** LSM token denom */
@@ -339,6 +385,17 @@ export interface ValidatorUnbonding {
 export interface KVUpdate {
   key: string;
   value: string;
+}
+export interface Redelegations {
+  chainID: string;
+  redelegations: Redelegation[];
+}
+export interface RedelegateTx {
+  /** target chain */
+  chainId: string;
+  ibcSequenceId: string;
+  /** state of the unbonding during the process */
+  state: RedelegateTx_RedelegateTxState;
 }
 function createBaseHostChain(): HostChain {
   return {
@@ -611,6 +668,8 @@ function createBaseHostChainLSParams(): HostChainLSParams {
     redemptionFee: "",
     lsmValidatorCap: "",
     lsmBondFactor: "",
+    maxEntries: 0,
+    redelegationAcceptableDelta: "",
   };
 }
 export const HostChainLSParams = {
@@ -632,6 +691,12 @@ export const HostChainLSParams = {
     }
     if (message.lsmBondFactor !== "") {
       writer.uint32(58).string(message.lsmBondFactor);
+    }
+    if (message.maxEntries !== 0) {
+      writer.uint32(64).uint32(message.maxEntries);
+    }
+    if (message.redelegationAcceptableDelta !== "") {
+      writer.uint32(74).string(message.redelegationAcceptableDelta);
     }
     return writer;
   },
@@ -660,6 +725,12 @@ export const HostChainLSParams = {
         case 7:
           message.lsmBondFactor = reader.string();
           break;
+        case 8:
+          message.maxEntries = reader.uint32();
+          break;
+        case 9:
+          message.redelegationAcceptableDelta = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -675,6 +746,9 @@ export const HostChainLSParams = {
     if (isSet(object.redemptionFee)) obj.redemptionFee = String(object.redemptionFee);
     if (isSet(object.lsmValidatorCap)) obj.lsmValidatorCap = String(object.lsmValidatorCap);
     if (isSet(object.lsmBondFactor)) obj.lsmBondFactor = String(object.lsmBondFactor);
+    if (isSet(object.maxEntries)) obj.maxEntries = Number(object.maxEntries);
+    if (isSet(object.redelegationAcceptableDelta))
+      obj.redelegationAcceptableDelta = String(object.redelegationAcceptableDelta);
     return obj;
   },
   toJSON(message: HostChainLSParams): unknown {
@@ -685,6 +759,9 @@ export const HostChainLSParams = {
     message.redemptionFee !== undefined && (obj.redemptionFee = message.redemptionFee);
     message.lsmValidatorCap !== undefined && (obj.lsmValidatorCap = message.lsmValidatorCap);
     message.lsmBondFactor !== undefined && (obj.lsmBondFactor = message.lsmBondFactor);
+    message.maxEntries !== undefined && (obj.maxEntries = Math.round(message.maxEntries));
+    message.redelegationAcceptableDelta !== undefined &&
+      (obj.redelegationAcceptableDelta = message.redelegationAcceptableDelta);
     return obj;
   },
   fromPartial(object: Partial<HostChainLSParams>): HostChainLSParams {
@@ -695,6 +772,8 @@ export const HostChainLSParams = {
     message.redemptionFee = object.redemptionFee ?? "";
     message.lsmValidatorCap = object.lsmValidatorCap ?? "";
     message.lsmBondFactor = object.lsmBondFactor ?? "";
+    message.maxEntries = object.maxEntries ?? 0;
+    message.redelegationAcceptableDelta = object.redelegationAcceptableDelta ?? "";
     return message;
   },
 };
@@ -1450,6 +1529,131 @@ export const KVUpdate = {
     const message = createBaseKVUpdate();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
+    return message;
+  },
+};
+function createBaseRedelegations(): Redelegations {
+  return {
+    chainID: "",
+    redelegations: [],
+  };
+}
+export const Redelegations = {
+  encode(message: Redelegations, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.chainID !== "") {
+      writer.uint32(10).string(message.chainID);
+    }
+    for (const v of message.redelegations) {
+      Redelegation.encode(v!, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): Redelegations {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRedelegations();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.chainID = reader.string();
+          break;
+        case 2:
+          message.redelegations.push(Redelegation.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): Redelegations {
+    const obj = createBaseRedelegations();
+    if (isSet(object.chainID)) obj.chainID = String(object.chainID);
+    if (Array.isArray(object?.redelegations))
+      obj.redelegations = object.redelegations.map((e: any) => Redelegation.fromJSON(e));
+    return obj;
+  },
+  toJSON(message: Redelegations): unknown {
+    const obj: any = {};
+    message.chainID !== undefined && (obj.chainID = message.chainID);
+    if (message.redelegations) {
+      obj.redelegations = message.redelegations.map((e) => (e ? Redelegation.toJSON(e) : undefined));
+    } else {
+      obj.redelegations = [];
+    }
+    return obj;
+  },
+  fromPartial(object: Partial<Redelegations>): Redelegations {
+    const message = createBaseRedelegations();
+    message.chainID = object.chainID ?? "";
+    message.redelegations = object.redelegations?.map((e) => Redelegation.fromPartial(e)) || [];
+    return message;
+  },
+};
+function createBaseRedelegateTx(): RedelegateTx {
+  return {
+    chainId: "",
+    ibcSequenceId: "",
+    state: 0,
+  };
+}
+export const RedelegateTx = {
+  encode(message: RedelegateTx, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.chainId !== "") {
+      writer.uint32(10).string(message.chainId);
+    }
+    if (message.ibcSequenceId !== "") {
+      writer.uint32(18).string(message.ibcSequenceId);
+    }
+    if (message.state !== 0) {
+      writer.uint32(24).int32(message.state);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): RedelegateTx {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRedelegateTx();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.chainId = reader.string();
+          break;
+        case 2:
+          message.ibcSequenceId = reader.string();
+          break;
+        case 3:
+          message.state = reader.int32() as any;
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): RedelegateTx {
+    const obj = createBaseRedelegateTx();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    if (isSet(object.ibcSequenceId)) obj.ibcSequenceId = String(object.ibcSequenceId);
+    if (isSet(object.state)) obj.state = redelegateTx_RedelegateTxStateFromJSON(object.state);
+    return obj;
+  },
+  toJSON(message: RedelegateTx): unknown {
+    const obj: any = {};
+    message.chainId !== undefined && (obj.chainId = message.chainId);
+    message.ibcSequenceId !== undefined && (obj.ibcSequenceId = message.ibcSequenceId);
+    message.state !== undefined && (obj.state = redelegateTx_RedelegateTxStateToJSON(message.state));
+    return obj;
+  },
+  fromPartial(object: Partial<RedelegateTx>): RedelegateTx {
+    const message = createBaseRedelegateTx();
+    message.chainId = object.chainId ?? "";
+    message.ibcSequenceId = object.ibcSequenceId ?? "";
+    message.state = object.state ?? 0;
     return message;
   },
 };

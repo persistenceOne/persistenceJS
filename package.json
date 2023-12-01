@@ -1,6 +1,6 @@
 {
   "name": "persistenceonejs",
-  "version": "2.3.0-rc2",
+  "version": "2.4.0-rc0",
   "description": "Client side JS libraries for persistenceSDK transaction generation, signing and broadcasting.",
   "main": "main/index.js",
   "module": "module/index.js",
