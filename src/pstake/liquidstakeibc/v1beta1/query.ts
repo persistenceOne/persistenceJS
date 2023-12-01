@@ -1134,7 +1134,10 @@ export interface Query {
   DepositAccountBalance(
     request: QueryDepositAccountBalanceRequest,
   ): Promise<QueryDepositAccountBalanceResponse>;
-  /** Queries for a host chain exchange rate between the host token and the stk token. */
+  /**
+   * Queries for a host chain exchange rate between the host token and the stk
+   * token.
+   */
   ExchangeRate(request: QueryExchangeRateRequest): Promise<QueryExchangeRateResponse>;
 }
 export class QueryClientImpl implements Query {
