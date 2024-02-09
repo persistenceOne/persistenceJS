@@ -60,9 +60,18 @@ message HostChain {
   ];
   // host chain flags
   HostChainFlags flags = 16;
+  // non-compoundable chain reward params
+  RewardParams reward_params = 17;
 }
 
 message HostChainFlags { bool lsm = 1; }
+
+message RewardParams {
+  // rewards denom on the host chain
+  string denom = 1;
+  // entity which will convert rewards to the host denom
+  string destination = 2 [ (cosmos_proto.scalar) = "cosmos.AddressString" ];
+}
 
 message HostChainLSParams {
   string deposit_fee = 1 [
@@ -107,6 +116,17 @@ message HostChainLSParams {
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
     (gogoproto.nullable) = false
   ];
+  string upper_c_value_limit = 10 [
+    (cosmos_proto.scalar) = "cosmos.Dec",
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
+    (gogoproto.nullable) = false
+  ]; // upper limit for the c value of the host chain
+
+  string lower_c_value_limit = 11 [
+    (cosmos_proto.scalar) = "cosmos.Dec",
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
+    (gogoproto.nullable) = false
+  ]; // lower limit for the c value of the host chain
 }
 
 message ICAAccount {

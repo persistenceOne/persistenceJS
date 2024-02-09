@@ -254,9 +254,17 @@ export interface HostChain {
   autoCompoundFactor: string;
   /** host chain flags */
   flags: HostChainFlags;
+  /** non-compoundable chain reward params */
+  rewardParams: RewardParams;
 }
 export interface HostChainFlags {
   lsm: boolean;
+}
+export interface RewardParams {
+  /** rewards denom on the host chain */
+  denom: string;
+  /** entity which will convert rewards to the host denom */
+  destination: string;
 }
 export interface HostChainLSParams {
   depositFee: string;
@@ -273,6 +281,8 @@ export interface HostChainLSParams {
   maxEntries: number;
   /** amount skew that is acceptable before redelegating */
   redelegationAcceptableDelta: string;
+  upperCValueLimit: string;
+  lowerCValueLimit: string;
 }
 export interface ICAAccount {
   /** address of the ica on the controller chain */
@@ -415,6 +425,7 @@ function createBaseHostChain(): HostChain {
     active: false,
     autoCompoundFactor: "",
     flags: HostChainFlags.fromPartial({}),
+    rewardParams: RewardParams.fromPartial({}),
   };
 }
 export const HostChain = {
@@ -466,6 +477,9 @@ export const HostChain = {
     }
     if (message.flags !== undefined) {
       HostChainFlags.encode(message.flags, writer.uint32(130).fork()).ldelim();
+    }
+    if (message.rewardParams !== undefined) {
+      RewardParams.encode(message.rewardParams, writer.uint32(138).fork()).ldelim();
     }
     return writer;
   },
@@ -524,6 +538,9 @@ export const HostChain = {
         case 16:
           message.flags = HostChainFlags.decode(reader, reader.uint32());
           break;
+        case 17:
+          message.rewardParams = RewardParams.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -551,6 +568,7 @@ export const HostChain = {
     if (isSet(object.active)) obj.active = Boolean(object.active);
     if (isSet(object.autoCompoundFactor)) obj.autoCompoundFactor = String(object.autoCompoundFactor);
     if (isSet(object.flags)) obj.flags = HostChainFlags.fromJSON(object.flags);
+    if (isSet(object.rewardParams)) obj.rewardParams = RewardParams.fromJSON(object.rewardParams);
     return obj;
   },
   toJSON(message: HostChain): unknown {
@@ -582,6 +600,8 @@ export const HostChain = {
     message.autoCompoundFactor !== undefined && (obj.autoCompoundFactor = message.autoCompoundFactor);
     message.flags !== undefined &&
       (obj.flags = message.flags ? HostChainFlags.toJSON(message.flags) : undefined);
+    message.rewardParams !== undefined &&
+      (obj.rewardParams = message.rewardParams ? RewardParams.toJSON(message.rewardParams) : undefined);
     return obj;
   },
   fromPartial(object: Partial<HostChain>): HostChain {
@@ -611,6 +631,9 @@ export const HostChain = {
     message.autoCompoundFactor = object.autoCompoundFactor ?? "";
     if (object.flags !== undefined && object.flags !== null) {
       message.flags = HostChainFlags.fromPartial(object.flags);
+    }
+    if (object.rewardParams !== undefined && object.rewardParams !== null) {
+      message.rewardParams = RewardParams.fromPartial(object.rewardParams);
     }
     return message;
   },
@@ -660,6 +683,61 @@ export const HostChainFlags = {
     return message;
   },
 };
+function createBaseRewardParams(): RewardParams {
+  return {
+    denom: "",
+    destination: "",
+  };
+}
+export const RewardParams = {
+  encode(message: RewardParams, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.denom !== "") {
+      writer.uint32(10).string(message.denom);
+    }
+    if (message.destination !== "") {
+      writer.uint32(18).string(message.destination);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): RewardParams {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRewardParams();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.denom = reader.string();
+          break;
+        case 2:
+          message.destination = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): RewardParams {
+    const obj = createBaseRewardParams();
+    if (isSet(object.denom)) obj.denom = String(object.denom);
+    if (isSet(object.destination)) obj.destination = String(object.destination);
+    return obj;
+  },
+  toJSON(message: RewardParams): unknown {
+    const obj: any = {};
+    message.denom !== undefined && (obj.denom = message.denom);
+    message.destination !== undefined && (obj.destination = message.destination);
+    return obj;
+  },
+  fromPartial(object: Partial<RewardParams>): RewardParams {
+    const message = createBaseRewardParams();
+    message.denom = object.denom ?? "";
+    message.destination = object.destination ?? "";
+    return message;
+  },
+};
 function createBaseHostChainLSParams(): HostChainLSParams {
   return {
     depositFee: "",
@@ -670,6 +748,8 @@ function createBaseHostChainLSParams(): HostChainLSParams {
     lsmBondFactor: "",
     maxEntries: 0,
     redelegationAcceptableDelta: "",
+    upperCValueLimit: "",
+    lowerCValueLimit: "",
   };
 }
 export const HostChainLSParams = {
@@ -697,6 +777,12 @@ export const HostChainLSParams = {
     }
     if (message.redelegationAcceptableDelta !== "") {
       writer.uint32(74).string(message.redelegationAcceptableDelta);
+    }
+    if (message.upperCValueLimit !== "") {
+      writer.uint32(82).string(message.upperCValueLimit);
+    }
+    if (message.lowerCValueLimit !== "") {
+      writer.uint32(90).string(message.lowerCValueLimit);
     }
     return writer;
   },
@@ -731,6 +817,12 @@ export const HostChainLSParams = {
         case 9:
           message.redelegationAcceptableDelta = reader.string();
           break;
+        case 10:
+          message.upperCValueLimit = reader.string();
+          break;
+        case 11:
+          message.lowerCValueLimit = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -749,6 +841,8 @@ export const HostChainLSParams = {
     if (isSet(object.maxEntries)) obj.maxEntries = Number(object.maxEntries);
     if (isSet(object.redelegationAcceptableDelta))
       obj.redelegationAcceptableDelta = String(object.redelegationAcceptableDelta);
+    if (isSet(object.upperCValueLimit)) obj.upperCValueLimit = String(object.upperCValueLimit);
+    if (isSet(object.lowerCValueLimit)) obj.lowerCValueLimit = String(object.lowerCValueLimit);
     return obj;
   },
   toJSON(message: HostChainLSParams): unknown {
@@ -762,6 +856,8 @@ export const HostChainLSParams = {
     message.maxEntries !== undefined && (obj.maxEntries = Math.round(message.maxEntries));
     message.redelegationAcceptableDelta !== undefined &&
       (obj.redelegationAcceptableDelta = message.redelegationAcceptableDelta);
+    message.upperCValueLimit !== undefined && (obj.upperCValueLimit = message.upperCValueLimit);
+    message.lowerCValueLimit !== undefined && (obj.lowerCValueLimit = message.lowerCValueLimit);
     return obj;
   },
   fromPartial(object: Partial<HostChainLSParams>): HostChainLSParams {
@@ -774,6 +870,8 @@ export const HostChainLSParams = {
     message.lsmBondFactor = object.lsmBondFactor ?? "";
     message.maxEntries = object.maxEntries ?? 0;
     message.redelegationAcceptableDelta = object.redelegationAcceptableDelta ?? "";
+    message.upperCValueLimit = object.upperCValueLimit ?? "";
+    message.lowerCValueLimit = object.lowerCValueLimit ?? "";
     return message;
   },
 };

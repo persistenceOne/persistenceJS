@@ -1,6 +1,13 @@
 /* eslint-disable */
 import { AminoMsg } from "@cosmjs/amino";
-import { MsgLiquidStake, MsgLiquidUnstake, MsgStakeToLP, MsgUpdateParams } from "./tx";
+import {
+  MsgLiquidStake,
+  MsgLiquidUnstake,
+  MsgStakeToLP,
+  MsgUpdateParams,
+  MsgUpdateWhitelistedValidators,
+  MsgSetModulePaused,
+} from "./tx";
 export interface MsgLiquidStakeAminoType extends AminoMsg {
   type: "/pstake.liquidstake.v1beta1.MsgLiquidStake";
   value: {
@@ -50,7 +57,28 @@ export interface MsgUpdateParamsAminoType extends AminoMsg {
       lsm_disabled: boolean;
       min_liquid_stake_amount: string;
       cw_locked_pool_address: string;
+      fee_account_address: string;
+      autocompound_fee_rate: string;
+      whitelist_admin_address: string;
+      module_paused: boolean;
     };
+  };
+}
+export interface MsgUpdateWhitelistedValidatorsAminoType extends AminoMsg {
+  type: "/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators";
+  value: {
+    authority: string;
+    whitelisted_validators: {
+      validator_address: string;
+      target_weight: string;
+    }[];
+  };
+}
+export interface MsgSetModulePausedAminoType extends AminoMsg {
+  type: "/pstake.liquidstake.v1beta1.MsgSetModulePaused";
+  value: {
+    authority: string;
+    is_paused: boolean;
   };
 }
 export const AminoConverter = {
@@ -152,6 +180,10 @@ export const AminoConverter = {
           lsm_disabled: params.lsmDisabled,
           min_liquid_stake_amount: params.minLiquidStakeAmount,
           cw_locked_pool_address: params.cwLockedPoolAddress,
+          fee_account_address: params.feeAccountAddress,
+          autocompound_fee_rate: params.autocompoundFeeRate,
+          whitelist_admin_address: params.whitelistAdminAddress,
+          module_paused: params.modulePaused,
         },
       };
     },
@@ -168,7 +200,53 @@ export const AminoConverter = {
           lsmDisabled: params.lsm_disabled,
           minLiquidStakeAmount: params.min_liquid_stake_amount,
           cwLockedPoolAddress: params.cw_locked_pool_address,
+          feeAccountAddress: params.fee_account_address,
+          autocompoundFeeRate: params.autocompound_fee_rate,
+          whitelistAdminAddress: params.whitelist_admin_address,
+          modulePaused: params.module_paused,
         },
+      };
+    },
+  },
+  "/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators": {
+    aminoType: "/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators",
+    toAmino: ({
+      authority,
+      whitelistedValidators,
+    }: MsgUpdateWhitelistedValidators): MsgUpdateWhitelistedValidatorsAminoType["value"] => {
+      return {
+        authority,
+        whitelisted_validators: whitelistedValidators.map((el0) => ({
+          validator_address: el0.validatorAddress,
+          target_weight: el0.targetWeight,
+        })),
+      };
+    },
+    fromAmino: ({
+      authority,
+      whitelisted_validators,
+    }: MsgUpdateWhitelistedValidatorsAminoType["value"]): MsgUpdateWhitelistedValidators => {
+      return {
+        authority,
+        whitelistedValidators: whitelisted_validators.map((el0) => ({
+          validatorAddress: el0.validator_address,
+          targetWeight: el0.target_weight,
+        })),
+      };
+    },
+  },
+  "/pstake.liquidstake.v1beta1.MsgSetModulePaused": {
+    aminoType: "/pstake.liquidstake.v1beta1.MsgSetModulePaused",
+    toAmino: ({ authority, isPaused }: MsgSetModulePaused): MsgSetModulePausedAminoType["value"] => {
+      return {
+        authority,
+        is_paused: isPaused,
+      };
+    },
+    fromAmino: ({ authority, is_paused }: MsgSetModulePausedAminoType["value"]): MsgSetModulePaused => {
+      return {
+        authority,
+        isPaused: is_paused,
       };
     },
   },

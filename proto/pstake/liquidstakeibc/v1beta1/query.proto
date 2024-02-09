@@ -63,6 +63,13 @@ service Query {
         "/pstake/liquidstakeibc/v1beta1/user_unbondings/{address}";
   }
 
+  // Queries all unbondings for a host chain.
+  rpc HostChainUserUnbondings(QueryHostChainUserUnbondingsRequest)
+      returns (QueryHostChainUserUnbondingsResponse) {
+    option (google.api.http).get =
+        "/pstake/liquidstakeibc/v1beta1/user_unbondings/{chain_id}";
+  }
+
   // Queries all validator unbondings for a host chain.
   rpc ValidatorUnbondings(QueryValidatorUnbondingRequest)
       returns (QueryValidatorUnbondingResponse) {
@@ -83,6 +90,21 @@ service Query {
       returns (QueryExchangeRateResponse) {
     option (google.api.http).get =
         "/pstake/liquidstakeibc/v1beta1/exchange_rate/{chain_id}";
+  }
+
+  // Queries for a host chain redelegation entries on the host token delegation
+  // acct.
+  rpc Redelegations(QueryRedelegationsRequest)
+      returns (QueryRedelegationsResponse) {
+    option (google.api.http).get =
+        "/pstake/liquidstakeibc/v1beta1/redelegations/{chain_id}";
+  }
+
+  // Queries for a host chain redelegation-txs for the host token.
+  rpc RedelegationTx(QueryRedelegationTxRequest)
+      returns (QueryRedelegationTxResponse) {
+    option (google.api.http).get =
+        "/pstake/liquidstakeibc/v1beta1/redelegation_tx/{chain_id}";
   }
 }
 
@@ -127,6 +149,16 @@ message QueryUserUnbondingsResponse {
   repeated UserUnbonding user_unbondings = 1;
 }
 
+message QueryHostChainUserUnbondingsRequest {
+  string chain_id = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryHostChainUserUnbondingsResponse {
+  repeated UserUnbonding user_unbondings = 1;
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
 message QueryValidatorUnbondingRequest { string chain_id = 1; }
 
 message QueryValidatorUnbondingResponse {
@@ -147,4 +179,16 @@ message QueryExchangeRateResponse {
     (gogoproto.nullable) = false,
     (cosmos_proto.scalar) = "cosmos.Dec"
   ];
+}
+
+message QueryRedelegationsRequest { string chain_id = 1; }
+
+message QueryRedelegationsResponse {
+  liquidstakeibc.v1beta1.Redelegations redelegations = 1;
+}
+
+message QueryRedelegationTxRequest { string chain_id = 1; }
+
+message QueryRedelegationTxResponse {
+  repeated liquidstakeibc.v1beta1.RedelegateTx redelegation_tx = 1;
 }
