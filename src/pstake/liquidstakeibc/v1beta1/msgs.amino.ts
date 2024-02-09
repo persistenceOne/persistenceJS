@@ -84,8 +84,6 @@ export interface MsgUpdateParamsAminoType extends AminoMsg {
     params: {
       admin_address: string;
       fee_address: string;
-      upper_c_value_limit: string;
-      lower_c_value_limit: string;
     };
   };
 }
@@ -273,8 +271,6 @@ export const AminoConverter = {
         params: {
           admin_address: params.adminAddress,
           fee_address: params.feeAddress,
-          upper_c_value_limit: params.upperCValueLimit,
-          lower_c_value_limit: params.lowerCValueLimit,
         },
       };
     },
@@ -284,8 +280,6 @@ export const AminoConverter = {
         params: {
           adminAddress: params.admin_address,
           feeAddress: params.fee_address,
-          upperCValueLimit: params.upper_c_value_limit,
-          lowerCValueLimit: params.lower_c_value_limit,
         },
       };
     },

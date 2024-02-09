@@ -28,6 +28,7 @@ Use with [cosmjs](https://github.com/cosmos/cosmjs)
 - do `npm run update-protos`
 - do `npm run build:telescope`
 - update package.json version
+- do `npm install`
 - commit and open PR
 - tag a release for publishing on npmjs
 

@@ -71,16 +71,39 @@ export interface Params {
    */
   minLiquidStakeAmount: string;
   /**
-   * cw_locked_pool_address defines the bech32-encoded address of
+   * CwLockedPoolAddress defines the bech32-encoded address of
    * a CW smart-contract representing a time locked LP (e.g. Superfluid LP).
    */
   cwLockedPoolAddress: string;
+  /**
+   * FeeAccountAddress defines the bech32-encoded address of
+   * a an account responsible for accumulating protocol fees.
+   */
+  feeAccountAddress: string;
+  /**
+   * AutocompoundFeeRate specifies the fee rate for auto redelegating the stake
+   * rewards. The fee is taken in favour of the fee account (see
+   * FeeAccountAddress).
+   */
+  autocompoundFeeRate: string;
+  /**
+   * WhitelistAdminAddress the bech32-encoded address of an admin authority
+   * that is allowed to update whitelisted validators or pause liquidstaking
+   * module entirely. The key is controlled by an offchain process that is
+   * selecting validators based on a criteria. Pausing of the module can be
+   * required during important migrations or failures.
+   */
+  whitelistAdminAddress: string;
+  /**
+   * ModulePaused is a safety toggle that allows to stop main module functions
+   * such as stake/unstake/stake-to-lp and the BeginBlocker logic.
+   */
+  modulePaused: boolean;
 }
 /**
  * WhitelistedValidator consists of the validator operator address and the
  * target weight, which is a value for calculating the real weight to be derived
- * according to the active status. In the case of inactive, it is calculated as
- * zero.
+ * according to the active status.
  */
 export interface WhitelistedValidator {
   /**
@@ -172,6 +195,10 @@ function createBaseParams(): Params {
     lsmDisabled: false,
     minLiquidStakeAmount: "",
     cwLockedPoolAddress: "",
+    feeAccountAddress: "",
+    autocompoundFeeRate: "",
+    whitelistAdminAddress: "",
+    modulePaused: false,
   };
 }
 export const Params = {
@@ -193,6 +220,18 @@ export const Params = {
     }
     if (message.cwLockedPoolAddress !== "") {
       writer.uint32(50).string(message.cwLockedPoolAddress);
+    }
+    if (message.feeAccountAddress !== "") {
+      writer.uint32(58).string(message.feeAccountAddress);
+    }
+    if (message.autocompoundFeeRate !== "") {
+      writer.uint32(66).string(message.autocompoundFeeRate);
+    }
+    if (message.whitelistAdminAddress !== "") {
+      writer.uint32(74).string(message.whitelistAdminAddress);
+    }
+    if (message.modulePaused === true) {
+      writer.uint32(80).bool(message.modulePaused);
     }
     return writer;
   },
@@ -221,6 +260,18 @@ export const Params = {
         case 6:
           message.cwLockedPoolAddress = reader.string();
           break;
+        case 7:
+          message.feeAccountAddress = reader.string();
+          break;
+        case 8:
+          message.autocompoundFeeRate = reader.string();
+          break;
+        case 9:
+          message.whitelistAdminAddress = reader.string();
+          break;
+        case 10:
+          message.modulePaused = reader.bool();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -239,6 +290,10 @@ export const Params = {
     if (isSet(object.lsmDisabled)) obj.lsmDisabled = Boolean(object.lsmDisabled);
     if (isSet(object.minLiquidStakeAmount)) obj.minLiquidStakeAmount = String(object.minLiquidStakeAmount);
     if (isSet(object.cwLockedPoolAddress)) obj.cwLockedPoolAddress = String(object.cwLockedPoolAddress);
+    if (isSet(object.feeAccountAddress)) obj.feeAccountAddress = String(object.feeAccountAddress);
+    if (isSet(object.autocompoundFeeRate)) obj.autocompoundFeeRate = String(object.autocompoundFeeRate);
+    if (isSet(object.whitelistAdminAddress)) obj.whitelistAdminAddress = String(object.whitelistAdminAddress);
+    if (isSet(object.modulePaused)) obj.modulePaused = Boolean(object.modulePaused);
     return obj;
   },
   toJSON(message: Params): unknown {
@@ -255,6 +310,11 @@ export const Params = {
     message.lsmDisabled !== undefined && (obj.lsmDisabled = message.lsmDisabled);
     message.minLiquidStakeAmount !== undefined && (obj.minLiquidStakeAmount = message.minLiquidStakeAmount);
     message.cwLockedPoolAddress !== undefined && (obj.cwLockedPoolAddress = message.cwLockedPoolAddress);
+    message.feeAccountAddress !== undefined && (obj.feeAccountAddress = message.feeAccountAddress);
+    message.autocompoundFeeRate !== undefined && (obj.autocompoundFeeRate = message.autocompoundFeeRate);
+    message.whitelistAdminAddress !== undefined &&
+      (obj.whitelistAdminAddress = message.whitelistAdminAddress);
+    message.modulePaused !== undefined && (obj.modulePaused = message.modulePaused);
     return obj;
   },
   fromPartial(object: Partial<Params>): Params {
@@ -266,6 +326,10 @@ export const Params = {
     message.lsmDisabled = object.lsmDisabled ?? false;
     message.minLiquidStakeAmount = object.minLiquidStakeAmount ?? "";
     message.cwLockedPoolAddress = object.cwLockedPoolAddress ?? "";
+    message.feeAccountAddress = object.feeAccountAddress ?? "";
+    message.autocompoundFeeRate = object.autocompoundFeeRate ?? "";
+    message.whitelistAdminAddress = object.whitelistAdminAddress ?? "";
+    message.modulePaused = object.modulePaused ?? false;
     return message;
   },
 };

@@ -1,12 +1,21 @@
 //@ts-nocheck
 /* eslint-disable */
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { MsgLiquidStake, MsgLiquidUnstake, MsgStakeToLP, MsgUpdateParams } from "./tx";
+import {
+  MsgLiquidStake,
+  MsgLiquidUnstake,
+  MsgStakeToLP,
+  MsgUpdateParams,
+  MsgUpdateWhitelistedValidators,
+  MsgSetModulePaused,
+} from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [
   ["/pstake.liquidstake.v1beta1.MsgLiquidStake", MsgLiquidStake],
   ["/pstake.liquidstake.v1beta1.MsgLiquidUnstake", MsgLiquidUnstake],
   ["/pstake.liquidstake.v1beta1.MsgStakeToLP", MsgStakeToLP],
   ["/pstake.liquidstake.v1beta1.MsgUpdateParams", MsgUpdateParams],
+  ["/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators", MsgUpdateWhitelistedValidators],
+  ["/pstake.liquidstake.v1beta1.MsgSetModulePaused", MsgSetModulePaused],
 ];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -39,6 +48,18 @@ export const MessageComposer = {
         value: MsgUpdateParams.encode(value).finish(),
       };
     },
+    updateWhitelistedValidators(value: MsgUpdateWhitelistedValidators) {
+      return {
+        typeUrl: "/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators",
+        value: MsgUpdateWhitelistedValidators.encode(value).finish(),
+      };
+    },
+    setModulePaused(value: MsgSetModulePaused) {
+      return {
+        typeUrl: "/pstake.liquidstake.v1beta1.MsgSetModulePaused",
+        value: MsgSetModulePaused.encode(value).finish(),
+      };
+    },
   },
   withTypeUrl: {
     liquidStake(value: MsgLiquidStake) {
@@ -62,6 +83,18 @@ export const MessageComposer = {
     updateParams(value: MsgUpdateParams) {
       return {
         typeUrl: "/pstake.liquidstake.v1beta1.MsgUpdateParams",
+        value,
+      };
+    },
+    updateWhitelistedValidators(value: MsgUpdateWhitelistedValidators) {
+      return {
+        typeUrl: "/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators",
+        value,
+      };
+    },
+    setModulePaused(value: MsgSetModulePaused) {
+      return {
+        typeUrl: "/pstake.liquidstake.v1beta1.MsgSetModulePaused",
         value,
       };
     },
@@ -91,6 +124,18 @@ export const MessageComposer = {
         value: MsgUpdateParams.toJSON(value),
       };
     },
+    updateWhitelistedValidators(value: MsgUpdateWhitelistedValidators) {
+      return {
+        typeUrl: "/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators",
+        value: MsgUpdateWhitelistedValidators.toJSON(value),
+      };
+    },
+    setModulePaused(value: MsgSetModulePaused) {
+      return {
+        typeUrl: "/pstake.liquidstake.v1beta1.MsgSetModulePaused",
+        value: MsgSetModulePaused.toJSON(value),
+      };
+    },
   },
   fromJSON: {
     liquidStake(value: any) {
@@ -117,6 +162,18 @@ export const MessageComposer = {
         value: MsgUpdateParams.fromJSON(value),
       };
     },
+    updateWhitelistedValidators(value: any) {
+      return {
+        typeUrl: "/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators",
+        value: MsgUpdateWhitelistedValidators.fromJSON(value),
+      };
+    },
+    setModulePaused(value: any) {
+      return {
+        typeUrl: "/pstake.liquidstake.v1beta1.MsgSetModulePaused",
+        value: MsgSetModulePaused.fromJSON(value),
+      };
+    },
   },
   fromPartial: {
     liquidStake(value: MsgLiquidStake) {
@@ -141,6 +198,18 @@ export const MessageComposer = {
       return {
         typeUrl: "/pstake.liquidstake.v1beta1.MsgUpdateParams",
         value: MsgUpdateParams.fromPartial(value),
+      };
+    },
+    updateWhitelistedValidators(value: MsgUpdateWhitelistedValidators) {
+      return {
+        typeUrl: "/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators",
+        value: MsgUpdateWhitelistedValidators.fromPartial(value),
+      };
+    },
+    setModulePaused(value: MsgSetModulePaused) {
+      return {
+        typeUrl: "/pstake.liquidstake.v1beta1.MsgSetModulePaused",
+        value: MsgSetModulePaused.fromPartial(value),
       };
     },
   },

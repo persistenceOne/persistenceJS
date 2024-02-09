@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
-import { Params } from "./liquidstake";
+import { Params, WhitelistedValidator } from "./liquidstake";
 import { Timestamp } from "../../../google/protobuf/timestamp";
 import { BinaryReader, BinaryWriter } from "../../../binary";
 import { isSet, fromJsonTimestamp, fromTimestamp, Rpc } from "../../../helpers";
@@ -48,12 +48,43 @@ export interface MsgUpdateParams {
   /**
    * params defines the parameters to update.
    *
-   * NOTE: All parameters must be supplied.
+   * NOTE: denom and whitelisted validators are not updated.
    */
   params: Params;
 }
 /** MsgUpdateParamsResponse defines the response structure for executing a */
 export interface MsgUpdateParamsResponse {}
+export interface MsgUpdateWhitelistedValidators {
+  /**
+   * Authority is the address that is allowed to update whitelisted validators,
+   * defined as admin address in params (WhitelistAdminAddress).
+   */
+  authority: string;
+  /**
+   * WhitelistedValidators specifies the validators elected to become Active
+   * Liquid Validators.
+   */
+  whitelistedValidators: WhitelistedValidator[];
+}
+/**
+ * MsgUpdateWhitelistedValidatorsResponse defines the response structure for
+ * executing a
+ */
+export interface MsgUpdateWhitelistedValidatorsResponse {}
+export interface MsgSetModulePaused {
+  /**
+   * Authority is the address that is allowed to update module's paused state,
+   * defined as admin address in params (WhitelistAdminAddress).
+   */
+  authority: string;
+  /** IsPaused represents the target state of the paused flag. */
+  isPaused: boolean;
+}
+/**
+ * MsgSetModulePausedResponse defines the response structure for
+ * executing a
+ */
+export interface MsgSetModulePausedResponse {}
 function createBaseMsgLiquidStake(): MsgLiquidStake {
   return {
     delegatorAddress: "",
@@ -456,6 +487,200 @@ export const MsgUpdateParamsResponse = {
     return message;
   },
 };
+function createBaseMsgUpdateWhitelistedValidators(): MsgUpdateWhitelistedValidators {
+  return {
+    authority: "",
+    whitelistedValidators: [],
+  };
+}
+export const MsgUpdateWhitelistedValidators = {
+  encode(
+    message: MsgUpdateWhitelistedValidators,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    if (message.authority !== "") {
+      writer.uint32(10).string(message.authority);
+    }
+    for (const v of message.whitelistedValidators) {
+      WhitelistedValidator.encode(v!, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUpdateWhitelistedValidators {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgUpdateWhitelistedValidators();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.authority = reader.string();
+          break;
+        case 2:
+          message.whitelistedValidators.push(WhitelistedValidator.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgUpdateWhitelistedValidators {
+    const obj = createBaseMsgUpdateWhitelistedValidators();
+    if (isSet(object.authority)) obj.authority = String(object.authority);
+    if (Array.isArray(object?.whitelistedValidators))
+      obj.whitelistedValidators = object.whitelistedValidators.map((e: any) =>
+        WhitelistedValidator.fromJSON(e),
+      );
+    return obj;
+  },
+  toJSON(message: MsgUpdateWhitelistedValidators): unknown {
+    const obj: any = {};
+    message.authority !== undefined && (obj.authority = message.authority);
+    if (message.whitelistedValidators) {
+      obj.whitelistedValidators = message.whitelistedValidators.map((e) =>
+        e ? WhitelistedValidator.toJSON(e) : undefined,
+      );
+    } else {
+      obj.whitelistedValidators = [];
+    }
+    return obj;
+  },
+  fromPartial(object: Partial<MsgUpdateWhitelistedValidators>): MsgUpdateWhitelistedValidators {
+    const message = createBaseMsgUpdateWhitelistedValidators();
+    message.authority = object.authority ?? "";
+    message.whitelistedValidators =
+      object.whitelistedValidators?.map((e) => WhitelistedValidator.fromPartial(e)) || [];
+    return message;
+  },
+};
+function createBaseMsgUpdateWhitelistedValidatorsResponse(): MsgUpdateWhitelistedValidatorsResponse {
+  return {};
+}
+export const MsgUpdateWhitelistedValidatorsResponse = {
+  encode(
+    _: MsgUpdateWhitelistedValidatorsResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUpdateWhitelistedValidatorsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgUpdateWhitelistedValidatorsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgUpdateWhitelistedValidatorsResponse {
+    const obj = createBaseMsgUpdateWhitelistedValidatorsResponse();
+    return obj;
+  },
+  toJSON(_: MsgUpdateWhitelistedValidatorsResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial(_: Partial<MsgUpdateWhitelistedValidatorsResponse>): MsgUpdateWhitelistedValidatorsResponse {
+    const message = createBaseMsgUpdateWhitelistedValidatorsResponse();
+    return message;
+  },
+};
+function createBaseMsgSetModulePaused(): MsgSetModulePaused {
+  return {
+    authority: "",
+    isPaused: false,
+  };
+}
+export const MsgSetModulePaused = {
+  encode(message: MsgSetModulePaused, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.authority !== "") {
+      writer.uint32(10).string(message.authority);
+    }
+    if (message.isPaused === true) {
+      writer.uint32(16).bool(message.isPaused);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgSetModulePaused {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgSetModulePaused();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.authority = reader.string();
+          break;
+        case 2:
+          message.isPaused = reader.bool();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgSetModulePaused {
+    const obj = createBaseMsgSetModulePaused();
+    if (isSet(object.authority)) obj.authority = String(object.authority);
+    if (isSet(object.isPaused)) obj.isPaused = Boolean(object.isPaused);
+    return obj;
+  },
+  toJSON(message: MsgSetModulePaused): unknown {
+    const obj: any = {};
+    message.authority !== undefined && (obj.authority = message.authority);
+    message.isPaused !== undefined && (obj.isPaused = message.isPaused);
+    return obj;
+  },
+  fromPartial(object: Partial<MsgSetModulePaused>): MsgSetModulePaused {
+    const message = createBaseMsgSetModulePaused();
+    message.authority = object.authority ?? "";
+    message.isPaused = object.isPaused ?? false;
+    return message;
+  },
+};
+function createBaseMsgSetModulePausedResponse(): MsgSetModulePausedResponse {
+  return {};
+}
+export const MsgSetModulePausedResponse = {
+  encode(_: MsgSetModulePausedResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgSetModulePausedResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgSetModulePausedResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgSetModulePausedResponse {
+    const obj = createBaseMsgSetModulePausedResponse();
+    return obj;
+  },
+  toJSON(_: MsgSetModulePausedResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial(_: Partial<MsgSetModulePausedResponse>): MsgSetModulePausedResponse {
+    const message = createBaseMsgSetModulePausedResponse();
+    return message;
+  },
+};
 /** Msg defines the liquid staking Msg service. */
 export interface Msg {
   /**
@@ -475,6 +700,18 @@ export interface Msg {
   StakeToLP(request: MsgStakeToLP): Promise<MsgStakeToLPResponse>;
   /** UpdateParams defines a method to update the module params. */
   UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse>;
+  /**
+   * UpdateWhitelistedValidators defines a method to update the whitelisted
+   * validators list.
+   */
+  UpdateWhitelistedValidators(
+    request: MsgUpdateWhitelistedValidators,
+  ): Promise<MsgUpdateWhitelistedValidatorsResponse>;
+  /**
+   * SetModulePaused  defines a method to update the module's pause status,
+   * setting value of the safety flag in params.
+   */
+  SetModulePaused(request: MsgSetModulePaused): Promise<MsgSetModulePausedResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
@@ -484,6 +721,8 @@ export class MsgClientImpl implements Msg {
     this.LiquidUnstake = this.LiquidUnstake.bind(this);
     this.StakeToLP = this.StakeToLP.bind(this);
     this.UpdateParams = this.UpdateParams.bind(this);
+    this.UpdateWhitelistedValidators = this.UpdateWhitelistedValidators.bind(this);
+    this.SetModulePaused = this.SetModulePaused.bind(this);
   }
   LiquidStake(request: MsgLiquidStake): Promise<MsgLiquidStakeResponse> {
     const data = MsgLiquidStake.encode(request).finish();
@@ -504,5 +743,17 @@ export class MsgClientImpl implements Msg {
     const data = MsgUpdateParams.encode(request).finish();
     const promise = this.rpc.request("pstake.liquidstake.v1beta1.Msg", "UpdateParams", data);
     return promise.then((data) => MsgUpdateParamsResponse.decode(new BinaryReader(data)));
+  }
+  UpdateWhitelistedValidators(
+    request: MsgUpdateWhitelistedValidators,
+  ): Promise<MsgUpdateWhitelistedValidatorsResponse> {
+    const data = MsgUpdateWhitelistedValidators.encode(request).finish();
+    const promise = this.rpc.request("pstake.liquidstake.v1beta1.Msg", "UpdateWhitelistedValidators", data);
+    return promise.then((data) => MsgUpdateWhitelistedValidatorsResponse.decode(new BinaryReader(data)));
+  }
+  SetModulePaused(request: MsgSetModulePaused): Promise<MsgSetModulePausedResponse> {
+    const data = MsgSetModulePaused.encode(request).finish();
+    const promise = this.rpc.request("pstake.liquidstake.v1beta1.Msg", "SetModulePaused", data);
+    return promise.then((data) => MsgSetModulePausedResponse.decode(new BinaryReader(data)));
   }
 }

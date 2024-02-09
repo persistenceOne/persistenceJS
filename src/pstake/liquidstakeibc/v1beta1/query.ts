@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { PageRequest, PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
 import { Params } from "./params";
 import {
   HostChain,
@@ -7,6 +8,8 @@ import {
   Unbonding,
   UserUnbonding,
   ValidatorUnbonding,
+  Redelegations,
+  RedelegateTx,
 } from "./liquidstakeibc";
 import { Coin } from "../../../cosmos/base/v1beta1/coin";
 import { BinaryReader, BinaryWriter } from "../../../binary";
@@ -57,6 +60,14 @@ export interface QueryUserUnbondingsRequest {
 export interface QueryUserUnbondingsResponse {
   userUnbondings: UserUnbonding[];
 }
+export interface QueryHostChainUserUnbondingsRequest {
+  chainId: string;
+  pagination: PageRequest;
+}
+export interface QueryHostChainUserUnbondingsResponse {
+  userUnbondings: UserUnbonding[];
+  pagination: PageResponse;
+}
 export interface QueryValidatorUnbondingRequest {
   chainId: string;
 }
@@ -74,6 +85,18 @@ export interface QueryExchangeRateRequest {
 }
 export interface QueryExchangeRateResponse {
   rate: string;
+}
+export interface QueryRedelegationsRequest {
+  chainId: string;
+}
+export interface QueryRedelegationsResponse {
+  redelegations: Redelegations;
+}
+export interface QueryRedelegationTxRequest {
+  chainId: string;
+}
+export interface QueryRedelegationTxResponse {
+  redelegationTx: RedelegateTx[];
 }
 function createBaseQueryParamsRequest(): QueryParamsRequest {
   return {};
@@ -817,6 +840,133 @@ export const QueryUserUnbondingsResponse = {
     return message;
   },
 };
+function createBaseQueryHostChainUserUnbondingsRequest(): QueryHostChainUserUnbondingsRequest {
+  return {
+    chainId: "",
+    pagination: PageRequest.fromPartial({}),
+  };
+}
+export const QueryHostChainUserUnbondingsRequest = {
+  encode(
+    message: QueryHostChainUserUnbondingsRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    if (message.chainId !== "") {
+      writer.uint32(10).string(message.chainId);
+    }
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryHostChainUserUnbondingsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryHostChainUserUnbondingsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.chainId = reader.string();
+          break;
+        case 2:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryHostChainUserUnbondingsRequest {
+    const obj = createBaseQueryHostChainUserUnbondingsRequest();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    if (isSet(object.pagination)) obj.pagination = PageRequest.fromJSON(object.pagination);
+    return obj;
+  },
+  toJSON(message: QueryHostChainUserUnbondingsRequest): unknown {
+    const obj: any = {};
+    message.chainId !== undefined && (obj.chainId = message.chainId);
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+  fromPartial(object: Partial<QueryHostChainUserUnbondingsRequest>): QueryHostChainUserUnbondingsRequest {
+    const message = createBaseQueryHostChainUserUnbondingsRequest();
+    message.chainId = object.chainId ?? "";
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    }
+    return message;
+  },
+};
+function createBaseQueryHostChainUserUnbondingsResponse(): QueryHostChainUserUnbondingsResponse {
+  return {
+    userUnbondings: [],
+    pagination: PageResponse.fromPartial({}),
+  };
+}
+export const QueryHostChainUserUnbondingsResponse = {
+  encode(
+    message: QueryHostChainUserUnbondingsResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    for (const v of message.userUnbondings) {
+      UserUnbonding.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryHostChainUserUnbondingsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryHostChainUserUnbondingsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.userUnbondings.push(UserUnbonding.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryHostChainUserUnbondingsResponse {
+    const obj = createBaseQueryHostChainUserUnbondingsResponse();
+    if (Array.isArray(object?.userUnbondings))
+      obj.userUnbondings = object.userUnbondings.map((e: any) => UserUnbonding.fromJSON(e));
+    if (isSet(object.pagination)) obj.pagination = PageResponse.fromJSON(object.pagination);
+    return obj;
+  },
+  toJSON(message: QueryHostChainUserUnbondingsResponse): unknown {
+    const obj: any = {};
+    if (message.userUnbondings) {
+      obj.userUnbondings = message.userUnbondings.map((e) => (e ? UserUnbonding.toJSON(e) : undefined));
+    } else {
+      obj.userUnbondings = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+    return obj;
+  },
+  fromPartial(object: Partial<QueryHostChainUserUnbondingsResponse>): QueryHostChainUserUnbondingsResponse {
+    const message = createBaseQueryHostChainUserUnbondingsResponse();
+    message.userUnbondings = object.userUnbondings?.map((e) => UserUnbonding.fromPartial(e)) || [];
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    }
+    return message;
+  },
+};
 function createBaseQueryValidatorUnbondingRequest(): QueryValidatorUnbondingRequest {
   return {
     chainId: "",
@@ -1110,6 +1260,194 @@ export const QueryExchangeRateResponse = {
     return message;
   },
 };
+function createBaseQueryRedelegationsRequest(): QueryRedelegationsRequest {
+  return {
+    chainId: "",
+  };
+}
+export const QueryRedelegationsRequest = {
+  encode(message: QueryRedelegationsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.chainId !== "") {
+      writer.uint32(10).string(message.chainId);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryRedelegationsRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryRedelegationsRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.chainId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryRedelegationsRequest {
+    const obj = createBaseQueryRedelegationsRequest();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    return obj;
+  },
+  toJSON(message: QueryRedelegationsRequest): unknown {
+    const obj: any = {};
+    message.chainId !== undefined && (obj.chainId = message.chainId);
+    return obj;
+  },
+  fromPartial(object: Partial<QueryRedelegationsRequest>): QueryRedelegationsRequest {
+    const message = createBaseQueryRedelegationsRequest();
+    message.chainId = object.chainId ?? "";
+    return message;
+  },
+};
+function createBaseQueryRedelegationsResponse(): QueryRedelegationsResponse {
+  return {
+    redelegations: Redelegations.fromPartial({}),
+  };
+}
+export const QueryRedelegationsResponse = {
+  encode(message: QueryRedelegationsResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.redelegations !== undefined) {
+      Redelegations.encode(message.redelegations, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryRedelegationsResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryRedelegationsResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.redelegations = Redelegations.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryRedelegationsResponse {
+    const obj = createBaseQueryRedelegationsResponse();
+    if (isSet(object.redelegations)) obj.redelegations = Redelegations.fromJSON(object.redelegations);
+    return obj;
+  },
+  toJSON(message: QueryRedelegationsResponse): unknown {
+    const obj: any = {};
+    message.redelegations !== undefined &&
+      (obj.redelegations = message.redelegations ? Redelegations.toJSON(message.redelegations) : undefined);
+    return obj;
+  },
+  fromPartial(object: Partial<QueryRedelegationsResponse>): QueryRedelegationsResponse {
+    const message = createBaseQueryRedelegationsResponse();
+    if (object.redelegations !== undefined && object.redelegations !== null) {
+      message.redelegations = Redelegations.fromPartial(object.redelegations);
+    }
+    return message;
+  },
+};
+function createBaseQueryRedelegationTxRequest(): QueryRedelegationTxRequest {
+  return {
+    chainId: "",
+  };
+}
+export const QueryRedelegationTxRequest = {
+  encode(message: QueryRedelegationTxRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.chainId !== "") {
+      writer.uint32(10).string(message.chainId);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryRedelegationTxRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryRedelegationTxRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.chainId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryRedelegationTxRequest {
+    const obj = createBaseQueryRedelegationTxRequest();
+    if (isSet(object.chainId)) obj.chainId = String(object.chainId);
+    return obj;
+  },
+  toJSON(message: QueryRedelegationTxRequest): unknown {
+    const obj: any = {};
+    message.chainId !== undefined && (obj.chainId = message.chainId);
+    return obj;
+  },
+  fromPartial(object: Partial<QueryRedelegationTxRequest>): QueryRedelegationTxRequest {
+    const message = createBaseQueryRedelegationTxRequest();
+    message.chainId = object.chainId ?? "";
+    return message;
+  },
+};
+function createBaseQueryRedelegationTxResponse(): QueryRedelegationTxResponse {
+  return {
+    redelegationTx: [],
+  };
+}
+export const QueryRedelegationTxResponse = {
+  encode(message: QueryRedelegationTxResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    for (const v of message.redelegationTx) {
+      RedelegateTx.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryRedelegationTxResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryRedelegationTxResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.redelegationTx.push(RedelegateTx.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryRedelegationTxResponse {
+    const obj = createBaseQueryRedelegationTxResponse();
+    if (Array.isArray(object?.redelegationTx))
+      obj.redelegationTx = object.redelegationTx.map((e: any) => RedelegateTx.fromJSON(e));
+    return obj;
+  },
+  toJSON(message: QueryRedelegationTxResponse): unknown {
+    const obj: any = {};
+    if (message.redelegationTx) {
+      obj.redelegationTx = message.redelegationTx.map((e) => (e ? RedelegateTx.toJSON(e) : undefined));
+    } else {
+      obj.redelegationTx = [];
+    }
+    return obj;
+  },
+  fromPartial(object: Partial<QueryRedelegationTxResponse>): QueryRedelegationTxResponse {
+    const message = createBaseQueryRedelegationTxResponse();
+    message.redelegationTx = object.redelegationTx?.map((e) => RedelegateTx.fromPartial(e)) || [];
+    return message;
+  },
+};
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Queries the parameters of the module. */
@@ -1128,6 +1466,10 @@ export interface Query {
   Unbonding(request: QueryUnbondingRequest): Promise<QueryUnbondingResponse>;
   /** Queries all unbondings for a delegator address. */
   UserUnbondings(request: QueryUserUnbondingsRequest): Promise<QueryUserUnbondingsResponse>;
+  /** Queries all unbondings for a host chain. */
+  HostChainUserUnbondings(
+    request: QueryHostChainUserUnbondingsRequest,
+  ): Promise<QueryHostChainUserUnbondingsResponse>;
   /** Queries all validator unbondings for a host chain. */
   ValidatorUnbondings(request: QueryValidatorUnbondingRequest): Promise<QueryValidatorUnbondingResponse>;
   /** Queries for a host chain deposit account balance. */
@@ -1139,6 +1481,13 @@ export interface Query {
    * token.
    */
   ExchangeRate(request: QueryExchangeRateRequest): Promise<QueryExchangeRateResponse>;
+  /**
+   * Queries for a host chain redelegation entries on the host token delegation
+   * acct.
+   */
+  Redelegations(request: QueryRedelegationsRequest): Promise<QueryRedelegationsResponse>;
+  /** Queries for a host chain redelegation-txs for the host token. */
+  RedelegationTx(request: QueryRedelegationTxRequest): Promise<QueryRedelegationTxResponse>;
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
@@ -1152,9 +1501,12 @@ export class QueryClientImpl implements Query {
     this.Unbondings = this.Unbondings.bind(this);
     this.Unbonding = this.Unbonding.bind(this);
     this.UserUnbondings = this.UserUnbondings.bind(this);
+    this.HostChainUserUnbondings = this.HostChainUserUnbondings.bind(this);
     this.ValidatorUnbondings = this.ValidatorUnbondings.bind(this);
     this.DepositAccountBalance = this.DepositAccountBalance.bind(this);
     this.ExchangeRate = this.ExchangeRate.bind(this);
+    this.Redelegations = this.Redelegations.bind(this);
+    this.RedelegationTx = this.RedelegationTx.bind(this);
   }
   Params(request: QueryParamsRequest = {}): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -1196,6 +1548,13 @@ export class QueryClientImpl implements Query {
     const promise = this.rpc.request("pstake.liquidstakeibc.v1beta1.Query", "UserUnbondings", data);
     return promise.then((data) => QueryUserUnbondingsResponse.decode(new BinaryReader(data)));
   }
+  HostChainUserUnbondings(
+    request: QueryHostChainUserUnbondingsRequest,
+  ): Promise<QueryHostChainUserUnbondingsResponse> {
+    const data = QueryHostChainUserUnbondingsRequest.encode(request).finish();
+    const promise = this.rpc.request("pstake.liquidstakeibc.v1beta1.Query", "HostChainUserUnbondings", data);
+    return promise.then((data) => QueryHostChainUserUnbondingsResponse.decode(new BinaryReader(data)));
+  }
   ValidatorUnbondings(request: QueryValidatorUnbondingRequest): Promise<QueryValidatorUnbondingResponse> {
     const data = QueryValidatorUnbondingRequest.encode(request).finish();
     const promise = this.rpc.request("pstake.liquidstakeibc.v1beta1.Query", "ValidatorUnbondings", data);
@@ -1212,5 +1571,15 @@ export class QueryClientImpl implements Query {
     const data = QueryExchangeRateRequest.encode(request).finish();
     const promise = this.rpc.request("pstake.liquidstakeibc.v1beta1.Query", "ExchangeRate", data);
     return promise.then((data) => QueryExchangeRateResponse.decode(new BinaryReader(data)));
+  }
+  Redelegations(request: QueryRedelegationsRequest): Promise<QueryRedelegationsResponse> {
+    const data = QueryRedelegationsRequest.encode(request).finish();
+    const promise = this.rpc.request("pstake.liquidstakeibc.v1beta1.Query", "Redelegations", data);
+    return promise.then((data) => QueryRedelegationsResponse.decode(new BinaryReader(data)));
+  }
+  RedelegationTx(request: QueryRedelegationTxRequest): Promise<QueryRedelegationTxResponse> {
+    const data = QueryRedelegationTxRequest.encode(request).finish();
+    const promise = this.rpc.request("pstake.liquidstakeibc.v1beta1.Query", "RedelegationTx", data);
+    return promise.then((data) => QueryRedelegationTxResponse.decode(new BinaryReader(data)));
   }
 }
