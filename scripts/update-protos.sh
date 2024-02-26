@@ -21,6 +21,10 @@ persistence_sdk_tag=v2.1.0
 wasmd_git=https://github.com/persistenceOne/wasmd.git
 wasmd_tag=v0.40.2-lsm3
 
+# temperory remove this
+stargaze_git=https://github.com/public-awesome/stargaze.git
+stargaze_tag=main
+
 echo "updating amino, cosmos, tendermint from cosmos-sdk"
 git clone $cosmos_git
 cd cosmos-sdk
@@ -96,3 +100,16 @@ cp -r proto/cosmwasm ../proto/cosmwasm
 
 cd ..
 rm -rf wasmd
+
+# temperory remove this
+echo "updating stargaze from stargaze"
+git clone $stargaze_git
+cd stargaze
+git checkout $stargaze_tag
+
+rm -rf ../proto/publicawesome
+
+cp -r proto/publicawesome ../proto/publicawesome
+
+cd ..
+rm -rf stargaze
