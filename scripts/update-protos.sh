@@ -107,9 +107,9 @@ git clone $stargaze_git
 cd stargaze
 git checkout $stargaze_tag
 
-rm -rf ../proto/publicawesome
+rm -rf ../proto/stargaze
 
-cp -r proto/publicawesome ../proto/publicawesome
+cp -r proto/stargaze ../proto/stargaze
 
 cd ..
 rm -rf stargaze
