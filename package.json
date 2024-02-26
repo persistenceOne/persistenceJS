@@ -16,6 +16,7 @@
     "tendermint/",
     "pstake/",
     "persistence/",
+    "publicawesome/",
     "/helpers.*",
     "/index.*",
     "/binary.*",
