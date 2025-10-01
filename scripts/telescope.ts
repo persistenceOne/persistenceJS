@@ -121,6 +121,21 @@ telescope({
         },
         "/cosmos.distribution.v1beta1.MsgWithdrawAllTokenizeShareRecordReward": {
           aminoType: "cosmos-sdk/MsgWithdrawAllTokenizeReward"
+        },
+        "/gaia.liquid.v1beta1.MsgRedeemTokensForShares": {
+          aminoType: "gaia/MsgRedeemTokensForShares"
+        },
+        "/gaia.liquid.v1beta1.MsgTokenizeShares": {
+          aminoType: "gaia/MsgTokenizeShares"
+        },
+        "/gaia.liquid.v1beta1.MsgTransferTokenizeShareRecord": {
+          aminoType: "gaia/MsgTransferTokenizeRecord"
+        },
+        "/gaia.liquid.v1beta1.MsgWithdrawTokenizeShareRecordReward": {
+          aminoType: "gaia/MsgWithdrawTokenizeReward"
+        },
+        "/gaia.liquid.v1beta1.MsgWithdrawAllTokenizeShareRecordReward": {
+          aminoType: "gaia/MsgWithdrawAllTokenizeReward"
         }
       }
     }

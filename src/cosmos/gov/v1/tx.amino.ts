@@ -9,6 +9,7 @@ import {
   MsgVoteWeighted,
   MsgDeposit,
   MsgUpdateParams,
+  MsgCancelProposal,
 } from "./tx";
 export interface MsgSubmitProposalAminoType extends AminoMsg {
   type: "cosmos-sdk/v1/MsgSubmitProposal";
@@ -25,6 +26,7 @@ export interface MsgSubmitProposalAminoType extends AminoMsg {
     metadata: string;
     title: string;
     summary: string;
+    expedited: boolean;
   };
 }
 export interface MsgExecLegacyContentAminoType extends AminoMsg {
@@ -90,10 +92,29 @@ export interface MsgUpdateParamsAminoType extends AminoMsg {
       threshold: string;
       veto_threshold: string;
       min_initial_deposit_ratio: string;
+      proposal_cancel_ratio: string;
+      proposal_cancel_dest: string;
+      expedited_voting_period: {
+        seconds: string;
+        nanos: number;
+      };
+      expedited_threshold: string;
+      expedited_min_deposit: {
+        denom: string;
+        amount: string;
+      }[];
       burn_vote_quorum: boolean;
       burn_proposal_deposit_prevote: boolean;
       burn_vote_veto: boolean;
+      min_deposit_ratio: string;
     };
+  };
+}
+export interface MsgCancelProposalAminoType extends AminoMsg {
+  type: "cosmos-sdk/v1/MsgCancelProposal";
+  value: {
+    proposal_id: string;
+    proposer: string;
   };
 }
 export const AminoConverter = {
@@ -106,6 +127,7 @@ export const AminoConverter = {
       metadata,
       title,
       summary,
+      expedited,
     }: MsgSubmitProposal): MsgSubmitProposalAminoType["value"] => {
       return {
         messages: messages.map((el0) => ({
@@ -120,6 +142,7 @@ export const AminoConverter = {
         metadata,
         title,
         summary,
+        expedited,
       };
     },
     fromAmino: ({
@@ -129,6 +152,7 @@ export const AminoConverter = {
       metadata,
       title,
       summary,
+      expedited,
     }: MsgSubmitProposalAminoType["value"]): MsgSubmitProposal => {
       return {
         messages: messages.map((el0) => ({
@@ -143,6 +167,7 @@ export const AminoConverter = {
         metadata,
         title,
         summary,
+        expedited,
       };
     },
   },
@@ -260,9 +285,18 @@ export const AminoConverter = {
           threshold: params.threshold,
           veto_threshold: params.vetoThreshold,
           min_initial_deposit_ratio: params.minInitialDepositRatio,
+          proposal_cancel_ratio: params.proposalCancelRatio,
+          proposal_cancel_dest: params.proposalCancelDest,
+          expedited_voting_period: (params.expeditedVotingPeriod * 1_000_000_000).toString(),
+          expedited_threshold: params.expeditedThreshold,
+          expedited_min_deposit: params.expeditedMinDeposit.map((el0) => ({
+            denom: el0.denom,
+            amount: el0.amount,
+          })),
           burn_vote_quorum: params.burnVoteQuorum,
           burn_proposal_deposit_prevote: params.burnProposalDepositPrevote,
           burn_vote_veto: params.burnVoteVeto,
+          min_deposit_ratio: params.minDepositRatio,
         },
       };
     },
@@ -286,10 +320,37 @@ export const AminoConverter = {
           threshold: params.threshold,
           vetoThreshold: params.veto_threshold,
           minInitialDepositRatio: params.min_initial_deposit_ratio,
+          proposalCancelRatio: params.proposal_cancel_ratio,
+          proposalCancelDest: params.proposal_cancel_dest,
+          expeditedVotingPeriod: {
+            seconds: BigInt(Math.floor(parseInt(params.expedited_voting_period) / 1_000_000_000)),
+            nanos: parseInt(params.expedited_voting_period) % 1_000_000_000,
+          },
+          expeditedThreshold: params.expedited_threshold,
+          expeditedMinDeposit: params.expedited_min_deposit.map((el1) => ({
+            denom: el1.denom,
+            amount: el1.amount,
+          })),
           burnVoteQuorum: params.burn_vote_quorum,
           burnProposalDepositPrevote: params.burn_proposal_deposit_prevote,
           burnVoteVeto: params.burn_vote_veto,
+          minDepositRatio: params.min_deposit_ratio,
         },
+      };
+    },
+  },
+  "/cosmos.gov.v1.MsgCancelProposal": {
+    aminoType: "cosmos-sdk/v1/MsgCancelProposal",
+    toAmino: ({ proposalId, proposer }: MsgCancelProposal): MsgCancelProposalAminoType["value"] => {
+      return {
+        proposal_id: proposalId.toString(),
+        proposer,
+      };
+    },
+    fromAmino: ({ proposal_id, proposer }: MsgCancelProposalAminoType["value"]): MsgCancelProposal => {
+      return {
+        proposalId: BigInt(proposal_id),
+        proposer,
       };
     },
   },

@@ -5,7 +5,7 @@ import "gogoproto/gogo.proto";
 import "pstake/liquidstakeibc/v1beta1/liquidstakeibc.proto";
 import "amino/amino.proto";
 
-option go_package = "github.com/persistenceOne/pstake-native/v2/x/ratesync/types";
+option go_package = "github.com/persistenceOne/pstake-native/v5/x/ratesync/types";
 
 // HostChain defines the ratesync module's HostChain state.
 message HostChain {
@@ -20,6 +20,7 @@ message HostChain {
   string transfer_channel_i_d = 6;
   string transfer_port_i_d = 7;
 }
+
 message Feature {
   // triggers on hooks
   LiquidStake liquid_stake_i_b_c = 1

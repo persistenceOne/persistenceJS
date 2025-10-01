@@ -7,11 +7,14 @@ export enum HashOp {
   NO_HASH = 0,
   SHA256 = 1,
   SHA512 = 2,
-  KECCAK = 3,
+  KECCAK256 = 3,
   RIPEMD160 = 4,
   /** BITCOIN - ripemd160(sha256(x)) */
   BITCOIN = 5,
   SHA512_256 = 6,
+  BLAKE2B_512 = 7,
+  BLAKE2S_256 = 8,
+  BLAKE3 = 9,
   UNRECOGNIZED = -1,
 }
 export function hashOpFromJSON(object: any): HashOp {
@@ -26,8 +29,8 @@ export function hashOpFromJSON(object: any): HashOp {
     case "SHA512":
       return HashOp.SHA512;
     case 3:
-    case "KECCAK":
-      return HashOp.KECCAK;
+    case "KECCAK256":
+      return HashOp.KECCAK256;
     case 4:
     case "RIPEMD160":
       return HashOp.RIPEMD160;
@@ -37,6 +40,15 @@ export function hashOpFromJSON(object: any): HashOp {
     case 6:
     case "SHA512_256":
       return HashOp.SHA512_256;
+    case 7:
+    case "BLAKE2B_512":
+      return HashOp.BLAKE2B_512;
+    case 8:
+    case "BLAKE2S_256":
+      return HashOp.BLAKE2S_256;
+    case 9:
+    case "BLAKE3":
+      return HashOp.BLAKE3;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -51,14 +63,20 @@ export function hashOpToJSON(object: HashOp): string {
       return "SHA256";
     case HashOp.SHA512:
       return "SHA512";
-    case HashOp.KECCAK:
-      return "KECCAK";
+    case HashOp.KECCAK256:
+      return "KECCAK256";
     case HashOp.RIPEMD160:
       return "RIPEMD160";
     case HashOp.BITCOIN:
       return "BITCOIN";
     case HashOp.SHA512_256:
       return "SHA512_256";
+    case HashOp.BLAKE2B_512:
+      return "BLAKE2B_512";
+    case HashOp.BLAKE2S_256:
+      return "BLAKE2S_256";
+    case HashOp.BLAKE3:
+      return "BLAKE3";
     case HashOp.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -264,7 +282,10 @@ export interface ProofSpec {
    */
   leafSpec: LeafOp;
   innerSpec: InnerSpec;
-  /** max_depth (if > 0) is the maximum number of InnerOps allowed (mainly for fixed-depth tries) */
+  /**
+   * max_depth (if > 0) is the maximum number of InnerOps allowed (mainly for fixed-depth tries)
+   * the max_depth is interpreted as 128 if set to 0
+   */
   maxDepth: number;
   /** min_depth (if > 0) is the minimum number of InnerOps allowed (mainly for fixed-depth tries) */
   minDepth: number;
@@ -294,6 +315,7 @@ export interface InnerSpec {
   childOrder: number[];
   childSize: number;
   minPrefixLength: number;
+  /** the max prefix length must be less than the minimum prefix length + child size */
   maxPrefixLength: number;
   /** empty child is the prehash image that is used when one child is nil (eg. 20 bytes of 0) */
   emptyChild: Uint8Array;

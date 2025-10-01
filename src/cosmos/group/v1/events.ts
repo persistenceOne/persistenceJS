@@ -71,6 +71,13 @@ export interface EventProposalPruned {
   /** tally_result is the proposal tally result (when applicable). */
   tallyResult: TallyResult;
 }
+/** EventTallyError is an event emitted when a proposal tally failed with an error. */
+export interface EventTallyError {
+  /** proposal_id is the unique ID of the proposal. */
+  proposalId: bigint;
+  /** error_message is the raw error output */
+  errorMessage: string;
+}
 function createBaseEventCreateGroup(): EventCreateGroup {
   return {
     groupId: BigInt(0),
@@ -587,6 +594,63 @@ export const EventProposalPruned = {
     if (object.tallyResult !== undefined && object.tallyResult !== null) {
       message.tallyResult = TallyResult.fromPartial(object.tallyResult);
     }
+    return message;
+  },
+};
+function createBaseEventTallyError(): EventTallyError {
+  return {
+    proposalId: BigInt(0),
+    errorMessage: "",
+  };
+}
+export const EventTallyError = {
+  encode(message: EventTallyError, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.proposalId !== BigInt(0)) {
+      writer.uint32(8).uint64(message.proposalId);
+    }
+    if (message.errorMessage !== "") {
+      writer.uint32(18).string(message.errorMessage);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): EventTallyError {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEventTallyError();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.proposalId = reader.uint64();
+          break;
+        case 2:
+          message.errorMessage = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): EventTallyError {
+    const obj = createBaseEventTallyError();
+    if (isSet(object.proposalId)) obj.proposalId = BigInt(object.proposalId.toString());
+    if (isSet(object.errorMessage)) obj.errorMessage = String(object.errorMessage);
+    return obj;
+  },
+  toJSON(message: EventTallyError): unknown {
+    const obj: any = {};
+    message.proposalId !== undefined && (obj.proposalId = (message.proposalId || BigInt(0)).toString());
+    message.errorMessage !== undefined && (obj.errorMessage = message.errorMessage);
+    return obj;
+  },
+  fromPartial(object: Partial<EventTallyError>): EventTallyError {
+    const message = createBaseEventTallyError();
+    if (object.proposalId !== undefined && object.proposalId !== null) {
+      message.proposalId = BigInt(object.proposalId.toString());
+    }
+    message.errorMessage = object.errorMessage ?? "";
     return message;
   },
 };

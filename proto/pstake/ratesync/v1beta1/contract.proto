@@ -5,7 +5,7 @@ import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/persistenceOne/pstake-native/v2/x/ratesync/types";
+option go_package = "github.com/persistenceOne/pstake-native/v5/x/ratesync/types";
 
 // msg blob for instantiate contract.
 message InstantiateLiquidStakeRateContract {
@@ -29,7 +29,7 @@ message LiquidStakeRate {
   string c_value = 3 [
     (gogoproto.nullable) = false,
     (cosmos_proto.scalar) = "cosmos.Dec",
-    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec"
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec"
   ];
   int64 controller_chain_time = 4;
 }

@@ -239,8 +239,6 @@ export interface QueryParamsResponse {
 /**
  * QueryTokenizeShareRecordByIdRequest is request type for the
  * Query/QueryTokenizeShareRecordById RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTokenizeShareRecordByIdRequest {
   id: bigint;
@@ -248,8 +246,6 @@ export interface QueryTokenizeShareRecordByIdRequest {
 /**
  * QueryTokenizeShareRecordByIdRequest is response type for the
  * Query/QueryTokenizeShareRecordById RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTokenizeShareRecordByIdResponse {
   record: TokenizeShareRecord;
@@ -257,8 +253,6 @@ export interface QueryTokenizeShareRecordByIdResponse {
 /**
  * QueryTokenizeShareRecordByDenomRequest is request type for the
  * Query/QueryTokenizeShareRecordByDenom RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTokenizeShareRecordByDenomRequest {
   denom: string;
@@ -266,8 +260,6 @@ export interface QueryTokenizeShareRecordByDenomRequest {
 /**
  * QueryTokenizeShareRecordByDenomResponse is response type for the
  * Query/QueryTokenizeShareRecordByDenom RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTokenizeShareRecordByDenomResponse {
   record: TokenizeShareRecord;
@@ -275,8 +267,6 @@ export interface QueryTokenizeShareRecordByDenomResponse {
 /**
  * QueryTokenizeShareRecordsOwnedRequest is request type for the
  * Query/QueryTokenizeShareRecordsOwned RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTokenizeShareRecordsOwnedRequest {
   owner: string;
@@ -284,38 +274,35 @@ export interface QueryTokenizeShareRecordsOwnedRequest {
 /**
  * QueryTokenizeShareRecordsOwnedResponse is response type for the
  * Query/QueryTokenizeShareRecordsOwned RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTokenizeShareRecordsOwnedResponse {
   records: TokenizeShareRecord[];
 }
 /**
- * QueryTotalTokenizeSharedAssetsRequest is request type for the
- * Query/QueryTotalTokenizeSharedAssets RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
+ * QueryAllTokenizeShareRecordsRequest is request type for the
+ * Query/QueryAllTokenizeShareRecords RPC method.
  */
-export interface QueryAllTokenizeShareRecordsRequest {}
+export interface QueryAllTokenizeShareRecordsRequest {
+  /** pagination defines an optional pagination for the request. */
+  pagination: PageRequest;
+}
 /**
- * QueryTotalTokenizeSharedAssetsResponse is response type for the
- * Query/QueryTotalTokenizeSharedAssets RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
+ * QueryAllTokenizeShareRecordsResponse is response type for the
+ * Query/QueryAllTokenizeShareRecords RPC method.
  */
 export interface QueryAllTokenizeShareRecordsResponse {
   records: TokenizeShareRecord[];
+  /** pagination defines the pagination in the response. */
+  pagination: PageResponse;
 }
 /**
- * QueryLastTokenizeShareRecordIdRequest
- *
- * Since: cosmos-sdk 0.47-lsm
+ * QueryLastTokenizeShareRecordIdRequest is request type for the
+ * Query/QueryLastTokenizeShareRecordId RPC method.
  */
 export interface QueryLastTokenizeShareRecordIdRequest {}
 /**
- * QueryLastTokenizeShareRecordIdResponse
- *
- * Since: cosmos-sdk 0.47-lsm
+ * QueryLastTokenizeShareRecordIdResponse is response type for the
+ * Query/QueryLastTokenizeShareRecordId RPC method.
  */
 export interface QueryLastTokenizeShareRecordIdResponse {
   id: bigint;
@@ -323,49 +310,37 @@ export interface QueryLastTokenizeShareRecordIdResponse {
 /**
  * QueryTotalTokenizeSharedAssetsRequest is request type for the
  * Query/QueryTotalTokenizeSharedAssets RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTotalTokenizeSharedAssetsRequest {}
 /**
  * QueryTotalTokenizeSharedAssetsResponse is response type for the
  * Query/QueryTotalTokenizeSharedAssets RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTotalTokenizeSharedAssetsResponse {
   value: Coin;
 }
 /**
- * QueryQueryTotalLiquidStakedRequest is request type for the
+ * QueryTotalLiquidStakedRequest is request type for the
  * Query/QueryQueryTotalLiquidStaked RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTotalLiquidStaked {}
 /**
- * QueryQueryTotalLiquidStakedResponse is response type for the
+ * QueryTotalLiquidStakedResponse is response type for the
  * Query/QueryQueryTotalLiquidStaked RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTotalLiquidStakedResponse {
   tokens: string;
 }
 /**
  * QueryTokenizeShareLockInfo queries the tokenize share lock information
- * associated with given account.
- *
- * Since: cosmos-sdk 0.47-lsm
+ * associated with given account
  */
 export interface QueryTokenizeShareLockInfo {
   address: string;
 }
 /**
  * QueryTokenizeShareLockInfoResponse is the response from the
- * QueryTokenizeShareLockInfo query.
- *
- * Since: cosmos-sdk 0.47-lsm
+ * QueryTokenizeShareLockInfo query
  */
 export interface QueryTokenizeShareLockInfoResponse {
   status: string;
@@ -2274,10 +2249,18 @@ export const QueryTokenizeShareRecordsOwnedResponse = {
   },
 };
 function createBaseQueryAllTokenizeShareRecordsRequest(): QueryAllTokenizeShareRecordsRequest {
-  return {};
+  return {
+    pagination: PageRequest.fromPartial({}),
+  };
 }
 export const QueryAllTokenizeShareRecordsRequest = {
-  encode(_: QueryAllTokenizeShareRecordsRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+  encode(
+    message: QueryAllTokenizeShareRecordsRequest,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
     return writer;
   },
   decode(input: BinaryReader | Uint8Array, length?: number): QueryAllTokenizeShareRecordsRequest {
@@ -2287,6 +2270,9 @@ export const QueryAllTokenizeShareRecordsRequest = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -2294,22 +2280,29 @@ export const QueryAllTokenizeShareRecordsRequest = {
     }
     return message;
   },
-  fromJSON(_: any): QueryAllTokenizeShareRecordsRequest {
+  fromJSON(object: any): QueryAllTokenizeShareRecordsRequest {
     const obj = createBaseQueryAllTokenizeShareRecordsRequest();
+    if (isSet(object.pagination)) obj.pagination = PageRequest.fromJSON(object.pagination);
     return obj;
   },
-  toJSON(_: QueryAllTokenizeShareRecordsRequest): unknown {
+  toJSON(message: QueryAllTokenizeShareRecordsRequest): unknown {
     const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
     return obj;
   },
-  fromPartial(_: Partial<QueryAllTokenizeShareRecordsRequest>): QueryAllTokenizeShareRecordsRequest {
+  fromPartial(object: Partial<QueryAllTokenizeShareRecordsRequest>): QueryAllTokenizeShareRecordsRequest {
     const message = createBaseQueryAllTokenizeShareRecordsRequest();
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    }
     return message;
   },
 };
 function createBaseQueryAllTokenizeShareRecordsResponse(): QueryAllTokenizeShareRecordsResponse {
   return {
     records: [],
+    pagination: PageResponse.fromPartial({}),
   };
 }
 export const QueryAllTokenizeShareRecordsResponse = {
@@ -2319,6 +2312,9 @@ export const QueryAllTokenizeShareRecordsResponse = {
   ): BinaryWriter {
     for (const v of message.records) {
       TokenizeShareRecord.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
     }
     return writer;
   },
@@ -2332,6 +2328,9 @@ export const QueryAllTokenizeShareRecordsResponse = {
         case 1:
           message.records.push(TokenizeShareRecord.decode(reader, reader.uint32()));
           break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -2343,6 +2342,7 @@ export const QueryAllTokenizeShareRecordsResponse = {
     const obj = createBaseQueryAllTokenizeShareRecordsResponse();
     if (Array.isArray(object?.records))
       obj.records = object.records.map((e: any) => TokenizeShareRecord.fromJSON(e));
+    if (isSet(object.pagination)) obj.pagination = PageResponse.fromJSON(object.pagination);
     return obj;
   },
   toJSON(message: QueryAllTokenizeShareRecordsResponse): unknown {
@@ -2352,11 +2352,16 @@ export const QueryAllTokenizeShareRecordsResponse = {
     } else {
       obj.records = [];
     }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
     return obj;
   },
   fromPartial(object: Partial<QueryAllTokenizeShareRecordsResponse>): QueryAllTokenizeShareRecordsResponse {
     const message = createBaseQueryAllTokenizeShareRecordsResponse();
     message.records = object.records?.map((e) => TokenizeShareRecord.fromPartial(e)) || [];
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    }
     return message;
   },
 };
@@ -2794,72 +2799,40 @@ export interface Query {
    * pair.
    */
   DelegatorValidator(request: QueryDelegatorValidatorRequest): Promise<QueryDelegatorValidatorResponse>;
+  /** Query for individual tokenize share record information by share by id */
+  TokenizeShareRecordById(
+    request: QueryTokenizeShareRecordByIdRequest,
+  ): Promise<QueryTokenizeShareRecordByIdResponse>;
+  /** Query for individual tokenize share record information by share denom */
+  TokenizeShareRecordByDenom(
+    request: QueryTokenizeShareRecordByDenomRequest,
+  ): Promise<QueryTokenizeShareRecordByDenomResponse>;
+  /** Query tokenize share records by address */
+  TokenizeShareRecordsOwned(
+    request: QueryTokenizeShareRecordsOwnedRequest,
+  ): Promise<QueryTokenizeShareRecordsOwnedResponse>;
+  /** Query for all tokenize share records */
+  AllTokenizeShareRecords(
+    request?: QueryAllTokenizeShareRecordsRequest,
+  ): Promise<QueryAllTokenizeShareRecordsResponse>;
+  /** Query for last tokenize share record id */
+  LastTokenizeShareRecordId(
+    request?: QueryLastTokenizeShareRecordIdRequest,
+  ): Promise<QueryLastTokenizeShareRecordIdResponse>;
+  /** Query for total tokenized staked assets */
+  TotalTokenizeSharedAssets(
+    request?: QueryTotalTokenizeSharedAssetsRequest,
+  ): Promise<QueryTotalTokenizeSharedAssetsResponse>;
+  /** Query for total liquid staked (including tokenized shares or owned by an liquid staking provider) */
+  TotalLiquidStaked(request?: QueryTotalLiquidStaked): Promise<QueryTotalLiquidStakedResponse>;
+  /** Query tokenize share locks */
+  TokenizeShareLockInfo(request: QueryTokenizeShareLockInfo): Promise<QueryTokenizeShareLockInfoResponse>;
   /** HistoricalInfo queries the historical info for given height. */
   HistoricalInfo(request: QueryHistoricalInfoRequest): Promise<QueryHistoricalInfoResponse>;
   /** Pool queries the pool info. */
   Pool(request?: QueryPoolRequest): Promise<QueryPoolResponse>;
   /** Parameters queries the staking parameters. */
   Params(request?: QueryParamsRequest): Promise<QueryParamsResponse>;
-  /**
-   * Query for individual tokenize share record information by share by id.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
-  TokenizeShareRecordById(
-    request: QueryTokenizeShareRecordByIdRequest,
-  ): Promise<QueryTokenizeShareRecordByIdResponse>;
-  /**
-   * Query for individual tokenize share record information by share denom.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
-  TokenizeShareRecordByDenom(
-    request: QueryTokenizeShareRecordByDenomRequest,
-  ): Promise<QueryTokenizeShareRecordByDenomResponse>;
-  /**
-   * Query tokenize share records by address.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
-  TokenizeShareRecordsOwned(
-    request: QueryTokenizeShareRecordsOwnedRequest,
-  ): Promise<QueryTokenizeShareRecordsOwnedResponse>;
-  /**
-   * Query for all tokenize share records.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
-  AllTokenizeShareRecords(
-    request?: QueryAllTokenizeShareRecordsRequest,
-  ): Promise<QueryAllTokenizeShareRecordsResponse>;
-  /**
-   * Query for last tokenize share record id.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
-  LastTokenizeShareRecordId(
-    request?: QueryLastTokenizeShareRecordIdRequest,
-  ): Promise<QueryLastTokenizeShareRecordIdResponse>;
-  /**
-   * Query for total tokenized staked assets.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
-  TotalTokenizeSharedAssets(
-    request?: QueryTotalTokenizeSharedAssetsRequest,
-  ): Promise<QueryTotalTokenizeSharedAssetsResponse>;
-  /**
-   * Query for total liquid staked (including tokenized shares or owned by an liquid staking provider).
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
-  TotalLiquidStaked(request?: QueryTotalLiquidStaked): Promise<QueryTotalLiquidStakedResponse>;
-  /**
-   * Query tokenize share locks.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
-  TokenizeShareLockInfo(request: QueryTokenizeShareLockInfo): Promise<QueryTokenizeShareLockInfoResponse>;
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
@@ -2876,9 +2849,6 @@ export class QueryClientImpl implements Query {
     this.Redelegations = this.Redelegations.bind(this);
     this.DelegatorValidators = this.DelegatorValidators.bind(this);
     this.DelegatorValidator = this.DelegatorValidator.bind(this);
-    this.HistoricalInfo = this.HistoricalInfo.bind(this);
-    this.Pool = this.Pool.bind(this);
-    this.Params = this.Params.bind(this);
     this.TokenizeShareRecordById = this.TokenizeShareRecordById.bind(this);
     this.TokenizeShareRecordByDenom = this.TokenizeShareRecordByDenom.bind(this);
     this.TokenizeShareRecordsOwned = this.TokenizeShareRecordsOwned.bind(this);
@@ -2887,6 +2857,9 @@ export class QueryClientImpl implements Query {
     this.TotalTokenizeSharedAssets = this.TotalTokenizeSharedAssets.bind(this);
     this.TotalLiquidStaked = this.TotalLiquidStaked.bind(this);
     this.TokenizeShareLockInfo = this.TokenizeShareLockInfo.bind(this);
+    this.HistoricalInfo = this.HistoricalInfo.bind(this);
+    this.Pool = this.Pool.bind(this);
+    this.Params = this.Params.bind(this);
   }
   Validators(request: QueryValidatorsRequest): Promise<QueryValidatorsResponse> {
     const data = QueryValidatorsRequest.encode(request).finish();
@@ -2951,21 +2924,6 @@ export class QueryClientImpl implements Query {
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "DelegatorValidator", data);
     return promise.then((data) => QueryDelegatorValidatorResponse.decode(new BinaryReader(data)));
   }
-  HistoricalInfo(request: QueryHistoricalInfoRequest): Promise<QueryHistoricalInfoResponse> {
-    const data = QueryHistoricalInfoRequest.encode(request).finish();
-    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "HistoricalInfo", data);
-    return promise.then((data) => QueryHistoricalInfoResponse.decode(new BinaryReader(data)));
-  }
-  Pool(request: QueryPoolRequest = {}): Promise<QueryPoolResponse> {
-    const data = QueryPoolRequest.encode(request).finish();
-    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "Pool", data);
-    return promise.then((data) => QueryPoolResponse.decode(new BinaryReader(data)));
-  }
-  Params(request: QueryParamsRequest = {}): Promise<QueryParamsResponse> {
-    const data = QueryParamsRequest.encode(request).finish();
-    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "Params", data);
-    return promise.then((data) => QueryParamsResponse.decode(new BinaryReader(data)));
-  }
   TokenizeShareRecordById(
     request: QueryTokenizeShareRecordByIdRequest,
   ): Promise<QueryTokenizeShareRecordByIdResponse> {
@@ -2988,7 +2946,9 @@ export class QueryClientImpl implements Query {
     return promise.then((data) => QueryTokenizeShareRecordsOwnedResponse.decode(new BinaryReader(data)));
   }
   AllTokenizeShareRecords(
-    request: QueryAllTokenizeShareRecordsRequest = {},
+    request: QueryAllTokenizeShareRecordsRequest = {
+      pagination: PageRequest.fromPartial({}),
+    },
   ): Promise<QueryAllTokenizeShareRecordsResponse> {
     const data = QueryAllTokenizeShareRecordsRequest.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "AllTokenizeShareRecords", data);
@@ -3017,5 +2977,20 @@ export class QueryClientImpl implements Query {
     const data = QueryTokenizeShareLockInfo.encode(request).finish();
     const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "TokenizeShareLockInfo", data);
     return promise.then((data) => QueryTokenizeShareLockInfoResponse.decode(new BinaryReader(data)));
+  }
+  HistoricalInfo(request: QueryHistoricalInfoRequest): Promise<QueryHistoricalInfoResponse> {
+    const data = QueryHistoricalInfoRequest.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "HistoricalInfo", data);
+    return promise.then((data) => QueryHistoricalInfoResponse.decode(new BinaryReader(data)));
+  }
+  Pool(request: QueryPoolRequest = {}): Promise<QueryPoolResponse> {
+    const data = QueryPoolRequest.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "Pool", data);
+    return promise.then((data) => QueryPoolResponse.decode(new BinaryReader(data)));
+  }
+  Params(request: QueryParamsRequest = {}): Promise<QueryParamsResponse> {
+    const data = QueryParamsRequest.encode(request).finish();
+    const promise = this.rpc.request("cosmos.staking.v1beta1.Query", "Params", data);
+    return promise.then((data) => QueryParamsResponse.decode(new BinaryReader(data)));
   }
 }

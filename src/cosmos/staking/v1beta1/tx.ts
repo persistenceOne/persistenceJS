@@ -11,8 +11,13 @@ export const protobufPackage = "cosmos.staking.v1beta1";
 export interface MsgCreateValidator {
   description: Description;
   commission: CommissionRates;
-  /** @deprecated */
   minSelfDelegation: string;
+  /**
+   * Deprecated: Use of Delegator Address in MsgCreateValidator is deprecated.
+   * The validator address bytes and delegator address bytes refer to the same account while creating validator (defer
+   * only in bech32 notation).
+   */
+  /** @deprecated */
   delegatorAddress: string;
   validatorAddress: string;
   pubkey: Any;
@@ -31,7 +36,6 @@ export interface MsgEditValidator {
    * REF: #2373
    */
   commissionRate: string;
-  /** @deprecated */
   minSelfDelegation: string;
 }
 /** MsgEditValidatorResponse defines the Msg/EditValidator response type. */
@@ -73,6 +77,12 @@ export interface MsgUndelegate {
 /** MsgUndelegateResponse defines the Msg/Undelegate response type. */
 export interface MsgUndelegateResponse {
   completionTime: Timestamp;
+  /**
+   * amount returns the amount of undelegated coins
+   *
+   * Since: cosmos-sdk 0.50
+   */
+  amount: Coin;
 }
 /**
  * MsgCancelUnbondingDelegation defines the SDK message for performing a cancel unbonding delegation for delegator
@@ -117,116 +127,71 @@ export interface MsgUpdateParams {
 export interface MsgUpdateParamsResponse {}
 /**
  * MsgUnbondValidator defines a method for performing the status transition for
- * a validator from bonded to unbonding.
- *
- * Since: cosmos-sdk 0.47-lsm
+ * a validator from bonded to unbonded
+ * This allows a validator to stop their services and jail themselves without
+ * experiencing a slash
  */
 export interface MsgUnbondValidator {
+  /**
+   * the provider address must be bech32 account address (e.g. 'cosmos')
+   * providing an operator address (e.g. 'cosmosvaloper') or consensus address will result in an error
+   * this field is populated by the CLI during Tx generation using the `--from` flag
+   */
   validatorAddress: string;
 }
-/**
- * MsgUnbondValidatorResponse defines the MsgUnbondValidator response type.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgUnbondValidatorResponse defines the Msg/UnbondValidator response type. */
 export interface MsgUnbondValidatorResponse {}
-/**
- * MsgTokenizeShares tokenizes a delegation.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgTokenizeShares tokenizes a delegation */
 export interface MsgTokenizeShares {
   delegatorAddress: string;
   validatorAddress: string;
   amount: Coin;
   tokenizedShareOwner: string;
 }
-/**
- * MsgTokenizeSharesResponse defines the MsgTokenizeShares response type.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgTokenizeSharesResponse defines the Msg/MsgTokenizeShares response type. */
 export interface MsgTokenizeSharesResponse {
   amount: Coin;
 }
-/**
- * MsgRedeemTokensForShares redeems a tokenized share back into a native delegation.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgRedeemTokensForShares redeems a tokenized share back into a native delegation */
 export interface MsgRedeemTokensForShares {
   delegatorAddress: string;
   amount: Coin;
 }
-/**
- * MsgRedeemTokensForSharesResponse defines the MsgRedeemTokensForShares response type.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgRedeemTokensForSharesResponse defines the Msg/MsgRedeemTokensForShares response type. */
 export interface MsgRedeemTokensForSharesResponse {
   amount: Coin;
 }
-/**
- * MsgTransferTokenizeShareRecord transfer a tokenize share record.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgTransferTokenizeShareRecord transfer a tokenize share record */
 export interface MsgTransferTokenizeShareRecord {
   tokenizeShareRecordId: bigint;
   sender: string;
   newOwner: string;
 }
-/**
- * MsgTransferTokenizeShareRecordResponse defines the MsgTransferTokenizeShareRecord response type.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgTransferTokenizeShareRecordResponse defines the Msg/MsgTransferTokenizeShareRecord response type. */
 export interface MsgTransferTokenizeShareRecordResponse {}
-/**
- * MsgDisableTokenizeShares prevents the tokenization of shares for a given address.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgDisableTokenizeShares prevents the tokenization of shares for a given address */
 export interface MsgDisableTokenizeShares {
   delegatorAddress: string;
 }
-/**
- * MsgDisableTokenizeSharesResponse defines the /DisableTokenizeShares response type.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgDisableTokenizeSharesResponse defines the Msg/DisableTokenizeShares response type. */
 export interface MsgDisableTokenizeSharesResponse {}
-/**
- * MsgEnableTokenizeShares re-enables tokenization of shares for a given address.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgEnableTokenizeShares re-enables tokenization of shares for a given address */
 export interface MsgEnableTokenizeShares {
   delegatorAddress: string;
 }
-/**
- * MsgEnableTokenizeSharesResponse defines the EnableTokenizeShares response type.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgEnableTokenizeSharesResponse defines the Msg/EnableTokenizeShares response type. */
 export interface MsgEnableTokenizeSharesResponse {
   completionTime: Timestamp;
 }
 /**
  * MsgValidatorBond defines a SDK message for performing validator self-bond of delegated coins
  * from a delegator to a validator.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface MsgValidatorBond {
   delegatorAddress: string;
   validatorAddress: string;
 }
-/**
- * MsgValidatorBondResponse defines the ValidatorBond response type.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** MsgValidatorBondResponse defines the Msg/ValidatorBond response type. */
 export interface MsgValidatorBondResponse {}
 function createBaseMsgCreateValidator(): MsgCreateValidator {
   return {
@@ -785,12 +750,16 @@ export const MsgUndelegate = {
 function createBaseMsgUndelegateResponse(): MsgUndelegateResponse {
   return {
     completionTime: Timestamp.fromPartial({}),
+    amount: Coin.fromPartial({}),
   };
 }
 export const MsgUndelegateResponse = {
   encode(message: MsgUndelegateResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
     if (message.completionTime !== undefined) {
       Timestamp.encode(message.completionTime, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.amount !== undefined) {
+      Coin.encode(message.amount, writer.uint32(18).fork()).ldelim();
     }
     return writer;
   },
@@ -804,6 +773,9 @@ export const MsgUndelegateResponse = {
         case 1:
           message.completionTime = Timestamp.decode(reader, reader.uint32());
           break;
+        case 2:
+          message.amount = Coin.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -814,18 +786,23 @@ export const MsgUndelegateResponse = {
   fromJSON(object: any): MsgUndelegateResponse {
     const obj = createBaseMsgUndelegateResponse();
     if (isSet(object.completionTime)) obj.completionTime = fromJsonTimestamp(object.completionTime);
+    if (isSet(object.amount)) obj.amount = Coin.fromJSON(object.amount);
     return obj;
   },
   toJSON(message: MsgUndelegateResponse): unknown {
     const obj: any = {};
     message.completionTime !== undefined &&
       (obj.completionTime = fromTimestamp(message.completionTime).toISOString());
+    message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
     return obj;
   },
   fromPartial(object: Partial<MsgUndelegateResponse>): MsgUndelegateResponse {
     const message = createBaseMsgUndelegateResponse();
     if (object.completionTime !== undefined && object.completionTime !== null) {
       message.completionTime = Timestamp.fromPartial(object.completionTime);
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Coin.fromPartial(object.amount);
     }
     return message;
   },
@@ -1740,18 +1717,11 @@ export interface Msg {
   /**
    * Undelegate defines a method for performing an undelegation from a
    * delegate and a validator.
-   * This allows a validator to stop their services and jail themselves without
-   * experiencing a slash.
    */
   Undelegate(request: MsgUndelegate): Promise<MsgUndelegateResponse>;
   /**
    * CancelUnbondingDelegation defines a method for performing canceling the unbonding delegation
    * and delegate back to previous validator.
-   *
-   * This is a desirable safety feature for LSM.
-   * If a liquid staking provider is exploited and the exploiter initiates an undelegation,
-   * having access to CancelUnbondingDelegation allows the liquid staking provider to cancel
-   * the undelegation with a software upgrade and thus avoid loss of user funds.
    *
    * Since: cosmos-sdk 0.46
    */
@@ -1761,57 +1731,38 @@ export interface Msg {
   /**
    * UpdateParams defines an operation for updating the x/staking module
    * parameters.
-   *
    * Since: cosmos-sdk 0.47
    */
   UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse>;
   /**
    * UnbondValidator defines a method for performing the status transition for a validator
-   * from bonded to unbonding.
-   *
-   * Since: cosmos-sdk 0.47-lsm
+   * from bonded to unbonding
+   * This allows a validator to stop their services and jail themselves without
+   * experiencing a slash
    */
   UnbondValidator(request: MsgUnbondValidator): Promise<MsgUnbondValidatorResponse>;
-  /**
-   * TokenizeShares defines a method for tokenizing shares from a validator.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** TokenizeShares defines a method for tokenizing shares from a validator. */
   TokenizeShares(request: MsgTokenizeShares): Promise<MsgTokenizeSharesResponse>;
   /**
    * RedeemTokensForShares defines a method for redeeming tokens from a validator for
    * shares.
-   *
-   * Since: cosmos-sdk 0.47-lsm
    */
   RedeemTokensForShares(request: MsgRedeemTokensForShares): Promise<MsgRedeemTokensForSharesResponse>;
   /**
    * TransferTokenizeShareRecord defines a method to transfer ownership of
-   * TokenizeShareRecord.
-   *
-   * Since: cosmos-sdk 0.47-lsm
+   * TokenizeShareRecord
    */
   TransferTokenizeShareRecord(
     request: MsgTransferTokenizeShareRecord,
   ): Promise<MsgTransferTokenizeShareRecordResponse>;
-  /**
-   * DisableTokenizeShares defines a method to prevent the tokenization of an addresses stake.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** DisableTokenizeShares defines a method to prevent the tokenization of an addresses stake */
   DisableTokenizeShares(request: MsgDisableTokenizeShares): Promise<MsgDisableTokenizeSharesResponse>;
   /**
    * EnableTokenizeShares defines a method to re-enable the tokenization of an addresseses stake
-   * after it has been disabled.
-   *
-   * Since: cosmos-sdk 0.47-lsm
+   * after it has been disabled
    */
   EnableTokenizeShares(request: MsgEnableTokenizeShares): Promise<MsgEnableTokenizeSharesResponse>;
-  /**
-   * ValidatorBond defines a method for performing a validator self-bond.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** ValidatorBond defines a method for performing a validator self-bond */
   ValidatorBond(request: MsgValidatorBond): Promise<MsgValidatorBondResponse>;
 }
 export class MsgClientImpl implements Msg {

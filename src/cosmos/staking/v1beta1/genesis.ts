@@ -25,7 +25,7 @@ export interface GenesisState {
    * of the last-block's bonded validators.
    */
   lastValidatorPowers: LastValidatorPower[];
-  /** delegations defines the validator set at genesis. */
+  /** validators defines the validator set at genesis. */
   validators: Validator[];
   /** delegations defines the delegations active at genesis. */
   delegations: Delegation[];
@@ -33,43 +33,24 @@ export interface GenesisState {
   unbondingDelegations: UnbondingDelegation[];
   /** redelegations defines the redelegations active at genesis. */
   redelegations: Redelegation[];
+  /** exported defines a bool to identify whether the chain dealing with exported or initialized genesis. */
   exported: boolean;
-  /**
-   * store tokenize share records to provide reward to record owners.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** store tokenize share records to provide reward to record owners */
   tokenizeShareRecords: TokenizeShareRecord[];
-  /**
-   * last tokenize share record id, used for next share record id calculation.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** last tokenize share record id, used for next share record id calculation */
   lastTokenizeShareRecordId: bigint;
-  /**
-   * total number of liquid staked tokens at genesis.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** total number of liquid staked tokens at genesis */
   totalLiquidStakedTokens: Uint8Array;
-  /**
-   * tokenize shares locks at genesis.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** tokenize shares locks at genesis */
   tokenizeShareLocks: TokenizeShareLock[];
 }
-/**
- * TokenizeSharesLock required for specifying account locks at genesis.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** TokenizeSharesLock required for specifying account locks at genesis */
 export interface TokenizeShareLock {
-  /** Address of the account that is locked. */
+  /** Address of the account that is locked */
   address: string;
   /** Status of the lock (LOCKED or LOCK_EXPIRING) */
   status: string;
-  /** Completion time if the lock is expiring. */
+  /** Completion time if the lock is expiring */
   completionTime: Timestamp;
 }
 /** LastValidatorPower required for validator set update logic. */

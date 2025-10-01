@@ -30,7 +30,7 @@ export interface MsgCreatePermanentLockedAccountAminoType extends AminoMsg {
   };
 }
 export interface MsgCreatePeriodicVestingAccountAminoType extends AminoMsg {
-  type: "cosmos-sdk/MsgCreatePeriodicVestingAccount";
+  type: "cosmos-sdk/MsgCreatePeriodVestAccount";
   value: {
     from_address: string;
     to_address: string;
@@ -116,7 +116,7 @@ export const AminoConverter = {
     },
   },
   "/cosmos.vesting.v1beta1.MsgCreatePeriodicVestingAccount": {
-    aminoType: "cosmos-sdk/MsgCreatePeriodicVestingAccount",
+    aminoType: "cosmos-sdk/MsgCreatePeriodVestAccount",
     toAmino: ({
       fromAddress,
       toAddress,

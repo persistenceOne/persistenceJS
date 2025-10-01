@@ -93,6 +93,22 @@ export interface MsgCommunityPoolSpend {
   recipient: string;
   amount: Coin[];
 }
+/** MsgWithdrawTokenizeShareRecordReward withdraws tokenize share rewards for a specific record */
+export interface MsgWithdrawTokenizeShareRecordReward {
+  ownerAddress: string;
+  recordId: bigint;
+}
+/** MsgWithdrawTokenizeShareRecordReward defines the Msg/WithdrawTokenizeShareRecordReward response type. */
+export interface MsgWithdrawTokenizeShareRecordRewardResponse {}
+/**
+ * MsgWithdrawAllTokenizeShareRecordReward withdraws tokenize share rewards or all
+ * records owned by the designated owner
+ */
+export interface MsgWithdrawAllTokenizeShareRecordReward {
+  ownerAddress: string;
+}
+/** MsgWithdrawAllTokenizeShareRecordRewardResponse defines the Msg/WithdrawTokenizeShareRecordReward response type. */
+export interface MsgWithdrawAllTokenizeShareRecordRewardResponse {}
 /**
  * MsgCommunityPoolSpendResponse defines the response to executing a
  * MsgCommunityPoolSpend message.
@@ -101,35 +117,23 @@ export interface MsgCommunityPoolSpend {
  */
 export interface MsgCommunityPoolSpendResponse {}
 /**
- * MsgWithdrawTokenizeShareRecordReward withdraws tokenize share rewards for a specific record.
+ * DepositValidatorRewardsPool defines the request structure to provide
+ * additional rewards to delegators from a specific validator.
  *
- * Since: cosmos-sdk 0.47-lsm
+ * Since: cosmos-sdk 0.50
  */
-export interface MsgWithdrawTokenizeShareRecordReward {
-  ownerAddress: string;
-  recordId: bigint;
+export interface MsgDepositValidatorRewardsPool {
+  depositor: string;
+  validatorAddress: string;
+  amount: Coin[];
 }
 /**
- * MsgWithdrawTokenizeShareRecordReward defines the Msg/WithdrawTokenizeShareRecordReward response type.
+ * MsgDepositValidatorRewardsPoolResponse defines the response to executing a
+ * MsgDepositValidatorRewardsPool message.
  *
- * Since: cosmos-sdk 0.47-lsm
+ * Since: cosmos-sdk 0.50
  */
-export interface MsgWithdrawTokenizeShareRecordRewardResponse {}
-/**
- * MsgWithdrawAllTokenizeShareRecordReward withdraws tokenize share rewards or all
- * records owned by the designated owner
- *
- * Since: cosmos-sdk 0.47-lsm
- */
-export interface MsgWithdrawAllTokenizeShareRecordReward {
-  ownerAddress: string;
-}
-/**
- * MsgWithdrawAllTokenizeShareRecordRewardResponse defines the Msg/WithdrawTokenizeShareRecordReward response type.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
-export interface MsgWithdrawAllTokenizeShareRecordRewardResponse {}
+export interface MsgDepositValidatorRewardsPoolResponse {}
 function createBaseMsgSetWithdrawAddress(): MsgSetWithdrawAddress {
   return {
     delegatorAddress: "",
@@ -681,40 +685,6 @@ export const MsgCommunityPoolSpend = {
     return message;
   },
 };
-function createBaseMsgCommunityPoolSpendResponse(): MsgCommunityPoolSpendResponse {
-  return {};
-}
-export const MsgCommunityPoolSpendResponse = {
-  encode(_: MsgCommunityPoolSpendResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    return writer;
-  },
-  decode(input: BinaryReader | Uint8Array, length?: number): MsgCommunityPoolSpendResponse {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseMsgCommunityPoolSpendResponse();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-  fromJSON(_: any): MsgCommunityPoolSpendResponse {
-    const obj = createBaseMsgCommunityPoolSpendResponse();
-    return obj;
-  },
-  toJSON(_: MsgCommunityPoolSpendResponse): unknown {
-    const obj: any = {};
-    return obj;
-  },
-  fromPartial(_: Partial<MsgCommunityPoolSpendResponse>): MsgCommunityPoolSpendResponse {
-    const message = createBaseMsgCommunityPoolSpendResponse();
-    return message;
-  },
-};
 function createBaseMsgWithdrawTokenizeShareRecordReward(): MsgWithdrawTokenizeShareRecordReward {
   return {
     ownerAddress: "",
@@ -903,6 +873,149 @@ export const MsgWithdrawAllTokenizeShareRecordRewardResponse = {
     return message;
   },
 };
+function createBaseMsgCommunityPoolSpendResponse(): MsgCommunityPoolSpendResponse {
+  return {};
+}
+export const MsgCommunityPoolSpendResponse = {
+  encode(_: MsgCommunityPoolSpendResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgCommunityPoolSpendResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgCommunityPoolSpendResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgCommunityPoolSpendResponse {
+    const obj = createBaseMsgCommunityPoolSpendResponse();
+    return obj;
+  },
+  toJSON(_: MsgCommunityPoolSpendResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial(_: Partial<MsgCommunityPoolSpendResponse>): MsgCommunityPoolSpendResponse {
+    const message = createBaseMsgCommunityPoolSpendResponse();
+    return message;
+  },
+};
+function createBaseMsgDepositValidatorRewardsPool(): MsgDepositValidatorRewardsPool {
+  return {
+    depositor: "",
+    validatorAddress: "",
+    amount: [],
+  };
+}
+export const MsgDepositValidatorRewardsPool = {
+  encode(
+    message: MsgDepositValidatorRewardsPool,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    if (message.depositor !== "") {
+      writer.uint32(10).string(message.depositor);
+    }
+    if (message.validatorAddress !== "") {
+      writer.uint32(18).string(message.validatorAddress);
+    }
+    for (const v of message.amount) {
+      Coin.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgDepositValidatorRewardsPool {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgDepositValidatorRewardsPool();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.depositor = reader.string();
+          break;
+        case 2:
+          message.validatorAddress = reader.string();
+          break;
+        case 3:
+          message.amount.push(Coin.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgDepositValidatorRewardsPool {
+    const obj = createBaseMsgDepositValidatorRewardsPool();
+    if (isSet(object.depositor)) obj.depositor = String(object.depositor);
+    if (isSet(object.validatorAddress)) obj.validatorAddress = String(object.validatorAddress);
+    if (Array.isArray(object?.amount)) obj.amount = object.amount.map((e: any) => Coin.fromJSON(e));
+    return obj;
+  },
+  toJSON(message: MsgDepositValidatorRewardsPool): unknown {
+    const obj: any = {};
+    message.depositor !== undefined && (obj.depositor = message.depositor);
+    message.validatorAddress !== undefined && (obj.validatorAddress = message.validatorAddress);
+    if (message.amount) {
+      obj.amount = message.amount.map((e) => (e ? Coin.toJSON(e) : undefined));
+    } else {
+      obj.amount = [];
+    }
+    return obj;
+  },
+  fromPartial(object: Partial<MsgDepositValidatorRewardsPool>): MsgDepositValidatorRewardsPool {
+    const message = createBaseMsgDepositValidatorRewardsPool();
+    message.depositor = object.depositor ?? "";
+    message.validatorAddress = object.validatorAddress ?? "";
+    message.amount = object.amount?.map((e) => Coin.fromPartial(e)) || [];
+    return message;
+  },
+};
+function createBaseMsgDepositValidatorRewardsPoolResponse(): MsgDepositValidatorRewardsPoolResponse {
+  return {};
+}
+export const MsgDepositValidatorRewardsPoolResponse = {
+  encode(
+    _: MsgDepositValidatorRewardsPoolResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgDepositValidatorRewardsPoolResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgDepositValidatorRewardsPoolResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgDepositValidatorRewardsPoolResponse {
+    const obj = createBaseMsgDepositValidatorRewardsPoolResponse();
+    return obj;
+  },
+  toJSON(_: MsgDepositValidatorRewardsPoolResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial(_: Partial<MsgDepositValidatorRewardsPoolResponse>): MsgDepositValidatorRewardsPoolResponse {
+    const message = createBaseMsgDepositValidatorRewardsPoolResponse();
+    return message;
+  },
+};
 /** Msg defines the distribution Msg service. */
 export interface Msg {
   /**
@@ -944,18 +1057,19 @@ export interface Msg {
    */
   CommunityPoolSpend(request: MsgCommunityPoolSpend): Promise<MsgCommunityPoolSpendResponse>;
   /**
-   * WithdrawTokenizeShareRecordReward defines a method to withdraw reward for an owning TokenizeShareRecord
+   * DepositValidatorRewardsPool defines a method to provide additional rewards
+   * to delegators to a specific validator.
    *
-   * Since: cosmos-sdk 0.47-lsm
+   * Since: cosmos-sdk 0.50
    */
+  DepositValidatorRewardsPool(
+    request: MsgDepositValidatorRewardsPool,
+  ): Promise<MsgDepositValidatorRewardsPoolResponse>;
+  /** WithdrawTokenizeShareRecordReward defines a method to withdraw reward for an owning TokenizeShareRecord */
   WithdrawTokenizeShareRecordReward(
     request: MsgWithdrawTokenizeShareRecordReward,
   ): Promise<MsgWithdrawTokenizeShareRecordRewardResponse>;
-  /**
-   * WithdrawAllTokenizeShareRecordReward defines a method to withdraw reward for all owning TokenizeShareRecord
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** WithdrawAllTokenizeShareRecordReward defines a method to withdraw reward for all owning TokenizeShareRecord */
   WithdrawAllTokenizeShareRecordReward(
     request: MsgWithdrawAllTokenizeShareRecordReward,
   ): Promise<MsgWithdrawAllTokenizeShareRecordRewardResponse>;
@@ -970,6 +1084,7 @@ export class MsgClientImpl implements Msg {
     this.FundCommunityPool = this.FundCommunityPool.bind(this);
     this.UpdateParams = this.UpdateParams.bind(this);
     this.CommunityPoolSpend = this.CommunityPoolSpend.bind(this);
+    this.DepositValidatorRewardsPool = this.DepositValidatorRewardsPool.bind(this);
     this.WithdrawTokenizeShareRecordReward = this.WithdrawTokenizeShareRecordReward.bind(this);
     this.WithdrawAllTokenizeShareRecordReward = this.WithdrawAllTokenizeShareRecordReward.bind(this);
   }
@@ -1004,6 +1119,13 @@ export class MsgClientImpl implements Msg {
     const data = MsgCommunityPoolSpend.encode(request).finish();
     const promise = this.rpc.request("cosmos.distribution.v1beta1.Msg", "CommunityPoolSpend", data);
     return promise.then((data) => MsgCommunityPoolSpendResponse.decode(new BinaryReader(data)));
+  }
+  DepositValidatorRewardsPool(
+    request: MsgDepositValidatorRewardsPool,
+  ): Promise<MsgDepositValidatorRewardsPoolResponse> {
+    const data = MsgDepositValidatorRewardsPool.encode(request).finish();
+    const promise = this.rpc.request("cosmos.distribution.v1beta1.Msg", "DepositValidatorRewardsPool", data);
+    return promise.then((data) => MsgDepositValidatorRewardsPoolResponse.decode(new BinaryReader(data)));
   }
   WithdrawTokenizeShareRecordReward(
     request: MsgWithdrawTokenizeShareRecordReward,

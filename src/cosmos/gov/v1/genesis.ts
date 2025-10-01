@@ -37,6 +37,15 @@ export interface GenesisState {
    * Since: cosmos-sdk 0.47
    */
   params: Params;
+  /**
+   * The constitution allows builders to lay a foundation and define purpose.
+   * This is an immutable string set in genesis.
+   * There are no amendments, to go outside of scope, just fork.
+   * constitution is an immutable string in genesis for a chain builder to lay out their vision, ideas and ideals.
+   *
+   * Since: cosmos-sdk 0.50
+   */
+  constitution: string;
 }
 function createBaseGenesisState(): GenesisState {
   return {
@@ -48,6 +57,7 @@ function createBaseGenesisState(): GenesisState {
     votingParams: VotingParams.fromPartial({}),
     tallyParams: TallyParams.fromPartial({}),
     params: Params.fromPartial({}),
+    constitution: "",
   };
 }
 export const GenesisState = {
@@ -75,6 +85,9 @@ export const GenesisState = {
     }
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(66).fork()).ldelim();
+    }
+    if (message.constitution !== "") {
+      writer.uint32(74).string(message.constitution);
     }
     return writer;
   },
@@ -109,6 +122,9 @@ export const GenesisState = {
         case 8:
           message.params = Params.decode(reader, reader.uint32());
           break;
+        case 9:
+          message.constitution = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -128,6 +144,7 @@ export const GenesisState = {
     if (isSet(object.votingParams)) obj.votingParams = VotingParams.fromJSON(object.votingParams);
     if (isSet(object.tallyParams)) obj.tallyParams = TallyParams.fromJSON(object.tallyParams);
     if (isSet(object.params)) obj.params = Params.fromJSON(object.params);
+    if (isSet(object.constitution)) obj.constitution = String(object.constitution);
     return obj;
   },
   toJSON(message: GenesisState): unknown {
@@ -156,6 +173,7 @@ export const GenesisState = {
     message.tallyParams !== undefined &&
       (obj.tallyParams = message.tallyParams ? TallyParams.toJSON(message.tallyParams) : undefined);
     message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
+    message.constitution !== undefined && (obj.constitution = message.constitution);
     return obj;
   },
   fromPartial(object: Partial<GenesisState>): GenesisState {
@@ -178,6 +196,7 @@ export const GenesisState = {
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     }
+    message.constitution = object.constitution ?? "";
     return message;
   },
 };
