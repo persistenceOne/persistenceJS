@@ -9,7 +9,7 @@ import {
   MsgSetModulePaused,
 } from "./tx";
 export interface MsgLiquidStakeAminoType extends AminoMsg {
-  type: "/pstake.liquidstake.v1beta1.MsgLiquidStake";
+  type: "liquidstake/MsgLiquidStake";
   value: {
     delegator_address: string;
     amount: {
@@ -19,7 +19,7 @@ export interface MsgLiquidStakeAminoType extends AminoMsg {
   };
 }
 export interface MsgLiquidUnstakeAminoType extends AminoMsg {
-  type: "/pstake.liquidstake.v1beta1.MsgLiquidUnstake";
+  type: "liquidstake/MsgLiquidUnstake";
   value: {
     delegator_address: string;
     amount: {
@@ -29,7 +29,7 @@ export interface MsgLiquidUnstakeAminoType extends AminoMsg {
   };
 }
 export interface MsgStakeToLPAminoType extends AminoMsg {
-  type: "/pstake.liquidstake.v1beta1.MsgStakeToLP";
+  type: "liquidstake/MsgStakeToLP";
   value: {
     delegator_address: string;
     validator_address: string;
@@ -44,7 +44,7 @@ export interface MsgStakeToLPAminoType extends AminoMsg {
   };
 }
 export interface MsgUpdateParamsAminoType extends AminoMsg {
-  type: "/pstake.liquidstake.v1beta1.MsgUpdateParams";
+  type: "liquidstake/MsgUpdateParams";
   value: {
     authority: string;
     params: {
@@ -65,7 +65,7 @@ export interface MsgUpdateParamsAminoType extends AminoMsg {
   };
 }
 export interface MsgUpdateWhitelistedValidatorsAminoType extends AminoMsg {
-  type: "/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators";
+  type: "liquidstake/MsgUpdateWhitelistedValidators";
   value: {
     authority: string;
     whitelisted_validators: {
@@ -75,7 +75,7 @@ export interface MsgUpdateWhitelistedValidatorsAminoType extends AminoMsg {
   };
 }
 export interface MsgSetModulePausedAminoType extends AminoMsg {
-  type: "/pstake.liquidstake.v1beta1.MsgSetModulePaused";
+  type: "liquidstake/MsgSetModulePaused";
   value: {
     authority: string;
     is_paused: boolean;
@@ -83,7 +83,7 @@ export interface MsgSetModulePausedAminoType extends AminoMsg {
 }
 export const AminoConverter = {
   "/pstake.liquidstake.v1beta1.MsgLiquidStake": {
-    aminoType: "/pstake.liquidstake.v1beta1.MsgLiquidStake",
+    aminoType: "liquidstake/MsgLiquidStake",
     toAmino: ({ delegatorAddress, amount }: MsgLiquidStake): MsgLiquidStakeAminoType["value"] => {
       return {
         delegator_address: delegatorAddress,
@@ -104,7 +104,7 @@ export const AminoConverter = {
     },
   },
   "/pstake.liquidstake.v1beta1.MsgLiquidUnstake": {
-    aminoType: "/pstake.liquidstake.v1beta1.MsgLiquidUnstake",
+    aminoType: "liquidstake/MsgLiquidUnstake",
     toAmino: ({ delegatorAddress, amount }: MsgLiquidUnstake): MsgLiquidUnstakeAminoType["value"] => {
       return {
         delegator_address: delegatorAddress,
@@ -125,7 +125,7 @@ export const AminoConverter = {
     },
   },
   "/pstake.liquidstake.v1beta1.MsgStakeToLP": {
-    aminoType: "/pstake.liquidstake.v1beta1.MsgStakeToLP",
+    aminoType: "liquidstake/MsgStakeToLP",
     toAmino: ({
       delegatorAddress,
       validatorAddress,
@@ -166,7 +166,7 @@ export const AminoConverter = {
     },
   },
   "/pstake.liquidstake.v1beta1.MsgUpdateParams": {
-    aminoType: "/pstake.liquidstake.v1beta1.MsgUpdateParams",
+    aminoType: "liquidstake/MsgUpdateParams",
     toAmino: ({ authority, params }: MsgUpdateParams): MsgUpdateParamsAminoType["value"] => {
       return {
         authority,
@@ -209,7 +209,7 @@ export const AminoConverter = {
     },
   },
   "/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators": {
-    aminoType: "/pstake.liquidstake.v1beta1.MsgUpdateWhitelistedValidators",
+    aminoType: "liquidstake/MsgUpdateWhitelistedValidators",
     toAmino: ({
       authority,
       whitelistedValidators,
@@ -236,7 +236,7 @@ export const AminoConverter = {
     },
   },
   "/pstake.liquidstake.v1beta1.MsgSetModulePaused": {
-    aminoType: "/pstake.liquidstake.v1beta1.MsgSetModulePaused",
+    aminoType: "liquidstake/MsgSetModulePaused",
     toAmino: ({ authority, isPaused }: MsgSetModulePaused): MsgSetModulePausedAminoType["value"] => {
       return {
         authority,

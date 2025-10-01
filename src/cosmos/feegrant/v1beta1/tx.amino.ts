@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { AminoMsg } from "@cosmjs/amino";
-import { MsgGrantAllowance, MsgRevokeAllowance } from "./tx";
+import { MsgGrantAllowance, MsgRevokeAllowance, MsgPruneAllowances } from "./tx";
 export interface MsgGrantAllowanceAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgGrantAllowance";
   value: {
@@ -17,6 +17,12 @@ export interface MsgRevokeAllowanceAminoType extends AminoMsg {
   value: {
     granter: string;
     grantee: string;
+  };
+}
+export interface MsgPruneAllowancesAminoType extends AminoMsg {
+  type: "cosmos-sdk/MsgPruneAllowances";
+  value: {
+    pruner: string;
   };
 }
 export const AminoConverter = {
@@ -55,6 +61,19 @@ export const AminoConverter = {
       return {
         granter,
         grantee,
+      };
+    },
+  },
+  "/cosmos.feegrant.v1beta1.MsgPruneAllowances": {
+    aminoType: "cosmos-sdk/MsgPruneAllowances",
+    toAmino: ({ pruner }: MsgPruneAllowances): MsgPruneAllowancesAminoType["value"] => {
+      return {
+        pruner,
+      };
+    },
+    fromAmino: ({ pruner }: MsgPruneAllowancesAminoType["value"]): MsgPruneAllowances => {
+      return {
+        pruner,
       };
     },
   },

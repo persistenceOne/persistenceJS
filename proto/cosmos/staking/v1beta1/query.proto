@@ -1,11 +1,11 @@
 syntax = "proto3";
 package cosmos.staking.v1beta1;
 
-import "cosmos/base/v1beta1/coin.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/staking/v1beta1/staking.proto";
+import "cosmos/base/v1beta1/coin.proto";
 import "cosmos_proto/cosmos.proto";
 import "cosmos/query/v1/query.proto";
 import "amino/amino.proto";
@@ -112,6 +112,50 @@ service Query {
                                                  "{validator_addr}";
   }
 
+  // Query for individual tokenize share record information by share by id
+  rpc TokenizeShareRecordById(QueryTokenizeShareRecordByIdRequest) returns (QueryTokenizeShareRecordByIdResponse) {
+    option (google.api.http).get = "/cosmos/staking/v1beta1/tokenize_share_record_by_id/{id}";
+  }
+
+  // Query for individual tokenize share record information by share denom
+  rpc TokenizeShareRecordByDenom(QueryTokenizeShareRecordByDenomRequest)
+      returns (QueryTokenizeShareRecordByDenomResponse) {
+    option (google.api.http).get = "/cosmos/staking/v1beta1/tokenize_share_record_by_denom/{denom}";
+  }
+
+  // Query tokenize share records by address
+  rpc TokenizeShareRecordsOwned(QueryTokenizeShareRecordsOwnedRequest)
+      returns (QueryTokenizeShareRecordsOwnedResponse) {
+    option (google.api.http).get = "/cosmos/staking/v1beta1/tokenize_share_record_owned/{owner}";
+  }
+
+  // Query for all tokenize share records
+  rpc AllTokenizeShareRecords(QueryAllTokenizeShareRecordsRequest) returns (QueryAllTokenizeShareRecordsResponse) {
+    option (google.api.http).get = "/cosmos/staking/v1beta1/tokenize_share_records";
+  }
+
+  // Query for last tokenize share record id
+  rpc LastTokenizeShareRecordId(QueryLastTokenizeShareRecordIdRequest)
+      returns (QueryLastTokenizeShareRecordIdResponse) {
+    option (google.api.http).get = "/cosmos/staking/v1beta1/last_tokenize_share_record_id";
+  }
+
+  // Query for total tokenized staked assets
+  rpc TotalTokenizeSharedAssets(QueryTotalTokenizeSharedAssetsRequest)
+      returns (QueryTotalTokenizeSharedAssetsResponse) {
+    option (google.api.http).get = "/cosmos/staking/v1beta1/total_tokenize_shared_assets";
+  }
+
+  // Query for total liquid staked (including tokenized shares or owned by an liquid staking provider)
+  rpc TotalLiquidStaked(QueryTotalLiquidStaked) returns (QueryTotalLiquidStakedResponse) {
+    option (google.api.http).get = "/cosmos/staking/v1beta1/total_liquid_staked";
+  }
+
+  // Query tokenize share locks
+  rpc TokenizeShareLockInfo(QueryTokenizeShareLockInfo) returns (QueryTokenizeShareLockInfoResponse) {
+    option (google.api.http).get = "/cosmos/staking/v1beta1/tokenize_share_lock_info/{address}";
+  }
+
   // HistoricalInfo queries the historical info for given height.
   rpc HistoricalInfo(QueryHistoricalInfoRequest) returns (QueryHistoricalInfoResponse) {
     option (cosmos.query.v1.module_query_safe) = true;
@@ -128,74 +172,6 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (cosmos.query.v1.module_query_safe) = true;
     option (google.api.http).get               = "/cosmos/staking/v1beta1/params";
-  }
-
-  // Query for individual tokenize share record information by share by id.
-  //
-  // Since: cosmos-sdk 0.47-lsm
-  rpc TokenizeShareRecordById(QueryTokenizeShareRecordByIdRequest) returns (QueryTokenizeShareRecordByIdResponse) {
-    option (cosmos.query.v1.module_query_safe) = false;
-    option (google.api.http).get               = "/cosmos/staking/v1beta1/tokenize_share_record_by_id/{id}";
-  }
-
-  // Query for individual tokenize share record information by share denom.
-  //
-  // Since: cosmos-sdk 0.47-lsm
-  rpc TokenizeShareRecordByDenom(QueryTokenizeShareRecordByDenomRequest)
-      returns (QueryTokenizeShareRecordByDenomResponse) {
-    option (cosmos.query.v1.module_query_safe) = false;
-    option (google.api.http).get               = "/cosmos/staking/v1beta1/tokenize_share_record_by_denom/{denom}";
-  }
-
-  // Query tokenize share records by address.
-  //
-  // Since: cosmos-sdk 0.47-lsm
-  rpc TokenizeShareRecordsOwned(QueryTokenizeShareRecordsOwnedRequest)
-      returns (QueryTokenizeShareRecordsOwnedResponse) {
-    option (cosmos.query.v1.module_query_safe) = false;
-    option (google.api.http).get               = "/cosmos/staking/v1beta1/tokenize_share_record_owned/{owner}";
-  }
-
-  // Query for all tokenize share records.
-  //
-  // Since: cosmos-sdk 0.47-lsm
-  rpc AllTokenizeShareRecords(QueryAllTokenizeShareRecordsRequest) returns (QueryAllTokenizeShareRecordsResponse) {
-    option (cosmos.query.v1.module_query_safe) = false;
-    option (google.api.http).get               = "/cosmos/staking/v1beta1/tokenize_share_records";
-  }
-
-  // Query for last tokenize share record id.
-  //
-  // Since: cosmos-sdk 0.47-lsm
-  rpc LastTokenizeShareRecordId(QueryLastTokenizeShareRecordIdRequest)
-      returns (QueryLastTokenizeShareRecordIdResponse) {
-    option (cosmos.query.v1.module_query_safe) = false;
-    option (google.api.http).get               = "/cosmos/staking/v1beta1/last_tokenize_share_record_id";
-  }
-
-  // Query for total tokenized staked assets.
-  //
-  // Since: cosmos-sdk 0.47-lsm
-  rpc TotalTokenizeSharedAssets(QueryTotalTokenizeSharedAssetsRequest)
-      returns (QueryTotalTokenizeSharedAssetsResponse) {
-    option (cosmos.query.v1.module_query_safe) = false;
-    option (google.api.http).get               = "/cosmos/staking/v1beta1/total_tokenize_shared_assets";
-  }
-
-  // Query for total liquid staked (including tokenized shares or owned by an liquid staking provider).
-  //
-  // Since: cosmos-sdk 0.47-lsm
-  rpc TotalLiquidStaked(QueryTotalLiquidStaked) returns (QueryTotalLiquidStakedResponse) {
-    option (cosmos.query.v1.module_query_safe) = false;
-    option (google.api.http).get               = "/cosmos/staking/v1beta1/total_liquid_staked";
-  }
-
-  // Query tokenize share locks.
-  //
-  // Since: cosmos-sdk 0.47-lsm
-  rpc TokenizeShareLockInfo(QueryTokenizeShareLockInfo) returns (QueryTokenizeShareLockInfoResponse) {
-    option (cosmos.query.v1.module_query_safe) = false;
-    option (google.api.http).get               = "/cosmos/staking/v1beta1/tokenize_share_lock_info/{address}";
   }
 }
 
@@ -220,7 +196,7 @@ message QueryValidatorsResponse {
 // QueryValidatorRequest is response type for the Query/Validator RPC method
 message QueryValidatorRequest {
   // validator_addr defines the validator address to query for.
-  string validator_addr = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string validator_addr = 1 [(cosmos_proto.scalar) = "cosmos.ValidatorAddressString"];
 }
 
 // QueryValidatorResponse is response type for the Query/Validator RPC method
@@ -233,7 +209,7 @@ message QueryValidatorResponse {
 // Query/ValidatorDelegations RPC method
 message QueryValidatorDelegationsRequest {
   // validator_addr defines the validator address to query for.
-  string validator_addr = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string validator_addr = 1 [(cosmos_proto.scalar) = "cosmos.ValidatorAddressString"];
 
   // pagination defines an optional pagination for the request.
   cosmos.base.query.v1beta1.PageRequest pagination = 2;
@@ -253,7 +229,7 @@ message QueryValidatorDelegationsResponse {
 // Query/ValidatorUnbondingDelegations RPC method
 message QueryValidatorUnbondingDelegationsRequest {
   // validator_addr defines the validator address to query for.
-  string validator_addr = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string validator_addr = 1 [(cosmos_proto.scalar) = "cosmos.ValidatorAddressString"];
 
   // pagination defines an optional pagination for the request.
   cosmos.base.query.v1beta1.PageRequest pagination = 2;
@@ -277,7 +253,7 @@ message QueryDelegationRequest {
   string delegator_addr = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // validator_addr defines the validator address to query for.
-  string validator_addr = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string validator_addr = 2 [(cosmos_proto.scalar) = "cosmos.ValidatorAddressString"];
 }
 
 // QueryDelegationResponse is response type for the Query/Delegation RPC method.
@@ -296,7 +272,7 @@ message QueryUnbondingDelegationRequest {
   string delegator_addr = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // validator_addr defines the validator address to query for.
-  string validator_addr = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string validator_addr = 2 [(cosmos_proto.scalar) = "cosmos.ValidatorAddressString"];
 }
 
 // QueryDelegationResponse is response type for the Query/UnbondingDelegation
@@ -361,10 +337,10 @@ message QueryRedelegationsRequest {
   string delegator_addr = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // src_validator_addr defines the validator address to redelegate from.
-  string src_validator_addr = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string src_validator_addr = 2 [(cosmos_proto.scalar) = "cosmos.ValidatorAddressString"];
 
   // dst_validator_addr defines the validator address to redelegate to.
-  string dst_validator_addr = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string dst_validator_addr = 3 [(cosmos_proto.scalar) = "cosmos.ValidatorAddressString"];
 
   // pagination defines an optional pagination for the request.
   cosmos.base.query.v1beta1.PageRequest pagination = 4;
@@ -413,7 +389,7 @@ message QueryDelegatorValidatorRequest {
   string delegator_addr = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // validator_addr defines the validator address to query for.
-  string validator_addr = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string validator_addr = 2 [(cosmos_proto.scalar) = "cosmos.ValidatorAddressString"];
 }
 
 // QueryDelegatorValidatorResponse response type for the
@@ -457,122 +433,92 @@ message QueryParamsResponse {
 
 // QueryTokenizeShareRecordByIdRequest is request type for the
 // Query/QueryTokenizeShareRecordById RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
 message QueryTokenizeShareRecordByIdRequest {
   uint64 id = 1;
 }
 
 // QueryTokenizeShareRecordByIdRequest is response type for the
 // Query/QueryTokenizeShareRecordById RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
 message QueryTokenizeShareRecordByIdResponse {
   TokenizeShareRecord record = 1 [(gogoproto.nullable) = false];
 }
 
 // QueryTokenizeShareRecordByDenomRequest is request type for the
 // Query/QueryTokenizeShareRecordByDenom RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
 message QueryTokenizeShareRecordByDenomRequest {
   string denom = 1;
 }
 
 // QueryTokenizeShareRecordByDenomResponse is response type for the
 // Query/QueryTokenizeShareRecordByDenom RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
 message QueryTokenizeShareRecordByDenomResponse {
   TokenizeShareRecord record = 1 [(gogoproto.nullable) = false];
 }
 
 // QueryTokenizeShareRecordsOwnedRequest is request type for the
 // Query/QueryTokenizeShareRecordsOwned RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
 message QueryTokenizeShareRecordsOwnedRequest {
   string owner = 1;
 }
 
 // QueryTokenizeShareRecordsOwnedResponse is response type for the
 // Query/QueryTokenizeShareRecordsOwned RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
 message QueryTokenizeShareRecordsOwnedResponse {
   repeated TokenizeShareRecord records = 1 [(gogoproto.nullable) = false];
 }
 
-// QueryTotalTokenizeSharedAssetsRequest is request type for the
-// Query/QueryTotalTokenizeSharedAssets RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
-message QueryAllTokenizeShareRecordsRequest {}
-
-// QueryTotalTokenizeSharedAssetsResponse is response type for the
-// Query/QueryTotalTokenizeSharedAssets RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
-message QueryAllTokenizeShareRecordsResponse {
-  repeated TokenizeShareRecord records = 1 [(gogoproto.nullable) = false];
+// QueryAllTokenizeShareRecordsRequest is request type for the
+// Query/QueryAllTokenizeShareRecords RPC method.
+message QueryAllTokenizeShareRecordsRequest {
+  // pagination defines an optional pagination for the request.
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
-// QueryLastTokenizeShareRecordIdRequest
-//
-// Since: cosmos-sdk 0.47-lsm
+// QueryAllTokenizeShareRecordsResponse is response type for the
+// Query/QueryAllTokenizeShareRecords RPC method.
+message QueryAllTokenizeShareRecordsResponse {
+  repeated TokenizeShareRecord records = 1 [(gogoproto.nullable) = false];
+  // pagination defines the pagination in the response.
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryLastTokenizeShareRecordIdRequest is request type for the
+// Query/QueryLastTokenizeShareRecordId RPC method.
 message QueryLastTokenizeShareRecordIdRequest {}
 
-// QueryLastTokenizeShareRecordIdResponse
-//
-// Since: cosmos-sdk 0.47-lsm
+// QueryLastTokenizeShareRecordIdResponse is response type for the
+// Query/QueryLastTokenizeShareRecordId RPC method.
 message QueryLastTokenizeShareRecordIdResponse {
   uint64 id = 1;
 }
 
 // QueryTotalTokenizeSharedAssetsRequest is request type for the
 // Query/QueryTotalTokenizeSharedAssets RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
 message QueryTotalTokenizeSharedAssetsRequest {}
 
 // QueryTotalTokenizeSharedAssetsResponse is response type for the
 // Query/QueryTotalTokenizeSharedAssets RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
 message QueryTotalTokenizeSharedAssetsResponse {
   cosmos.base.v1beta1.Coin value = 1 [(gogoproto.nullable) = false];
 }
 
-// QueryQueryTotalLiquidStakedRequest is request type for the
+// QueryTotalLiquidStakedRequest is request type for the
 // Query/QueryQueryTotalLiquidStaked RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
 message QueryTotalLiquidStaked {}
 
-// QueryQueryTotalLiquidStakedResponse is response type for the
+// QueryTotalLiquidStakedResponse is response type for the
 // Query/QueryQueryTotalLiquidStaked RPC method.
-//
-// Since: cosmos-sdk 0.47-lsm
 message QueryTotalLiquidStakedResponse {
-  string tokens = 1 [
-    (cosmos_proto.scalar)  = "cosmos.Int",
-    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int",
-    (gogoproto.nullable)   = false
-  ];
+  string tokens = 1;
 }
 
 // QueryTokenizeShareLockInfo queries the tokenize share lock information
-// associated with given account.
-//
-// Since: cosmos-sdk 0.47-lsm
+// associated with given account
 message QueryTokenizeShareLockInfo {
   string address = 1;
 }
-
 // QueryTokenizeShareLockInfoResponse is the response from the
-// QueryTokenizeShareLockInfo query.
-//
-// Since: cosmos-sdk 0.47-lsm
+// QueryTokenizeShareLockInfo query
 message QueryTokenizeShareLockInfoResponse {
   string status          = 1;
   string expiration_time = 2;

@@ -12,7 +12,7 @@ import "cosmos/base/v1beta1/coin.proto";
 import "google/protobuf/timestamp.proto";
 // this line is used by starport scaffolding # 1
 
-option go_package = "github.com/persistenceOne/pstake-native/v2/x/lscosmos/types";
+option go_package = "github.com/persistenceOne/pstake-native/v5/x/lscosmos/types";
 
 // Query defines the gRPC querier service.
 service Query {
@@ -165,7 +165,7 @@ message QueryCValueRequest {}
 // QueryCValueRequest is a response for the Query/CValue methods.
 message QueryCValueResponse {
   string c_value = 1 [
-    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
+    (gogoproto.customtype) = "cosmossdk.io/math.LegacyDec",
     (gogoproto.nullable) = false
   ];
 }

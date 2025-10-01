@@ -8,6 +8,7 @@ import {
   MsgVoteWeighted,
   MsgDeposit,
   MsgUpdateParams,
+  MsgCancelProposal,
 } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [
   ["/cosmos.gov.v1.MsgSubmitProposal", MsgSubmitProposal],
@@ -16,6 +17,7 @@ export const registry: ReadonlyArray<[string, GeneratedType]> = [
   ["/cosmos.gov.v1.MsgVoteWeighted", MsgVoteWeighted],
   ["/cosmos.gov.v1.MsgDeposit", MsgDeposit],
   ["/cosmos.gov.v1.MsgUpdateParams", MsgUpdateParams],
+  ["/cosmos.gov.v1.MsgCancelProposal", MsgCancelProposal],
 ];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -60,6 +62,12 @@ export const MessageComposer = {
         value: MsgUpdateParams.encode(value).finish(),
       };
     },
+    cancelProposal(value: MsgCancelProposal) {
+      return {
+        typeUrl: "/cosmos.gov.v1.MsgCancelProposal",
+        value: MsgCancelProposal.encode(value).finish(),
+      };
+    },
   },
   withTypeUrl: {
     submitProposal(value: MsgSubmitProposal) {
@@ -95,6 +103,12 @@ export const MessageComposer = {
     updateParams(value: MsgUpdateParams) {
       return {
         typeUrl: "/cosmos.gov.v1.MsgUpdateParams",
+        value,
+      };
+    },
+    cancelProposal(value: MsgCancelProposal) {
+      return {
+        typeUrl: "/cosmos.gov.v1.MsgCancelProposal",
         value,
       };
     },
@@ -136,6 +150,12 @@ export const MessageComposer = {
         value: MsgUpdateParams.toJSON(value),
       };
     },
+    cancelProposal(value: MsgCancelProposal) {
+      return {
+        typeUrl: "/cosmos.gov.v1.MsgCancelProposal",
+        value: MsgCancelProposal.toJSON(value),
+      };
+    },
   },
   fromJSON: {
     submitProposal(value: any) {
@@ -174,6 +194,12 @@ export const MessageComposer = {
         value: MsgUpdateParams.fromJSON(value),
       };
     },
+    cancelProposal(value: any) {
+      return {
+        typeUrl: "/cosmos.gov.v1.MsgCancelProposal",
+        value: MsgCancelProposal.fromJSON(value),
+      };
+    },
   },
   fromPartial: {
     submitProposal(value: MsgSubmitProposal) {
@@ -210,6 +236,12 @@ export const MessageComposer = {
       return {
         typeUrl: "/cosmos.gov.v1.MsgUpdateParams",
         value: MsgUpdateParams.fromPartial(value),
+      };
+    },
+    cancelProposal(value: MsgCancelProposal) {
+      return {
+        typeUrl: "/cosmos.gov.v1.MsgCancelProposal",
+        value: MsgCancelProposal.fromPartial(value),
       };
     },
   },

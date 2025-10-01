@@ -79,6 +79,11 @@ export interface ValidatorSlashEvents {
 export interface FeePool {
   communityPool: DecCoin[];
 }
+/** TokenizeShareRecordReward represents the properties of tokenize share */
+export interface TokenizeShareRecordReward {
+  recordId: bigint;
+  reward: DecCoin[];
+}
 /**
  * CommunityPoolSpendProposal details a proposal for use of community funds,
  * together with how many coins are proposed to be spent, and to which
@@ -127,15 +132,6 @@ export interface CommunityPoolSpendProposalWithDeposit {
   recipient: string;
   amount: string;
   deposit: string;
-}
-/**
- * TokenizeShareRecordReward represents the properties of tokenize share
- *
- * Since: cosmos-sdk 0.47-lsm
- */
-export interface TokenizeShareRecordReward {
-  recordId: bigint;
-  reward: DecCoin[];
 }
 function createBaseParams(): Params {
   return {
@@ -598,6 +594,67 @@ export const FeePool = {
     return message;
   },
 };
+function createBaseTokenizeShareRecordReward(): TokenizeShareRecordReward {
+  return {
+    recordId: BigInt(0),
+    reward: [],
+  };
+}
+export const TokenizeShareRecordReward = {
+  encode(message: TokenizeShareRecordReward, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.recordId !== BigInt(0)) {
+      writer.uint32(8).uint64(message.recordId);
+    }
+    for (const v of message.reward) {
+      DecCoin.encode(v!, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): TokenizeShareRecordReward {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTokenizeShareRecordReward();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.recordId = reader.uint64();
+          break;
+        case 2:
+          message.reward.push(DecCoin.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): TokenizeShareRecordReward {
+    const obj = createBaseTokenizeShareRecordReward();
+    if (isSet(object.recordId)) obj.recordId = BigInt(object.recordId.toString());
+    if (Array.isArray(object?.reward)) obj.reward = object.reward.map((e: any) => DecCoin.fromJSON(e));
+    return obj;
+  },
+  toJSON(message: TokenizeShareRecordReward): unknown {
+    const obj: any = {};
+    message.recordId !== undefined && (obj.recordId = (message.recordId || BigInt(0)).toString());
+    if (message.reward) {
+      obj.reward = message.reward.map((e) => (e ? DecCoin.toJSON(e) : undefined));
+    } else {
+      obj.reward = [];
+    }
+    return obj;
+  },
+  fromPartial(object: Partial<TokenizeShareRecordReward>): TokenizeShareRecordReward {
+    const message = createBaseTokenizeShareRecordReward();
+    if (object.recordId !== undefined && object.recordId !== null) {
+      message.recordId = BigInt(object.recordId.toString());
+    }
+    message.reward = object.reward?.map((e) => DecCoin.fromPartial(e)) || [];
+    return message;
+  },
+};
 function createBaseCommunityPoolSpendProposal(): CommunityPoolSpendProposal {
   return {
     title: "",
@@ -891,67 +948,6 @@ export const CommunityPoolSpendProposalWithDeposit = {
     message.recipient = object.recipient ?? "";
     message.amount = object.amount ?? "";
     message.deposit = object.deposit ?? "";
-    return message;
-  },
-};
-function createBaseTokenizeShareRecordReward(): TokenizeShareRecordReward {
-  return {
-    recordId: BigInt(0),
-    reward: [],
-  };
-}
-export const TokenizeShareRecordReward = {
-  encode(message: TokenizeShareRecordReward, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.recordId !== BigInt(0)) {
-      writer.uint32(8).uint64(message.recordId);
-    }
-    for (const v of message.reward) {
-      DecCoin.encode(v!, writer.uint32(18).fork()).ldelim();
-    }
-    return writer;
-  },
-  decode(input: BinaryReader | Uint8Array, length?: number): TokenizeShareRecordReward {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseTokenizeShareRecordReward();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.recordId = reader.uint64();
-          break;
-        case 2:
-          message.reward.push(DecCoin.decode(reader, reader.uint32()));
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-  fromJSON(object: any): TokenizeShareRecordReward {
-    const obj = createBaseTokenizeShareRecordReward();
-    if (isSet(object.recordId)) obj.recordId = BigInt(object.recordId.toString());
-    if (Array.isArray(object?.reward)) obj.reward = object.reward.map((e: any) => DecCoin.fromJSON(e));
-    return obj;
-  },
-  toJSON(message: TokenizeShareRecordReward): unknown {
-    const obj: any = {};
-    message.recordId !== undefined && (obj.recordId = (message.recordId || BigInt(0)).toString());
-    if (message.reward) {
-      obj.reward = message.reward.map((e) => (e ? DecCoin.toJSON(e) : undefined));
-    } else {
-      obj.reward = [];
-    }
-    return obj;
-  },
-  fromPartial(object: Partial<TokenizeShareRecordReward>): TokenizeShareRecordReward {
-    const message = createBaseTokenizeShareRecordReward();
-    if (object.recordId !== undefined && object.recordId !== null) {
-      message.recordId = BigInt(object.recordId.toString());
-    }
-    message.reward = object.reward?.map((e) => DecCoin.fromPartial(e)) || [];
     return message;
   },
 };

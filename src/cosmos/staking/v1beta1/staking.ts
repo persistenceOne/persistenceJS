@@ -96,19 +96,18 @@ export function infractionToJSON(object: Infraction): string {
       return "UNRECOGNIZED";
   }
 }
-/**
- * TokenizeShareLockStatus represents status of an account's tokenize share lock.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** TokenizeShareLockStatus indicates whether the address is able to tokenize shares */
 export enum TokenizeShareLockStatus {
-  /** TOKENIZE_SHARE_LOCK_STATUS_UNSPECIFIED - An empty value is not allowed. */
+  /** TOKENIZE_SHARE_LOCK_STATUS_UNSPECIFIED - UNSPECIFIED defines an empty tokenize share lock status */
   TOKENIZE_SHARE_LOCK_STATUS_UNSPECIFIED = 0,
-  /** TOKENIZE_SHARE_LOCK_STATUS_LOCKED - Status means cannot tokenize shares. */
+  /** TOKENIZE_SHARE_LOCK_STATUS_LOCKED - LOCKED indicates the account is locked and cannot tokenize shares */
   TOKENIZE_SHARE_LOCK_STATUS_LOCKED = 1,
-  /** TOKENIZE_SHARE_LOCK_STATUS_UNLOCKED - Status means cannot tokenize shares. */
+  /** TOKENIZE_SHARE_LOCK_STATUS_UNLOCKED - UNLOCKED indicates the account is unlocked and can tokenize shares */
   TOKENIZE_SHARE_LOCK_STATUS_UNLOCKED = 2,
-  /** TOKENIZE_SHARE_LOCK_STATUS_LOCK_EXPIRING - Status when lock is queued for unlocking. */
+  /**
+   * TOKENIZE_SHARE_LOCK_STATUS_LOCK_EXPIRING - LOCK_EXPIRING indicates the account is unable to tokenize shares, but
+   * will be able to tokenize shortly (after 1 unbonding period)
+   */
   TOKENIZE_SHARE_LOCK_STATUS_LOCK_EXPIRING = 3,
   UNRECOGNIZED = -1,
 }
@@ -220,32 +219,19 @@ export interface Validator {
   unbondingTime: Timestamp;
   /** commission defines the commission parameters. */
   commission: Commission;
-  /** min_self_delegation is the validator's self declared minimum self delegation. */
-  /** @deprecated */
+  /**
+   * min_self_delegation is the validator's self declared minimum self delegation.
+   *
+   * Since: cosmos-sdk 0.46
+   */
   minSelfDelegation: string;
-  /**
-   * strictly positive if this validator's unbonding has been stopped by external modules
-   *
-   * Since: cosmos-sdk 0.47
-   */
+  /** strictly positive if this validator's unbonding has been stopped by external modules */
   unbondingOnHoldRefCount: bigint;
-  /**
-   * list of unbonding ids, each uniquely identifing an unbonding of this validator
-   *
-   * Since: cosmos-sdk 0.47
-   */
+  /** list of unbonding ids, each uniquely identifing an unbonding of this validator */
   unbondingIds: bigint[];
-  /**
-   * validator_bond_shares is the number of shares self bonded from the validator.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** Number of shares self bonded from the validator */
   validatorBondShares: string;
-  /**
-   * liquid_shares is the number of shares either tokenized or owned by a liquid staking provider.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** Number of shares either tokenized or owned by a liquid staking provider */
   liquidShares: string;
 }
 /** ValAddresses defines a repeated set of validator addresses. */
@@ -286,17 +272,13 @@ export interface DVVTriplets {
  * validator.
  */
 export interface Delegation {
-  /** delegator_address is the bech32-encoded address of the delegator. */
+  /** delegator_address is the encoded address of the delegator. */
   delegatorAddress: string;
-  /** validator_address is the bech32-encoded address of the validator. */
+  /** validator_address is the encoded address of the validator. */
   validatorAddress: string;
   /** shares define the delegation shares received. */
   shares: string;
-  /**
-   * has this delegation been marked as a validator self bond.
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** has this delegation been marked as a validator self bond. */
   validatorBond: boolean;
 }
 /**
@@ -304,9 +286,9 @@ export interface Delegation {
  * for a single validator in an time-ordered list.
  */
 export interface UnbondingDelegation {
-  /** delegator_address is the bech32-encoded address of the delegator. */
+  /** delegator_address is the encoded address of the delegator. */
   delegatorAddress: string;
-  /** validator_address is the bech32-encoded address of the validator. */
+  /** validator_address is the encoded address of the validator. */
   validatorAddress: string;
   /** entries are the unbonding delegation entries. */
   entries: UnbondingDelegationEntry[];
@@ -325,19 +307,6 @@ export interface UnbondingDelegationEntry {
   unbondingId: bigint;
   /** Strictly positive if this entry's unbonding has been stopped by external modules */
   unbondingOnHoldRefCount: bigint;
-  /**
-   * validator_bond_factor is required for tokenize share and undelegation check for network safety
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
-  validatorBondFactor: string;
-  /**
-   * global_liquid_staking_cap represents a cap on the portion of stake that
-   * comes from liquid staking providers
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
-  globalLiquidStakingCap: string;
 }
 /** RedelegationEntry defines a redelegation object with relevant metadata. */
 export interface RedelegationEntry {
@@ -439,23 +408,18 @@ export interface Pool {
 export interface ValidatorUpdates {
   updates: ValidatorUpdate[];
 }
-/**
- * TokenizeShareRecord represents a tokenized delegation.
- *
- * Since: cosmos-sdk 0.47-lsm
- */
+/** TokenizeShareRecord represents a tokenized delegation */
 export interface TokenizeShareRecord {
   id: bigint;
   owner: string;
   /** module account take the role of delegator */
   moduleAccount: string;
+  /** validator delegated to for tokenize share record creation */
   validator: string;
 }
 /**
  * PendingTokenizeShareAuthorizations stores a list of addresses that have their
- * tokenize share enablement in progress.
- *
- * Since: cosmos-sdk 0.47-lsm
+ * tokenize share enablement in progress
  */
 export interface PendingTokenizeShareAuthorizations {
   addresses: string[];
@@ -1372,8 +1336,6 @@ function createBaseUnbondingDelegationEntry(): UnbondingDelegationEntry {
     balance: "",
     unbondingId: BigInt(0),
     unbondingOnHoldRefCount: BigInt(0),
-    validatorBondFactor: "",
-    globalLiquidStakingCap: "",
   };
 }
 export const UnbondingDelegationEntry = {
@@ -1395,12 +1357,6 @@ export const UnbondingDelegationEntry = {
     }
     if (message.unbondingOnHoldRefCount !== BigInt(0)) {
       writer.uint32(48).int64(message.unbondingOnHoldRefCount);
-    }
-    if (message.validatorBondFactor !== "") {
-      writer.uint32(58).string(message.validatorBondFactor);
-    }
-    if (message.globalLiquidStakingCap !== "") {
-      writer.uint32(66).string(message.globalLiquidStakingCap);
     }
     return writer;
   },
@@ -1429,12 +1385,6 @@ export const UnbondingDelegationEntry = {
         case 6:
           message.unbondingOnHoldRefCount = reader.int64();
           break;
-        case 7:
-          message.validatorBondFactor = reader.string();
-          break;
-        case 8:
-          message.globalLiquidStakingCap = reader.string();
-          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1451,9 +1401,6 @@ export const UnbondingDelegationEntry = {
     if (isSet(object.unbondingId)) obj.unbondingId = BigInt(object.unbondingId.toString());
     if (isSet(object.unbondingOnHoldRefCount))
       obj.unbondingOnHoldRefCount = BigInt(object.unbondingOnHoldRefCount.toString());
-    if (isSet(object.validatorBondFactor)) obj.validatorBondFactor = String(object.validatorBondFactor);
-    if (isSet(object.globalLiquidStakingCap))
-      obj.globalLiquidStakingCap = String(object.globalLiquidStakingCap);
     return obj;
   },
   toJSON(message: UnbondingDelegationEntry): unknown {
@@ -1467,9 +1414,6 @@ export const UnbondingDelegationEntry = {
     message.unbondingId !== undefined && (obj.unbondingId = (message.unbondingId || BigInt(0)).toString());
     message.unbondingOnHoldRefCount !== undefined &&
       (obj.unbondingOnHoldRefCount = (message.unbondingOnHoldRefCount || BigInt(0)).toString());
-    message.validatorBondFactor !== undefined && (obj.validatorBondFactor = message.validatorBondFactor);
-    message.globalLiquidStakingCap !== undefined &&
-      (obj.globalLiquidStakingCap = message.globalLiquidStakingCap);
     return obj;
   },
   fromPartial(object: Partial<UnbondingDelegationEntry>): UnbondingDelegationEntry {
@@ -1488,8 +1432,6 @@ export const UnbondingDelegationEntry = {
     if (object.unbondingOnHoldRefCount !== undefined && object.unbondingOnHoldRefCount !== null) {
       message.unbondingOnHoldRefCount = BigInt(object.unbondingOnHoldRefCount.toString());
     }
-    message.validatorBondFactor = object.validatorBondFactor ?? "";
-    message.globalLiquidStakingCap = object.globalLiquidStakingCap ?? "";
     return message;
   },
 };

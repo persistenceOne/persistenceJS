@@ -4,22 +4,25 @@ echo "updating amino cosmos tendermint ibc pstake persistence cosmwasm"
 echo $(pwd)
 
 cosmos_git=https://github.com/persistenceOne/cosmos-sdk.git
-cosmos_tag=v0.47.3-lsm4
+cosmos_tag=v0.50.14-lsm-disabled
 
 ics23_git=https://github.com/cosmos/ics23.git
 ics23_tag=v0.10.0
 
 ibc_git=https://github.com/persistenceOne/ibc-go.git
-ibc_tag=v7.2.0-lsm3
+ibc_tag=v10.1.1
 
 pstake_git=https://github.com/persistenceOne/pstake-native.git
-pstake_tag=v2.9.2-rc1
+pstake_tag=v5.0.0-rc1
 
 persistence_sdk_git=https://github.com/persistenceOne/persistence-sdk.git
-persistence_sdk_tag=v2.1.0
+persistence_sdk_tag=v5.0.0-rc1
 
 wasmd_git=https://github.com/persistenceOne/wasmd.git
-wasmd_tag=v0.40.2-lsm3
+wasmd_tag=v0.55.1
+
+gaia_git=https://github.com/persistenceOne/gaia.git
+gaia_tag=v24.0.0-liquid-fix
 
 echo "updating amino, cosmos, tendermint from cosmos-sdk"
 git clone $cosmos_git
@@ -96,3 +99,16 @@ cp -r proto/cosmwasm ../proto/cosmwasm
 
 cd ..
 rm -rf wasmd
+
+echo "updating x/liquid from gaia"
+git clone $gaia_git
+cd gaia
+git checkout $gaia_tag
+
+rm -rf ../proto/gaia
+cp -r proto/gaia ../proto/gaia
+
+cd ..
+rm -rf gaia
+echo "remove unneeded pacakges"
+rm -rf proto/gaia/metaprotocols

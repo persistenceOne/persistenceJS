@@ -42,6 +42,7 @@ npm install persistenceonejs
 
 | PersistenceJS | PersistenceCore |
 |---------------|-----------------|
+| v3.0.x        | v14.x.x         |
 | v2.2.x        | v9.x.x          |
 | v2.1.x        | v8.x.x          |
 Rest of the versions are obsolete

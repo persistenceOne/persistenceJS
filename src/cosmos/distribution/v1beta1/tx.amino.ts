@@ -7,6 +7,7 @@ import {
   MsgFundCommunityPool,
   MsgUpdateParams,
   MsgCommunityPoolSpend,
+  MsgDepositValidatorRewardsPool,
   MsgWithdrawTokenizeShareRecordReward,
   MsgWithdrawAllTokenizeShareRecordReward,
 } from "./tx";
@@ -57,6 +58,17 @@ export interface MsgCommunityPoolSpendAminoType extends AminoMsg {
   value: {
     authority: string;
     recipient: string;
+    amount: {
+      denom: string;
+      amount: string;
+    }[];
+  };
+}
+export interface MsgDepositValidatorRewardsPoolAminoType extends AminoMsg {
+  type: "cosmos-sdk/distr/MsgDepositValRewards";
+  value: {
+    depositor: string;
+    validator_address: string;
     amount: {
       denom: string;
       amount: string;
@@ -206,6 +218,37 @@ export const AminoConverter = {
       return {
         authority,
         recipient,
+        amount: amount.map((el0) => ({
+          denom: el0.denom,
+          amount: el0.amount,
+        })),
+      };
+    },
+  },
+  "/cosmos.distribution.v1beta1.MsgDepositValidatorRewardsPool": {
+    aminoType: "cosmos-sdk/distr/MsgDepositValRewards",
+    toAmino: ({
+      depositor,
+      validatorAddress,
+      amount,
+    }: MsgDepositValidatorRewardsPool): MsgDepositValidatorRewardsPoolAminoType["value"] => {
+      return {
+        depositor,
+        validator_address: validatorAddress,
+        amount: amount.map((el0) => ({
+          denom: el0.denom,
+          amount: el0.amount,
+        })),
+      };
+    },
+    fromAmino: ({
+      depositor,
+      validator_address,
+      amount,
+    }: MsgDepositValidatorRewardsPoolAminoType["value"]): MsgDepositValidatorRewardsPool => {
+      return {
+        depositor,
+        validatorAddress: validator_address,
         amount: amount.map((el0) => ({
           denom: el0.denom,
           amount: el0.amount,

@@ -172,8 +172,6 @@ export interface QueryCommunityPoolResponse {
 /**
  * QueryTokenizeShareRecordRewardRequest is the request type for the Query/TokenizeShareRecordReward RPC
  * method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTokenizeShareRecordRewardRequest {
   ownerAddress: string;
@@ -181,8 +179,6 @@ export interface QueryTokenizeShareRecordRewardRequest {
 /**
  * QueryTokenizeShareRecordRewardResponse is the response type for the Query/TokenizeShareRecordReward
  * RPC method.
- *
- * Since: cosmos-sdk 0.47-lsm
  */
 export interface QueryTokenizeShareRecordRewardResponse {
   /** rewards defines all the rewards accrued by a delegator. */
@@ -1386,7 +1382,7 @@ export interface Query {
   /** DelegationRewards queries the total rewards accrued by a delegation. */
   DelegationRewards(request: QueryDelegationRewardsRequest): Promise<QueryDelegationRewardsResponse>;
   /**
-   * DelegationTotalRewards queries the total rewards accrued by a each
+   * DelegationTotalRewards queries the total rewards accrued by each
    * validator.
    */
   DelegationTotalRewards(
@@ -1400,11 +1396,7 @@ export interface Query {
   ): Promise<QueryDelegatorWithdrawAddressResponse>;
   /** CommunityPool queries the community pool coins. */
   CommunityPool(request?: QueryCommunityPoolRequest): Promise<QueryCommunityPoolResponse>;
-  /**
-   * TokenizeShareRecordReward queries the tokenize share record rewards
-   *
-   * Since: cosmos-sdk 0.47-lsm
-   */
+  /** TokenizeShareRecordReward queries the tokenize share record rewards */
   TokenizeShareRecordReward(
     request: QueryTokenizeShareRecordRewardRequest,
   ): Promise<QueryTokenizeShareRecordRewardResponse>;

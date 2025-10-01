@@ -3,7 +3,7 @@
 import { AminoMsg } from "@cosmjs/amino";
 import { MsgUpdateParams } from "./tx";
 export interface MsgUpdateParamsAminoType extends AminoMsg {
-  type: "cosmos-sdk/MsgUpdateParams";
+  type: "cosmos-sdk/x/consensus/MsgUpdateParams";
   value: {
     authority: string;
     block: {
@@ -21,16 +21,20 @@ export interface MsgUpdateParamsAminoType extends AminoMsg {
     validator: {
       pub_key_types: string[];
     };
+    abci: {
+      vote_extensions_enable_height: string;
+    };
   };
 }
 export const AminoConverter = {
   "/cosmos.consensus.v1.MsgUpdateParams": {
-    aminoType: "cosmos-sdk/MsgUpdateParams",
+    aminoType: "cosmos-sdk/x/consensus/MsgUpdateParams",
     toAmino: ({
       authority,
       block,
       evidence,
       validator,
+      abci,
     }: MsgUpdateParams): MsgUpdateParamsAminoType["value"] => {
       return {
         authority,
@@ -46,6 +50,9 @@ export const AminoConverter = {
         validator: {
           pub_key_types: validator.pubKeyTypes,
         },
+        abci: {
+          vote_extensions_enable_height: abci.voteExtensionsEnableHeight.toString(),
+        },
       };
     },
     fromAmino: ({
@@ -53,6 +60,7 @@ export const AminoConverter = {
       block,
       evidence,
       validator,
+      abci,
     }: MsgUpdateParamsAminoType["value"]): MsgUpdateParams => {
       return {
         authority,
@@ -70,6 +78,9 @@ export const AminoConverter = {
         },
         validator: {
           pubKeyTypes: validator.pub_key_types,
+        },
+        abci: {
+          voteExtensionsEnableHeight: BigInt(abci.vote_extensions_enable_height),
         },
       };
     },
