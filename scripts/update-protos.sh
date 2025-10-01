@@ -10,7 +10,7 @@ ics23_git=https://github.com/cosmos/ics23.git
 ics23_tag=v0.10.0
 
 ibc_git=https://github.com/persistenceOne/ibc-go.git
-ibc_tag=v10.3.1
+ibc_tag=v10.1.1
 
 pstake_git=https://github.com/persistenceOne/pstake-native.git
 pstake_tag=v5.0.0-rc1
