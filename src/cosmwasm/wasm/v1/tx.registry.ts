@@ -15,6 +15,10 @@ import {
   MsgPinCodes,
   MsgUnpinCodes,
   MsgStoreAndInstantiateContract,
+  MsgRemoveCodeUploadParamsAddresses,
+  MsgAddCodeUploadParamsAddresses,
+  MsgStoreAndMigrateContract,
+  MsgUpdateContractLabel,
 } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [
   ["/cosmwasm.wasm.v1.MsgStoreCode", MsgStoreCode],
@@ -30,6 +34,10 @@ export const registry: ReadonlyArray<[string, GeneratedType]> = [
   ["/cosmwasm.wasm.v1.MsgPinCodes", MsgPinCodes],
   ["/cosmwasm.wasm.v1.MsgUnpinCodes", MsgUnpinCodes],
   ["/cosmwasm.wasm.v1.MsgStoreAndInstantiateContract", MsgStoreAndInstantiateContract],
+  ["/cosmwasm.wasm.v1.MsgRemoveCodeUploadParamsAddresses", MsgRemoveCodeUploadParamsAddresses],
+  ["/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses", MsgAddCodeUploadParamsAddresses],
+  ["/cosmwasm.wasm.v1.MsgStoreAndMigrateContract", MsgStoreAndMigrateContract],
+  ["/cosmwasm.wasm.v1.MsgUpdateContractLabel", MsgUpdateContractLabel],
 ];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -116,6 +124,30 @@ export const MessageComposer = {
         value: MsgStoreAndInstantiateContract.encode(value).finish(),
       };
     },
+    removeCodeUploadParamsAddresses(value: MsgRemoveCodeUploadParamsAddresses) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgRemoveCodeUploadParamsAddresses",
+        value: MsgRemoveCodeUploadParamsAddresses.encode(value).finish(),
+      };
+    },
+    addCodeUploadParamsAddresses(value: MsgAddCodeUploadParamsAddresses) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses",
+        value: MsgAddCodeUploadParamsAddresses.encode(value).finish(),
+      };
+    },
+    storeAndMigrateContract(value: MsgStoreAndMigrateContract) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgStoreAndMigrateContract",
+        value: MsgStoreAndMigrateContract.encode(value).finish(),
+      };
+    },
+    updateContractLabel(value: MsgUpdateContractLabel) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgUpdateContractLabel",
+        value: MsgUpdateContractLabel.encode(value).finish(),
+      };
+    },
   },
   withTypeUrl: {
     storeCode(value: MsgStoreCode) {
@@ -193,6 +225,30 @@ export const MessageComposer = {
     storeAndInstantiateContract(value: MsgStoreAndInstantiateContract) {
       return {
         typeUrl: "/cosmwasm.wasm.v1.MsgStoreAndInstantiateContract",
+        value,
+      };
+    },
+    removeCodeUploadParamsAddresses(value: MsgRemoveCodeUploadParamsAddresses) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgRemoveCodeUploadParamsAddresses",
+        value,
+      };
+    },
+    addCodeUploadParamsAddresses(value: MsgAddCodeUploadParamsAddresses) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses",
+        value,
+      };
+    },
+    storeAndMigrateContract(value: MsgStoreAndMigrateContract) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgStoreAndMigrateContract",
+        value,
+      };
+    },
+    updateContractLabel(value: MsgUpdateContractLabel) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgUpdateContractLabel",
         value,
       };
     },
@@ -276,6 +332,30 @@ export const MessageComposer = {
         value: MsgStoreAndInstantiateContract.toJSON(value),
       };
     },
+    removeCodeUploadParamsAddresses(value: MsgRemoveCodeUploadParamsAddresses) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgRemoveCodeUploadParamsAddresses",
+        value: MsgRemoveCodeUploadParamsAddresses.toJSON(value),
+      };
+    },
+    addCodeUploadParamsAddresses(value: MsgAddCodeUploadParamsAddresses) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses",
+        value: MsgAddCodeUploadParamsAddresses.toJSON(value),
+      };
+    },
+    storeAndMigrateContract(value: MsgStoreAndMigrateContract) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgStoreAndMigrateContract",
+        value: MsgStoreAndMigrateContract.toJSON(value),
+      };
+    },
+    updateContractLabel(value: MsgUpdateContractLabel) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgUpdateContractLabel",
+        value: MsgUpdateContractLabel.toJSON(value),
+      };
+    },
   },
   fromJSON: {
     storeCode(value: any) {
@@ -356,6 +436,30 @@ export const MessageComposer = {
         value: MsgStoreAndInstantiateContract.fromJSON(value),
       };
     },
+    removeCodeUploadParamsAddresses(value: any) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgRemoveCodeUploadParamsAddresses",
+        value: MsgRemoveCodeUploadParamsAddresses.fromJSON(value),
+      };
+    },
+    addCodeUploadParamsAddresses(value: any) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses",
+        value: MsgAddCodeUploadParamsAddresses.fromJSON(value),
+      };
+    },
+    storeAndMigrateContract(value: any) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgStoreAndMigrateContract",
+        value: MsgStoreAndMigrateContract.fromJSON(value),
+      };
+    },
+    updateContractLabel(value: any) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgUpdateContractLabel",
+        value: MsgUpdateContractLabel.fromJSON(value),
+      };
+    },
   },
   fromPartial: {
     storeCode(value: MsgStoreCode) {
@@ -434,6 +538,30 @@ export const MessageComposer = {
       return {
         typeUrl: "/cosmwasm.wasm.v1.MsgStoreAndInstantiateContract",
         value: MsgStoreAndInstantiateContract.fromPartial(value),
+      };
+    },
+    removeCodeUploadParamsAddresses(value: MsgRemoveCodeUploadParamsAddresses) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgRemoveCodeUploadParamsAddresses",
+        value: MsgRemoveCodeUploadParamsAddresses.fromPartial(value),
+      };
+    },
+    addCodeUploadParamsAddresses(value: MsgAddCodeUploadParamsAddresses) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses",
+        value: MsgAddCodeUploadParamsAddresses.fromPartial(value),
+      };
+    },
+    storeAndMigrateContract(value: MsgStoreAndMigrateContract) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgStoreAndMigrateContract",
+        value: MsgStoreAndMigrateContract.fromPartial(value),
+      };
+    },
+    updateContractLabel(value: MsgUpdateContractLabel) {
+      return {
+        typeUrl: "/cosmwasm.wasm.v1.MsgUpdateContractLabel",
+        value: MsgUpdateContractLabel.fromPartial(value),
       };
     },
   },

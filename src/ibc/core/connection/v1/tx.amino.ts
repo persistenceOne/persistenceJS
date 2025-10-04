@@ -6,6 +6,7 @@ import {
   MsgConnectionOpenTry,
   MsgConnectionOpenAck,
   MsgConnectionOpenConfirm,
+  MsgUpdateParams,
 } from "./tx";
 export interface MsgConnectionOpenInitAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgConnectionOpenInit";
@@ -85,6 +86,15 @@ export interface MsgConnectionOpenConfirmAminoType extends AminoMsg {
     proof_ack: Uint8Array;
     proof_height: AminoHeight;
     signer: string;
+  };
+}
+export interface MsgUpdateParamsAminoType extends AminoMsg {
+  type: "cosmos-sdk/MsgUpdateParams";
+  value: {
+    signer: string;
+    params: {
+      allowed_clients: string[];
+    };
   };
 }
 export const AminoConverter = {
@@ -373,6 +383,25 @@ export const AminoConverter = {
             }
           : undefined,
         signer,
+      };
+    },
+  },
+  "/ibc.core.connection.v1.MsgUpdateParams": {
+    aminoType: "cosmos-sdk/MsgUpdateParams",
+    toAmino: ({ signer, params }: MsgUpdateParams): MsgUpdateParamsAminoType["value"] => {
+      return {
+        signer,
+        params: {
+          allowed_clients: params.allowedClients,
+        },
+      };
+    },
+    fromAmino: ({ signer, params }: MsgUpdateParamsAminoType["value"]): MsgUpdateParams => {
+      return {
+        signer,
+        params: {
+          allowedClients: params.allowed_clients,
+        },
       };
     },
   },

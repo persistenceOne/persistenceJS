@@ -1,9 +1,10 @@
 //@ts-nocheck
 /* eslint-disable */
 import { GeneratedType, Registry } from "@cosmjs/proto-signing";
-import { MsgTransfer } from "./tx";
+import { MsgTransfer, MsgUpdateParams } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [
   ["/ibc.applications.transfer.v1.MsgTransfer", MsgTransfer],
+  ["/ibc.applications.transfer.v1.MsgUpdateParams", MsgUpdateParams],
 ];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -18,11 +19,23 @@ export const MessageComposer = {
         value: MsgTransfer.encode(value).finish(),
       };
     },
+    updateParams(value: MsgUpdateParams) {
+      return {
+        typeUrl: "/ibc.applications.transfer.v1.MsgUpdateParams",
+        value: MsgUpdateParams.encode(value).finish(),
+      };
+    },
   },
   withTypeUrl: {
     transfer(value: MsgTransfer) {
       return {
         typeUrl: "/ibc.applications.transfer.v1.MsgTransfer",
+        value,
+      };
+    },
+    updateParams(value: MsgUpdateParams) {
+      return {
+        typeUrl: "/ibc.applications.transfer.v1.MsgUpdateParams",
         value,
       };
     },
@@ -34,6 +47,12 @@ export const MessageComposer = {
         value: MsgTransfer.toJSON(value),
       };
     },
+    updateParams(value: MsgUpdateParams) {
+      return {
+        typeUrl: "/ibc.applications.transfer.v1.MsgUpdateParams",
+        value: MsgUpdateParams.toJSON(value),
+      };
+    },
   },
   fromJSON: {
     transfer(value: any) {
@@ -42,12 +61,24 @@ export const MessageComposer = {
         value: MsgTransfer.fromJSON(value),
       };
     },
+    updateParams(value: any) {
+      return {
+        typeUrl: "/ibc.applications.transfer.v1.MsgUpdateParams",
+        value: MsgUpdateParams.fromJSON(value),
+      };
+    },
   },
   fromPartial: {
     transfer(value: MsgTransfer) {
       return {
         typeUrl: "/ibc.applications.transfer.v1.MsgTransfer",
         value: MsgTransfer.fromPartial(value),
+      };
+    },
+    updateParams(value: MsgUpdateParams) {
+      return {
+        typeUrl: "/ibc.applications.transfer.v1.MsgUpdateParams",
+        value: MsgUpdateParams.fromPartial(value),
       };
     },
   },

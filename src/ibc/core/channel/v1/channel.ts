@@ -5,7 +5,7 @@ import { isSet, bytesFromBase64, base64FromBytes } from "../../../../helpers";
 export const protobufPackage = "ibc.core.channel.v1";
 /**
  * State defines if a channel is in one of the following states:
- * CLOSED, INIT, TRYOPEN, OPEN or UNINITIALIZED.
+ * CLOSED, INIT, TRYOPEN, OPEN, or UNINITIALIZED.
  */
 export enum State {
   /** STATE_UNINITIALIZED_UNSPECIFIED - Default State */
@@ -199,7 +199,7 @@ export interface PacketState {
   data: Uint8Array;
 }
 /**
- * PacketId is an identifer for a unique Packet
+ * PacketId is an identifier for a unique Packet
  * Source chains refer to packets by source port/channel
  * Destination chains refer to packets by destination port/channel
  */
@@ -223,6 +223,17 @@ export interface PacketId {
 export interface Acknowledgement {
   result?: Uint8Array;
   error?: string;
+}
+/**
+ * Timeout defines an execution deadline structure for 04-channel handlers.
+ * This includes packet lifecycle handlers.
+ * A valid Timeout contains either one or both of a timestamp and block height (sequence).
+ */
+export interface Timeout {
+  /** block height after which the packet times out */
+  height: Height;
+  /** block timestamp (in nanoseconds) after which the packet times out */
+  timestamp: bigint;
 }
 function createBaseChannel(): Channel {
   return {
@@ -807,6 +818,65 @@ export const Acknowledgement = {
     const message = createBaseAcknowledgement();
     message.result = object.result ?? undefined;
     message.error = object.error ?? undefined;
+    return message;
+  },
+};
+function createBaseTimeout(): Timeout {
+  return {
+    height: Height.fromPartial({}),
+    timestamp: BigInt(0),
+  };
+}
+export const Timeout = {
+  encode(message: Timeout, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.height !== undefined) {
+      Height.encode(message.height, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.timestamp !== BigInt(0)) {
+      writer.uint32(16).uint64(message.timestamp);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): Timeout {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTimeout();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.height = Height.decode(reader, reader.uint32());
+          break;
+        case 2:
+          message.timestamp = reader.uint64();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): Timeout {
+    const obj = createBaseTimeout();
+    if (isSet(object.height)) obj.height = Height.fromJSON(object.height);
+    if (isSet(object.timestamp)) obj.timestamp = BigInt(object.timestamp.toString());
+    return obj;
+  },
+  toJSON(message: Timeout): unknown {
+    const obj: any = {};
+    message.height !== undefined && (obj.height = message.height ? Height.toJSON(message.height) : undefined);
+    message.timestamp !== undefined && (obj.timestamp = (message.timestamp || BigInt(0)).toString());
+    return obj;
+  },
+  fromPartial(object: Partial<Timeout>): Timeout {
+    const message = createBaseTimeout();
+    if (object.height !== undefined && object.height !== null) {
+      message.height = Height.fromPartial(object.height);
+    }
+    if (object.timestamp !== undefined && object.timestamp !== null) {
+      message.timestamp = BigInt(object.timestamp.toString());
+    }
     return message;
   },
 };

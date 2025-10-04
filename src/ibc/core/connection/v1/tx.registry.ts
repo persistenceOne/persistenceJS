@@ -6,12 +6,14 @@ import {
   MsgConnectionOpenTry,
   MsgConnectionOpenAck,
   MsgConnectionOpenConfirm,
+  MsgUpdateParams,
 } from "./tx";
 export const registry: ReadonlyArray<[string, GeneratedType]> = [
   ["/ibc.core.connection.v1.MsgConnectionOpenInit", MsgConnectionOpenInit],
   ["/ibc.core.connection.v1.MsgConnectionOpenTry", MsgConnectionOpenTry],
   ["/ibc.core.connection.v1.MsgConnectionOpenAck", MsgConnectionOpenAck],
   ["/ibc.core.connection.v1.MsgConnectionOpenConfirm", MsgConnectionOpenConfirm],
+  ["/ibc.core.connection.v1.MsgUpdateParams", MsgUpdateParams],
 ];
 export const load = (protoRegistry: Registry) => {
   registry.forEach(([typeUrl, mod]) => {
@@ -44,6 +46,12 @@ export const MessageComposer = {
         value: MsgConnectionOpenConfirm.encode(value).finish(),
       };
     },
+    updateConnectionParams(value: MsgUpdateParams) {
+      return {
+        typeUrl: "/ibc.core.connection.v1.MsgUpdateParams",
+        value: MsgUpdateParams.encode(value).finish(),
+      };
+    },
   },
   withTypeUrl: {
     connectionOpenInit(value: MsgConnectionOpenInit) {
@@ -67,6 +75,12 @@ export const MessageComposer = {
     connectionOpenConfirm(value: MsgConnectionOpenConfirm) {
       return {
         typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenConfirm",
+        value,
+      };
+    },
+    updateConnectionParams(value: MsgUpdateParams) {
+      return {
+        typeUrl: "/ibc.core.connection.v1.MsgUpdateParams",
         value,
       };
     },
@@ -96,6 +110,12 @@ export const MessageComposer = {
         value: MsgConnectionOpenConfirm.toJSON(value),
       };
     },
+    updateConnectionParams(value: MsgUpdateParams) {
+      return {
+        typeUrl: "/ibc.core.connection.v1.MsgUpdateParams",
+        value: MsgUpdateParams.toJSON(value),
+      };
+    },
   },
   fromJSON: {
     connectionOpenInit(value: any) {
@@ -122,6 +142,12 @@ export const MessageComposer = {
         value: MsgConnectionOpenConfirm.fromJSON(value),
       };
     },
+    updateConnectionParams(value: any) {
+      return {
+        typeUrl: "/ibc.core.connection.v1.MsgUpdateParams",
+        value: MsgUpdateParams.fromJSON(value),
+      };
+    },
   },
   fromPartial: {
     connectionOpenInit(value: MsgConnectionOpenInit) {
@@ -146,6 +172,12 @@ export const MessageComposer = {
       return {
         typeUrl: "/ibc.core.connection.v1.MsgConnectionOpenConfirm",
         value: MsgConnectionOpenConfirm.fromPartial(value),
+      };
+    },
+    updateConnectionParams(value: MsgUpdateParams) {
+      return {
+        typeUrl: "/ibc.core.connection.v1.MsgUpdateParams",
+        value: MsgUpdateParams.fromPartial(value),
       };
     },
   },

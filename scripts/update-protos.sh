@@ -9,7 +9,7 @@ cosmos_tag=v0.50.14-lsm-disabled
 ics23_git=https://github.com/cosmos/ics23.git
 ics23_tag=v0.10.0
 
-ibc_git=https://github.com/persistenceOne/ibc-go.git
+ibc_git=https://github.com/cosmos/ibc-go.git
 ibc_tag=v10.1.1
 
 pstake_git=https://github.com/persistenceOne/pstake-native.git
@@ -18,7 +18,7 @@ pstake_tag=v5.0.0-rc1
 persistence_sdk_git=https://github.com/persistenceOne/persistence-sdk.git
 persistence_sdk_tag=v5.0.0-rc1
 
-wasmd_git=https://github.com/persistenceOne/wasmd.git
+wasmd_git=https://github.com/cosmwasm/wasmd.git
 wasmd_tag=v0.55.1
 
 gaia_git=https://github.com/persistenceOne/gaia.git
