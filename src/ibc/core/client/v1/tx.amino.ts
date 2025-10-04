@@ -1,3 +1,4 @@
+//@ts-nocheck
 /* eslint-disable */
 import { AminoMsg } from "@cosmjs/amino";
 import {

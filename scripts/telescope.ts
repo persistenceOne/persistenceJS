@@ -15,6 +15,7 @@ telescope({
       patterns: ["**/tx.registry.ts", "**/msgs.registry.ts"],
       files: [
         "ibc/core/types/v1/genesis.ts",
+        "ibc/core/client/v1/tx.amino.ts",
         "ibc/applications/interchain_accounts/genesis/v1/genesis.ts",
         "cosmos/tx/signing/v1beta1/signing.ts",
         "cosmos/staking/v1beta1/tx.ts",
@@ -24,6 +25,7 @@ telescope({
         "cosmos/staking/v1beta1/tx.amino.ts",
         "cosmos/slashing/v1beta1/tx.amino.ts",
         "cosmos/upgrade/v1beta1/tx.amino.ts",
+        "cosmos/upgrade/v1beta1/upgrade.ts",
 
         "cosmos/consensus/v1/tx.amino.ts",
         "cosmos/gov/v1/tx.amino.ts"
