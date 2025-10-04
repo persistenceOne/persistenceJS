@@ -12,6 +12,8 @@ export enum ResponseResultType {
   RESPONSE_RESULT_TYPE_NOOP = 1,
   /** RESPONSE_RESULT_TYPE_SUCCESS - The message was executed successfully */
   RESPONSE_RESULT_TYPE_SUCCESS = 2,
+  /** RESPONSE_RESULT_TYPE_FAILURE - The message was executed unsuccessfully */
+  RESPONSE_RESULT_TYPE_FAILURE = 3,
   UNRECOGNIZED = -1,
 }
 export function responseResultTypeFromJSON(object: any): ResponseResultType {
@@ -25,6 +27,9 @@ export function responseResultTypeFromJSON(object: any): ResponseResultType {
     case 2:
     case "RESPONSE_RESULT_TYPE_SUCCESS":
       return ResponseResultType.RESPONSE_RESULT_TYPE_SUCCESS;
+    case 3:
+    case "RESPONSE_RESULT_TYPE_FAILURE":
+      return ResponseResultType.RESPONSE_RESULT_TYPE_FAILURE;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -39,6 +44,8 @@ export function responseResultTypeToJSON(object: ResponseResultType): string {
       return "RESPONSE_RESULT_TYPE_NOOP";
     case ResponseResultType.RESPONSE_RESULT_TYPE_SUCCESS:
       return "RESPONSE_RESULT_TYPE_SUCCESS";
+    case ResponseResultType.RESPONSE_RESULT_TYPE_FAILURE:
+      return "RESPONSE_RESULT_TYPE_FAILURE";
     case ResponseResultType.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";

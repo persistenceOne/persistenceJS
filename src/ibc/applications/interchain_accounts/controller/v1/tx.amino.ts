@@ -1,13 +1,15 @@
 /* eslint-disable */
+import { orderFromJSON } from "../../../../core/channel/v1/channel";
 import { typeFromJSON } from "../../v1/packet";
 import { AminoMsg } from "@cosmjs/amino";
-import { MsgRegisterInterchainAccount, MsgSendTx } from "./tx";
+import { MsgRegisterInterchainAccount, MsgSendTx, MsgUpdateParams } from "./tx";
 export interface MsgRegisterInterchainAccountAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgRegisterInterchainAccount";
   value: {
     owner: string;
     connection_id: string;
     version: string;
+    ordering: number;
   };
 }
 export interface MsgSendTxAminoType extends AminoMsg {
@@ -23,6 +25,15 @@ export interface MsgSendTxAminoType extends AminoMsg {
     relative_timeout: string;
   };
 }
+export interface MsgUpdateParamsAminoType extends AminoMsg {
+  type: "cosmos-sdk/MsgUpdateParams";
+  value: {
+    signer: string;
+    params: {
+      controller_enabled: boolean;
+    };
+  };
+}
 export const AminoConverter = {
   "/ibc.applications.interchain_accounts.controller.v1.MsgRegisterInterchainAccount": {
     aminoType: "cosmos-sdk/MsgRegisterInterchainAccount",
@@ -30,22 +41,26 @@ export const AminoConverter = {
       owner,
       connectionId,
       version,
+      ordering,
     }: MsgRegisterInterchainAccount): MsgRegisterInterchainAccountAminoType["value"] => {
       return {
         owner,
         connection_id: connectionId,
         version,
+        ordering,
       };
     },
     fromAmino: ({
       owner,
       connection_id,
       version,
+      ordering,
     }: MsgRegisterInterchainAccountAminoType["value"]): MsgRegisterInterchainAccount => {
       return {
         owner,
         connectionId: connection_id,
         version,
+        ordering: orderFromJSON(ordering),
       };
     },
   },
@@ -83,6 +98,25 @@ export const AminoConverter = {
           memo: packet_data.memo,
         },
         relativeTimeout: BigInt(relative_timeout),
+      };
+    },
+  },
+  "/ibc.applications.interchain_accounts.controller.v1.MsgUpdateParams": {
+    aminoType: "cosmos-sdk/MsgUpdateParams",
+    toAmino: ({ signer, params }: MsgUpdateParams): MsgUpdateParamsAminoType["value"] => {
+      return {
+        signer,
+        params: {
+          controller_enabled: params.controllerEnabled,
+        },
+      };
+    },
+    fromAmino: ({ signer, params }: MsgUpdateParamsAminoType["value"]): MsgUpdateParams => {
+      return {
+        signer,
+        params: {
+          controllerEnabled: params.controller_enabled,
+        },
       };
     },
   },

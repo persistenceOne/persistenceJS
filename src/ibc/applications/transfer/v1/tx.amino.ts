@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { AminoMsg } from "@cosmjs/amino";
 import { AminoHeight, omitDefault } from "../../../../helpers";
-import { MsgTransfer } from "./tx";
+import { MsgTransfer, MsgUpdateParams } from "./tx";
 export interface MsgTransferAminoType extends AminoMsg {
   type: "cosmos-sdk/MsgTransfer";
   value: {
@@ -16,6 +16,16 @@ export interface MsgTransferAminoType extends AminoMsg {
     timeout_height: AminoHeight;
     timeout_timestamp: string;
     memo: string;
+    encoding: string;
+  };
+}
+export interface MsgUpdateParamsAminoType extends AminoMsg {
+  type: "cosmos-sdk/MsgUpdateParams";
+  value: {
+    signer: string;
+    params: {
+      allowed_clients: string[];
+    };
   };
 }
 export const AminoConverter = {
@@ -30,6 +40,7 @@ export const AminoConverter = {
       timeoutHeight,
       timeoutTimestamp,
       memo,
+      encoding,
     }: MsgTransfer): MsgTransferAminoType["value"] => {
       return {
         source_port: sourcePort,
@@ -48,6 +59,7 @@ export const AminoConverter = {
           : {},
         timeout_timestamp: timeoutTimestamp.toString(),
         memo,
+        encoding,
       };
     },
     fromAmino: ({
@@ -59,6 +71,7 @@ export const AminoConverter = {
       timeout_height,
       timeout_timestamp,
       memo,
+      encoding,
     }: MsgTransferAminoType["value"]): MsgTransfer => {
       return {
         sourcePort: source_port,
@@ -77,6 +90,26 @@ export const AminoConverter = {
           : undefined,
         timeoutTimestamp: BigInt(timeout_timestamp),
         memo,
+        encoding,
+      };
+    },
+  },
+  "/ibc.applications.transfer.v1.MsgUpdateParams": {
+    aminoType: "cosmos-sdk/MsgUpdateParams",
+    toAmino: ({ signer, params }: MsgUpdateParams): MsgUpdateParamsAminoType["value"] => {
+      return {
+        signer,
+        params: {
+          allowed_clients: params.allowedClients,
+        },
+      };
+    },
+    fromAmino: ({ signer, params }: MsgUpdateParamsAminoType["value"]): MsgUpdateParams => {
+      return {
+        signer,
+        params: {
+          allowedClients: params.allowed_clients,
+        },
       };
     },
   },

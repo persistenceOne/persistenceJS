@@ -290,12 +290,34 @@ export interface QueryNextSequenceReceiveRequest {
   channelId: string;
 }
 /**
- * QuerySequenceResponse is the request type for the
+ * QuerySequenceResponse is the response type for the
  * Query/QueryNextSequenceReceiveResponse RPC method
  */
 export interface QueryNextSequenceReceiveResponse {
   /** next sequence receive number */
   nextSequenceReceive: bigint;
+  /** merkle proof of existence */
+  proof: Uint8Array;
+  /** height at which the proof was retrieved */
+  proofHeight: Height;
+}
+/**
+ * QueryNextSequenceSendRequest is the request type for the
+ * Query/QueryNextSequenceSend RPC method
+ */
+export interface QueryNextSequenceSendRequest {
+  /** port unique identifier */
+  portId: string;
+  /** channel unique identifier */
+  channelId: string;
+}
+/**
+ * QueryNextSequenceSendResponse is the request type for the
+ * Query/QueryNextSequenceSend RPC method
+ */
+export interface QueryNextSequenceSendResponse {
+  /** next sequence send number */
+  nextSequenceSend: bigint;
   /** merkle proof of existence */
   proof: Uint8Array;
   /** height at which the proof was retrieved */
@@ -2177,6 +2199,133 @@ export const QueryNextSequenceReceiveResponse = {
     return message;
   },
 };
+function createBaseQueryNextSequenceSendRequest(): QueryNextSequenceSendRequest {
+  return {
+    portId: "",
+    channelId: "",
+  };
+}
+export const QueryNextSequenceSendRequest = {
+  encode(message: QueryNextSequenceSendRequest, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.portId !== "") {
+      writer.uint32(10).string(message.portId);
+    }
+    if (message.channelId !== "") {
+      writer.uint32(18).string(message.channelId);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryNextSequenceSendRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryNextSequenceSendRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.portId = reader.string();
+          break;
+        case 2:
+          message.channelId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryNextSequenceSendRequest {
+    const obj = createBaseQueryNextSequenceSendRequest();
+    if (isSet(object.portId)) obj.portId = String(object.portId);
+    if (isSet(object.channelId)) obj.channelId = String(object.channelId);
+    return obj;
+  },
+  toJSON(message: QueryNextSequenceSendRequest): unknown {
+    const obj: any = {};
+    message.portId !== undefined && (obj.portId = message.portId);
+    message.channelId !== undefined && (obj.channelId = message.channelId);
+    return obj;
+  },
+  fromPartial(object: Partial<QueryNextSequenceSendRequest>): QueryNextSequenceSendRequest {
+    const message = createBaseQueryNextSequenceSendRequest();
+    message.portId = object.portId ?? "";
+    message.channelId = object.channelId ?? "";
+    return message;
+  },
+};
+function createBaseQueryNextSequenceSendResponse(): QueryNextSequenceSendResponse {
+  return {
+    nextSequenceSend: BigInt(0),
+    proof: new Uint8Array(),
+    proofHeight: Height.fromPartial({}),
+  };
+}
+export const QueryNextSequenceSendResponse = {
+  encode(message: QueryNextSequenceSendResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.nextSequenceSend !== BigInt(0)) {
+      writer.uint32(8).uint64(message.nextSequenceSend);
+    }
+    if (message.proof.length !== 0) {
+      writer.uint32(18).bytes(message.proof);
+    }
+    if (message.proofHeight !== undefined) {
+      Height.encode(message.proofHeight, writer.uint32(26).fork()).ldelim();
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): QueryNextSequenceSendResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryNextSequenceSendResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.nextSequenceSend = reader.uint64();
+          break;
+        case 2:
+          message.proof = reader.bytes();
+          break;
+        case 3:
+          message.proofHeight = Height.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): QueryNextSequenceSendResponse {
+    const obj = createBaseQueryNextSequenceSendResponse();
+    if (isSet(object.nextSequenceSend)) obj.nextSequenceSend = BigInt(object.nextSequenceSend.toString());
+    if (isSet(object.proof)) obj.proof = bytesFromBase64(object.proof);
+    if (isSet(object.proofHeight)) obj.proofHeight = Height.fromJSON(object.proofHeight);
+    return obj;
+  },
+  toJSON(message: QueryNextSequenceSendResponse): unknown {
+    const obj: any = {};
+    message.nextSequenceSend !== undefined &&
+      (obj.nextSequenceSend = (message.nextSequenceSend || BigInt(0)).toString());
+    message.proof !== undefined &&
+      (obj.proof = base64FromBytes(message.proof !== undefined ? message.proof : new Uint8Array()));
+    message.proofHeight !== undefined &&
+      (obj.proofHeight = message.proofHeight ? Height.toJSON(message.proofHeight) : undefined);
+    return obj;
+  },
+  fromPartial(object: Partial<QueryNextSequenceSendResponse>): QueryNextSequenceSendResponse {
+    const message = createBaseQueryNextSequenceSendResponse();
+    if (object.nextSequenceSend !== undefined && object.nextSequenceSend !== null) {
+      message.nextSequenceSend = BigInt(object.nextSequenceSend.toString());
+    }
+    message.proof = object.proof ?? new Uint8Array();
+    if (object.proofHeight !== undefined && object.proofHeight !== null) {
+      message.proofHeight = Height.fromPartial(object.proofHeight);
+    }
+    return message;
+  },
+};
 /** Query provides defines the gRPC querier service */
 export interface Query {
   /** Channel queries an IBC Channel. */
@@ -2235,6 +2384,8 @@ export interface Query {
   UnreceivedAcks(request: QueryUnreceivedAcksRequest): Promise<QueryUnreceivedAcksResponse>;
   /** NextSequenceReceive returns the next receive sequence for a given channel. */
   NextSequenceReceive(request: QueryNextSequenceReceiveRequest): Promise<QueryNextSequenceReceiveResponse>;
+  /** NextSequenceSend returns the next send sequence for a given channel. */
+  NextSequenceSend(request: QueryNextSequenceSendRequest): Promise<QueryNextSequenceSendResponse>;
 }
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
@@ -2253,6 +2404,7 @@ export class QueryClientImpl implements Query {
     this.UnreceivedPackets = this.UnreceivedPackets.bind(this);
     this.UnreceivedAcks = this.UnreceivedAcks.bind(this);
     this.NextSequenceReceive = this.NextSequenceReceive.bind(this);
+    this.NextSequenceSend = this.NextSequenceSend.bind(this);
   }
   Channel(request: QueryChannelRequest): Promise<QueryChannelResponse> {
     const data = QueryChannelRequest.encode(request).finish();
@@ -2328,5 +2480,10 @@ export class QueryClientImpl implements Query {
     const data = QueryNextSequenceReceiveRequest.encode(request).finish();
     const promise = this.rpc.request("ibc.core.channel.v1.Query", "NextSequenceReceive", data);
     return promise.then((data) => QueryNextSequenceReceiveResponse.decode(new BinaryReader(data)));
+  }
+  NextSequenceSend(request: QueryNextSequenceSendRequest): Promise<QueryNextSequenceSendResponse> {
+    const data = QueryNextSequenceSendRequest.encode(request).finish();
+    const promise = this.rpc.request("ibc.core.channel.v1.Query", "NextSequenceSend", data);
+    return promise.then((data) => QueryNextSequenceSendResponse.decode(new BinaryReader(data)));
   }
 }

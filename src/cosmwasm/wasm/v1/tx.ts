@@ -50,7 +50,7 @@ export interface MsgInstantiateContractResponse {
 }
 /**
  * MsgInstantiateContract2 create a new smart contract instance for the given
- * code id with a predicable address.
+ * code id with a predictable address.
  */
 export interface MsgInstantiateContract2 {
   /** Sender is the that actor that signed the messages */
@@ -247,7 +247,7 @@ export interface MsgStoreAndInstantiateContract {
   unpinCode: boolean;
   /** Admin is an optional address that can execute migrations */
   admin: string;
-  /** Label is optional metadata to be stored with a constract instance. */
+  /** Label is optional metadata to be stored with a contract instance. */
   label: string;
   /** Msg json encoded message to be passed to the contract on instantiation */
   msg: Uint8Array;
@@ -281,6 +281,77 @@ export interface MsgStoreAndInstantiateContractResponse {
   /** Data contains bytes to returned from the contract */
   data: Uint8Array;
 }
+/**
+ * MsgAddCodeUploadParamsAddresses is the
+ * MsgAddCodeUploadParamsAddresses request type.
+ */
+export interface MsgAddCodeUploadParamsAddresses {
+  /** Authority is the address of the governance account. */
+  authority: string;
+  addresses: string[];
+}
+/**
+ * MsgAddCodeUploadParamsAddressesResponse defines the response
+ * structure for executing a MsgAddCodeUploadParamsAddresses message.
+ */
+export interface MsgAddCodeUploadParamsAddressesResponse {}
+/**
+ * MsgRemoveCodeUploadParamsAddresses is the
+ * MsgRemoveCodeUploadParamsAddresses request type.
+ */
+export interface MsgRemoveCodeUploadParamsAddresses {
+  /** Authority is the address of the governance account. */
+  authority: string;
+  addresses: string[];
+}
+/**
+ * MsgRemoveCodeUploadParamsAddressesResponse defines the response
+ * structure for executing a MsgRemoveCodeUploadParamsAddresses message.
+ */
+export interface MsgRemoveCodeUploadParamsAddressesResponse {}
+/**
+ * MsgStoreAndMigrateContract is the MsgStoreAndMigrateContract
+ * request type.
+ *
+ * Since: 0.42
+ */
+export interface MsgStoreAndMigrateContract {
+  /** Authority is the address of the governance account. */
+  authority: string;
+  /** WASMByteCode can be raw or gzip compressed */
+  wasmByteCode: Uint8Array;
+  /** InstantiatePermission to apply on contract creation, optional */
+  instantiatePermission: AccessConfig;
+  /** Contract is the address of the smart contract */
+  contract: string;
+  /** Msg json encoded message to be passed to the contract on migration */
+  msg: Uint8Array;
+}
+/**
+ * MsgStoreAndMigrateContractResponse defines the response structure
+ * for executing a MsgStoreAndMigrateContract message.
+ *
+ * Since: 0.42
+ */
+export interface MsgStoreAndMigrateContractResponse {
+  /** CodeID is the reference to the stored WASM code */
+  codeId: bigint;
+  /** Checksum is the sha256 hash of the stored code */
+  checksum: Uint8Array;
+  /** Data contains bytes to returned from the contract */
+  data: Uint8Array;
+}
+/** MsgUpdateContractLabel sets a new label for a smart contract */
+export interface MsgUpdateContractLabel {
+  /** Sender is the that actor that signed the messages */
+  sender: string;
+  /** NewLabel string to be set */
+  newLabel: string;
+  /** Contract is the address of the smart contract */
+  contract: string;
+}
+/** MsgUpdateContractLabelResponse returns empty data */
+export interface MsgUpdateContractLabelResponse {}
 function createBaseMsgStoreCode(): MsgStoreCode {
   return {
     sender: "",
@@ -1932,6 +2003,472 @@ export const MsgStoreAndInstantiateContractResponse = {
     return message;
   },
 };
+function createBaseMsgAddCodeUploadParamsAddresses(): MsgAddCodeUploadParamsAddresses {
+  return {
+    authority: "",
+    addresses: [],
+  };
+}
+export const MsgAddCodeUploadParamsAddresses = {
+  encode(
+    message: MsgAddCodeUploadParamsAddresses,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    if (message.authority !== "") {
+      writer.uint32(10).string(message.authority);
+    }
+    for (const v of message.addresses) {
+      writer.uint32(18).string(v!);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgAddCodeUploadParamsAddresses {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgAddCodeUploadParamsAddresses();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.authority = reader.string();
+          break;
+        case 2:
+          message.addresses.push(reader.string());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgAddCodeUploadParamsAddresses {
+    const obj = createBaseMsgAddCodeUploadParamsAddresses();
+    if (isSet(object.authority)) obj.authority = String(object.authority);
+    if (Array.isArray(object?.addresses)) obj.addresses = object.addresses.map((e: any) => String(e));
+    return obj;
+  },
+  toJSON(message: MsgAddCodeUploadParamsAddresses): unknown {
+    const obj: any = {};
+    message.authority !== undefined && (obj.authority = message.authority);
+    if (message.addresses) {
+      obj.addresses = message.addresses.map((e) => e);
+    } else {
+      obj.addresses = [];
+    }
+    return obj;
+  },
+  fromPartial(object: Partial<MsgAddCodeUploadParamsAddresses>): MsgAddCodeUploadParamsAddresses {
+    const message = createBaseMsgAddCodeUploadParamsAddresses();
+    message.authority = object.authority ?? "";
+    message.addresses = object.addresses?.map((e) => e) || [];
+    return message;
+  },
+};
+function createBaseMsgAddCodeUploadParamsAddressesResponse(): MsgAddCodeUploadParamsAddressesResponse {
+  return {};
+}
+export const MsgAddCodeUploadParamsAddressesResponse = {
+  encode(
+    _: MsgAddCodeUploadParamsAddressesResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgAddCodeUploadParamsAddressesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgAddCodeUploadParamsAddressesResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgAddCodeUploadParamsAddressesResponse {
+    const obj = createBaseMsgAddCodeUploadParamsAddressesResponse();
+    return obj;
+  },
+  toJSON(_: MsgAddCodeUploadParamsAddressesResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial(_: Partial<MsgAddCodeUploadParamsAddressesResponse>): MsgAddCodeUploadParamsAddressesResponse {
+    const message = createBaseMsgAddCodeUploadParamsAddressesResponse();
+    return message;
+  },
+};
+function createBaseMsgRemoveCodeUploadParamsAddresses(): MsgRemoveCodeUploadParamsAddresses {
+  return {
+    authority: "",
+    addresses: [],
+  };
+}
+export const MsgRemoveCodeUploadParamsAddresses = {
+  encode(
+    message: MsgRemoveCodeUploadParamsAddresses,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    if (message.authority !== "") {
+      writer.uint32(10).string(message.authority);
+    }
+    for (const v of message.addresses) {
+      writer.uint32(18).string(v!);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgRemoveCodeUploadParamsAddresses {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgRemoveCodeUploadParamsAddresses();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.authority = reader.string();
+          break;
+        case 2:
+          message.addresses.push(reader.string());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgRemoveCodeUploadParamsAddresses {
+    const obj = createBaseMsgRemoveCodeUploadParamsAddresses();
+    if (isSet(object.authority)) obj.authority = String(object.authority);
+    if (Array.isArray(object?.addresses)) obj.addresses = object.addresses.map((e: any) => String(e));
+    return obj;
+  },
+  toJSON(message: MsgRemoveCodeUploadParamsAddresses): unknown {
+    const obj: any = {};
+    message.authority !== undefined && (obj.authority = message.authority);
+    if (message.addresses) {
+      obj.addresses = message.addresses.map((e) => e);
+    } else {
+      obj.addresses = [];
+    }
+    return obj;
+  },
+  fromPartial(object: Partial<MsgRemoveCodeUploadParamsAddresses>): MsgRemoveCodeUploadParamsAddresses {
+    const message = createBaseMsgRemoveCodeUploadParamsAddresses();
+    message.authority = object.authority ?? "";
+    message.addresses = object.addresses?.map((e) => e) || [];
+    return message;
+  },
+};
+function createBaseMsgRemoveCodeUploadParamsAddressesResponse(): MsgRemoveCodeUploadParamsAddressesResponse {
+  return {};
+}
+export const MsgRemoveCodeUploadParamsAddressesResponse = {
+  encode(
+    _: MsgRemoveCodeUploadParamsAddressesResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgRemoveCodeUploadParamsAddressesResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgRemoveCodeUploadParamsAddressesResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgRemoveCodeUploadParamsAddressesResponse {
+    const obj = createBaseMsgRemoveCodeUploadParamsAddressesResponse();
+    return obj;
+  },
+  toJSON(_: MsgRemoveCodeUploadParamsAddressesResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial(
+    _: Partial<MsgRemoveCodeUploadParamsAddressesResponse>,
+  ): MsgRemoveCodeUploadParamsAddressesResponse {
+    const message = createBaseMsgRemoveCodeUploadParamsAddressesResponse();
+    return message;
+  },
+};
+function createBaseMsgStoreAndMigrateContract(): MsgStoreAndMigrateContract {
+  return {
+    authority: "",
+    wasmByteCode: new Uint8Array(),
+    instantiatePermission: AccessConfig.fromPartial({}),
+    contract: "",
+    msg: new Uint8Array(),
+  };
+}
+export const MsgStoreAndMigrateContract = {
+  encode(message: MsgStoreAndMigrateContract, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.authority !== "") {
+      writer.uint32(10).string(message.authority);
+    }
+    if (message.wasmByteCode.length !== 0) {
+      writer.uint32(18).bytes(message.wasmByteCode);
+    }
+    if (message.instantiatePermission !== undefined) {
+      AccessConfig.encode(message.instantiatePermission, writer.uint32(26).fork()).ldelim();
+    }
+    if (message.contract !== "") {
+      writer.uint32(34).string(message.contract);
+    }
+    if (message.msg.length !== 0) {
+      writer.uint32(42).bytes(message.msg);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgStoreAndMigrateContract {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgStoreAndMigrateContract();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.authority = reader.string();
+          break;
+        case 2:
+          message.wasmByteCode = reader.bytes();
+          break;
+        case 3:
+          message.instantiatePermission = AccessConfig.decode(reader, reader.uint32());
+          break;
+        case 4:
+          message.contract = reader.string();
+          break;
+        case 5:
+          message.msg = reader.bytes();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgStoreAndMigrateContract {
+    const obj = createBaseMsgStoreAndMigrateContract();
+    if (isSet(object.authority)) obj.authority = String(object.authority);
+    if (isSet(object.wasmByteCode)) obj.wasmByteCode = bytesFromBase64(object.wasmByteCode);
+    if (isSet(object.instantiatePermission))
+      obj.instantiatePermission = AccessConfig.fromJSON(object.instantiatePermission);
+    if (isSet(object.contract)) obj.contract = String(object.contract);
+    if (isSet(object.msg)) obj.msg = bytesFromBase64(object.msg);
+    return obj;
+  },
+  toJSON(message: MsgStoreAndMigrateContract): unknown {
+    const obj: any = {};
+    message.authority !== undefined && (obj.authority = message.authority);
+    message.wasmByteCode !== undefined &&
+      (obj.wasmByteCode = base64FromBytes(
+        message.wasmByteCode !== undefined ? message.wasmByteCode : new Uint8Array(),
+      ));
+    message.instantiatePermission !== undefined &&
+      (obj.instantiatePermission = message.instantiatePermission
+        ? AccessConfig.toJSON(message.instantiatePermission)
+        : undefined);
+    message.contract !== undefined && (obj.contract = message.contract);
+    message.msg !== undefined &&
+      (obj.msg = base64FromBytes(message.msg !== undefined ? message.msg : new Uint8Array()));
+    return obj;
+  },
+  fromPartial(object: Partial<MsgStoreAndMigrateContract>): MsgStoreAndMigrateContract {
+    const message = createBaseMsgStoreAndMigrateContract();
+    message.authority = object.authority ?? "";
+    message.wasmByteCode = object.wasmByteCode ?? new Uint8Array();
+    if (object.instantiatePermission !== undefined && object.instantiatePermission !== null) {
+      message.instantiatePermission = AccessConfig.fromPartial(object.instantiatePermission);
+    }
+    message.contract = object.contract ?? "";
+    message.msg = object.msg ?? new Uint8Array();
+    return message;
+  },
+};
+function createBaseMsgStoreAndMigrateContractResponse(): MsgStoreAndMigrateContractResponse {
+  return {
+    codeId: BigInt(0),
+    checksum: new Uint8Array(),
+    data: new Uint8Array(),
+  };
+}
+export const MsgStoreAndMigrateContractResponse = {
+  encode(
+    message: MsgStoreAndMigrateContractResponse,
+    writer: BinaryWriter = BinaryWriter.create(),
+  ): BinaryWriter {
+    if (message.codeId !== BigInt(0)) {
+      writer.uint32(8).uint64(message.codeId);
+    }
+    if (message.checksum.length !== 0) {
+      writer.uint32(18).bytes(message.checksum);
+    }
+    if (message.data.length !== 0) {
+      writer.uint32(26).bytes(message.data);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgStoreAndMigrateContractResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgStoreAndMigrateContractResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.codeId = reader.uint64();
+          break;
+        case 2:
+          message.checksum = reader.bytes();
+          break;
+        case 3:
+          message.data = reader.bytes();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgStoreAndMigrateContractResponse {
+    const obj = createBaseMsgStoreAndMigrateContractResponse();
+    if (isSet(object.codeId)) obj.codeId = BigInt(object.codeId.toString());
+    if (isSet(object.checksum)) obj.checksum = bytesFromBase64(object.checksum);
+    if (isSet(object.data)) obj.data = bytesFromBase64(object.data);
+    return obj;
+  },
+  toJSON(message: MsgStoreAndMigrateContractResponse): unknown {
+    const obj: any = {};
+    message.codeId !== undefined && (obj.codeId = (message.codeId || BigInt(0)).toString());
+    message.checksum !== undefined &&
+      (obj.checksum = base64FromBytes(message.checksum !== undefined ? message.checksum : new Uint8Array()));
+    message.data !== undefined &&
+      (obj.data = base64FromBytes(message.data !== undefined ? message.data : new Uint8Array()));
+    return obj;
+  },
+  fromPartial(object: Partial<MsgStoreAndMigrateContractResponse>): MsgStoreAndMigrateContractResponse {
+    const message = createBaseMsgStoreAndMigrateContractResponse();
+    if (object.codeId !== undefined && object.codeId !== null) {
+      message.codeId = BigInt(object.codeId.toString());
+    }
+    message.checksum = object.checksum ?? new Uint8Array();
+    message.data = object.data ?? new Uint8Array();
+    return message;
+  },
+};
+function createBaseMsgUpdateContractLabel(): MsgUpdateContractLabel {
+  return {
+    sender: "",
+    newLabel: "",
+    contract: "",
+  };
+}
+export const MsgUpdateContractLabel = {
+  encode(message: MsgUpdateContractLabel, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.sender !== "") {
+      writer.uint32(10).string(message.sender);
+    }
+    if (message.newLabel !== "") {
+      writer.uint32(18).string(message.newLabel);
+    }
+    if (message.contract !== "") {
+      writer.uint32(26).string(message.contract);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUpdateContractLabel {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgUpdateContractLabel();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.sender = reader.string();
+          break;
+        case 2:
+          message.newLabel = reader.string();
+          break;
+        case 3:
+          message.contract = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): MsgUpdateContractLabel {
+    const obj = createBaseMsgUpdateContractLabel();
+    if (isSet(object.sender)) obj.sender = String(object.sender);
+    if (isSet(object.newLabel)) obj.newLabel = String(object.newLabel);
+    if (isSet(object.contract)) obj.contract = String(object.contract);
+    return obj;
+  },
+  toJSON(message: MsgUpdateContractLabel): unknown {
+    const obj: any = {};
+    message.sender !== undefined && (obj.sender = message.sender);
+    message.newLabel !== undefined && (obj.newLabel = message.newLabel);
+    message.contract !== undefined && (obj.contract = message.contract);
+    return obj;
+  },
+  fromPartial(object: Partial<MsgUpdateContractLabel>): MsgUpdateContractLabel {
+    const message = createBaseMsgUpdateContractLabel();
+    message.sender = object.sender ?? "";
+    message.newLabel = object.newLabel ?? "";
+    message.contract = object.contract ?? "";
+    return message;
+  },
+};
+function createBaseMsgUpdateContractLabelResponse(): MsgUpdateContractLabelResponse {
+  return {};
+}
+export const MsgUpdateContractLabelResponse = {
+  encode(_: MsgUpdateContractLabelResponse, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): MsgUpdateContractLabelResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgUpdateContractLabelResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(_: any): MsgUpdateContractLabelResponse {
+    const obj = createBaseMsgUpdateContractLabelResponse();
+    return obj;
+  },
+  toJSON(_: MsgUpdateContractLabelResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+  fromPartial(_: Partial<MsgUpdateContractLabelResponse>): MsgUpdateContractLabelResponse {
+    const message = createBaseMsgUpdateContractLabelResponse();
+    return message;
+  },
+};
 /** Msg defines the wasm Msg service. */
 export interface Msg {
   /** StoreCode to submit Wasm code to the system */
@@ -1950,7 +2487,7 @@ export interface Msg {
   ExecuteContract(request: MsgExecuteContract): Promise<MsgExecuteContractResponse>;
   /** Migrate runs a code upgrade/ downgrade for a smart contract */
   MigrateContract(request: MsgMigrateContract): Promise<MsgMigrateContractResponse>;
-  /** UpdateAdmin sets a new   admin for a smart contract */
+  /** UpdateAdmin sets a new admin for a smart contract */
   UpdateAdmin(request: MsgUpdateAdmin): Promise<MsgUpdateAdminResponse>;
   /** ClearAdmin removes any admin stored for a smart contract */
   ClearAdmin(request: MsgClearAdmin): Promise<MsgClearAdminResponse>;
@@ -1993,6 +2530,35 @@ export interface Msg {
   StoreAndInstantiateContract(
     request: MsgStoreAndInstantiateContract,
   ): Promise<MsgStoreAndInstantiateContractResponse>;
+  /**
+   * RemoveCodeUploadParamsAddresses defines a governance operation for
+   * removing addresses from code upload params.
+   * The authority is defined in the keeper.
+   */
+  RemoveCodeUploadParamsAddresses(
+    request: MsgRemoveCodeUploadParamsAddresses,
+  ): Promise<MsgRemoveCodeUploadParamsAddressesResponse>;
+  /**
+   * AddCodeUploadParamsAddresses defines a governance operation for
+   * adding addresses to code upload params.
+   * The authority is defined in the keeper.
+   */
+  AddCodeUploadParamsAddresses(
+    request: MsgAddCodeUploadParamsAddresses,
+  ): Promise<MsgAddCodeUploadParamsAddressesResponse>;
+  /**
+   * StoreAndMigrateContract defines a governance operation for storing
+   * and migrating the contract. The authority is defined in the keeper.
+   *
+   * Since: 0.42
+   */
+  StoreAndMigrateContract(request: MsgStoreAndMigrateContract): Promise<MsgStoreAndMigrateContractResponse>;
+  /**
+   * UpdateContractLabel sets a new label for a smart contract
+   *
+   * Since: 0.43
+   */
+  UpdateContractLabel(request: MsgUpdateContractLabel): Promise<MsgUpdateContractLabelResponse>;
 }
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
@@ -2011,6 +2577,10 @@ export class MsgClientImpl implements Msg {
     this.PinCodes = this.PinCodes.bind(this);
     this.UnpinCodes = this.UnpinCodes.bind(this);
     this.StoreAndInstantiateContract = this.StoreAndInstantiateContract.bind(this);
+    this.RemoveCodeUploadParamsAddresses = this.RemoveCodeUploadParamsAddresses.bind(this);
+    this.AddCodeUploadParamsAddresses = this.AddCodeUploadParamsAddresses.bind(this);
+    this.StoreAndMigrateContract = this.StoreAndMigrateContract.bind(this);
+    this.UpdateContractLabel = this.UpdateContractLabel.bind(this);
   }
   StoreCode(request: MsgStoreCode): Promise<MsgStoreCodeResponse> {
     const data = MsgStoreCode.encode(request).finish();
@@ -2078,5 +2648,29 @@ export class MsgClientImpl implements Msg {
     const data = MsgStoreAndInstantiateContract.encode(request).finish();
     const promise = this.rpc.request("cosmwasm.wasm.v1.Msg", "StoreAndInstantiateContract", data);
     return promise.then((data) => MsgStoreAndInstantiateContractResponse.decode(new BinaryReader(data)));
+  }
+  RemoveCodeUploadParamsAddresses(
+    request: MsgRemoveCodeUploadParamsAddresses,
+  ): Promise<MsgRemoveCodeUploadParamsAddressesResponse> {
+    const data = MsgRemoveCodeUploadParamsAddresses.encode(request).finish();
+    const promise = this.rpc.request("cosmwasm.wasm.v1.Msg", "RemoveCodeUploadParamsAddresses", data);
+    return promise.then((data) => MsgRemoveCodeUploadParamsAddressesResponse.decode(new BinaryReader(data)));
+  }
+  AddCodeUploadParamsAddresses(
+    request: MsgAddCodeUploadParamsAddresses,
+  ): Promise<MsgAddCodeUploadParamsAddressesResponse> {
+    const data = MsgAddCodeUploadParamsAddresses.encode(request).finish();
+    const promise = this.rpc.request("cosmwasm.wasm.v1.Msg", "AddCodeUploadParamsAddresses", data);
+    return promise.then((data) => MsgAddCodeUploadParamsAddressesResponse.decode(new BinaryReader(data)));
+  }
+  StoreAndMigrateContract(request: MsgStoreAndMigrateContract): Promise<MsgStoreAndMigrateContractResponse> {
+    const data = MsgStoreAndMigrateContract.encode(request).finish();
+    const promise = this.rpc.request("cosmwasm.wasm.v1.Msg", "StoreAndMigrateContract", data);
+    return promise.then((data) => MsgStoreAndMigrateContractResponse.decode(new BinaryReader(data)));
+  }
+  UpdateContractLabel(request: MsgUpdateContractLabel): Promise<MsgUpdateContractLabelResponse> {
+    const data = MsgUpdateContractLabel.encode(request).finish();
+    const promise = this.rpc.request("cosmwasm.wasm.v1.Msg", "UpdateContractLabel", data);
+    return promise.then((data) => MsgUpdateContractLabelResponse.decode(new BinaryReader(data)));
   }
 }

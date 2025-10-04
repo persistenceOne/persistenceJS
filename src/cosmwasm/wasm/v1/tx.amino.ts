@@ -16,6 +16,10 @@ import {
   MsgPinCodes,
   MsgUnpinCodes,
   MsgStoreAndInstantiateContract,
+  MsgRemoveCodeUploadParamsAddresses,
+  MsgAddCodeUploadParamsAddresses,
+  MsgStoreAndMigrateContract,
+  MsgUpdateContractLabel,
 } from "./tx";
 export interface MsgStoreCodeAminoType extends AminoMsg {
   type: "wasm/MsgStoreCode";
@@ -24,7 +28,6 @@ export interface MsgStoreCodeAminoType extends AminoMsg {
     wasm_byte_code: string;
     instantiate_permission: {
       permission: number;
-      address: string;
       addresses: string[];
     };
   };
@@ -102,7 +105,6 @@ export interface MsgUpdateInstantiateConfigAminoType extends AminoMsg {
     code_id: string;
     new_instantiate_permission: {
       permission: number;
-      address: string;
       addresses: string[];
     };
   };
@@ -114,7 +116,6 @@ export interface MsgUpdateParamsAminoType extends AminoMsg {
     params: {
       code_upload_access: {
         permission: number;
-        address: string;
         addresses: string[];
       };
       instantiate_default_permission: number;
@@ -150,7 +151,6 @@ export interface MsgStoreAndInstantiateContractAminoType extends AminoMsg {
     wasm_byte_code: string;
     instantiate_permission: {
       permission: number;
-      address: string;
       addresses: string[];
     };
     unpin_code: boolean;
@@ -166,6 +166,41 @@ export interface MsgStoreAndInstantiateContractAminoType extends AminoMsg {
     code_hash: Uint8Array;
   };
 }
+export interface MsgRemoveCodeUploadParamsAddressesAminoType extends AminoMsg {
+  type: "wasm/MsgRemoveCodeUploadParamsAddresses";
+  value: {
+    authority: string;
+    addresses: string[];
+  };
+}
+export interface MsgAddCodeUploadParamsAddressesAminoType extends AminoMsg {
+  type: "wasm/MsgAddCodeUploadParamsAddresses";
+  value: {
+    authority: string;
+    addresses: string[];
+  };
+}
+export interface MsgStoreAndMigrateContractAminoType extends AminoMsg {
+  type: "wasm/MsgStoreAndMigrateContract";
+  value: {
+    authority: string;
+    wasm_byte_code: string;
+    instantiate_permission: {
+      permission: number;
+      addresses: string[];
+    };
+    contract: string;
+    msg: Uint8Array;
+  };
+}
+export interface MsgUpdateContractLabelAminoType extends AminoMsg {
+  type: "wasm/MsgUpdateContractLabel";
+  value: {
+    sender: string;
+    new_label: string;
+    contract: string;
+  };
+}
 export const AminoConverter = {
   "/cosmwasm.wasm.v1.MsgStoreCode": {
     aminoType: "wasm/MsgStoreCode",
@@ -179,7 +214,6 @@ export const AminoConverter = {
         wasm_byte_code: toBase64(wasmByteCode),
         instantiate_permission: {
           permission: instantiatePermission.permission,
-          address: instantiatePermission.address,
           addresses: instantiatePermission.addresses,
         },
       };
@@ -194,7 +228,6 @@ export const AminoConverter = {
         wasmByteCode: fromBase64(wasm_byte_code),
         instantiatePermission: {
           permission: accessTypeFromJSON(instantiate_permission.permission),
-          address: instantiate_permission.address,
           addresses: instantiate_permission.addresses,
         },
       };
@@ -397,7 +430,6 @@ export const AminoConverter = {
         code_id: codeId.toString(),
         new_instantiate_permission: {
           permission: newInstantiatePermission.permission,
-          address: newInstantiatePermission.address,
           addresses: newInstantiatePermission.addresses,
         },
       };
@@ -412,7 +444,6 @@ export const AminoConverter = {
         codeId: BigInt(code_id),
         newInstantiatePermission: {
           permission: accessTypeFromJSON(new_instantiate_permission.permission),
-          address: new_instantiate_permission.address,
           addresses: new_instantiate_permission.addresses,
         },
       };
@@ -426,7 +457,6 @@ export const AminoConverter = {
         params: {
           code_upload_access: {
             permission: params.codeUploadAccess.permission,
-            address: params.codeUploadAccess.address,
             addresses: params.codeUploadAccess.addresses,
           },
           instantiate_default_permission: params.instantiateDefaultPermission,
@@ -439,7 +469,6 @@ export const AminoConverter = {
         params: {
           codeUploadAccess: {
             permission: accessTypeFromJSON(params.code_upload_access.permission),
-            address: params.code_upload_access.address,
             addresses: params.code_upload_access.addresses,
           },
           instantiateDefaultPermission: accessTypeFromJSON(params.instantiate_default_permission),
@@ -514,7 +543,6 @@ export const AminoConverter = {
         wasm_byte_code: toBase64(wasmByteCode),
         instantiate_permission: {
           permission: instantiatePermission.permission,
-          address: instantiatePermission.address,
           addresses: instantiatePermission.addresses,
         },
         unpin_code: unpinCode,
@@ -548,7 +576,6 @@ export const AminoConverter = {
         wasmByteCode: fromBase64(wasm_byte_code),
         instantiatePermission: {
           permission: accessTypeFromJSON(instantiate_permission.permission),
-          address: instantiate_permission.address,
           addresses: instantiate_permission.addresses,
         },
         unpinCode: unpin_code,
@@ -562,6 +589,112 @@ export const AminoConverter = {
         source,
         builder,
         codeHash: code_hash,
+      };
+    },
+  },
+  "/cosmwasm.wasm.v1.MsgRemoveCodeUploadParamsAddresses": {
+    aminoType: "wasm/MsgRemoveCodeUploadParamsAddresses",
+    toAmino: ({
+      authority,
+      addresses,
+    }: MsgRemoveCodeUploadParamsAddresses): MsgRemoveCodeUploadParamsAddressesAminoType["value"] => {
+      return {
+        authority,
+        addresses,
+      };
+    },
+    fromAmino: ({
+      authority,
+      addresses,
+    }: MsgRemoveCodeUploadParamsAddressesAminoType["value"]): MsgRemoveCodeUploadParamsAddresses => {
+      return {
+        authority,
+        addresses,
+      };
+    },
+  },
+  "/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses": {
+    aminoType: "wasm/MsgAddCodeUploadParamsAddresses",
+    toAmino: ({
+      authority,
+      addresses,
+    }: MsgAddCodeUploadParamsAddresses): MsgAddCodeUploadParamsAddressesAminoType["value"] => {
+      return {
+        authority,
+        addresses,
+      };
+    },
+    fromAmino: ({
+      authority,
+      addresses,
+    }: MsgAddCodeUploadParamsAddressesAminoType["value"]): MsgAddCodeUploadParamsAddresses => {
+      return {
+        authority,
+        addresses,
+      };
+    },
+  },
+  "/cosmwasm.wasm.v1.MsgStoreAndMigrateContract": {
+    aminoType: "wasm/MsgStoreAndMigrateContract",
+    toAmino: ({
+      authority,
+      wasmByteCode,
+      instantiatePermission,
+      contract,
+      msg,
+    }: MsgStoreAndMigrateContract): MsgStoreAndMigrateContractAminoType["value"] => {
+      return {
+        authority,
+        wasm_byte_code: toBase64(wasmByteCode),
+        instantiate_permission: {
+          permission: instantiatePermission.permission,
+          addresses: instantiatePermission.addresses,
+        },
+        contract,
+        msg: JSON.parse(fromUtf8(msg)),
+      };
+    },
+    fromAmino: ({
+      authority,
+      wasm_byte_code,
+      instantiate_permission,
+      contract,
+      msg,
+    }: MsgStoreAndMigrateContractAminoType["value"]): MsgStoreAndMigrateContract => {
+      return {
+        authority,
+        wasmByteCode: fromBase64(wasm_byte_code),
+        instantiatePermission: {
+          permission: accessTypeFromJSON(instantiate_permission.permission),
+          addresses: instantiate_permission.addresses,
+        },
+        contract,
+        msg: toUtf8(JSON.stringify(msg)),
+      };
+    },
+  },
+  "/cosmwasm.wasm.v1.MsgUpdateContractLabel": {
+    aminoType: "wasm/MsgUpdateContractLabel",
+    toAmino: ({
+      sender,
+      newLabel,
+      contract,
+    }: MsgUpdateContractLabel): MsgUpdateContractLabelAminoType["value"] => {
+      return {
+        sender,
+        new_label: newLabel,
+        contract,
+      };
+    },
+    fromAmino: ({
+      sender,
+      new_label,
+      contract,
+    }: MsgUpdateContractLabelAminoType["value"]): MsgUpdateContractLabel => {
+      return {
+        sender,
+        newLabel: new_label,
+        contract,
       };
     },
   },

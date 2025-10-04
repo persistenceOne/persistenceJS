@@ -3,19 +3,6 @@ import { BinaryReader, BinaryWriter } from "../../../../binary";
 import { isSet } from "../../../../helpers";
 export const protobufPackage = "ibc.applications.transfer.v1";
 /**
- * DenomTrace contains the base denomination for ICS20 fungible tokens and the
- * source tracing information path.
- */
-export interface DenomTrace {
-  /**
-   * path defines the chain of port/channel identifiers used for tracing the
-   * source of the fungible token.
-   */
-  path: string;
-  /** base denomination of the relayed fungible token. */
-  baseDenom: string;
-}
-/**
  * Params defines the set of IBC transfer parameters.
  * NOTE: To prevent a single token from being transferred, set the
  * TransfersEnabled parameter to true and then set the bank module's SendEnabled
@@ -33,61 +20,14 @@ export interface Params {
    */
   receiveEnabled: boolean;
 }
-function createBaseDenomTrace(): DenomTrace {
-  return {
-    path: "",
-    baseDenom: "",
-  };
+/**
+ * Hop defines a port ID, channel ID pair specifying where tokens must be forwarded
+ * next in a multihop transfer.
+ */
+export interface Hop {
+  portId: string;
+  channelId: string;
 }
-export const DenomTrace = {
-  encode(message: DenomTrace, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
-    if (message.path !== "") {
-      writer.uint32(10).string(message.path);
-    }
-    if (message.baseDenom !== "") {
-      writer.uint32(18).string(message.baseDenom);
-    }
-    return writer;
-  },
-  decode(input: BinaryReader | Uint8Array, length?: number): DenomTrace {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseDenomTrace();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.path = reader.string();
-          break;
-        case 2:
-          message.baseDenom = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-  fromJSON(object: any): DenomTrace {
-    const obj = createBaseDenomTrace();
-    if (isSet(object.path)) obj.path = String(object.path);
-    if (isSet(object.baseDenom)) obj.baseDenom = String(object.baseDenom);
-    return obj;
-  },
-  toJSON(message: DenomTrace): unknown {
-    const obj: any = {};
-    message.path !== undefined && (obj.path = message.path);
-    message.baseDenom !== undefined && (obj.baseDenom = message.baseDenom);
-    return obj;
-  },
-  fromPartial(object: Partial<DenomTrace>): DenomTrace {
-    const message = createBaseDenomTrace();
-    message.path = object.path ?? "";
-    message.baseDenom = object.baseDenom ?? "";
-    return message;
-  },
-};
 function createBaseParams(): Params {
   return {
     sendEnabled: false,
@@ -140,6 +80,61 @@ export const Params = {
     const message = createBaseParams();
     message.sendEnabled = object.sendEnabled ?? false;
     message.receiveEnabled = object.receiveEnabled ?? false;
+    return message;
+  },
+};
+function createBaseHop(): Hop {
+  return {
+    portId: "",
+    channelId: "",
+  };
+}
+export const Hop = {
+  encode(message: Hop, writer: BinaryWriter = BinaryWriter.create()): BinaryWriter {
+    if (message.portId !== "") {
+      writer.uint32(10).string(message.portId);
+    }
+    if (message.channelId !== "") {
+      writer.uint32(18).string(message.channelId);
+    }
+    return writer;
+  },
+  decode(input: BinaryReader | Uint8Array, length?: number): Hop {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseHop();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.portId = reader.string();
+          break;
+        case 2:
+          message.channelId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+  fromJSON(object: any): Hop {
+    const obj = createBaseHop();
+    if (isSet(object.portId)) obj.portId = String(object.portId);
+    if (isSet(object.channelId)) obj.channelId = String(object.channelId);
+    return obj;
+  },
+  toJSON(message: Hop): unknown {
+    const obj: any = {};
+    message.portId !== undefined && (obj.portId = message.portId);
+    message.channelId !== undefined && (obj.channelId = message.channelId);
+    return obj;
+  },
+  fromPartial(object: Partial<Hop>): Hop {
+    const message = createBaseHop();
+    message.portId = object.portId ?? "";
+    message.channelId = object.channelId ?? "";
     return message;
   },
 };
